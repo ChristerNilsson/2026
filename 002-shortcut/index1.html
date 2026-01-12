@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shortcut</title>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin: 20px; }
+    .row { display: flex; gap: 24px; flex-wrap: wrap; }
+    .number {text-align:center; font-size:80px; margin:4px;}
+    .panel { border: 1px solid #ccc; padding: 12px; border-radius: 8px; min-width: 140px; }
+    .keys { display: flex; gap: 8px; margin-top: 8px; }
+    .key {
+      width: 64px; height: 64px; display: grid; place-items: center;
+      border: 2px solid #666; border-radius: 10px; user-select: none;
+      font-size: 18px; font-weight: 600;
+      text-align: center;
+    }
+    .down { background: #111; color: #fff; border-color: #111; }
+    .log { white-space: pre; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; max-height: 260px; overflow: auto; background: #f7f7f7; padding: 8px; border-radius: 8px; }
+    .hint { color: #555; font-size: 13px; }
+    button { padding: 8px 10px; }
+  </style>
+</head>
+<body>
+
+  <div class="row">
+    <div class="panel">
+      <h2 id="target0" class="number"></h2>
+      <div class="keys">
+        <div id="p0-W" class="key">W<br>undo</div>
+        <div id="p0-A" class="key">A<br>/2</div>
+        <div id="p0-S" class="key">S<br>+2</div>
+        <div id="p0-D" class="key">D<br>*2</div>
+      </div>
+      <h2 id="current0" class="number"></h2>
+    </div>
+
+    <div class="panel">
+      <h2 id="target1" class="number"></h2>
+      <span class="keys">
+        <div id="p1-I" class="key">I<br>undo</div>
+        <div id="p1-J" class="key">J<br>/2</div>
+        <div id="p1-K" class="key">K<br>+2</div>
+        <div id="p1-L" class="key">L<br>*2</div>
+      </span>
+      <h2 id="current1" class="number"></h2>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script src="./index1.js"></script>
+</body>
+</html>

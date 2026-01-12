@@ -6,6 +6,8 @@
 # Loopa tills 6174 uppnås.
 # Det ska ta högst sju gånger.
 
+count = [0] * 8
+
 def kaprekar(n):
 	if n == 0: return "0000"
 	if n == 6174: return "6174"
@@ -22,7 +24,14 @@ def kaprekar(n):
 	return s + " " + kaprekar(a-b)  # "0123 3087 8352 6174
 
 for i in range(1,10000):
-	print(kaprekar(i))
+	s = kaprekar(i)
+	n = (len(s) + 1)//5 - 1
+	count[n] += 1
+	print(n,s)
+
+print()
+for i in range(8):
+	print(i,count[i])
 
 # 0123 3087 8352 6174
 # 0124 4086 8172 7443 3996 6264 4176 6174
