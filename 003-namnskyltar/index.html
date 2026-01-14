@@ -47,8 +47,8 @@
 
 		/* Innehåll: stor och tydlig */
 		.content {
-			line-height: 1.05;
-			font-weight: 700;
+			line-height: 1.0;
+			font-weight: 200;
 			width: 100%;
 		}
 
@@ -81,7 +81,8 @@
 		/* Skärmvisning: lite marginal så det ser snyggt ut, påverkar inte print mycket */
 		@media screen {
 			body { background: #f3f3f3; }
-			.page { margin: 10mm auto; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,.15); }
+			.page { margin: 10mm auto; background: #fff; box-shadow: none; }
+				/* 0 2px 10px rgba(0,0,0,.15); } */
 		}
 
 		/* Utskrift: ta bort skuggor och extra */
