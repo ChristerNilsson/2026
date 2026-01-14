@@ -45,12 +45,13 @@ for player in s.split "\n"
 	[name,rating] = player.split ';'
 	players.push {name, rating}
 
-makeHalf = (p,class) ->
+makeHalf = (p,klass) ->
 	"""
-		<div class="half #{class}">
+		<div class="half #{klass}">
 		<div class="content">
 			<div class="name">#{p.name} #{p.rating}</div>
 			<div class="tournament">#{TOURNAMENT}</div>
+			<div class="ad">fairpair.se</div>
 		</div>
 		</div>
 	"""

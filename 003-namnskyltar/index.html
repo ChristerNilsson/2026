@@ -27,7 +27,7 @@
 
 		/* En namnskylt (som viks): består av två halvor */
 		.badge {
-			border: 1px solid #000; /* kan tas bort om du vill */
+			/* border: 1px solid #000; */
 			display: grid;
 			grid-template-rows: 1fr 1fr; /* två halvor som möts i viklinjen */
 		}
@@ -41,7 +41,8 @@
 
 		/* Viklinje mellan halvorna */
 		.half.top {
-			border-bottom: 1px dashed #666;
+			border-top: 1px solid #000;
+			border-bottom: 1px solid #000;
 		}
 
 		/* Innehåll: stor och tydlig */
@@ -53,7 +54,7 @@
 
 		.tournament {
 			font-size: 32pt;
-			margin-bottom: 6mm;
+			margin-bottom: 16mm;
 		}
 
 		.rating {
@@ -65,6 +66,11 @@
 			font-size: 40pt;
 			margin-bottom: 6mm;
 			word-break: break-word;
+		}
+
+		.ad {
+			font-size: 8pt;
+			margin-bottom: 6mm;
 		}
 
 		/* Nedre halvan ska vara upp-och-ned så att den blir rätt efter vikning */
