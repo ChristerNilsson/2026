@@ -5,46 +5,48 @@ echo = console.log
 TOURNAMENT = "Seniorschack KM 2026"
 
 s = """
-Gunnar Hedin;2092
-Henrik Strömbäck;2010
-Stefan Engström;1977
-Tomas Lindblad;1977
-Lennart B Johansson;1949
-Bo Ländin;1947
-Andrzej Kamiński;1932
-Rado Jovic;1930
-Rune Evertsson;1915
-Kjell Häggvik;1913
-WFM Susanna Berg Laachiri;1899
-Olle Ålgars;1896
-Peter Silins;1894
-Leif Lundquist;1865
-Lars-Åke Pettersson;1848
-Sven-Åke Karlsson;1842
-Ove Hartzell;1824
-Dick Viklund;1821
-Björn Löwgren;1820
-Hans Weström;1798
-Lars Ring;1785
-Veine Gustavsson;1753
-Lars Cederfeldt;1752
-Sten Hellman;1729
-Christer Johansson;1729
-Magnus Karlsson;1724
-Leonid Stolov;1695
-Christer Nilsson;1694
-Abbas Razavi;1688
-Friedemann Stumpf;1670
-Kent Sahlin;1660
-Lars-Ivar Juntti;1588
-Helge Bergström;1540
-Jouko Liistamo;1531
-Mikael Lundberg;0
+ 2092 Gunnar Hedin
+ 2010 Henrik Strömbäck
+ 1977 Stefan Engström
+ 1977 Tomas Lindblad
+ 1949 Lennart B Johansson
+ 1947 Bo Ländin
+ 1932 Andrzej Kamiński
+ 1930 Rado Jovic
+ 1915 Rune Evertsson
+ 1913 Kjell Häggvik
+ 1899 WFM Susanna Berg Laachiri
+ 1896 Olle Ålgars
+ 1894 Peter Silins
+ 1865 Leif Lundquist
+ 1848 Lars-Åke Pettersson
+ 1842 Sven-Åke Karlsson
+ 1824 Ove Hartzell
+ 1821 Dick Viklund
+ 1820 Björn Löwgren
+ 1798 Hans Weström
+ 1785 Lars Ring
+ 1753 Veine Gustavsson
+ 1752 Lars Cederfeldt
+ 1729 Sten Hellman
+ 1729 Christer Johansson
+ 1724 Magnus Karlsson
+ 1695 Leonid Stolov
+ 1694 Christer Nilsson
+ 1688 Abbas Razavi
+ 1670 Friedemann Stumpf
+ 1660 Kent Sahlin
+ 1588 Lars-Ivar Juntti
+ 1540 Helge Bergström
+ 1531 Jouko Liistamo
+ 0 Mikael Lundberg
 """
 
 players = []
 for player in s.split "\n"
-	[name,rating] = player.split ';'
+	p = player.indexOf ' '
+	rating = player.slice 0, p
+	name = player.slice p
 	players.push {name, rating}
 
 makeHalf = (p,klass) ->
