@@ -1,13 +1,11 @@
-import { createSignal , div, button , h1 , p, mount } from "https://cdn.jsdelivr.net/gh/sigmentjs/sigment-ng@1.3.4/dist/index.js"
+import { div, mount } from "https://cdn.jsdelivr.net/gh/sigmentjs/sigment-ng@1.3.4/dist/index.js"
 
-# import styles from './hello.module.css'; # fungerar ej
-# import './hello.css' # fungerar ej
+#import styles from './hello.module.css'; # does not execute
+#import './index.css' # does not execute
 
-App = ->
-	div {class: 'hi'},
-		div {class: 'hix'},
-			'Hallå från Sigment',
-		div {class: 'hix'},
-			'fyran'
-	
-mount "app", App()
+mount "app", 
+	div {},
+		div {},
+			'Hallo from Sigment', 
+		div class: 'hi',
+			'four'
