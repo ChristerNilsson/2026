@@ -51,7 +51,9 @@ makeHalf = (p,klass) ->
 		<div class="content">
 			<div class="name">#{p.name} #{p.rating}</div>
 			<div class="tournament">#{TOURNAMENT}</div>
-			<div class="ad">fairpair.se</div>
+			<div class="ad spread">
+				 <span>F</span><span>A</span><span>I</span><span>R</span><span>P</span><span>A</span><span>I</span><span>R</span><span>.</span><span>S</span><span>E</span>
+			</div>
 		</div>
 		</div>
 	"""
