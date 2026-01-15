@@ -48,22 +48,23 @@ for player in s.split "\n"
 	players.push {name, rating}
 
 makeHalf = (p,klass) ->
-	div {class: "half " + klass},
-		div {class: "content"}, 
-			div {class: "name"}, "#{p.name} #{p.rating}"
-			div {class: "tournament"}, TOURNAMENT
-			div {class: "ad spread"},
+	div class: "half " + klass,
+		div class: "content", 
+			div class: "tournament", TOURNAMENT
+			div class: "name", "#{p.name} #{p.rating}"
+			div class: "ad spread",
 				span ch for ch in "FAIRPAIR.SE"
 
 makeBadge = (p) ->
-	div {class: "badge"}, 
+	if not p? then return ""
+	div class: "badge", 
 		makeHalf p,"bottom"
 		makeHalf p,"top"
 
 makePage = (p1, p2) ->
-	section {class: "page"},
-		if p1? then makeBadge p1 else ""
-		if p2? then makeBadge p2 else ""
+	section class: "page",
+		makeBadge p1
+		makeBadge p2
 
 html = ""
 
