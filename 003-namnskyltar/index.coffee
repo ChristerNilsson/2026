@@ -1,3 +1,5 @@
+import { div, mount, section, span } from "https://cdn.jsdelivr.net/gh/sigmentjs/sigment-ng@1.3.4/dist/index.js"
+
 echo = console.log
 
 TOURNAMENT = "Seniorschack KM 2026"
@@ -46,41 +48,28 @@ for player in s.split "\n"
 	players.push {name, rating}
 
 makeHalf = (p,klass) ->
-	"""
-		<div class="half #{klass}">
-		<div class="content">
-			<div class="name">#{p.name} #{p.rating}</div>
-			<div class="tournament">#{TOURNAMENT}</div>
-			<div class="ad spread">
-				 <span>F</span><span>A</span><span>I</span><span>R</span><span>P</span><span>A</span><span>I</span><span>R</span><span>.</span><span>S</span><span>E</span>
-			</div>
-		</div>
-		</div>
-	"""
+	div {class: "half " + klass},
+		div {class: "content"}, 
+			div {class: "name"}, "#{p.name} #{p.rating}"
+			div {class: "tournament"}, TOURNAMENT
+			div {class: "ad spread"},
+				span ch for ch in "FAIRPAIR.SE"
 
 makeBadge = (p) ->
-	"""
-	<div class="badge">
-		#{makeHalf p,"bottom"}
-		#{makeHalf p,"top"}
-	</div>
-	"""
+	div {class: "badge"}, 
+		makeHalf p,"bottom"
+		makeHalf p,"top"
 
 makePage = (p1, p2) ->
-	b1 = if p1? then makeBadge(p1) else ""
-	b2 = if p2? then makeBadge(p2) else ""
-	"""
-	<section class="page">
-		#{b1}
-		#{b2}
-	</section>
-	"""
+	section {class: "page"},
+		if p1? then makeBadge p1 else ""
+		if p2? then makeBadge p2 else ""
 
 html = ""
 
 i = 0
+app = document.getElementById "app"
 while i < players.length
-	html += makePage(players[i], players[i+1])
+	res = makePage players[i], players[i+1]
+	app.appendChild res
 	i += 2
-
-document.getElementById("app").innerHTML = html
