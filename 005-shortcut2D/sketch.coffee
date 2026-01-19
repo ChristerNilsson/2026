@@ -10,17 +10,17 @@ range = _.range
 
 class Player
 
-	constructor: (start) ->
-		[@x, @setX] = signal start[0]
-		[@y, @setY] = signal start[1]
+	constructor: (curr) ->
+		[@curr, @setCurr] = signal curr
 		[@board,@setBoard] = signal @rboard()
-		@history = [[@x(),@y()]] 
+		@history = [@curr()] 
 
 	letter : (i, j) ->
-		if _.isEqual [i,j], [@x(),@y()] then return "X"
+		if _.isEqual [i,j], @curr() then return "X"
 		for key of D 
 			[dx, dy] = D[key]
-			if _.isEqual [i,j], [@x() + dx, @y() + dy] then return key
+			[x,y] = @curr()
+			if _.isEqual [i,j], [x + dx, y + dy] then return key
 		"•"
 
 	rboard : ->
@@ -36,27 +36,25 @@ class Player
 
 	update : (letter) ->
 		[dx, dy] = D[letter]
-		xdx = @x() + dx
-		ydy = @y() + dy
+		[x,y] = @curr()
+		xdx = x + dx
+		ydy = y + dy
 
 		if 0 <= xdx < N and 0 <= ydy < N
-			@history.push [@x(), @y()]
-			@setX xdx
-			@setY ydy
+			@history.push @curr()
+			@setCurr [xdx, ydy]
 			@setBoard @rboard()
 
 	undo : () ->
 		if @history.length == 0 then return
-		[x,y] = @history.pop()
-		@setX x
-		@setY y
+		@setCurr @history.pop()
 		@setBoard @rboard()
 		
 	render : ->
 		div {},
 			@board # signal kräver en funktion
 			div {},
-				div {}, => keyx([@x(),@y()]) + " to " + keyx(target) # signal kräver en funktion med =
+				div {}, => keyx(@curr()) + " to " + keyx(target) # signal kräver en funktion med =
 				for letter in "ABCDEFGH"
 					do (letter) => button { onclick: => @update letter}, => letter
 				" "
@@ -72,7 +70,7 @@ createProblem = (level) ->
 	while level > 0
 		level = level - 1
 		front1 = []
-		echo (keyx sq for sq in front0)
+		# echo (keyx sq for sq in front0).join " "
 		for [x0,y0] in front0
 			for key of D
 				[dx, dy] = D[key]
@@ -89,7 +87,7 @@ t0 = performance.now()
 [start,target] = createProblem 6
 t1 = performance.now()
 echo 'problem created in', (t1 - t0), 's'
-echo 'start',keyx(start),'target',keyx(target)
+echo "#{keyx(start)} to #{keyx(target)}"
 player1 = new Player start
 player2 = new Player start
   
