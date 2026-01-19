@@ -5,7 +5,7 @@ N = 8
 
 D = { A: [ 1, 2], B:[ 2, 1], C:[ 2,-1], D:[ 1,-2], E:[-1, 2], F:[-2, 1], G:[-2,-1], H:[-1,-2]}
 
-echo = console.log 
+echo = console.log
 range = _.range
 
 class Player
@@ -31,7 +31,7 @@ class Player
 					td {style:"text-align:center;"}, "#{(j + 1) % 10}"
 					for i in range N
 						style =
-							if _.isEqual [i,j], @curr() then "background:red; color:white; text-align:center;"
+							if _.isEqual [i,j], @curr() then "background:white; color:green; text-align:center;"
 							else if _.isEqual [i,j], target then "background:green; color:white; text-align:center;"
 							else "text-align:center;"
 						td {style}, @letter i,j
@@ -71,7 +71,7 @@ createProblem = (level) ->
 
 	findSolution = ->
 		echo 'findSolution',target
-		path = []
+		path = [] 
 		curr = keyx target
 		while curr != 'start'
 			path.push curr
