@@ -16,13 +16,20 @@ class Player
 		[@board,@setBoard] = signal @rboard()
 		@history = [[@x(),@y()]] 
 
+	letter : (i, j) ->
+		if _.isEqual [i,j], [@x(),@y()] then return "X"
+		for key of D 
+			[dx, dy] = D[key]
+			if _.isEqual [i,j], [@x() + dx, @y() + dy] then return key
+		"•"
+
 	rboard : ->
 		table {},
 			for j in range N-1,-1,-1
 				tr {},
 					td {}, "#{j + 1}"
 					for i in range N
-						td {}, if _.isEqual [i,j], [@x(),@y()] then "X" else "•"
+						td {}, @letter i,j
 			tr {},
 				for i in range N+1
 					td {}, " abcdefgh"[i]
@@ -47,9 +54,9 @@ class Player
 		
 	render : ->
 		div {},
-			@board # automatiskt anrop
+			@board # signal kräver en funktion
 			div {},
-				div {}, => @x() + 1 # div kräver en funktion med =
+				div {}, => @x() + 1 # signal kräver en funktion med =
 				div {}, => @y() + 1
 				for letter in "ABCDEFGH"
 					do (letter) => button { onclick: => @update letter}, => letter
