@@ -20,8 +20,12 @@ class Player
 		table {},
 			for j in range N-1,-1,-1
 				tr {},
+					td {}, "#{j + 1}"
 					for i in range N
 						td {}, if _.isEqual [i,j], [@x(),@y()] then "X" else "•"
+			tr {},
+				for i in range N+1
+					td {}, " abcdefgh"[i]
 
 	update : (letter) ->
 		[dx, dy] = D[letter]
