@@ -3,14 +3,14 @@ import _ from "https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/lodash.js"
 
 N = 8
 
-D = { A: [ 1, 2], B:[ 2, 1], C:[ 2,-1], D:[ 1,-2], E:[-1, 2], F:[-2, 1], G:[-2,-1], H:[-1,-2]}
+D = [[ 1, 2], [ 2, 1], [ 2,-1], [ 1,-2], [-1, 2], [-2, 1], [-2,-1], [-1,-2]]
 
 echo = console.log
 range = _.range
 
 class Player
 
-	constructor: (curr) ->
+	constructor: (curr, @letters) ->
 		[@curr, @setCurr] = signal curr
 		[@board,@setBoard] = signal @rboard()
 		@history = [@curr()] 
@@ -18,11 +18,11 @@ class Player
 	letter : (i, j) ->
 		if _.isEqual [i,j], @curr() then return keyx @curr()
 		if _.isEqual [i,j], target then return keyx target
-		for key of D 
-			[dx, dy] = D[key]
+		for idx in range D.length
+			[dx, dy] = D[idx]
 			[x,y] = @curr()
-			if _.isEqual [i,j], [x + dx, y + dy] then return key
-		"•"
+			if _.isEqual [i,j], [x + dx, y + dy] then return @letters[idx]
+		""
 
 	rboard : ->
 		table {style:"text-align:center;"},
@@ -30,17 +30,18 @@ class Player
 				tr {},
 					td {style:"text-align:center;"}, "#{(j + 1) % 10}"
 					for i in range N
+						base = if (i + j) % 2 == 0 then "#b58863" else "#f0d9b5"
 						style =
-							if _.isEqual [i,j], @curr() then "background:white; color:green; text-align:center;"
+							if _.isEqual [i,j], @curr() then "background:red; color:white; text-align:center;"
 							else if _.isEqual [i,j], target then "background:green; color:white; text-align:center;"
-							else "text-align:center;"
+							else "background:#{base}; text-align:center;"
 						td {style}, @letter i,j
 			tr {},
 				for i in range N+1
 					td {style:"text-align:center;"}, " abcdefgh"[i]
 
-	update : (letter) ->
-		[dx, dy] = D[letter]
+	update : (idx) ->
+		[dx, dy] = D[idx]
 		[x,y] = @curr()
 		xdx = x + dx
 		ydy = y + dy
@@ -60,10 +61,6 @@ class Player
 			@board # signal kräver en funktion
 			div {},
 				div {}, => keyx(@curr()) + " to " + keyx(target) # signal kräver en funktion med =
-				for letter in "ABCDEFGH"
-					do (letter) => button { onclick: => @update letter}, => letter
-				" "
-				button { onclick: => @undo() }, "undo"
 
 keyx = ([x,y]) -> "abcdefgh"[x] + "12345678"[y]
 
@@ -109,8 +106,31 @@ echo "solution:", solution
 performance.now()
 echo 'problem created in', (t1 - t0), 's'
 echo "#{keyx(start)} to #{keyx(target)}"
-player1 = new Player start
-player2 = new Player start
+player1 = new Player start, "QWRTASDF"
+player2 = new Player start, "YUOPHJKL"
+
+pressed = new Set()
+players = [player1, player2]
+undoMap = new Map [
+	['e', player1]
+	['i', player2]
+]
+
+document.addEventListener 'keydown', (e) ->
+	key = e.key.toLowerCase()
+	return if pressed.has key
+	pressed.add key
+	if undoMap.has key
+		undoMap.get(key).undo()
+		return
+	for player in players
+		idx = player.letters.toLowerCase().indexOf key
+		if idx != -1
+			player.update idx
+			return
+
+document.addEventListener 'keyup', (e) ->
+	pressed.delete e.key.toLowerCase()
   
 mount "app", 
 	div {style:"display:flex; gap:20px;"},
