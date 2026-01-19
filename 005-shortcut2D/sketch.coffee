@@ -16,7 +16,8 @@ class Player
 		@history = [@curr()] 
 
 	letter : (i, j) ->
-		if _.isEqual [i,j], @curr() then return "X"
+		if _.isEqual [i,j], @curr() then return keyx @curr()
+		if _.isEqual [i,j], target then return keyx target
 		for key of D 
 			[dx, dy] = D[key]
 			[x,y] = @curr()
@@ -24,15 +25,19 @@ class Player
 		"•"
 
 	rboard : ->
-		table {},
+		table {style:"text-align:center;"},
 			for j in range N-1,-1,-1
 				tr {},
-					td {}, "#{(j + 1) % 10}"
+					td {style:"text-align:center;"}, "#{(j + 1) % 10}"
 					for i in range N
-						td {}, @letter i,j
+						style =
+							if _.isEqual [i,j], @curr() then "background:red; color:white; text-align:center;"
+							else if _.isEqual [i,j], target then "background:green; color:white; text-align:center;"
+							else "text-align:center;"
+						td {style}, @letter i,j
 			tr {},
 				for i in range N+1
-					td {}, " abcdefghijklmnopq"[i]
+					td {style:"text-align:center;"}, " abcdefgh"[i]
 
 	update : (letter) ->
 		[dx, dy] = D[letter]
@@ -60,32 +65,48 @@ class Player
 				" "
 				button { onclick: => @undo() }, "undo"
 
-keyx = ([x,y]) -> "abcdefghijklmnop"[x] + "123456789abcdefgh"[y]
+keyx = ([x,y]) -> "abcdefgh"[x] + "12345678"[y]
 
 createProblem = (level) ->
+
+	findSolution = ->
+		echo 'findSolution',target
+		path = []
+		curr = keyx target
+		while curr != 'start'
+			path.push curr
+			curr = reached[curr]
+		path.reverse()
+		path.join ' '
+
 	start = [_.random(0,N-1), _.random(0,N-1)]
 	reached = {}
-	reached[keyx start] = true
+	reached[keyx start] = 'start'
 	front0 = [start]
 	while level > 0
 		level = level - 1
 		front1 = []
-		# echo (keyx sq for sq in front0).join " "
 		for [x0,y0] in front0
 			for key of D
 				[dx, dy] = D[key]
 				[x, y] = [x0 + dx, y0 + dy]
 				if 0 <= x < N and 0 <= y < N and not reached[keyx [x,y]]
-					reached[keyx [x,y]] = true
+					reached[keyx [x,y]] = keyx [x0,y0]
 					front1.push [x,y]
-		if front1.length == 0 then return [start,_.sample front0]
+		if front1.length == 0
+			target = _.sample front0
+			return [start, target, findSolution()]
 		else front0 = front1
 		target = _.sample front1
-	[start,target]
+	# echo reached
+	[start, target, findSolution()]
 
 t0 = performance.now()
-[start,target] = createProblem 6
+[start,target,solution] = createProblem 4
 t1 = performance.now()
+echo "solution:", solution
+
+performance.now()
 echo 'problem created in', (t1 - t0), 's'
 echo "#{keyx(start)} to #{keyx(target)}"
 player1 = new Player start
