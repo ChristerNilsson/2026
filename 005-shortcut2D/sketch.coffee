@@ -3,16 +3,17 @@ import _ from "https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/lodash.js"
 
 N = 8
 
-D = [[ 1, 2], [ 2, 1], [ 2,-1], [ 1,-2], [-1, 2], [-2, 1], [-2,-1], [-1,-2]]
+D = [[-2, 1], [-1, 2], [ 1, 2], [ 2, 1], [-2,-1], [-1,-2], [ 1,-2], [ 2,-1]]
 
 echo = console.log
 range = _.range
 
 class Player
 
-	constructor: (curr, @letters) ->
+	constructor: (curr, @letters, requiredMoves) ->
 		[@curr, @setCurr] = signal curr
 		[@board,@setBoard] = signal @rboard()
+		[@remaining, @setRemaining] = signal requiredMoves
 		@history = [@curr()] 
 
 	letter : (i, j) ->
@@ -50,19 +51,54 @@ class Player
 			@history.push @curr()
 			@setCurr [xdx, ydy]
 			@setBoard @rboard()
+			return true
+		false
 
 	undo : () ->
-		if @history.length == 0 then return
+		if @history.length == 0 then return false
 		@setCurr @history.pop()
 		@setBoard @rboard()
+		true
+
+	reached : () ->
+		_.isEqual @curr(), target
+
+	movesTaken : () ->
+		@history.length - 1
 		
+	pathString : () ->
+		path = @history.slice()
+		if not _.isEqual path[path.length - 1], @curr() then path.push @curr()
+		path.map(keyx).join ' '
+		
+	pathArray : (includeStart = true) ->
+		path = @history.slice()
+		if not _.isEqual path[path.length - 1], @curr() then path.push @curr()
+		out = path.map(keyx)
+		if includeStart then out else out.slice 1
+		
+	reset : (curr, requiredMoves) ->
+		@setCurr curr
+		@setRemaining requiredMoves
+		@history = [curr]
+		@setBoard @rboard()
+		
+	tick : () ->
+		@setRemaining @remaining() - 1
+
 	render : ->
 		div {},
 			@board # signal kräver en funktion
 			div {},
 				div {}, => keyx(@curr()) + " to " + keyx(target) # signal kräver en funktion med =
+				div {}, => "steg kvar: #{@remaining()}"
 
 keyx = ([x,y]) -> "abcdefgh"[x] + "12345678"[y]
+
+renderMoves = (moves) ->
+	div {style:"display:flex; flex-direction:column; gap:2px; min-width:36px; text-align:center;"},
+		for move in moves
+			div {style:"text-align:center;"}, move
 
 createProblem = (level) ->
 
@@ -98,16 +134,40 @@ createProblem = (level) ->
 	# echo reached
 	[start, target, findSolution()]
 
+[level, setLevel] = signal 2
+[showResults, setShowResults] = signal false
+[perfectPath, setPerfectPath] = signal []
+
+start = null
+target = null
+solution = ""
+requiredMoves = 0
+pendingLevel = null
+
 t0 = performance.now()
-[start,target,solution] = createProblem 4
+[start,target,solution] = createProblem level()
 t1 = performance.now()
 echo "solution:", solution
+requiredMoves = if solution.trim().length == 0 then 0 else solution.split(' ').length - 1
 
 performance.now()
 echo 'problem created in', (t1 - t0), 's'
 echo "#{keyx(start)} to #{keyx(target)}"
-player1 = new Player start, "QWRTASDF"
-player2 = new Player start, "YUOPHJKL"
+player1 = new Player start, "QWRTASDF", requiredMoves
+player2 = new Player start, "YUOPHJKL", requiredMoves
+
+startLevel = (newLevel) ->
+	lvl = Math.max 1, newLevel
+	[start,target,solution] = createProblem lvl
+	requiredMoves = if solution.trim().length == 0 then 0 else solution.split(' ').length - 1
+	setLevel lvl
+	setShowResults false
+	setPerfectPath []
+	player1.reset start, requiredMoves
+	player2.reset start, requiredMoves
+	pressed.clear()
+	echo "solution:", solution
+	echo "#{keyx(start)} to #{keyx(target)}"
 
 pressed = new Set()
 players = [player1, player2]
@@ -116,23 +176,50 @@ undoMap = new Map [
 	['i', player2]
 ]
 
+checkEnd = () ->
+	return unless player1.reached() and player2.reached()
+	p1Perfect = player1.movesTaken() == requiredMoves
+	p2Perfect = player2.movesTaken() == requiredMoves
+	nextLevel = if p1Perfect and p2Perfect then level() + 1 else level() - 1
+	pendingLevel = nextLevel
+	setPerfectPath if solution.trim().length == 0 then [] else solution.split ' '
+	setShowResults true
+	nextLevel
+
 document.addEventListener 'keydown', (e) ->
 	key = e.key.toLowerCase()
+	isSpace = e.code == 'Space' or key == ' '
+	if showResults()
+		if isSpace
+			setShowResults false
+			setPerfectPath []
+			startLevel pendingLevel
+		return
 	return if pressed.has key
 	pressed.add key
 	if undoMap.has key
-		undoMap.get(key).undo()
+		player = undoMap.get(key)
+		return if player.reached()
+		player.undo()
 		return
 	for player in players
 		idx = player.letters.toLowerCase().indexOf key
 		if idx != -1
-			player.update idx
+			return if player.reached()
+			if player.update idx then player.tick()
+			checkEnd()
 			return
 
 document.addEventListener 'keyup', (e) ->
 	pressed.delete e.key.toLowerCase()
   
 mount "app", 
-	div {style:"display:flex; gap:20px;"},
-		player1.render()
-		player2.render()
+	div {},
+		div {style:"display:flex; gap:20px; align-items:flex-start;"},
+			player1.render()
+			div {style:"display:flex; gap:16px;"},
+				div {}, => if showResults() then renderMoves player1.pathArray(false) else ""
+				div {}, => if showResults() then renderMoves perfectPath() else ""
+				div {}, => if showResults() then renderMoves player2.pathArray(false) else ""
+			player2.render()
+		div {}, => "Level: #{level()}"
