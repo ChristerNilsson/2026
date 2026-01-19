@@ -17,8 +17,6 @@ class Player
 		@history = [@curr()] 
 
 	letter : (i, j) ->
-		if _.isEqual [i,j], @curr() then return keyx @curr()
-		if _.isEqual [i,j], target then return keyx target
 		for idx in range D.length
 			[dx, dy] = D[idx]
 			[x,y] = @curr()
@@ -89,9 +87,9 @@ class Player
 	render : ->
 		div {},
 			@board # signal kräver en funktion
-			div {},
-				div {}, => keyx(@curr()) + " to " + keyx(target) # signal kräver en funktion med =
-				div {}, => "steg kvar: #{@remaining()}"
+			div {style:"text-align:center;"},
+				div {}, => keyx(@curr()) # signal kräver en funktion med =
+				div {}, => @remaining()
 
 keyx = ([x,y]) -> "abcdefgh"[x] + "12345678"[y]
 
@@ -131,10 +129,9 @@ createProblem = (level) ->
 			return [start, target, findSolution()]
 		else front0 = front1
 		target = _.sample front1
-	# echo reached
 	[start, target, findSolution()]
 
-[level, setLevel] = signal 2
+[level, setLevel] = signal 1
 [showResults, setShowResults] = signal false
 [perfectPath, setPerfectPath] = signal []
 
@@ -162,6 +159,7 @@ startLevel = (newLevel) ->
 	requiredMoves = if solution.trim().length == 0 then 0 else solution.split(' ').length - 1
 	setLevel lvl
 	setShowResults false
+	echo 'showResults',showResults()
 	setPerfectPath []
 	player1.reset start, requiredMoves
 	player2.reset start, requiredMoves
@@ -184,6 +182,7 @@ checkEnd = () ->
 	pendingLevel = nextLevel
 	setPerfectPath if solution.trim().length == 0 then [] else solution.split ' '
 	setShowResults true
+	echo 'showResults',showResults()
 	nextLevel
 
 document.addEventListener 'keydown', (e) ->
@@ -192,6 +191,7 @@ document.addEventListener 'keydown', (e) ->
 	if showResults()
 		if isSpace
 			setShowResults false
+			echo 'showResults',showResults()
 			setPerfectPath []
 			startLevel pendingLevel
 		return
@@ -217,9 +217,10 @@ mount "app",
 	div {},
 		div {style:"display:flex; gap:20px; align-items:flex-start;"},
 			player1.render()
-			div {style:"display:flex; gap:16px;"},
-				div {}, => if showResults() then renderMoves player1.pathArray(false) else ""
-				div {}, => if showResults() then renderMoves perfectPath() else ""
-				div {}, => if showResults() then renderMoves player2.pathArray(false) else ""
+			div {style:"display:flex; flex-direction:column; align-items:center; gap:8px;"},
+				div {}, => keyx(target)
+				div {style:"display:flex; gap:16px;"},
+					div {}, => if showResults() then renderMoves player1.pathArray(false) else ""
+					div {}, => if showResults() then renderMoves perfectPath() else ""
+					div {}, => if showResults() then renderMoves player2.pathArray(false) else ""
 			player2.render()
-		div {}, => "Level: #{level()}"
