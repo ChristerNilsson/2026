@@ -11,8 +11,8 @@ range = _.range
 class Player
 
 	constructor: (@id) ->
-		[@x, @setX] = signal 1
-		[@y, @setY] = signal 1
+		[@x, @setX] = signal 0 # a1
+		[@y, @setY] = signal 0
 		[@board,@setBoard] = signal @rboard()
 		@history = [[@x(),@y()]] 
 
@@ -21,14 +21,14 @@ class Player
 			for j in range N-1,-1,-1
 				tr {},
 					for i in range N
-						td {}, if _.isEqual [i+1,j+1], [@x(),@y()] then "X" else "•"
+						td {}, if _.isEqual [i,j], [@x(),@y()] then "X" else "•"
 
 	update : (letter) ->
 		[dx, dy] = D[letter]
 		xdx = @x() + dx
 		ydy = @y() + dy
 
-		if 0 < xdx < N+1 and 0 < ydy < N+1
+		if 0 <= xdx < N and 0 <= ydy < N
 			@history.push [@x(), @y()]
 			@setX xdx
 			@setY ydy
@@ -45,16 +45,10 @@ class Player
 		div {},
 			@board # automatiskt anrop
 			div {},
-				div {}, @x # automatiskt anrop
-				div {}, @y # automatiskt anrop
-				button { onclick: => @update "A"},"A"
-				button { onclick: => @update "B"},"B"
-				button { onclick: => @update "C"},"C"
-				button { onclick: => @update "D"},"D"
-				button { onclick: => @update "E"},"E"
-				button { onclick: => @update "F"},"F"
-				button { onclick: => @update "G"},"G"
-				button { onclick: => @update "H"},"H"
+				div {}, => @x() + 1 # div kräver en funktion med =
+				div {}, => @y() + 1
+				for letter in "ABCDEFGH"
+					do (letter) => button { onclick: => @update letter}, => letter
 				" "
 				button { onclick: => @undo() }, "undo"
 
