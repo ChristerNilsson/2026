@@ -10,9 +10,9 @@ range = _.range
 
 class Player
 
-	constructor: (@id) ->
-		[@x, @setX] = signal 0 # a1
-		[@y, @setY] = signal 0
+	constructor: (start) ->
+		[@x, @setX] = signal start[0]
+		[@y, @setY] = signal start[1]
 		[@board,@setBoard] = signal @rboard()
 		@history = [[@x(),@y()]] 
 
@@ -27,12 +27,12 @@ class Player
 		table {},
 			for j in range N-1,-1,-1
 				tr {},
-					td {}, "#{j + 1}"
+					td {}, "#{(j + 1) % 10}"
 					for i in range N
 						td {}, @letter i,j
 			tr {},
 				for i in range N+1
-					td {}, " abcdefgh"[i]
+					td {}, " abcdefghijklmnopq"[i]
 
 	update : (letter) ->
 		[dx, dy] = D[letter]
@@ -56,15 +56,42 @@ class Player
 		div {},
 			@board # signal kräver en funktion
 			div {},
-				div {}, => @x() + 1 # signal kräver en funktion med =
-				div {}, => @y() + 1
+				div {}, => keyx([@x(),@y()]) + " to " + keyx(target) # signal kräver en funktion med =
 				for letter in "ABCDEFGH"
 					do (letter) => button { onclick: => @update letter}, => letter
 				" "
 				button { onclick: => @undo() }, "undo"
 
-player1 = new Player 1
-player2 = new Player 2
+keyx = ([x,y]) -> "abcdefghijklmnop"[x] + "123456789abcdefgh"[y]
+
+createProblem = (level) ->
+	start = [_.random(0,N-1), _.random(0,N-1)]
+	reached = {}
+	reached[keyx start] = true
+	front0 = [start]
+	while level > 0
+		level = level - 1
+		front1 = []
+		echo (keyx sq for sq in front0)
+		for [x0,y0] in front0
+			for key of D
+				[dx, dy] = D[key]
+				[x, y] = [x0 + dx, y0 + dy]
+				if 0 <= x < N and 0 <= y < N and not reached[keyx [x,y]]
+					reached[keyx [x,y]] = true
+					front1.push [x,y]
+		if front1.length == 0 then return [start,_.sample front0]
+		else front0 = front1
+		target = _.sample front1
+	[start,target]
+
+t0 = performance.now()
+[start,target] = createProblem 6
+t1 = performance.now()
+echo 'problem created in', (t1 - t0), 's'
+echo 'start',keyx(start),'target',keyx(target)
+player1 = new Player start
+player2 = new Player start
   
 mount "app", 
 	div {style:"display:flex; gap:20px;"},
