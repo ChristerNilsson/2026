@@ -94,6 +94,7 @@ class Player
 keyx = ([x,y]) -> "abcdefgh"[x] + "12345678"[y]
 
 renderMoves = (moves) ->
+	# if not showResults() then return ""
 	div {style:"display:flex; flex-direction:column; gap:2px; min-width:36px; text-align:center;"},
 		for move in moves
 			div {style:"text-align:center;"}, move
@@ -141,14 +142,10 @@ solution = ""
 requiredMoves = 0
 pendingLevel = null
 
-t0 = performance.now()
 [start,target,solution] = createProblem level()
-t1 = performance.now()
 echo "solution:", solution
 requiredMoves = if solution.trim().length == 0 then 0 else solution.split(' ').length - 1
 
-performance.now()
-echo 'problem created in', (t1 - t0), 's'
 echo "#{keyx(start)} to #{keyx(target)}"
 player1 = new Player start, "QWRTASDF", requiredMoves
 player2 = new Player start, "YUOPHJKL", requiredMoves
@@ -220,7 +217,7 @@ mount "app",
 			div {style:"display:flex; flex-direction:column; align-items:center; gap:8px;"},
 				div {}, => keyx(target)
 				div {style:"display:flex; gap:16px;"},
-					div {}, => if showResults() then renderMoves player1.pathArray(false) else ""
-					div {}, => if showResults() then renderMoves perfectPath() else ""
-					div {}, => if showResults() then renderMoves player2.pathArray(false) else ""
+					div {}, => if showResults() then renderMoves player1.pathArray(false) else "tomt"
+					div {}, => if showResults() then renderMoves perfectPath() else "tomt"
+					div {}, => if showResults() then renderMoves player2.pathArray(false) else "tomt"
 			player2.render()
