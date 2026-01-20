@@ -212,12 +212,12 @@ document.addEventListener 'keyup', (e) ->
   
 mount "app", 
 	div {},
-		div {style:"display:flex; gap:20px; align-items:flex-start;"},
+		div {style:"display:flex; gap:20px; align-items:flex-start"},
 			player1.render()
-			div {style:"display:flex; flex-direction:column; align-items:center; gap:8px;"},
-				div {}, => keyx(target)
-				div {style:"display:flex; gap:16px;"},
-					div {}, => if showResults() then renderMoves player1.pathArray(false) else "tomt"
-					div {}, => if showResults() then renderMoves perfectPath() else "tomt"
-					div {}, => if showResults() then renderMoves player2.pathArray(false) else "tomt"
+			div {style:"display:flex; flex-direction:column; align-items:center; gap:8px"},
+				# div {}, => keyx(target)
+				div {style: => if showResults() then "display:flex; gap:16px" else "display:none"},
+					div {}, => renderMoves player1.pathArray(false)
+					div {}, => renderMoves perfectPath()
+					div {}, => renderMoves player2.pathArray(false)
 			player2.render()
