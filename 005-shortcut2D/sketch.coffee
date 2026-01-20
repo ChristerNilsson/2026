@@ -70,10 +70,9 @@ class Player
 		path.map(keyx).join ' '
 		
 	pathArray : (includeStart = true) ->
-		path = @history.slice()
-		if not _.isEqual path[path.length - 1], @curr() then path.push @curr()
-		out = path.map(keyx)
-		if includeStart then out else out.slice 1
+		path = @history.slice(1)
+		path.push @curr()
+		path.map(keyx)
 		
 	reset : (curr, requiredMoves) ->
 		@setCurr curr
@@ -242,7 +241,6 @@ mount "app",
 		div {style:"display:flex; gap:20px; align-items:flex-start"},
 			player1.render()
 			div {style:"display:flex; flex-direction:column; align-items:center; gap:8px"},
-				# div {}, => keyx(target())
 				div {style: => if not showResults() then "display:flex; gap:16px" else "display:none"},
 					renderHints()
 				div {style: => if showResults() then "display:flex; gap:16px" else "display:none"},
