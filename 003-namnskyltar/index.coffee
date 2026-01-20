@@ -6,6 +6,7 @@ TOURNAMENT = "Seniorschack KM 2026"
 
 s = """
  2092 Gunnar Hedin
+ 2062 IM Axel Ornstein
  2010 Henrik Strömbäck
  1977 Stefan Engström
  1977 Tomas Lindblad
@@ -24,6 +25,7 @@ s = """
  1824 Ove Hartzell
  1821 Dick Viklund
  1820 Björn Löwgren
+ 1806 Bo Franzén
  1798 Hans Weström
  1785 Lars Ring
  1753 Veine Gustavsson
@@ -38,6 +40,7 @@ s = """
  1660 Kent Sahlin
  1588 Lars-Ivar Juntti
  1540 Helge Bergström
+ 1539 Arne Jansson
  1531 Jouko Liistamo
  0 Mikael Lundberg
 """
