@@ -1,4 +1,4 @@
-import { mount, signal, button, div, span, table, tr, td } from "https://cdn.jsdelivr.net/gh/sigmentjs/sigment-ng@1.3.4/dist/index.js"
+import { mount, button, div, span, table, tr, td } from "https://cdn.jsdelivr.net/gh/sigmentjs/sigment-ng@1.3.4/dist/index.js"
 import _ from "https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/lodash.js"
 
 N = 8
@@ -10,16 +10,15 @@ range = _.range
 
 class Player
 
-	constructor: (curr, @letters, requiredMoves) ->
-		[@curr, @setCurr] = signal curr
-		[@board,@setBoard] = signal @rboard()
-		[@remaining, @setRemaining] = signal requiredMoves
-		@history = [@curr()] 
+	constructor: (@curr, @letters, requiredMoves) ->
+		@board = @rboard()
+		@remaining = requiredMoves
+		@history = [@curr] 
 
 	letter : (i, j) ->
 		for idx in range D.length
 			[dx, dy] = D[idx]
-			[x,y] = @curr()
+			[x,y] = @curr
 			if _.isEqual [i,j], [x + dx, y + dy] then return @letters[idx]
 		""
 
@@ -31,8 +30,8 @@ class Player
 					for i in range N
 						base = if (i + j) % 2 == 0 then "#b58863" else "#f0d9b5"
 						style =
-							if _.isEqual [i,j], @curr() then "background:red; color:white; text-align:center;"
-							else if _.isEqual [i,j], target() then "background:green; color:white; text-align:center;"
+							if _.isEqual [i,j], @curr then "background:red; color:white; text-align:center;"
+							else if _.isEqual [i,j], target then "background:green; color:white; text-align:center;"
 							else "background:#{base}; text-align:center;"
 						td {style}, @letter i,j
 			tr {},
@@ -41,54 +40,54 @@ class Player
 
 	update : (idx) ->
 		[dx, dy] = D[idx]
-		[x,y] = @curr()
+		[x,y] = @curr
 		xdx = x + dx
 		ydy = y + dy
 
 		if 0 <= xdx < N and 0 <= ydy < N
-			@history.push @curr()
-			@setCurr [xdx, ydy]
-			@setBoard @rboard()
+			@history.push @curr
+			@curr = [xdx, ydy]
+			@board  = @rboard()
 			return true
 		false
 
 	undo : () ->
 		if @history.length == 0 then return false
-		@setCurr @history.pop()
-		@setBoard @rboard()
+		@curr  = @history.pop()
+		@board = @rboard()
 		true
 
 	reached : () ->
-		_.isEqual @curr(), target()
+		_.isEqual @curr, target
 
 	movesTaken : () ->
 		@history.length - 1
 		
 	pathString : () ->
 		path = @history.slice()
-		if not _.isEqual path[path.length - 1], @curr() then path.push @curr()
+		if not _.isEqual path[path.length - 1], @curr then path.push @curr
 		path.map(keyx).join ' '
 		
 	pathArray : (includeStart = true) ->
 		path = @history.slice(1)
-		path.push @curr()
+		path.push @curr
 		path.map(keyx)
 		
 	reset : (curr, requiredMoves) ->
-		@setCurr curr
-		@setRemaining requiredMoves
+		@curr = curr
+		@remaining  = requiredMoves
 		@history = [curr]
-		@setBoard @rboard()
+		@board = @rboard()
 		
 	tick : () ->
-		@setRemaining @remaining() - 1
+		@remaining =  @remaining - 1
 
 	render : ->
 		div {},
 			@board # signal kräver en funktion
 			div {style:"text-align:center; color:red;"},
-				div {}, => keyx(@curr()) # signal kräver en funktion med =
-				div {style:"color:black;"}, => @remaining()
+				div {}, => keyx(@curr) # signal kräver en funktion med =
+				div {style:"color:black;"}, => @remaining
 
 keyx = ([x,y]) -> "abcdefgh"[x] + "12345678"[y]
 
@@ -103,7 +102,7 @@ renderHints = ->
 	style3 = "text-align:center; padding:2px 6px;"
 	div {},
 		div {style:"text-align:center;"}, =>
-			span {style:"color:green;"}, "#{keyx(target())}"
+			span {style:"color:green;"}, "#{keyx(target)}"
 		table {style:"border-collapse:collapse;"},
 			tr {style: style1},
 				td {}, "1"
@@ -156,39 +155,39 @@ createProblem = (level) ->
 		t = _.sample front1
 	[start, t, findSolution(t, reached)]
 
-[level, setLevel] = signal 1
-[showResults, setShowResults] = signal false
-[perfectPath, setPerfectPath] = signal []
-[target, setTarget] = signal null
+level = 1
+showResults = false
+perfectPath = []
+target = null
 
 start = null
 solution = ""
 requiredMoves = 0
 pendingLevel = null
 
-[start,t,solution] = createProblem level()
-setTarget t
+[start,t,solution] = createProblem level
+target = t
 echo "solution:", solution
 requiredMoves = if solution.trim().length == 0 then 0 else solution.split(' ').length - 1
 
-echo "#{keyx(start)} to #{keyx(target())}"
+echo "#{keyx(start)} to #{keyx(target)}"
 player1 = new Player start, "QWERASDF", requiredMoves
 player2 = new Player start, "UIOPHJKL", requiredMoves
 
 startLevel = (newLevel) ->
 	lvl = Math.max 1, newLevel
 	[start,t,solution] = createProblem lvl
-	setTarget t
+	target  = t
 	requiredMoves = if solution.trim().length == 0 then 0 else solution.split(' ').length - 1
-	setLevel lvl
-	setShowResults false
-	echo 'showResults',showResults()
-	setPerfectPath []
+	level = lvl
+	showResults = false
+	echo 'showResults',showResults
+	perfectPath = []
 	player1.reset start, requiredMoves
 	player2.reset start, requiredMoves
 	pressed.clear()
 	echo "solution:", solution
-	echo "#{keyx(start)} to #{keyx(target())}"
+	echo "#{keyx(start)} to #{keyx(target)}"
 
 pressed = new Set()
 players = [player1, player2]
@@ -201,50 +200,60 @@ checkEnd = () ->
 	return unless player1.reached() and player2.reached()
 	p1Perfect = player1.movesTaken() == requiredMoves
 	p2Perfect = player2.movesTaken() == requiredMoves
-	nextLevel = if p1Perfect and p2Perfect then level() + 1 else level() - 1
+	nextLevel = if p1Perfect and p2Perfect then level + 1 else level - 1
 	pendingLevel = nextLevel
-	setPerfectPath if solution.trim().length == 0 then [] else solution.split ' '
-	setShowResults true
-	echo 'showResults',showResults()
+	perfectPath = if solution.trim().length == 0 then [] else solution.split ' '
+	showResults = true
+	echo 'showResults',showResults
 	nextLevel
 
 document.addEventListener 'keydown', (e) ->
 	key = e.key.toLowerCase()
 	isSpace = e.code == 'Space' or key == ' '
-	if showResults()
+	if showResults
 		if isSpace
-			setShowResults false
-			echo 'showResults',showResults()
-			setPerfectPath []
+			showResults = false
+			echo 'showResults',showResults
+			perfectPath = []
 			startLevel pendingLevel
+		remount()
 		return
 	return if pressed.has key
 	pressed.add key
 	if undoMap.has key
 		player = undoMap.get(key)
-		return if player.reached()
+		if player.reached()
+			remount()
+			return 
 		player.undo()
+		remount()
 		return
 	for player in players
 		idx = player.letters.toLowerCase().indexOf key
 		if idx != -1
-			return if player.reached()
+			if player.reached()
+				remount()
+				return
 			if player.update idx then player.tick()
 			checkEnd()
+			remount()
 			return
 
 document.addEventListener 'keyup', (e) ->
 	pressed.delete e.key.toLowerCase()
-  
-mount "app", 
-	div {},
+
+remount = ->
+	app = document.getElementById("app")
+	app.replaceChildren div {},
 		div {style:"display:flex; gap:20px; align-items:flex-start"},
 			player1.render()
 			div {style:"display:flex; flex-direction:column; align-items:center; gap:8px"},
-				div {style: => if not showResults() then "display:flex; gap:16px" else "display:none"},
+				div {style: => if not showResults then "display:flex; gap:16px" else "display:none"},
 					renderHints()
-				div {style: => if showResults() then "display:flex; gap:16px" else "display:none"},
+				div {style: => if showResults then "display:flex; gap:16px" else "display:none"},
 					div {}, => renderMoves player1.pathArray(false)
-					div {}, => renderMoves perfectPath()
+					div {}, => renderMoves perfectPath
 					div {}, => renderMoves player2.pathArray(false)
 			player2.render()
+		
+remount()
