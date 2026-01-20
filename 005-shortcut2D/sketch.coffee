@@ -32,7 +32,7 @@ class Player
 						base = if (i + j) % 2 == 0 then "#b58863" else "#f0d9b5"
 						style =
 							if _.isEqual [i,j], @curr() then "background:red; color:white; text-align:center;"
-							else if _.isEqual [i,j], target then "background:green; color:white; text-align:center;"
+							else if _.isEqual [i,j], target() then "background:green; color:white; text-align:center;"
 							else "background:#{base}; text-align:center;"
 						td {style}, @letter i,j
 			tr {},
@@ -59,7 +59,7 @@ class Player
 		true
 
 	reached : () ->
-		_.isEqual @curr(), target
+		_.isEqual @curr(), target()
 
 	movesTaken : () ->
 		@history.length - 1
@@ -87,24 +87,49 @@ class Player
 	render : ->
 		div {},
 			@board # signal kräver en funktion
-			div {style:"text-align:center;"},
+			div {style:"text-align:center; color:red;"},
 				div {}, => keyx(@curr()) # signal kräver en funktion med =
-				div {}, => @remaining()
+				div {style:"color:black;"}, => @remaining()
 
 keyx = ([x,y]) -> "abcdefgh"[x] + "12345678"[y]
 
 renderMoves = (moves) ->
-	# if not showResults() then return ""
 	div {style:"display:flex; flex-direction:column; gap:2px; min-width:36px; text-align:center;"},
 		for move in moves
 			div {style:"text-align:center;"}, move
 
+renderHints = ->
+	style1 = "text-align:center; font-weight:bold; padding:2px 6px; border-bottom:1px solid #999;"
+	style2 = "text-align:center; padding:2px 6px; border-bottom:1px solid #ddd;"
+	style3 = "text-align:center; padding:2px 6px;"
+	div {},
+		div {style:"text-align:center;"}, =>
+			span {style:"color:green;"}, "#{keyx(target())}"
+		table {style:"border-collapse:collapse;"},
+			tr {style: style1},
+				td {}, "1"
+				td {}, "dx"
+				td {}, "dy"
+				td {}, "2"
+			for i in range D.length
+				tr {style: style2},
+					td {}, "#{player1.letters[i]}"
+					td {}, "#{D[i][0]}"
+					td {}, "#{D[i][1]}"
+					td {}, "#{player2.letters[i]}"
+			tr {},
+				td {style: style3}, "X"
+				td {style: style3, colspan:2}, "undo"
+				td {style: style3}, "M"
+			tr {},
+				td {style: style3, colspan:4}, "new : space"
+
 createProblem = (level) ->
 
-	findSolution = ->
-		echo 'findSolution',target
-		path = [] 
-		curr = keyx target
+	findSolution = (t, reached) ->
+		echo 'findSolution', t
+		path = []
+		curr = keyx t
 		while curr != 'start'
 			path.push curr
 			curr = reached[curr]
@@ -126,33 +151,35 @@ createProblem = (level) ->
 					reached[keyx [x,y]] = keyx [x0,y0]
 					front1.push [x,y]
 		if front1.length == 0
-			target = _.sample front0
-			return [start, target, findSolution()]
+			t = _.sample front0
+			return [start, t, findSolution(t, reached)]
 		else front0 = front1
-		target = _.sample front1
-	[start, target, findSolution()]
+		t = _.sample front1
+	[start, t, findSolution(t, reached)]
 
 [level, setLevel] = signal 1
 [showResults, setShowResults] = signal false
 [perfectPath, setPerfectPath] = signal []
+[target, setTarget] = signal null
 
 start = null
-target = null
 solution = ""
 requiredMoves = 0
 pendingLevel = null
 
-[start,target,solution] = createProblem level()
+[start,t,solution] = createProblem level()
+setTarget t
 echo "solution:", solution
 requiredMoves = if solution.trim().length == 0 then 0 else solution.split(' ').length - 1
 
-echo "#{keyx(start)} to #{keyx(target)}"
-player1 = new Player start, "QWRTASDF", requiredMoves
-player2 = new Player start, "YUOPHJKL", requiredMoves
+echo "#{keyx(start)} to #{keyx(target())}"
+player1 = new Player start, "QWERASDF", requiredMoves
+player2 = new Player start, "UIOPHJKL", requiredMoves
 
 startLevel = (newLevel) ->
 	lvl = Math.max 1, newLevel
-	[start,target,solution] = createProblem lvl
+	[start,t,solution] = createProblem lvl
+	setTarget t
 	requiredMoves = if solution.trim().length == 0 then 0 else solution.split(' ').length - 1
 	setLevel lvl
 	setShowResults false
@@ -162,13 +189,13 @@ startLevel = (newLevel) ->
 	player2.reset start, requiredMoves
 	pressed.clear()
 	echo "solution:", solution
-	echo "#{keyx(start)} to #{keyx(target)}"
+	echo "#{keyx(start)} to #{keyx(target())}"
 
 pressed = new Set()
 players = [player1, player2]
 undoMap = new Map [
-	['e', player1]
-	['i', player2]
+	['x', player1]
+	['m', player2]
 ]
 
 checkEnd = () ->
@@ -215,7 +242,9 @@ mount "app",
 		div {style:"display:flex; gap:20px; align-items:flex-start"},
 			player1.render()
 			div {style:"display:flex; flex-direction:column; align-items:center; gap:8px"},
-				# div {}, => keyx(target)
+				# div {}, => keyx(target())
+				div {style: => if not showResults() then "display:flex; gap:16px" else "display:none"},
+					renderHints()
 				div {style: => if showResults() then "display:flex; gap:16px" else "display:none"},
 					div {}, => renderMoves player1.pathArray(false)
 					div {}, => renderMoves perfectPath()
