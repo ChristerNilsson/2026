@@ -8,11 +8,24 @@ D = [[-2, 1], [-1, 2], [ 1, 2], [ 2, 1], [-2,-1], [-1,-2], [ 1,-2], [ 2,-1]]
 echo = console.log
 range = _.range
 
+pressed = new Set()
+player1 = null
+player2 = null
+level = 1
+showResults = false
+pendingLevel = null
+
+solution = ""
+requiredMoves = 0
+perfectPath = []
+target = null
+
+###########################
+
 class Player
 
-	constructor: (@curr, @letters, requiredMoves) ->
+	constructor: (@curr, @letters) ->
 		@board = @rboard()
-		@remaining = requiredMoves
 		@history = [@curr] 
 
 	letter : (i, j) ->
@@ -39,6 +52,8 @@ class Player
 					td {style:"text-align:center;"}, " abcdefgh"[i]
 
 	update : (idx) ->
+		if idx == 8 then return @undo()
+		
 		[dx, dy] = D[idx]
 		[x,y] = @curr
 		xdx = x + dx
@@ -48,46 +63,30 @@ class Player
 			@history.push @curr
 			@curr = [xdx, ydy]
 			@board  = @rboard()
-			return true
-		false
 
-	undo : () ->
-		if @history.length == 0 then return false
+	undo : ->
+		if @history.length == 0 then return
 		@curr  = @history.pop()
 		@board = @rboard()
-		true
 
-	reached : () ->
-		_.isEqual @curr, target
-
-	movesTaken : () ->
-		@history.length - 1
+	reached : -> _.isEqual @curr, target
+	movesTaken : -> @history.length - 1
 		
-	pathString : () ->
-		path = @history.slice()
-		if not _.isEqual path[path.length - 1], @curr then path.push @curr
-		path.map(keyx).join ' '
-		
-	pathArray : (includeStart = true) ->
+	pathArray : ->
 		path = @history.slice(1)
 		path.push @curr
-		path.map(keyx)
+		path.map keyx
 		
-	reset : (curr, requiredMoves) ->
-		@curr = curr
-		@remaining  = requiredMoves
-		@history = [curr]
+	reset : (@curr) ->
+		@history = [@curr]
 		@board = @rboard()
 		
-	tick : () ->
-		@remaining =  @remaining - 1
-
 	render : ->
 		div {},
-			@board # signal kräver en funktion
+			@board
 			div {style:"text-align:center; color:red;"},
-				div {}, => keyx(@curr) # signal kräver en funktion med =
-				div {style:"color:black;"}, => @remaining
+				div {}, keyx(@curr)
+				div {style:"color:black;"}, => requiredMoves - @history.length
 
 keyx = ([x,y]) -> "abcdefgh"[x] + "12345678"[y]
 
@@ -97,9 +96,9 @@ renderMoves = (moves) ->
 			div {style:"text-align:center;"}, move
 
 renderHints = ->
-	style1 = "text-align:center; font-weight:bold; padding:2px 6px; border-bottom:1px solid #999;"
-	style2 = "text-align:center; padding:2px 6px; border-bottom:1px solid #ddd;"
-	style3 = "text-align:center; padding:2px 6px;"
+	style0 = "text-align:center; padding:2px 6px;"
+	style1 = style0 + "border-bottom:1px solid #999; font-weight:bold;"
+	style2 = style0 + "border-bottom:1px solid #ddd;"
 	div {},
 		div {style:"text-align:center;"}, =>
 			span {style:"color:green;"}, "#{keyx(target)}"
@@ -116,16 +115,15 @@ renderHints = ->
 					td {}, "#{D[i][1]}"
 					td {}, "#{player2.letters[i]}"
 			tr {},
-				td {style: style3}, "X"
-				td {style: style3, colspan:2}, "undo"
-				td {style: style3}, "M"
+				td {style: style0}, "X"
+				td {style: style0, colspan:2}, "undo"
+				td {style: style0}, "M"
 			tr {},
-				td {style: style3, colspan:4}, "new : space"
+				td {style: style0, colspan:4}, "new : space"
 
 createProblem = (level) ->
 
 	findSolution = (t, reached) ->
-		echo 'findSolution', t
 		path = []
 		curr = keyx t
 		while curr != 'start'
@@ -155,105 +153,71 @@ createProblem = (level) ->
 		t = _.sample front1
 	[start, t, findSolution(t, reached)]
 
-level = 1
-showResults = false
-perfectPath = []
-target = null
-
-start = null
-solution = ""
-requiredMoves = 0
-pendingLevel = null
-
-[start,t,solution] = createProblem level
-target = t
-echo "solution:", solution
-requiredMoves = if solution.trim().length == 0 then 0 else solution.split(' ').length - 1
-
-echo "#{keyx(start)} to #{keyx(target)}"
-player1 = new Player start, "QWERASDF", requiredMoves
-player2 = new Player start, "UIOPHJKL", requiredMoves
-
 startLevel = (newLevel) ->
 	lvl = Math.max 1, newLevel
 	[start,t,solution] = createProblem lvl
 	target  = t
-	requiredMoves = if solution.trim().length == 0 then 0 else solution.split(' ').length - 1
+	perfectPath = if solution.trim().length == 0 then [] else solution.split ' '
+	requiredMoves = perfectPath.length #if solution.trim().length == 0 then 0 else solution.split(' ').length # - 1
+	echo "Solution: #{solution}", "Required moves: #{requiredMoves}"
+	echo 'perfectPath', perfectPath
+
+	player1 = new Player start, "QWERASDFX" # X för undo
+	player2 = new Player start, "UIOPHJKLM" # M för undo
+
 	level = lvl
 	showResults = false
-	echo 'showResults',showResults
-	perfectPath = []
-	player1.reset start, requiredMoves
-	player2.reset start, requiredMoves
+	player1.reset start
+	player2.reset start
 	pressed.clear()
-	echo "solution:", solution
-	echo "#{keyx(start)} to #{keyx(target)}"
 
-pressed = new Set()
-players = [player1, player2]
-undoMap = new Map [
-	['x', player1]
-	['m', player2]
-]
-
-checkEnd = () ->
+checkEnd = ->
 	return unless player1.reached() and player2.reached()
 	p1Perfect = player1.movesTaken() == requiredMoves
 	p2Perfect = player2.movesTaken() == requiredMoves
-	nextLevel = if p1Perfect and p2Perfect then level + 1 else level - 1
-	pendingLevel = nextLevel
-	perfectPath = if solution.trim().length == 0 then [] else solution.split ' '
+	pendingLevel = if p1Perfect and p2Perfect then level + 1 else level - 1
 	showResults = true
-	echo 'showResults',showResults
-	nextLevel
 
 document.addEventListener 'keydown', (e) ->
-	key = e.key.toLowerCase()
+	key = e.key.toUpperCase()
 	isSpace = e.code == 'Space' or key == ' '
 	if showResults
 		if isSpace
 			showResults = false
-			echo 'showResults',showResults
 			perfectPath = []
 			startLevel pendingLevel
 		remount()
 		return
 	return if pressed.has key
 	pressed.add key
-	if undoMap.has key
-		player = undoMap.get(key)
-		if player.reached()
-			remount()
-			return 
-		player.undo()
-		remount()
-		return
-	for player in players
-		idx = player.letters.toLowerCase().indexOf key
+
+	for player in [player1,player2]
+		idx = player.letters.indexOf key
 		if idx != -1
 			if player.reached()
 				remount()
 				return
-			if player.update idx then player.tick()
+			player.update idx
 			checkEnd()
 			remount()
 			return
 
-document.addEventListener 'keyup', (e) ->
-	pressed.delete e.key.toLowerCase()
+document.addEventListener 'keyup', (e) -> pressed.delete e.key.toUpperCase()
 
-remount = ->
+remount = -> # mount som kan upprepas
 	app = document.getElementById("app")
 	app.replaceChildren div {},
 		div {style:"display:flex; gap:20px; align-items:flex-start"},
 			player1.render()
 			div {style:"display:flex; flex-direction:column; align-items:center; gap:8px"},
-				div {style: => if not showResults then "display:flex; gap:16px" else "display:none"},
+				div {style: if not showResults then "display:flex; gap:16px" else "display:none"},
 					renderHints()
-				div {style: => if showResults then "display:flex; gap:16px" else "display:none"},
-					div {}, => renderMoves player1.pathArray(false)
-					div {}, => renderMoves perfectPath
-					div {}, => renderMoves player2.pathArray(false)
+				div {style: if showResults then "display:flex; gap:16px" else "display:none"},
+					div {}, renderMoves player1.pathArray()
+					div {}, renderMoves perfectPath
+					div {}, renderMoves player2.pathArray()
 			player2.render()
 		
+startLevel level
+
 remount()

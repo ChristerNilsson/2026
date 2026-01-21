@@ -1,4 +1,4 @@
-@page { size: A4; margin: 10mm; }
+@page { size: A4; margin: 0; }
 * { box-sizing: border-box; }
 
 body {
@@ -7,21 +7,20 @@ body {
 	color: #000;
 }
 
-/* En utskriftssida = ett A4 */
+/* One print page = one A4 */
 .page {
 	width: 210mm;
 	height: 297mm;
 	padding: 0;
 	display: grid;
-	grid-template-rows: 1fr 1fr; /* två namnskyltar per A4 */
+	grid-template-rows: 1fr 1fr; /* two badges per A4 */
 	page-break-after: always;
 }
 
-/* En namnskylt (som viks): består av två halvor */
+/* One badge (folded): two halves */
 .badge {
-	/* border: 1px solid #000; */
 	display: grid;
-	grid-template-rows: 1fr 1fr; /* två halvor som möts i viklinjen */
+	grid-template-rows: 1fr 1fr; /* two halves per badge */
 }
 
 .half {
@@ -31,63 +30,67 @@ body {
 	text-align: center;
 }
 
-/* Viklinje mellan halvorna */
-.half.top {
-	border-top: 1px solid #000;
-	border-bottom: 1px solid #000;
-}
-
-/* Innehåll: stor och tydlig */
 .content {
 	line-height: 1.0;
 	font-weight: 500;
 	width: 100%;
+	height: 100%;
+	position: absolute;
+	inset: 0;
 }
 
-.tournament {
-	font-size: 32pt;
-	margin-bottom: 6mm;
+.rect {
+	border: 1px solid #000;
+	position: relative;
 }
 
-.rating {
-	font-size: 40pt;
-	margin-bottom: 6mm;
-}
-
-.name {
-	font-size: 40pt;
-	margin-bottom: 16mm;
-	word-break: break-word;
-}
-
-.ad {
-	font-size: 8pt;
-	margin-bottom: 6mm;
-}
-
-.spread {
-	width: min(90vw, 700px);  /* välj en maxbredd så det ser snyggt ut */
-	margin: 40px auto;
-	display: flex;
-	justify-content: space-between; /* detta sprider ut tecknen jämnt */
-	font: 700 10px/1.1 system-ui, sans-serif;
-	letter-spacing: 0; /* vi låter flex sköta spacing */
-}
-
-/* Nedre halvan ska vara upp-och-ned så att den blir rätt efter vikning */
-.half.bottom .content {
+.rect.flip .content {
 	transform: rotate(180deg);
 }
 
-/* Skärmvisning: lite marginal så det ser snyggt ut, påverkar inte print mycket */
+.tournament,
+.name,
+.ad {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	transform: translateY(-50%);
+	text-align: center;
+}
+
+.ad {
+	top: 90%;
+	font-size: 8pt;
+}
+
+.tournament {
+	top: 30%;
+	font-size: 32pt;
+}
+
+.name {
+	top: 60%;
+	font-size: 40pt;
+	word-break: break-word;
+}
+
+.spread {
+	width: min(90vw, 700px);
+	margin: 0 auto;
+	padding-left: 16ch;
+	display: flex;
+	justify-content: space-between;
+	font: 700 10px/1.1 system-ui, sans-serif;
+	letter-spacing: 0;
+}
+
 @media screen {
 	body { background: #fff; }
 	.page { margin: 10mm auto; background: #fff; box-shadow: none; }
-		/* 0 2px 10px rgba(0,0,0,.15); } */
 }
 
-/* Utskrift: ta bort skuggor och extra */
 @media print {
+	html, body { margin: 0; width: 210mm; height: 297mm; }
 	body { background: #fff; }
 	.page { margin: 0; box-shadow: none; }
 }

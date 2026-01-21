@@ -52,9 +52,11 @@ for player in s.split "\n"
 	name = player.slice p
 	players.push {name, rating}
 
-makeHalf = (p,klass) ->
-	div class: "half " + klass,
-		div class: "content", 
+makeRect = (p, flip) ->
+	klass = if flip then "rect flip" else "rect"
+	if not p? then return div class: klass
+	div class: klass,
+		div class: "content",
 			div class: "tournament", TOURNAMENT
 			div class: "name", "#{p.name} #{p.rating}"
 			div class: "ad spread",
@@ -62,9 +64,9 @@ makeHalf = (p,klass) ->
 
 makeBadge = (p) ->
 	if not p? then return ""
-	div class: "badge", 
-		makeHalf p,"bottom"
-		makeHalf p,"top"
+	div class: "badge",
+		makeRect p, true
+		makeRect p, false
 
 makePage = (p1, p2) ->
 	section class: "page",
