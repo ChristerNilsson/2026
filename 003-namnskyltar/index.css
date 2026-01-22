@@ -48,6 +48,14 @@ body {
 	transform: rotate(180deg);
 }
 
+.index {
+	position: absolute;
+	top: 2mm;
+	left: 20mm;
+	font-size: 20pt;
+	text-align: left;
+}
+
 .tournament,
 .name,
 .ad {
