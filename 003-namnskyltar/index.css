@@ -17,13 +17,13 @@ body {
 	page-break-after: always;
 }
 
-/* One badge (folded): two halves */
-.badge {
+/* One half (folded): two quarters */
+.half {
 	display: grid;
-	grid-template-rows: 1fr 1fr; /* two halves per badge */
+	grid-template-rows: 1fr 1fr; /* two quarters per half */
 }
 
-.half {
+.quarter {
 	display: grid;
 	place-items: center;
 	padding: 6mm;

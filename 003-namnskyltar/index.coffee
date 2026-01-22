@@ -67,17 +67,17 @@ makeRect = (p, i, flip) ->
 			div class: "ad spread",
 				span ch for ch in "FAIRPAIR.SE"
 
-makeBadge = (players, i) ->
+makeHalf = (players, i) ->
 	p = players[i]
 	if not p? then return ""
-	div class: "badge",
+	div class: "half",
 		makeRect p, i, true
 		makeRect p, i, false
 
 makePage = (players, i1, i2) ->
 	section class: "page",
-		makeBadge players, i1
-		makeBadge players, i2
+		makeHalf players, i1
+		makeHalf players, i2
 
 html = ""
 
