@@ -15,6 +15,25 @@ body {
 	display: grid;
 	grid-template-rows: 1fr 1fr; /* two badges per A4 */
 	page-break-after: always;
+	position: relative;
+}
+
+.page::before,
+.page::after {
+	content: "";
+	position: absolute;
+	top: 280mm;
+	width: 10mm;
+	height: 0;
+	border-top: 0.4mm solid #000;
+}
+
+.page::before {
+	left: 0;
+}
+
+.page::after {
+	right: 0;
 }
 
 /* One half (folded): two quarters */
@@ -40,8 +59,27 @@ body {
 }
 
 .rect {
-	border: 1px solid #000;
 	position: relative;
+}
+
+.rect::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 10mm;
+	height: 0;
+	border-top: 0.4mm solid #000;
+}
+
+.rect::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 10mm;
+	height: 0;
+	border-top: 0.4mm solid #000;
 }
 
 .rect.flip .content {
@@ -101,4 +139,11 @@ body {
 	html, body { margin: 0; width: 210mm; height: 280mm; }
 	body { background: #fff; }
 	.page { margin: 0; box-shadow: none; }
+	* { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+	.rect::before,
+	.rect::after,
+	.page::before,
+	.page::after {
+		border-top: 0.2mm solid #000;
+	}
 }
