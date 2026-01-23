@@ -22,12 +22,12 @@ s = """
  1865 Leif Lundquist
  1848 Lars-Åke Pettersson
  1842 Sven-Åke Karlsson
- 1838 Johan Sterner
  1824 Ove Hartzell
  1821 Dick Viklund
  1820 Björn Löwgren
  1806 Bo Franzén
  1798 Hans Weström
+ 1791 Johan Sterner
  1785 Lars Ring
  1753 Veine Gustavsson
  1752 Lars Cederfeldt
@@ -50,14 +50,15 @@ s = """
 makeRect = (p, i, flip) ->
 	klass = if flip then "rect flip" else "rect"
 	if not p? then return div class: klass
-	div class: klass + " content",
-		div class: "tournament", 
-			span class: "index","#{i+1}"
-			span TOURNAMENT
-		div class: "name",
-			span "#{p.name} #{p.rating}"
-		div class: "ad spread",
-			span ch for ch in "FAIRPAIR.SE"
+	div class: klass,
+		div class: "content",
+			div class: "tournament", 
+				span class: "index","#{i+1}"
+				span TOURNAMENT
+			div class: "name",
+				span "#{p.name} #{p.rating}"
+			div class: "ad spread",
+				span ch for ch in "FAIRPAIR.SE"
 
 makeHalf = (players, i) ->
 	p = players[i]
