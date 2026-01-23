@@ -47,25 +47,17 @@ s = """
  0 Mikael Lundberg
 """
 
-players = []
-for player in s.split "\n"
-	p = player.indexOf ' '
-	rating = player.slice 0, p
-	name = player.slice p
-	players.push {name, rating}
-
 makeRect = (p, i, flip) ->
 	klass = if flip then "rect flip" else "rect"
 	if not p? then return div class: klass
-	div class: klass,
-		div class: "content",
-			div class: "tournament", 
-				span {class: "index"},"#{i+1}"
-				span TOURNAMENT
-			div {class: "name"},
-				span "#{p.name} #{p.rating}"
-			div class: "ad spread",
-				span ch for ch in "FAIRPAIR.SE"
+	div class: klass + " content",
+		div class: "tournament", 
+			span class: "index","#{i+1}"
+			span TOURNAMENT
+		div class: "name",
+			span "#{p.name} #{p.rating}"
+		div class: "ad spread",
+			span ch for ch in "FAIRPAIR.SE"
 
 makeHalf = (players, i) ->
 	p = players[i]
@@ -78,6 +70,13 @@ makePage = (players, i1, i2) ->
 	section class: "page",
 		makeHalf players, i1
 		makeHalf players, i2
+
+players = []
+for player in s.split "\n"
+	p = player.indexOf ' '
+	rating = player.slice 0, p
+	name = player.slice p
+	players.push {name, rating}
 
 html = ""
 
