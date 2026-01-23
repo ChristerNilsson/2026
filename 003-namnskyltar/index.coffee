@@ -43,7 +43,7 @@ s = """
  1540 Helge Bergström
  1539 Arne Jansson
  1531 Jouko Liistamo
- 0 Ali Koc
+ 0 Ali Koç
  0 Mikael Lundberg
 """
 
