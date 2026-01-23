@@ -10,7 +10,7 @@ body {
 /* One print page = one A4 */
 .page {
 	width: 210mm;
-	height: 297mm;
+	height: 280mm;
 	padding: 0;
 	display: grid;
 	grid-template-rows: 1fr 1fr; /* two badges per A4 */
@@ -34,7 +34,7 @@ body {
 	line-height: 1.0;
 	font-weight: 500;
 	width: 100%;
-	height: 100%;
+	height: 70mm;
 	position: absolute;
 	inset: 0;
 }
@@ -66,24 +66,24 @@ body {
 	text-align: center;
 }
 
-.ad {
-	top: 90%;
-	font-size: 8pt;
-}
-
 .tournament {
-	top: 30%;
+	top: 21mm;
 	font-size: 32pt;
 }
 
 .name {
-	top: 60%;
+	top: 42mm;
 	font-size: 40pt;
 	word-break: break-word;
 }
 
+.ad {
+	top: 63mm;
+	font-size: 8pt;
+}
+
 .spread {
-	width: min(90vw, 700px);
+	width: 700px; 
 	margin: 0 auto;
 	padding-left: 16ch;
 	display: flex;
@@ -98,7 +98,7 @@ body {
 }
 
 @media print {
-	html, body { margin: 0; width: 210mm; height: 297mm; }
+	html, body { margin: 0; width: 210mm; height: 280mm; }
 	body { background: #fff; }
 	.page { margin: 0; box-shadow: none; }
 }
