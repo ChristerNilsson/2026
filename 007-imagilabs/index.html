@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Schackbräde</title>
+  </head>
+  <body>
+    <script>
+
+// Testa att sätta N till tio för att skapa ett 10x10 rutnät!
+// Testa att lägga till en nionde färg!
+// Testa att ändra på squareSize för att göra rutorna större eller mindre!
+
+const N = 8;
+const squareSize = 48;
+
+// Each row is N characters (a-h). Change any character to set that square's color.
+const rows = [
+  "abcdefgh",
+  "hgfedcba",
+  "abcdhgfe",
+  "hgfedcba",
+  "abcdehgf",
+  "hgfedcba",
+  "abcdfhge",
+  "hgfedcba",
+];
+
+// Ändra färgerna här om du vill! Använd 0-9 och a-f för att skapa olika färger.
+// #000 = svart, #fff = vitt. #abc == #aabbcc
+const colorMap = {
+  a: "#f5e6c8",
+  b: "#d9a86c",
+  c: "#b76d4e",
+  d: "#8f4a3b",
+  e: "#5b3b2e",
+  f: "#2b2a2a",
+  g: "#6b8190",
+  h: "#c2d3db"
+};
+
+// RÖR INGET NEDANFÖR DENNA RAD!
+
+const style = document.createElement("style");
+style.textContent = `
+  body {
+    margin: 0;
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    background: #fff;
+  }
+  #chessboard {
+    display: grid;
+    grid-template-columns: repeat(${N}, ${squareSize}px);
+    grid-template-rows: repeat(${N}, ${squareSize}px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  .square {
+    width: ${squareSize}px;
+    height: ${squareSize}px;
+  }
+`;
+document.head.appendChild(style);
+
+const board = document.createElement("div");
+board.id = "chessboard";
+document.body.appendChild(board);
+
+for (let row = 0; row < N; row += 1) {
+  const rowString = rows[row];
+  if (!rowString || rowString.length !== N) {
+    throw new Error(`Row ${row + 1} must be ${N} characters long.`);
+  }
+  for (let col = 0; col < N; col += 1) {
+    const key = rowString[col];
+    const color = colorMap[key] || "#000";
+    const square = document.createElement("div");
+    square.className = "square";
+    square.style.background = color;
+    board.appendChild(square);
+  }
+}      
+
+    </script>
+  </body>
+</html>

@@ -1,12 +1,12 @@
 import random
 
 class Game:
-	def __init__(self, ops, minimum, maximum):
+	def __init__(self, ops, minimum, maximum, level):
 		self.ops = ops
 		self.minimum = minimum
 		self.maximum = maximum
 		self.start = [random.randint(self.minimum,self.maximum), random.randint(self.minimum,self.maximum)]
-		self.n = 4
+		self.n = level
 		self.stack = []
 
 	def calc(self,s,x,y):
@@ -67,9 +67,9 @@ class Game:
 		if y<0: return f"{x}{y}i"
 		return f"{x}"
 
-# game = Game(["x2+", "x2*", "x2/"],[],[])
-game = Game(["x1+:y", "x2*:y2*", "y:x", "yc:x"], -20,20)
-# game = Game(["x1+:y2+","x2+:y1+","x2+:y1-","x1+:y2-","x1-:y2-","x2-:y1-","x2-:y1+","x1-:y2+"], 1,8)
+# game = Game(["x2+", "x2*", "x2/"],[],[]) # shortcut
+game = Game(["x1+:y", "x2*:y2*", "y:x", "yc:x"], -20,20) # p5Complex
+# game = Game(["x1+:y2+","x2+:y1+","x2+:y1-","x1+:y2-","x1-:y2-","x2-:y1-","x2-:y1+","x1-:y2+"], 1,8) # springare
 
 target = game.moveRandomly(game.start)
 game.instructions()
