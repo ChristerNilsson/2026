@@ -89,9 +89,7 @@ export class Game
 		@level = Math.max 1, level
 		@solution = @createProblem @level
 		@showResults = false
-		@player1.done = false
-		@player2.done = false
-		@player1.reset @solution
-		@player2.reset @solution
+		@player1.reset()
+		@player2.reset()
 		@pressed.clear()
 		@solution

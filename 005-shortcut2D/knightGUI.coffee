@@ -15,8 +15,6 @@ game = null
 export pretty = ([x,y]) -> "abcdefgh"[x] + "12345678"[y]
 
 export renderMoves = (moves, cpu) ->
-	echo moves
-	echo cpu
 	div {style:"display:flex; flex-direction:column; gap:2px; min-width:36px; text-align:center;"},
 		div {style:"text-align:center;"}, "#{cpu}"
 		for move in moves
@@ -29,8 +27,6 @@ class Knight extends Game
 	ok : (temp) -> @minimum <= temp[0] <= @maximum and @minimum <= temp[1] <= @maximum
 
 	remount : ->
-		echo @player1.endTime, @player1.startTime
-		echo @player2.endTime, @player2.startTime
 		app = document.getElementById "app"
 		app.replaceChildren div {},
 			div {style:"display:flex; gap:20px; align-items:flex-start"},
@@ -153,7 +149,6 @@ class Player
 			@endTime = performance.now()
 
 		return unless player1.reached() and player2.reached()
-		echo player1.counter, @game.solution.length-1
 		p1Perfect = player1.counter == @game.solution.length - 1
 		p2Perfect = player2.counter == @game.solution.length - 1
 		game.pendingLevel = if p1Perfect and p2Perfect then @game.level + 1 else @game.level - 1
@@ -186,7 +181,7 @@ document.addEventListener 'keydown', (e) ->
 
 document.addEventListener 'keyup', (e) -> game.pressed.delete e.key.toUpperCase()
 
-game = new Knight ["x1+:y2+","x2+:y1+","x2+:y1-","x1+:y2-","x1-:y2-","x2-:y1-","x2-:y1+","x1-:y2+"],0,7,7,2
+game = new Knight ["x1+:y2+","x2+:y1+","x2+:y1-","x1+:y2-","x1-:y2-","x2-:y1-","x2-:y1+","x1-:y2+"],0,7,7,1
 player1 = new Player game,"QWERASDFX" # X för undo
 player2 = new Player game,"UIOPHJKLM" # M för undo
 
