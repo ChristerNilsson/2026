@@ -16,7 +16,7 @@ export pretty = ([x,y]) -> "abcdefgh"[x] + "12345678"[y]
 
 export renderMoves = (moves, cpu) ->
 	div {style:"display:flex; flex-direction:column; gap:2px; min-width:36px; text-align:center;"},
-		div {style:"text-align:center;"}, "#{cpu}"
+		div {style:"text-align:center;"}, "#{cpu.toFixed 2}"
 		for move in moves
 			div {style:"text-align:center;"}, pretty move
 
@@ -27,6 +27,11 @@ class Knight extends Game
 	ok : (temp) -> @minimum <= temp[0] <= @maximum and @minimum <= temp[1] <= @maximum
 
 	remount : ->
+		p1total = @player1.total()
+		p2total = @player2.total()
+		g = 1 + Math.sign p1total - p2total
+		p1col = ['red','black','green'][2-g]
+		p2col = ['red','black','green'][g]
 		app = document.getElementById "app"
 		app.replaceChildren div {},
 			div {style:"display:flex; gap:20px; align-items:flex-start"},
@@ -35,9 +40,9 @@ class Knight extends Game
 					div {style: if not @showResults then "display:flex; gap:16px" else "display:none"},
 						@renderHints()
 					div {style: if @showResults then "display:flex; gap:16px" else "display:none"},
-						div {}, renderMoves [...@player1.history.slice(1), _.last @solution], @player1.total()
-						div {}, renderMoves @solution, "best"
-						div {}, renderMoves [...@player2.history.slice(1), _.last @solution], @player2.total()
+						div {style: "color:#{p1col}"}, renderMoves [...@player1.history.slice(1), _.last @solution], p1total
+						div {}, renderMoves @solution, 0
+						div {style: "color:#{p2col}"}, renderMoves [...@player2.history.slice(1), _.last @solution], p2total
 				@player2.render()
 
 	renderHints : ->
@@ -154,7 +159,7 @@ class Player
 		game.pendingLevel = if p1Perfect and p2Perfect then @game.level + 1 else @game.level - 1
 		game.showResults = true
 
-	total : -> "#{((@endTime - @startTime)/1000 + @counter*10).toFixed 2}"
+	total : -> (@endTime - @startTime)/1000 + @counter*10
 
 document.addEventListener 'keydown', (e) ->
 	key = e.key.toUpperCase()
