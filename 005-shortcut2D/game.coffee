@@ -78,7 +78,9 @@ export class Game
 
 	startLevel : (level) ->
 		@level = Math.max 1, level
+		echo @level
 		@solution = @createProblem @level
+		echo @solution
 		@showResults = false
 		@player1.reset()
 		@player2.reset()
