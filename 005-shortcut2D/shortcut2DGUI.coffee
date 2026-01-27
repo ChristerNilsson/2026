@@ -29,7 +29,7 @@ class Shortcut2D extends Game
 		@ymax = @cy + @size
 
 	createStart : -> [_.random(@xmin,@xmax), _.random(@ymin,@ymax)]
-	pretty : (z) -> @gauss z #"abcdefghijklmnop"[z[0] - 1] + "#{z[1]}"
+	pretty : (z) -> @gauss z
 	ok : (temp) -> @xmin <= temp[0] <= @xmax and @ymin <= temp[1] <= @ymax
 
 	remount : ->
@@ -51,33 +51,39 @@ class Shortcut2D extends Game
 						div {style: "color:#{p2col}"}, renderMoves [...@player2.history.slice(1), _.last @solution], p2total
 				@player2.render()
 
+	translate : (s) ->
+		if s == "x1+:y" then return "+1"
+		if s == "x2*:y2*" then return "*2"
+		if s == "y:x" then return "swap"
+		if s == "yc:x" then return "*i"
+		s
+
 	renderHints : ->
 		style0 = "text-align:center; padding:2px 6px;"
 		style1 = style0 + "border-bottom:1px solid #999; font-weight:bold;"
 		style2 = style0 + "border-bottom:1px solid #ddd;"
 		div {},
-			div {style:"text-align:center;"}, =>
-				span {style:"color:red;"}, "#{@pretty(_.last @solution)}"
+			div {style:"text-align:center;"}, "Shortcut 2D"
+			div {style:"text-align:center; font-size:32px;"}, =>
+				span {style:"color:red;"}, "#{pretty _.last @solution}"
 			table {style:"border-collapse:collapse;"},
 				tr {style: style1},
 					td {}, ""
-					td {}, "dx"
-					td {}, "dy"
+					td {}, "op"
 					td {}, ""
 
-				for i in range 4
+				for i in range @ops.length
 					tr {style: style2},
 						td {}, "#{@player1.letters[i]}"
-						td {}, "#{@ops[i].split(':')[0]}"
-						td {}, "#{@ops[i].split(':')[1]}"
+						td {}, @translate @ops[i]
 						td {}, "#{@player2.letters[i]}"
 
 				tr {},
 					td {style: style0}, "X"
-					td {style: style0, colspan:2}, "undo"
+					td {style: style0, colspan:1}, "undo"
 					td {style: style0}, "M"
 				tr {},
-					td {style: style0, colspan:4}, "new : space"
+					td {style: style0, colspan:3}, "new : space"
 
 	operation : (s,pos) -> # 2D
 		@stack = []
@@ -112,17 +118,28 @@ class Player
 
 		if @curr == null then return null
 
+		dict = {}
+		for i in range @game.ops.length
+			letter = @letters[i]
+			op = @game.ops[i]
+			pos = @game.operation op, @curr
+			if op != 'y:x' or @curr[0] != @curr[1] then dict[pretty(pos)] = letter
+		echo dict
+
 		table {style:"text-align:center;"},
 			for j in range N+1
 				tr {},
 					for i in range N+1
+						letter = dict[pretty([i-N2,N2-j])]
+						if _.isEqual @curr,@target then letter = null
 						base = if (i + j) % 2 == 0 then "background:#b58863" else "background:#f0d9b5"
 						style =
 							if _.isEqual [i-N2,N2-j], @curr then "background:green; color:white; text-align:center;"
 							else if _.isEqual [i-N2,N2-j], @target then "background:red; color:white; text-align:center;"
 							else "#{base}; text-align:center; color:black;"
-						if j==N2 then td {style}, "#{i-N2}" #@letter i,j
-						else if i==N2 then td {style}, "#{N2-j}i" #@letter i,j
+						if letter? then td {style:"background:yellow; color:black;"}, letter
+						else if j==N2 then td {style}, "#{i-N2}"
+						else if i==N2 then td {style}, pretty([0,N2-j])
 						else td {style}, ""
 
 	update : (idx) ->
@@ -158,7 +175,7 @@ class Player
 	render : ->
 		div {},
 			@board
-			div {style:"text-align:center; color:green;"},
+			div {style:"text-align:center; color:green; font-size:32px;"},
 				div {}, pretty(@curr)
 				div {style:"color:black;"}, => @game.solution.length - @history.length
 
@@ -200,7 +217,7 @@ document.addEventListener 'keydown', (e) ->
 
 document.addEventListener 'keyup', (e) -> game.pressed.delete e.key.toUpperCase()
 
-game = new Shortcut2D ["x1+:y","x2*:y2*","y:x","yc:x"], 0,0,5 ,2
+game = new Shortcut2D ["x1+:y","x2*:y2*","y:x","yc:x"], 0,0,5, 2
 player1 = new Player game,"ASDFX" # X för undo
 player2 = new Player game,"HJKLM" # M för undo
 

@@ -57,6 +57,7 @@ export class Game
 		for i in range @level + 1
 			ops = _.clone @ops
 			if front1.length == 0 then break
+			echo 'front1', (@pretty item for item in front1).join ' '
 			front0 = _.clone front1
 			front1 = []
 			for cand in front0
@@ -74,12 +75,16 @@ export class Game
 			key = @pretty curr
 			if key not of path then break
 			curr = path[key]
+		echo res
 		res
 
 	startLevel : (level) ->
 		@level = Math.max 1, level
 		echo @level
+		t0 = performance.now()
 		@solution = @createProblem @level
+		t1 = performance.now()
+		echo t1-t0
 		echo @solution
 		@showResults = false
 		@player1.reset()
