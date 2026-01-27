@@ -1,9 +1,9 @@
-import { button, div, span, table, tr, td } from "https://cdn.jsdelivr.net/gh/sigmentjs/sigment-ng@1.3.4/dist/index.js"
+import { button, div, span, table, tr, td, thead, tbody } from "https://cdn.jsdelivr.net/gh/sigmentjs/sigment-ng@1.3.4/dist/index.js"
 import _ from "https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/lodash.js"
 import {echo, Game} from "./game.js"
 
 N = 20
-N2 = N//2
+N2 = 10
 
 range = _.range
 
@@ -66,7 +66,7 @@ class Shortcut2D extends Game
 			div {style:"text-align:center;"}, "Shortcut 2D"
 			div {style:"text-align:center; font-size:32px;"}, =>
 				span {style:"color:red;"}, "#{pretty _.last @solution}"
-			table {style:"border-collapse:collapse;"},
+			table {style:"border-collapse:collapse; margin:0 auto;"},
 				tr {style: style1},
 					td {}, ""
 					td {}, "op"
@@ -84,6 +84,19 @@ class Shortcut2D extends Game
 					td {style: style0}, "M"
 				tr {},
 					td {style: style0, colspan:3}, "new : space"
+
+			table {style:"border-collapse:separate; border-spacing:12px 0; white-space:nowrap; margin:50px auto 0;"},
+				thead {},
+					tr {style: style1}, 
+						td {},""
+						td {},""
+				tbody {},
+					tr {style: "font-size:32px; color:green; text-align:center;"},
+						td pretty(player1.curr)
+						td pretty(player2.curr)
+					tr {style: "font-size:32px; color:green; text-align:center;"},
+						td {style: "color : black;"}, => @solution.length - player1.history.length
+						td {style: "color : black;"}, => @solution.length - player2.history.length
 
 	operation : (s,pos) -> # 2D
 		@stack = []
@@ -175,9 +188,6 @@ class Player
 	render : ->
 		div {},
 			@board
-			div {style:"text-align:center; color:green; font-size:32px;"},
-				div {}, pretty(@curr)
-				div {style:"color:black;"}, => @game.solution.length - @history.length
 
 	checkEnd : ->
 		if not @done
