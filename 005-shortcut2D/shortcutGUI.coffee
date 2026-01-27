@@ -2,31 +2,27 @@ import { button, div, span, table, tr, td } from "https://cdn.jsdelivr.net/gh/si
 import _ from "https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/lodash.js"
 import {echo, Game} from "./game.js"
 
-N = 8
-
-D = [[-2, 1], [-1, 2], [ 1, 2], [ 2, 1], [-2,-1], [-1,-2], [ 1,-2], [ 2,-1]]
-
 range = _.range
 
 player1 = null
 player2 = null
 game = null
 
-export pretty = ([x,y]) -> "abcdefgh"[x] + "12345678"[y]
+export pretty = ([x,y]) -> "#{x}"
 
-export renderMoves = (moves, cpu) ->
-	if cpu != "result" then cpu = cpu.toFixed 2
+export renderMoves = (cpu,moves) ->
+	if cpu != "result" then cpu = "#{cpu.toFixed 2}"
 	div {style:"display:flex; flex-direction:column; gap:2px; min-width:36px; text-align:center;"},
 		div {style:"text-align:center;"}, cpu
 		for move in moves
 			div {style:"text-align:center;"}, pretty move
 
-class Knight extends Game
-	constructor : (@ops, @minimum, @medium, @maximum, @level) -> super()		
-	createStart : -> [_.random(@minimum,@maximum), _.random(@minimum,@maximum)]
-	pretty : (z) -> "abcdefghijklmnop"[z[0] - 1] + "#{z[1]}"
-	ok : (temp) -> @minimum <= temp[0] <= @maximum and @minimum <= temp[1] <= @maximum
-
+class Shortcut extends Game
+	constructor :  (@ops,@minimum,@medium,@maximum,@level) -> super()
+	createStart : -> @start = [_.random(@minimum, @medium), 0]
+	pretty : (z) -> "#{z[0]}"
+	ok : (temp) -> @minimum <= temp[0] <= @maximum
+ 
 	remount : ->
 		p1total = @player1.total()
 		p2total = @player2.total()
@@ -41,9 +37,9 @@ class Knight extends Game
 					div {style: if not @showResults then "display:flex; gap:16px" else "display:none"},
 						@renderHints()
 					div {style: if @showResults then "display:flex; gap:16px" else "display:none"},
-						div {style: "color:#{p1col}"}, renderMoves [...@player1.history.slice(1), _.last @solution], p1total
-						div {}, renderMoves @solution, "result"
-						div {style: "color:#{p2col}"}, renderMoves [...@player2.history.slice(1), _.last @solution], p2total
+						div {style: "color:#{p1col}"}, renderMoves p1total, [...@player1.history.slice(1), _.last @solution]
+						div {}, renderMoves "result", @solution
+						div {style: "color:#{p2col}"}, renderMoves p2total, [...@player2.history.slice(1), _.last @solution]
 				@player2.render()
 
 	renderHints : ->
@@ -56,30 +52,27 @@ class Knight extends Game
 			table {style:"border-collapse:collapse;"},
 				tr {style: style1},
 					td {}, ""
-					td {}, "dx"
-					td {}, "dy"
+					td {}, "op"
 					td {}, ""
-				for i in range D.length
+				for i in range 3
 					tr {style: style2},
 						td {}, "#{@player1.letters[i]}"
-						td {}, "#{D[i][0]}"
-						td {}, "#{D[i][1]}"
+						td {}, "#{@ops[i].split(':')[0]}"
 						td {}, "#{@player2.letters[i]}"
 				tr {},
 					td {style: style0}, "X"
-					td {style: style0, colspan:2}, "undo"
+					td {style: style0, colspan:1}, "undo"
 					td {style: style0}, "M"
 				tr {},
-					td {style: style0, colspan:4}, "new : space"
+					td {style: style0, colspan:3}, "new : space"
 
-	operation : (s,pos) -> # 2D
+	operation : (s,pos) -> # 1D
 		@stack = []
 		[x,y] = pos
-		[sx,sy] = s.split(':')
+		sx = s
 		x1 = @calc(sx,x,y)
 		if x1 == null then return pos
-		y1 = @calc(sy,x,y)
-		[x1,y1]
+		[x1,0]
 
 class Player
 
@@ -102,35 +95,19 @@ class Player
 
 	rboard : ->
 
-		if @curr == null then return null
-
-		table {style:"text-align:center;"},
-			for j in range N-1,-1,-1
-				tr {},
-					td {style:"text-align:center;"}, "#{(j + 1) % 10}"
-					for i in range N
-						base = if (i + j) % 2 == 0 then "#b58863" else "#f0d9b5"
-						style =
-							if _.isEqual [i,j], @curr then "background:green; color:white; text-align:center;"
-							else if _.isEqual [i,j], @target then "background:red; color:white; text-align:center;"
-							else "background:#{base}; text-align:center;"
-						td {style}, @letter i,j
-			tr {},
-				for i in range N+1
-					td {style:"text-align:center;"}, " abcdefgh"[i]
-
 	update : (idx) ->
-		if idx == 8 then return @undo()
-		
-		[dx, dy] = D[idx]
+		if idx == 3 then return @undo()
 		[x,y] = @curr
-		xdx = x + dx
-		ydy = y + dy
+		ops = @game.ops
+		op = _.last(ops[idx])
+		if "+" == op then xdx = x + 2
+		if "*" == op then xdx = x * 2
+		if "/" == op then xdx = x / 2
 
-		if 0 <= xdx < N and 0 <= ydy < N
+		if 1 <= xdx <= @game.maximum
 			@counter += 1
 			@history.push @curr
-			@curr = [xdx, ydy]
+			@curr = [xdx, 0]
 			@board  = @rboard()
 
 	undo : ->
@@ -196,9 +173,10 @@ document.addEventListener 'keydown', (e) ->
 
 document.addEventListener 'keyup', (e) -> game.pressed.delete e.key.toUpperCase()
 
-game = new Knight ["x1+:y2+","x2+:y1+","x2+:y1-","x1+:y2-","x1-:y2-","x2-:y1-","x2-:y1+","x1-:y2+"],0,7,7,1
-player1 = new Player game,"QWERASDFX" # X för undo
-player2 = new Player game,"UIOPHJKLM" # M för undo
+game = new Shortcut ["x2/", "x2+","x2*"], 1,20,40,3
+
+player1 = new Player game,"ASDX" # X för undo
+player2 = new Player game,"JKLM" # M för undo
 
 game.player1 = player1
 game.player2 = player2

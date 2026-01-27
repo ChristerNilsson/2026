@@ -49,15 +49,6 @@ export class Game
 			if op=='c' then stack.push(-stack.pop())
 		stack.pop()
 
-	operation : (s,pos) ->
-		@stack = []
-		[x,y] = pos
-		[sx,sy] = s.split(':')
-		x1 = @calc(sx,x,y)
-		if x1 == null then return pos
-		y1 = @calc(sy,x,y)
-		[x1,y1]
-
 	createProblem : ->
 		pos = @createStart()
 		visited = [pos]
