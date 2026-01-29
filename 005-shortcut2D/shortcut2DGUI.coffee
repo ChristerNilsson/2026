@@ -63,7 +63,7 @@ class Shortcut2D extends Game
 		style1 = style0 + "border-bottom:1px solid #999; font-weight:bold;"
 		style2 = style0 + "border-bottom:1px solid #ddd;"
 		div {},
-			div {style:"text-align:center;"}, "Shortcut 2D"
+			div {style:"text-align:center; font-size:32px;"}, "Shortcut 2D"
 			div {style:"text-align:center; font-size:32px;"}, =>
 				span {style:"color:red;"}, "#{pretty _.last @solution}"
 			table {style:"border-collapse:collapse; margin:0 auto;"},
@@ -129,6 +129,8 @@ class Player
 
 	rboard : ->
 
+		t0 = performance.now()
+
 		if @curr == null then return null
 
 		dict = {}
@@ -139,7 +141,7 @@ class Player
 			if op != 'y:x' or @curr[0] != @curr[1] then dict[pretty(pos)] = letter
 		echo dict
 
-		table {style:"text-align:center;"},
+		res = table {style:"text-align:center;"},
 			for j in range N+1
 				tr {},
 					for i in range N+1
@@ -154,6 +156,9 @@ class Player
 						else if j==N2 then td {style}, "#{i-N2}"
 						else if i==N2 then td {style}, pretty([0,N2-j])
 						else td {style}, ""
+		t1 = performance.now()
+		echo 'rboard', t1-t0
+		res
 
 	update : (idx) ->
 		if idx == @letters.length - 1 then return @undo()
