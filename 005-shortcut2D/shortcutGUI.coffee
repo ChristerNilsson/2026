@@ -1,4 +1,4 @@
-import { button, div, span, table, tr, td } from "https://cdn.jsdelivr.net/gh/sigmentjs/sigment-ng@1.3.4/dist/index.js"
+import { button, div, h1, span, table, tr, td } from "https://cdn.jsdelivr.net/gh/sigmentjs/sigment-ng@1.3.4/dist/index.js"
 import _ from "https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/lodash.js"
 import {echo, Game} from "./game.js"
 
@@ -11,7 +11,7 @@ game = null
 export pretty = ([x,y]) -> "#{x}"
 
 export renderMoves = (cpu,moves) ->
-	if cpu != "result" then cpu = "#{cpu.toFixed 2}"
+	if cpu != "res" then cpu = "#{cpu.toFixed 2}"
 	div {style:"display:flex; flex-direction:column; gap:2px; min-width:36px; text-align:center;"},
 		div {style:"text-align:center;"}, cpu
 		for move in moves
@@ -30,20 +30,21 @@ class Shortcut extends Game
 		p1col = ['red','black','green'][2-g]
 		p2col = ['red','black','green'][g]
 		app = document.getElementById "app"
-		app.replaceChildren div {},
+		app.replaceChildren div {style: "font-size: 60px; font-family: monospace"},
+			div style:"text-align:center;", "Shortcut"
 			div {style:"display:flex; gap:20px; align-items:flex-start"},
-				@player1.render()
+				if not @showResults then @player1.render()
 				div {style:"display:flex; flex-direction:column; align-items:center; gap:8px"},
 					div {style: if not @showResults then "display:flex; gap:16px" else "display:none"},
 						@renderHints()
 					div {style: if @showResults then "display:flex; gap:16px" else "display:none"},
 						div {style: "color:#{p1col}"}, renderMoves p1total, [...@player1.history.slice(1), _.last @solution]
-						div {}, renderMoves "result", @solution
+						div {}, renderMoves "res", @solution
 						div {style: "color:#{p2col}"}, renderMoves p2total, [...@player2.history.slice(1), _.last @solution]
-				@player2.render()
+				if not @showResults then @player2.render()
 
 	renderHints : ->
-		style0 = "text-align:center; padding:2px 6px;"
+		style0 = "text-align:center; padding:10px 50px;"
 		style1 = style0 + "border-bottom:1px solid #999; font-weight:bold;"
 		style2 = style0 + "border-bottom:1px solid #ddd;"
 		div {},
@@ -100,9 +101,10 @@ class Player
 		[x,y] = @curr
 		ops = @game.ops
 		op = _.last(ops[idx])
+		xdx = null
 		if "+" == op then xdx = x + 2
 		if "*" == op then xdx = x * 2
-		if "/" == op then xdx = x / 2
+		if "/" == op and x % 2 == 0 then xdx = x // 2
 
 		if 1 <= xdx <= @game.maximum
 			@counter += 1
@@ -111,7 +113,7 @@ class Player
 			@board  = @rboard()
 
 	undo : ->
-		if @history.length == 0 then return
+		if @history.length <= 1 then return
 		@curr  = @history.pop()
 		@board = @rboard()
 
