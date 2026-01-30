@@ -43,6 +43,12 @@ class Shortcut extends Game
 						div {style: "color:#{p2col}"}, renderMoves p2total, [...@player2.history.slice(1), _.last @solution]
 				if not @showResults then @player2.render()
 
+	nice : (s) -> 
+		if s=='x2/' then return '/2'
+		if s=='x2+' then return '+2'
+		if s=='x2*' then return '*2'
+		s
+
 	renderHints : ->
 		style0 = "text-align:center; padding:10px 50px;"
 		style1 = style0 + "border-bottom:1px solid #999; font-weight:bold;"
@@ -58,7 +64,7 @@ class Shortcut extends Game
 				for i in range 3
 					tr {style: style2},
 						td {}, "#{@player1.letters[i]}"
-						td {}, "#{@ops[i].split(':')[0]}"
+						td {}, "#{@nice @ops[i]}"
 						td {}, "#{@player2.letters[i]}"
 				tr {},
 					td {style: style0}, "X"
