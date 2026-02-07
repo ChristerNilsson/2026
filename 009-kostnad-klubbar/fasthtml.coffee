@@ -1,4 +1,4 @@
-# Detta är egentligen inte fastHTLM. Jag är bara ute efter taggarna
+# Detta är egentligen inte fastHTML. Jag är bara ute efter taggarna
 
 # Hjälp: är det ett “props-objekt” och inte ett barn?
 isPropsObject = (x) -> 
