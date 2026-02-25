@@ -1,33 +1,30 @@
-import {tag} from '../fasthtml.js'
+import {tag} from './fasthtml.js'
 
 div = tag "div"
 
 NAME_LEN = 21
 NBSP = "\u00A0"
 
-formatName = (name) ->
-	out = name ? ""
-	if out.length > NAME_LEN then out = out.slice 0, NAME_LEN
-	out = out.padEnd NAME_LEN, ' '
-	out.replaceAll " ", NBSP
-
-toSortKey = (name) ->
+toSortKey = (name) -> # name
+	#name = name.textContent
 	out = name ? ""
 	if out.length > NAME_LEN then out = out.slice 0, NAME_LEN
 	out.trim().toLocaleLowerCase 'sv-SE'
 
 export class Select
-	constructor: ({items = [], onCountChange = null} = {}) ->
-		@onCountChange = onCountChange
+	constructor: ({items = [], @onCountChange = null} = {}) ->
+		# @onCountChange = onCountChange
 		@selectedIndex = -1
 		@element = div
 			tabindex: "0"
-			style: "font-family:monospace; font-size:14px; width:360px; height:360px; overflow-y:auto; border:1px solid #999; white-space:pre;"
+			style: "font-family:monospace; font-size:14px; width:370px; height:360px; overflow:auto; border:1px solid #000; white-space:nowrap; word-break:keep-all; overflow-wrap:normal; hyphens:none;"
 
 		@element.addEventListener 'keydown', @onKeydown
+		@element.addEventListener 'focus', => @paintSelection()
+		@element.addEventListener 'blur', => @paintSelection()
 
 		for name in items
-			@addPlayer name
+			@add name
 		@setSelectedIndex 0
 		@notifyCount()
 
@@ -40,16 +37,25 @@ export class Select
 			@selectedIndex = -1
 			return
 
+		if not Number.isFinite(i) then i = 0
 		next = Math.max 0, Math.min i, count - 1
-		for row in @element.children
-			row.style.background = ""
-
 		@selectedIndex = next
+		@paintSelection()
 		row = @element.children[@selectedIndex]
-		row.style.background = "#cfe8ff"
 		row.scrollIntoView block: "nearest"
 
-	sortPlayers: (preferredRow = null) ->
+	paintSelection: ->
+		for row in @element.children
+			row.style.background = ""
+		return if @selectedIndex < 0
+		row = @element.children[@selectedIndex]
+		return unless row?
+		if document.activeElement is @element
+			row.style.background = "#cfe8ff"
+		else
+			row.style.background = "#e8e8e8"
+
+	sort: (preferredRow = null) ->
 		rows = Array::slice.call @element.children
 		rows.sort (a, b) -> a.dataset.sortKey.localeCompare b.dataset.sortKey, 'sv', sensitivity:'base'
 		for row in rows
@@ -94,11 +100,12 @@ export class Select
 
 		@setSelectedIndex target
 
-	addPlayer: (name, pick = false) ->
+	add: (name, pick = false) ->
 		row = div
-			style: "line-height:18px; padding:0 4px; cursor:default;"
+			class: "people"
+			style: "line-height:18px; padding:0 4px; cursor:default; white-space:nowrap; word-break:keep-all; overflow-wrap:normal; hyphens:none;"
 			dataset: sortKey: toSortKey(name)
-			formatName(name)
+			name
 
 		row.addEventListener "click", =>
 			i = Array::indexOf.call @element.children, row
@@ -107,7 +114,7 @@ export class Select
 				@element.focus()
 
 		@element.appendChild row
-		@sortPlayers if pick then row else null
+		@sort if pick then row else null
 
 	removeSelected: ->
 		count = @element.children.length
