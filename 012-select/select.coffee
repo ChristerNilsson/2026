@@ -1,4 +1,4 @@
-import {tag} from './fasthtml.js'
+import {tag} from '../fasthtml.js'
 
 div = tag "div"
 

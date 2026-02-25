@@ -1,4 +1,4 @@
-import {render, tag} from './fasthtml.js'
+import {render, tag} from '../fasthtml.js'
 import {Select} from './select.js'
 
 div = tag "div"
