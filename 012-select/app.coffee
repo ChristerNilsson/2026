@@ -4,16 +4,15 @@ import {render, tag} from './fasthtml.js'
 
 div = tag "div"
 input = tag "input"
-label = tag "label"
 button = tag "button"
 
 # https://svelte.dev/playground/d890871e83244a1ab60653d2e0c84cc3?version=5.53.5
 
 render document.body, div {},
-	inc = input type:"number", value: 2
-	div button {onclick: -> counter.textContent = parseInt(counter.textContent) + parseInt inc.value}, "increment"
-	div	button {onclick: -> counter.textContent = parseInt(counter.textContent) - parseInt inc.value}, "decrement"
-	counter = label 0
+	a = input type:"number", value: 2
+	div button {onclick: -> b.value = parseInt(b.value) + parseInt a.value}, "incr"
+	div button {onclick: -> b.value = parseInt(b.value) - parseInt a.value}, "decr"
+	b = input type:"number", value: 0
 
 
 
