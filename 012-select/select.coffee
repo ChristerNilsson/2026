@@ -124,6 +124,11 @@ export class Select
 		@setSelectedIndex Math.min i, @element.children.length - 1
 		@notifyCount()
 
+	clear: ->
+		@element.innerHTML = ''
+		@selectedIndex = -1
+		@notifyCount()
+
 	focus: ->
 		@element.focus()
 

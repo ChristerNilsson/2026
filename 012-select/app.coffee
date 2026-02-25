@@ -9,6 +9,7 @@ button = tag "button"
 player = null
 ins = null
 del = null
+clear = null
 playerCount = null
 players = null
 
@@ -63,6 +64,7 @@ render document.body, div {},
 	player = input placeholder:'FIDE id', type:"text", style:"width:80px"
 	ins = button 'Insert'
 	del = button 'Delete'
+	clear = button 'Clear'
 	playerCount = label "0"
 	players.element
 
@@ -72,8 +74,16 @@ ins.addEventListener 'click', ->
 	player.value = ""
 	player.focus()
 
+player.addEventListener 'keydown', (e) ->
+	if e.key == 'Enter'
+		e.preventDefault()
+		ins.click()
+
 del.addEventListener 'click', ->
 	players.removeSelected()
+
+clear.addEventListener 'click', ->
+	players.clear()
 
 document.addEventListener 'keydown', (e) ->
 	target = e.target
@@ -86,4 +96,3 @@ document.addEventListener 'keydown', (e) ->
 	else if e.key == 'Delete'
 		e.preventDefault()
 		del.click()
-
