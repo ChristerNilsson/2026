@@ -1,7 +1,7 @@
 import {render, tag} from './fasthtml.js'
 
-MINUTES = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,30,45,60,90]
-SECONDS = [0,1,2,3,4,5,6,7,8,9,10,15,20,25,30]
+MINUTES = [  1,2,3,4,5,10,15,20,25,30,45,60,90]
+SECONDS = [0,1,2,3,4,5,10,15,20,25,30]
 
 # setupStep: 0 choose minutes, 1 choose increment, 2 playing
 setupStep = 0
@@ -23,6 +23,7 @@ timerId = null
 lastTickMs = null
 firstFlag = null # "L" | "R" | null
 started = false
+savedOnFirstA = false
 
 activeField = 0 # 0:Lmin 1:Lsec 2:Rmin 3:Rsec
 
@@ -35,6 +36,11 @@ STORAGE_KEY = "dgt2010.timeSettings"
 toInt = (value, fallback) ->
 	n = Number.parseInt(value, 10)
 	if Number.isFinite(n) then n else fallback
+
+ensureOption = (arr, value) ->
+	return if arr.includes value
+	arr.push value
+	arr.sort (a, b) -> a - b
 
 loadSettings = ->
 	try
@@ -55,6 +61,12 @@ loadSettings = ->
 	rightBaseMin = Math.max 0, toInt(data.rightBaseMin, defaultBase)
 	leftIncrement = ((toInt(data.leftIncrement, defaultIncrement) % 60) + 60) % 60
 	rightIncrement = ((toInt(data.rightIncrement, defaultIncrement) % 60) + 60) % 60
+
+	# Make sure saved setup-compatible values are selectable after refresh.
+	ensureOption MINUTES, leftBaseMin
+	ensureOption SECONDS, leftIncrement
+	min = MINUTES.indexOf leftBaseMin
+	sec = SECONDS.indexOf leftIncrement
 
 saveSettings = ->
 	data =
@@ -169,6 +181,24 @@ startTicker = ->
 	return if timerId?
 	timerId = setInterval tick, 100
 
+enterPlayFromSetup = ->
+	aa = MINUTES[min]
+	dd = SECONDS[sec]
+	setupStep = 2
+	increment = dd
+	leftBaseMin = aa
+	rightBaseMin = aa
+	leftIncrement = dd
+	rightIncrement = dd
+	active = 0
+	paused = true
+	lastTickMs = null
+	firstFlag = null
+	started = false
+	savedOnFirstA = false
+	activeField = 0
+	resetGameClocks()
+
 update = (key) ->
 	if setupStep < 2
 		if key is "+"
@@ -181,22 +211,13 @@ update = (key) ->
 			if setupStep is 0
 				setupStep = 1
 			else
-				aa = MINUTES[min]
-				dd = SECONDS[sec]
-				setupStep = 2
-				increment = dd
-				leftBaseMin = aa
-				rightBaseMin = aa
-				leftIncrement = dd
-				rightIncrement = dd
-				active = 0
-				paused = true
-				lastTickMs = null
-				firstFlag = null
-				started = false
-				activeField = 0
-				resetGameClocks()
-		saveSettings()
+				enterPlayFromSetup()
+		else if key is "A"
+			enterPlayFromSetup()
+			saveSettings()
+			savedOnFirstA = true
+			paused = false
+			lastTickMs = null
 		updateView()
 		return
 
@@ -224,6 +245,9 @@ update = (key) ->
 				lastTickMs = nowMs()
 	else if key is "A"
 		if paused
+			if not started and not savedOnFirstA
+				saveSettings()
+				savedOnFirstA = true
 			paused = false
 			lastTickMs = if started then nowMs() else null
 		else
@@ -233,11 +257,9 @@ update = (key) ->
 	else if key is "+"
 		if paused
 			adjustActiveField 1
-			saveSettings()
 	else if key is "-"
 		if paused
 			adjustActiveField -1
-			saveSettings()
 	else if key is "B"
 		if paused
 			activeField = (activeField + 1) % 4
@@ -248,13 +270,13 @@ render document.body, div {style:{maxWidth:"24em", margin:"0 auto", padding:"1em
 	div {style:{display:"flex", justifyContent:"center", marginBottom:"0.1em"}},
 		clockLabel = label {style:{fontSize:"2em", minWidth:"11ch", textAlign:"center", whiteSpace:"pre"}}, ""
 	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.5em"}},
-		button {style:{width:"8.1em"}, onclick: -> update "L"}, "L"
-		button {style:{width:"8.1em"}, onclick: -> update "R"}, "R"
+		button {style:{width:"8.1em"}, onclick: -> update "L"}, "Left"
+		button {style:{width:"8.1em"}, onclick: -> update "R"}, "Right"
 	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.1em"}},
 		button {style:{width:"4em"}, onclick: -> update "-"}, "-"
 		button {style:{width:"4em"}, onclick: -> update "+"}, "+"
-		button {style:{width:"4em"}, onclick: -> update "A"}, "A"
-		button {style:{width:"4em"}, onclick: -> update "B"}, "B"
+		button {style:{width:"4em"}, onclick: -> update "A"}, "⏯️"
+		button {style:{width:"4em"}, onclick: -> update "B"}, "☑️"
 
 startTicker()
 loadSettings()
