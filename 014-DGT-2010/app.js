@@ -391,15 +391,15 @@ update = function(key) {
       lastTickMs = null;
     }
   } else if (key === "+") {
-    if (paused) {
+    if (paused && started) {
       adjustActiveField(1);
     }
   } else if (key === "-") {
-    if (paused) {
+    if (paused && started) {
       adjustActiveField(-1);
     }
   } else if (key === "B") {
-    if (paused) {
+    if (paused && started) {
       activeField = (activeField + 1) % 4;
     }
   }

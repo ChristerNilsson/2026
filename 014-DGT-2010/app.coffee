@@ -272,13 +272,13 @@ update = (key) ->
 			paused = true
 			lastTickMs = null
 	else if key is "+"
-		if paused
+		if paused and started
 			adjustActiveField 1
 	else if key is "-"
-		if paused
+		if paused and started
 			adjustActiveField -1
 	else if key is "B"
-		if paused
+		if paused and started
 			activeField = (activeField + 1) % 4
 
 	updateView()
