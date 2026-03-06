@@ -300,16 +300,16 @@ update = (key) ->
 	updateView()
 
 render document.body, div {style:{maxWidth:"24em", margin:"0 auto", padding:"1em", fontFamily:"Consolas, 'Courier New', monospace", fontSize:"4em"}},
-	div {style:{display:"flex", justifyContent:"center", marginBottom:"0.1em"}},
-		clockLabel = label {style:{fontSize:"2em", minWidth:"11ch", textAlign:"center", whiteSpace:"pre"}}, ""
-	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.5em"}},
-		button {style:{width:"8.1em", fontSize:"1em"}, onclick: -> update "L"}, "Left"
-		button {style:{width:"8.1em", fontSize:"1em"}, onclick: -> update "R"}, "Right"
-	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.1em"}},
+	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.0em"}},
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "-"}, "➖"
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "+"}, "➕"
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "A"}, "⏯️"
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "B"}, "☑️"
+	div {style:{display:"flex", justifyContent:"center", marginBottom:"0.1em"}},
+		clockLabel = label {style:{fontSize:"2em", minWidth:"11ch", textAlign:"center", whiteSpace:"pre"}}, ""
+	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.3em"}},
+		button {style:{width:"8.1em", fontSize:"2em"}, onclick: -> update "L"}, "Left"
+		button {style:{width:"8.1em", fontSize:"2em"}, onclick: -> update "R"}, "Right"
 
 startTicker()
 loadSettings()
