@@ -122,9 +122,16 @@ setPlayView = ->
 	rp = getParts rightMs
 	mid = "#{if firstFlag is 'L' then '-' else ' '}#{if firstFlag is 'R' then '-' else ' '}"
 	if paused
-		clockLabel.innerHTML = "#{fieldHtml(lp.m, activeField is 0)}:#{fieldHtml(lp.s, activeField is 1)}#{mid}#{fieldHtml(rp.m, activeField is 2)}:#{fieldHtml(rp.s, activeField is 3)}"
+		if not started
+			clockLabel.textContent = "#{String(lp.m).padStart(2, '0')}:#{String(lp.s).padStart(2, '0')}#{mid}#{String(rp.m).padStart(2, '0')}:#{String(rp.s).padStart(2, '0')}"
+		else
+			clockLabel.innerHTML = "#{fieldHtml(lp.m, activeField is 0)}:#{fieldHtml(lp.s, activeField is 1)}#{mid}#{fieldHtml(rp.m, activeField is 2)}:#{fieldHtml(rp.s, activeField is 3)}"
 	else
-		clockLabel.textContent = "#{String(lp.m).padStart(2, '0')}:#{String(lp.s).padStart(2, '0')}#{mid}#{String(rp.m).padStart(2, '0')}:#{String(rp.s).padStart(2, '0')}"
+		leftTicks = active is 0
+		rightTicks = active is 1
+		leftSep = if leftTicks then "<span style='text-decoration:underline'>:</span>" else ":"
+		rightSep = if rightTicks then "<span style='text-decoration:underline'>:</span>" else ":"
+		clockLabel.innerHTML = "#{fieldHtml(lp.m, leftTicks)}#{leftSep}#{fieldHtml(lp.s, leftTicks)}#{mid}#{fieldHtml(rp.m, rightTicks)}#{rightSep}#{fieldHtml(rp.s, rightTicks)}"
 
 updateView = ->
 	setButtonStates()
@@ -216,33 +223,33 @@ update = (key) ->
 			enterPlayFromSetup()
 			saveSettings()
 			savedOnFirstA = true
-			paused = false
+			paused = true
 			lastTickMs = null
 		updateView()
 		return
 
 	if key is "L"
-		if not paused
-			if not started
-				active = 1
-				started = true
-				lastTickMs = nowMs()
-			else if active is 0
-				advanceClock()
-				leftMs += leftIncrement * 1000
-				active = 1
-				lastTickMs = nowMs()
+		if not started
+			active = 1
+			started = true
+			paused = false
+			lastTickMs = nowMs()
+		else if not paused and active is 0
+			advanceClock()
+			leftMs += leftIncrement * 1000
+			active = 1
+			lastTickMs = nowMs()
 	else if key is "R"
-		if not paused
-			if not started
-				active = 0
-				started = true
-				lastTickMs = nowMs()
-			else if active is 1
-				advanceClock()
-				rightMs += rightIncrement * 1000
-				active = 0
-				lastTickMs = nowMs()
+		if not started
+			active = 0
+			started = true
+			paused = false
+			lastTickMs = nowMs()
+		else if not paused and active is 1
+			advanceClock()
+			rightMs += rightIncrement * 1000
+			active = 0
+			lastTickMs = nowMs()
 	else if key is "A"
 		if paused
 			if not started and not savedOnFirstA
