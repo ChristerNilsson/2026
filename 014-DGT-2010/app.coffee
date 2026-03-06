@@ -273,17 +273,17 @@ update = (key) ->
 
 	updateView()
 
-render document.body, div {style:{maxWidth:"24em", margin:"0 auto", padding:"1em", fontFamily:"Consolas, 'Courier New', monospace"}},
+render document.body, div {style:{maxWidth:"24em", margin:"0 auto", padding:"1em", fontFamily:"Consolas, 'Courier New', monospace", fontSize:"4em"}},
 	div {style:{display:"flex", justifyContent:"center", marginBottom:"0.1em"}},
 		clockLabel = label {style:{fontSize:"2em", minWidth:"11ch", textAlign:"center", whiteSpace:"pre"}}, ""
 	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.5em"}},
-		button {style:{width:"8.1em"}, onclick: -> update "L"}, "Left"
-		button {style:{width:"8.1em"}, onclick: -> update "R"}, "Right"
+		button {style:{width:"8.1em", fontSize:"1em"}, onclick: -> update "L"}, "Left"
+		button {style:{width:"8.1em", fontSize:"1em"}, onclick: -> update "R"}, "Right"
 	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.1em"}},
-		button {style:{width:"4em"}, onclick: -> update "-"}, "➖"
-		button {style:{width:"4em"}, onclick: -> update "+"}, "➕"
-		button {style:{width:"4em"}, onclick: -> update "A"}, "⏯️"
-		button {style:{width:"4em"}, onclick: -> update "B"}, "☑️"
+		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "-"}, "➖"
+		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "+"}, "➕"
+		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "A"}, "⏯️"
+		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "B"}, "☑️"
 
 startTicker()
 loadSettings()
