@@ -11,8 +11,10 @@ Startläge: [90]:30
 		- [89]:30
 		+ [91]:30
 		A 90:30 90:30
-			L 90:30 [90:30] (höger tickar)
-			R [90:30] 90:30 (vänster tickar)
+			L 90:30 [MM:SS] (höger tickar)
+				A [MM]:SS MM:SS
+			R [MM:SS] 90:30 (vänster tickar)
+				A [MM]:SS MM:SS
 		B 90:[30] 90:30
 	B 90:[30]
 		B [90]:30
@@ -284,6 +286,7 @@ update = (key) ->
 			advanceClock()
 			paused = true
 			lastTickMs = null
+			activeField = 0
 	else if key is "+"
 		if paused and activeField isnt -1
 			adjustActiveField 1
