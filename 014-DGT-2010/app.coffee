@@ -1,5 +1,23 @@
 import {render, tag} from './fasthtml.js'
 
+###
+Specifikation: 
+Med [90] menas att 90 är understruket
+
+Startläge: [90]:30
+	- [60]:30
+	+ [01]:30
+	A [90]:30 90:30
+		- [89]:30
+		+ [91]:30
+		A 90:30 90:30
+			L 90:30 [90:30] (höger tickar)
+			R [90:30] 90:30 (vänster tickar)
+		B 90:[30] 90:30
+	B 90:[30]
+		B [90]:30
+###
+
 MINUTES = [  1,2,3,4,5,10,15,20,25,30,45,60,90]
 SECONDS = [0,1,2,3,4,5,10,15,20,25,30]
 
@@ -126,10 +144,7 @@ setPlayView = ->
 		return
 	mid = "#{if firstFlag is 'L' then '-' else ' '}#{if firstFlag is 'R' then '-' else ' '}"
 	if paused
-		if not started
-			clockLabel.textContent = "#{String(lp.m).padStart(2, '0')}:#{String(lp.s).padStart(2, '0')}#{mid}#{String(rp.m).padStart(2, '0')}:#{String(rp.s).padStart(2, '0')}"
-		else
-			clockLabel.innerHTML = "#{fieldHtml(lp.m, activeField is 0)}:#{fieldHtml(lp.s, activeField is 1)}#{mid}#{fieldHtml(rp.m, activeField is 2)}:#{fieldHtml(rp.s, activeField is 3)}"
+		clockLabel.innerHTML = "#{fieldHtml(lp.m, activeField is 0)}:#{fieldHtml(lp.s, activeField is 1)}#{mid}#{fieldHtml(rp.m, activeField is 2)}:#{fieldHtml(rp.s, activeField is 3)}"
 	else
 		leftTicks = active is 0
 		rightTicks = active is 1
@@ -225,10 +240,7 @@ update = (key) ->
 			if setupStep is 0 then min = (min - 1 + MINUTES.length) % MINUTES.length
 			else sec = (sec - 1 + SECONDS.length) % SECONDS.length
 		else if key is "B"
-			if setupStep is 0
-				setupStep = 1
-			else
-				enterPlayFromSetup()
+			setupStep = (setupStep + 1) % 2
 		else if key is "A"
 			enterPlayFromSetup()
 			saveSettings()
@@ -262,23 +274,24 @@ update = (key) ->
 			lastTickMs = nowMs()
 	else if key is "A"
 		if paused
-			if not started and not savedOnFirstA
-				saveSettings()
-				savedOnFirstA = true
-			paused = false
-			lastTickMs = if started then nowMs() else null
+			if not started
+				activeField = if activeField is -1 then 0 else -1
+				lastTickMs = null
+			else
+				paused = false
+				lastTickMs = nowMs()
 		else
 			advanceClock()
 			paused = true
 			lastTickMs = null
 	else if key is "+"
-		if paused and started
+		if paused and activeField isnt -1
 			adjustActiveField 1
 	else if key is "-"
-		if paused and started
+		if paused and activeField isnt -1
 			adjustActiveField -1
 	else if key is "B"
-		if paused and started
+		if paused and activeField isnt -1
 			activeField = (activeField + 1) % 4
 
 	updateView()
