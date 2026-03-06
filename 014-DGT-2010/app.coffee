@@ -22,6 +22,7 @@ paused = false
 timerId = null
 lastTickMs = null
 firstFlag = null # "L" | "R" | null
+gameOver = false
 started = false
 savedOnFirstA = false
 
@@ -120,6 +121,9 @@ setSetupView = ->
 setPlayView = ->
 	lp = getParts leftMs
 	rp = getParts rightMs
+	if gameOver
+		clockLabel.textContent = "#{String(lp.m).padStart(2, '0')}:#{String(lp.s).padStart(2, '0')}  #{String(rp.m).padStart(2, '0')}:#{String(rp.s).padStart(2, '0')}"
+		return
 	mid = "#{if firstFlag is 'L' then '-' else ' '}#{if firstFlag is 'R' then '-' else ' '}"
 	if paused
 		if not started
@@ -151,16 +155,18 @@ advanceClock = ->
 		leftMs = leftMs - delta
 		if leftMs <= 0
 			leftMs = 0
+			gameOver = true
 			paused = true
 			lastTickMs = null
-			if not firstFlag? then firstFlag = "L"
+			firstFlag = null
 	else
 		rightMs = rightMs - delta
 		if rightMs <= 0
 			rightMs = 0
+			gameOver = true
 			paused = true
 			lastTickMs = null
-			if not firstFlag? then firstFlag = "R"
+			firstFlag = null
 
 adjustActiveField = (delta) ->
 	lp = getParts leftMs
@@ -201,12 +207,16 @@ enterPlayFromSetup = ->
 	paused = true
 	lastTickMs = null
 	firstFlag = null
+	gameOver = false
 	started = false
 	savedOnFirstA = false
 	activeField = 0
 	resetGameClocks()
 
 update = (key) ->
+	if gameOver and setupStep is 2
+		return
+
 	if setupStep < 2
 		if key is "+"
 			if setupStep is 0 then min = (min + 1) % MINUTES.length
