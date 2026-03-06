@@ -308,8 +308,8 @@ render document.body, div {style:{maxWidth:"24em", margin:"0 auto", padding:"1em
 	div {style:{display:"flex", justifyContent:"center", marginBottom:"0.1em"}},
 		clockLabel = label {style:{fontSize:"2em", minWidth:"11ch", textAlign:"center", whiteSpace:"pre"}}, ""
 	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.3em"}},
-		button {style:{width:"8.1em", fontSize:"2em"}, onclick: -> update "L"}, "Left"
-		button {style:{width:"8.1em", fontSize:"2em"}, onclick: -> update "R"}, "Right"
+		button {style:{width:"8.1em", fontSize:"2em"}, onclick: -> update "L"}, "L"
+		button {style:{width:"8.1em", fontSize:"2em"}, onclick: -> update "R"}, "R"
 
 startTicker()
 loadSettings()
