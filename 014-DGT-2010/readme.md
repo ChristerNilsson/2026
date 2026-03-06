@@ -18,6 +18,7 @@ Understruket tal innebär att **+** och **-** kan användas på det talet.
 
 ### Skillnader gentemot originalklockan
 * Man ställer enbart in minuter med basen. Inte timmar, inte sekunder.
+* Man ställer enbart in sekunder med inkrementet. Inte minuter.
 * Båda spelarnas tider ställs in samtidigt
 * Man behöver inte komma ihåg vad optionerna står för. Dvs 17 = 90 + 30 osv
 
