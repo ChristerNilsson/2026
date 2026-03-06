@@ -16,8 +16,12 @@ Startläge: [90]:30
 			R [MM:SS] 90:30 (vänster tickar)
 				A [MM]:SS MM:SS
 		B 90:[30] 90:30
+		L NIX
+		R NIX
 	B 90:[30]
 		B [90]:30
+	L NIX
+	R NIX
 ###
 
 MINUTES = [  1,2,3,4,5,10,15,20,25,30,45,60,90]
@@ -253,7 +257,7 @@ update = (key) ->
 		return
 
 	if key is "L"
-		if not started
+		if not started and activeField is -1
 			active = 1
 			started = true
 			paused = false
@@ -264,7 +268,7 @@ update = (key) ->
 			active = 1
 			lastTickMs = nowMs()
 	else if key is "R"
-		if not started
+		if not started and activeField is -1
 			active = 0
 			started = true
 			paused = false
