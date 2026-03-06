@@ -2,7 +2,7 @@
 
 Detta är ett förslag som ska göra DGT 2010 lättare att använda.  
 
-Understruket tal innebär att **+** och **-** kan användas pådet talet.  
+Understruket tal innebär att **+** och **-** kan användas på det talet.  
 
 * Om klockan är inställd på rätt antal **minuter**, trycker man på **B**
   * Annars använder man **+** och **-**
@@ -24,8 +24,9 @@ Understruket tal innebär att **+** och **-** kan användas pådet talet.
 ### Hantering av extra kvart.
 * Maxtid är 99 minuter.
 * Vill man ställa in 90+15=105, kan man istället öka inkrementet med 15.
+  * Blir samma sak för 60 drag.
 ```
-90+30 105+30
+90 + 30 vs 105 + 30
 blir då istället
-90+30 90+45
+90 + 30 vs 90 + 45
 ```
