@@ -24,6 +24,8 @@ Startläge: [90]:30
 	R NIX
 ###
 
+# todo: Tillåt tre siffror för minuter. Lätt att nå över 99 minuter med vissa increment, i spelöppningen.
+
 MINUTES = [  1,2,3,4,5,10,15,20,25,30,45,60,90]
 SECONDS = [0,1,2,3,4,5,10,15,20,25,30]
 
