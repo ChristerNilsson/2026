@@ -51,6 +51,7 @@ firstFlag = null # "L" | "R" | null
 gameOver = false
 started = false
 savedOnFirstA = false
+setupDirty = false
 
 activeField = 0 # 0:Lmin 1:Lsec 2:Rmin 3:Rsec
 
@@ -89,11 +90,8 @@ loadSettings = ->
 	leftIncrement = ((toInt(data.leftIncrement, defaultIncrement) % 60) + 60) % 60
 	rightIncrement = ((toInt(data.rightIncrement, defaultIncrement) % 60) + 60) % 60
 
-	# Make sure saved setup-compatible values are selectable after refresh.
-	ensureOption MINUTES, leftBaseMin
-	ensureOption SECONDS, leftIncrement
-	min = MINUTES.indexOf leftBaseMin
-	sec = SECONDS.indexOf leftIncrement
+	# Setup (duo) comes from setupMin/setupSec; quad is restored separately.
+	setupDirty = false
 
 saveSettings = ->
 	data =
@@ -206,6 +204,7 @@ adjustActiveField = (delta) ->
 	else if activeField is 3
 		rightIncrement = ((rp.s + delta) % 60 + 60) % 60
 		setParts false, rp.m, rightIncrement
+	saveSettings()
 
 tick = ->
 	return if setupStep < 2
@@ -217,15 +216,18 @@ startTicker = ->
 	return if timerId?
 	timerId = setInterval tick, 100
 
-enterPlayFromSetup = ->
+enterPlayFromSetup = (reuseSavedQuad = false) ->
 	aa = MINUTES[min]
 	dd = SECONDS[sec]
 	setupStep = 2
-	increment = dd
-	leftBaseMin = aa
-	rightBaseMin = aa
-	leftIncrement = dd
-	rightIncrement = dd
+	if reuseSavedQuad
+		increment = leftIncrement
+	else
+		increment = dd
+		leftBaseMin = aa
+		rightBaseMin = aa
+		leftIncrement = dd
+		rightIncrement = dd
 	active = 0
 	paused = true
 	lastTickMs = null
@@ -244,17 +246,20 @@ update = (key) ->
 		if key is "+"
 			if setupStep is 0 then min = (min + 1) % MINUTES.length
 			else sec = (sec + 1) % SECONDS.length
+			setupDirty = true
 		else if key is "-"
 			if setupStep is 0 then min = (min - 1 + MINUTES.length) % MINUTES.length
 			else sec = (sec - 1 + SECONDS.length) % SECONDS.length
+			setupDirty = true
 		else if key is "B"
 			setupStep = (setupStep + 1) % 2
 		else if key is "A"
-			enterPlayFromSetup()
+			enterPlayFromSetup not setupDirty
 			saveSettings()
 			savedOnFirstA = true
 			paused = true
 			lastTickMs = null
+			setupDirty = false
 		updateView()
 		return
 
