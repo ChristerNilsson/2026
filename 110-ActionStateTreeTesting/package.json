@@ -1,0 +1,8 @@
+{
+  "name": "action-state-tree-testing",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node sketch.js"
+  }
+}

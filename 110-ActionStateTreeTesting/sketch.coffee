@@ -17,7 +17,7 @@ op = (state, value) ->
 	{...state, a, hist}
 
 script = """
-{"a":15,"b":1,"hist":[]}
+{"a":17,"b":1,"hist":[]}
 	A 17 B 1
 	ADD 
 		@ {"a":19,"b":1,"hist":[17]}

@@ -1,11 +1,17 @@
-assert = chai.assert.deepEqual
+import {isDeepStrictEqual} from 'node:util'
+
+assert = (x,y) ->
+	if not isDeepStrictEqual x,y
+		throw new Error 'Assertion failed'
 
 export testReducer = (script,reducers,stack) ->
 
 	states = [] 
+	halted = false
 
 	run = ->
 		for line,nr in script.split '\n'
+			break if halted
 			runTest line,nr
 
 	runTest = (line,nr) ->
@@ -16,11 +22,15 @@ export testReducer = (script,reducers,stack) ->
 		arr = line.split ' '
 		state = states[index-1] 
 		for cmd in arr	
+			break if halted
 			state = rpn cmd,state,nr 
+		return if halted
 		states[index] = state 
-		while stack.length >= 2
+		while stack.length >= 2 and not halted
 			rpn '==',state,nr
-		if stack.length == 1 then console.log "Orphan in line #{nr+1}"
+		if stack.length == 1
+			console.log "Orphan in line #{nr+1}"
+			halted = true
 
 	rpn = (cmd,state,nr) ->
 		if cmd == '@'
@@ -39,12 +49,14 @@ export testReducer = (script,reducers,stack) ->
 				console.log 'Assert failure in line ' + (nr + 1)
 				console.log '  Expect', JSON.stringify x
 				console.log '  Actual', JSON.stringify y
+				halted = true
 			return state
 		try
 			stack.push JSON.parse cmd
 		catch
 			console.log 'JSON.parse failure in line ' + (nr + 1)
 			console.log '  ',cmd
+			halted = true
 		return state
 
 	countTabs = (line) ->
