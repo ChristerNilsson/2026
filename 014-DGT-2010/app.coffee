@@ -24,9 +24,10 @@ paused = false
 timerId = null
 lastTickMs = null
 
+a = tag "a"
+button = tag "button"
 div = tag "div"
 label = tag "label"
-button = tag "button"
 
 STORAGE_KEY = "dgt2010.timeSettings"
 
@@ -392,6 +393,7 @@ update = (key) ->
 	updateView()
 
 render document.body, div {style:{maxWidth:"24em", margin:"0 auto", padding:"1em", fontFamily:"Consolas, 'Courier New', monospace", fontSize:"4em"}},
+	a {href:"https://github.com/ChristerNilsson/2026/blob/main/014-DGT-2010/readme.md", style:{position:"absolute", top:"0.5em", left:"0.5em", textDecoration:"none"}}, "Help"
 	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.0em"}},
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "-"}, "➖"
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "+"}, "➕"
