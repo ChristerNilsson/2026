@@ -394,9 +394,9 @@ update = (key) ->
 
 	updateView()
 
-render document.body, div {style:{maxWidth:"16em", margin:"0 auto", padding:"1em", fontFamily:"Consolas, 'Courier New', monospace", fontSize:"2em"}},
+render document.body, div {style:{maxWidth:"16em", margin:"0 auto", padding:"1em", fontFamily:"Consolas, 'Courier New', monospace", fontSize:"4em"}},
 	a {href:HELP, style:{position:"absolute", top:"0.1em", left:"0.1em", textDecoration:"none"}, target:"_blank"}, "Help"
-	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.0em"}},
+	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.5em"}},
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "-"}, "➖"
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "+"}, "➕"
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "A"}, "⏯️"
@@ -407,6 +407,6 @@ render document.body, div {style:{maxWidth:"16em", margin:"0 auto", padding:"1em
 		button {style:{width:"16.1em", fontSize:"2em"}, onclick: -> update "L"}, "\u00A0"
 		button {style:{width:"16.1em", fontSize:"2em"}, onclick: -> update "R"}, "\u00A0"
 
-startTicker() #
-loadSettings() # 
-updateView() #
+startTicker()
+loadSettings()
+updateView()
