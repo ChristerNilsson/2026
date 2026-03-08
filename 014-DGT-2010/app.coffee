@@ -12,10 +12,10 @@ state =
 	quad: [MINUTES[MINUTES.length - 1], SECONDS[SECONDS.length - 1], MINUTES[MINUTES.length - 1], SECONDS[SECONDS.length - 1]]
 	used: 0
 
-leftBaseMin = state.duo[0]
-rightBaseMin = state.duo[0]
-leftIncrement = state.duo[1]
-rightIncrement = state.duo[1]
+leftMin = state.duo[0]
+rightMin = state.duo[0]
+leftSec = state.duo[1]
+rightSec = state.duo[1]
 
 leftMs = 0
 rightMs = 0
@@ -104,24 +104,12 @@ applyStart = (state, side) ->
 		withUsed {...state, state:[3, side]}, (if side is 0 then USED_L else USED_R), true
 
 reducers = 
-	NEG: (state) -> 
-		echo "NEG", state
-		adjustStateValue state, -1, USED_NEG
-	POS: (state) -> 
-		echo "POS", state
-		adjustStateValue state, 1, USED_POS
-	A: (state) -> 
-		echo 'A', state
-		applyA state
-	B: (state) -> 
-		echo 'B', state
-		applyB state
-	L: (state) -> 
-		echo 'L', state
-		applyStart state, 0
-	R: (state) -> 
-		echo 'R', state
-		applyStart state, 1
+	NEG: (state) -> adjustStateValue state, -1, USED_NEG
+	POS: (state) -> adjustStateValue state, 1, USED_POS
+	A: (state) -> applyA state
+	B: (state) -> applyB state
+	L: (state) -> applyStart state, 0
+	R: (state) -> applyStart state, 1
 
 script = """
 {"state":[0,0], "duo":[90,30], "quad":[91,31,92,32], "used":0}
@@ -177,10 +165,10 @@ loadSettings = ->
 
 	defaultBase = state.duo[0]
 	defaultIncrement = state.duo[1]
-	leftBaseMin = Math.max 0, toInt(data.leftBaseMin, defaultBase)
-	rightBaseMin = Math.max 0, toInt(data.rightBaseMin, defaultBase)
-	leftIncrement = ((toInt(data.leftIncrement, defaultIncrement) % 60) + 60) % 60
-	rightIncrement = ((toInt(data.rightIncrement, defaultIncrement) % 60) + 60) % 60
+	leftMin = Math.max 0, toInt(data.leftMin, defaultBase)
+	rightMin = Math.max 0, toInt(data.rightMin, defaultBase)
+	leftSec = ((toInt(data.leftSec, defaultIncrement) % 60) + 60) % 60
+	rightSec = ((toInt(data.rightSec, defaultIncrement) % 60) + 60) % 60
 
 	# Setup (duo) restored; runtime returns to setup mode.
 	state.state = [0, 0]
@@ -192,10 +180,10 @@ saveSettings = ->
 	data =
 		setupMin: MINUTES.indexOf(state.duo[0])
 		setupSec: SECONDS.indexOf(state.duo[1])
-		leftBaseMin: leftBaseMin
-		rightBaseMin: rightBaseMin
-		leftIncrement: leftIncrement
-		rightIncrement: rightIncrement
+		leftMin: leftMin
+		rightMin: rightMin
+		leftSec: leftSec
+		rightSec: rightSec
 	try
 		echo "Saving settings", data
 		localStorage.setItem STORAGE_KEY, JSON.stringify(data)
@@ -222,8 +210,8 @@ setParts = (isLeft, m, s) ->
 	if isLeft then leftMs = totalMs else rightMs = totalMs
 
 resetGameClocks = ->
-	leftMs = ((leftBaseMin * 60) + leftIncrement) * 1000
-	rightMs = ((rightBaseMin * 60) + rightIncrement) * 1000
+	leftMs = ((leftMin * 60) + leftSec) * 1000
+	rightMs = ((rightMin * 60) + rightSec) * 1000
 
 fieldHtml = (value, selected) ->
 	text = String(value).padStart(2, '0')
@@ -287,17 +275,17 @@ adjustActiveField = (delta) ->
 	lp = getParts leftMs
 	rp = getParts rightMs
 	if state.state[1] is 0
-		leftBaseMin = Math.max 0, lp.m + delta
-		setParts true, leftBaseMin, lp.s
+		leftMin = Math.max 0, lp.m + delta
+		setParts true, leftMin, lp.s
 	else if state.state[1] is 1
-		leftIncrement = ((lp.s + delta) % 60 + 60) % 60
-		setParts true, lp.m, leftIncrement
+		leftSec = ((lp.s + delta) % 60 + 60) % 60
+		setParts true, lp.m, leftSec
 	else if state.state[1] is 2
-		rightBaseMin = Math.max 0, rp.m + delta
-		setParts false, rightBaseMin, rp.s
+		rightMin = Math.max 0, rp.m + delta
+		setParts false, rightMin, rp.s
 	else if state.state[1] is 3
-		rightIncrement = ((rp.s + delta) % 60 + 60) % 60
-		setParts false, rp.m, rightIncrement
+		rightSec = ((rp.s + delta) % 60 + 60) % 60
+		setParts false, rp.m, rightSec
 	if not hasUsed(USED_START) then saveSettings()
 
 tick = ->
@@ -315,12 +303,12 @@ enterPlayFromSetup = (reuseSavedQuad = false) ->
 	dd = state.duo[1]
 	state.state = [2, 0]
 	if reuseSavedQuad
-		state.quad = [leftBaseMin, leftIncrement, rightBaseMin, rightIncrement]
+		state.quad = [leftMin, leftSec, rightMin, rightSec]
 	else
-		leftBaseMin = aa
-		rightBaseMin = aa
-		leftIncrement = dd
-		rightIncrement = dd
+		leftMin = aa
+		rightMin = aa
+		leftSec = dd
+		rightSec = dd
 		state.quad = [aa, dd, aa, dd]
 	active = 0
 	paused = true
@@ -372,7 +360,7 @@ update = (key) ->
 			lastTickMs = nowMs()
 		else if not paused and active is 0
 			advanceClock()
-			leftMs += leftIncrement * 1000
+			leftMs += leftSec * 1000
 			active = 1
 			lastTickMs = nowMs()
 	else if key is "R"
@@ -384,7 +372,7 @@ update = (key) ->
 			lastTickMs = nowMs()
 		else if not paused and active is 1
 			advanceClock()
-			rightMs += rightIncrement * 1000
+			rightMs += rightSec * 1000
 			active = 0
 			lastTickMs = nowMs()
 	else if key is "A"

@@ -2,29 +2,47 @@
 
 Detta är ett förslag som ska göra DGT 2010 lättare att använda.  
 
+Knapparna är - + A B  
+Knapparna då man spelar heter L och R  
 Understruket tal innebär att **+** och **-** kan användas på det talet.  
+Grova minuter: ```1 2 3 4 5 10 15 20 25 30 45 60 90```  
+Grova sekunder: ```0 1 2 3 4 5 10 15 20 25 30```  
+Grova tider, ex: ```03:02 10:05 12:00 15:10 45:15 90:30```  
+Fina tider, ex: ```06:07```  
 
-* Om klockan är inställd på rätt antal **minuter**, trycker man på **B**
-  * Annars använder man **+** och **-**
-* Om klockan är inställd på rätt antal **sekunder**, trycker man på **B**
-  * Annars använder man **+** och **-**
-* Vill man justera någon spelares tid individuellt
-  * Välj tal med **B**
-  * Justera med **+** och **-**
-* Därefter trycker man på **A**.
-* Sätt igång klockan med **L** eller **R**
-* Pausa med **A** vid behov.
-  * Då kan man även lägga till tilläggstid
+Efter att ha startat programmet, ser du t ex <u>90</u>:30 och har följande val:
+* **-** minskar markerat tal, t ex 90 blir 60
+* **+** ökar markerat tal, t ex 60 blir 90
+* **B** går till nästa tal, t ex 90:<u>30</u>
+* **A** går till finjusteringen, t ex <u>90</u>:30 90:30
+* **L** startar klockan
+* **R** startar klockan
+
+Nu ser du t ex <u>90</u>:30 90:30.  
+Här kan du finjustera både minuter och sekunder samt införa handikapp
+* **-** => <u>89</u>:30 90:30
+* **+** => <u>90</u>:30 90:30
+* **B** => 90:<u>30</u> 90:30
+* **A** => 90:30 90:30
+* **L** startar klockan
+* **R** startar klockan
+
+När du startat någon klocka, kan du pausa med **A**. Fortsätt med **A** igen.  
+Vill du justera en klocka, använd **B**
+
+#### Genvägar
+Refresh **L** eller **R** => Den grovinställda tiden används  
+Refresh **A** => Visar fininställd tid. Starta med **L** eller **R**  
 
 ### Skillnader gentemot originalklockan
-* Man ställer enbart in minuter med basen. Inte timmar, inte sekunder.
-* Man ställer enbart in sekunder med inkrementet. Inte minuter.
+* Du ställer enbart in minuter med basen. Inte timmar, inte sekunder.
+* Du ställer enbart in sekunder med inkrementet. Inte minuter.
 * Båda spelarnas tider ställs in samtidigt
-* Man behöver inte komma ihåg vad optionerna står för. Dvs 17 = 90 + 30 osv
+* Du behöver inte komma ihåg vad optionerna står för. Dvs 17 = 90 + 30 osv
 
 ### Hantering av extra kvart.
 * Maxtid är 99 minuter.
-* Vill man ställa in 90+15=105, kan man istället öka inkrementet med 15.
+* Vill du ställa in 90+15=105, kan du istället öka inkrementet med 15.
   * Blir samma sak för 60 drag.
 ```
 90 + 30 vs 105 + 30
