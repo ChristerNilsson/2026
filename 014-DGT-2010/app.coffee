@@ -38,31 +38,6 @@ button = tag "button"
 
 STORAGE_KEY = "dgt2010.timeSettings"
 
-
-###
-Specifikation: 
-Med [90] menas att 90 är understruket
-
-Startläge: [90]:30
-	- [60]:30
-	+ [01]:30
-	A [90]:30 90:30
-		- [89]:30
-		+ [91]:30
-		A 90:30 90:30
-			L 90:30 [MM:SS] (höger tickar)
-				A [MM]:SS MM:SS
-			R [MM:SS] 90:30 (vänster tickar)
-				A [MM]:SS MM:SS
-		B 90:[30] 90:30
-		L NIX
-		R NIX
-	B 90:[30]
-		B [90]:30
-	L NIX
-	R NIX
-###
-
 mystack = []
 
 USED_POS = 0x01
@@ -118,6 +93,18 @@ applyB = (state) ->
 	else
 		withUsed state, USED_B, true
 
+applyStart = (state, side) ->
+	phase = state.state[0]
+	if phase is 0
+		duo0 = state.duo[0]
+		duo1 = state.duo[1]
+		quad = [duo0, duo1, duo0, duo1]
+		withUsed {...state, state:[3, side], quad}, if side is 0 then USED_L else USED_R, true
+	else if phase is 1
+		withUsed {...state, state:[3, side]}, if side is 0 then USED_L else USED_R, true
+	else
+		withUsed {...state, state:[3, side]}, if side is 0 then USED_L else USED_R, true
+
 reducers = 
 	NEG: (state) -> 
 		echo "NEG", state
@@ -133,10 +120,10 @@ reducers =
 		applyB state
 	L: (state) -> 
 		echo 'L', state
-		withUsed {...state, state:[3,0]}, USED_L, true
+		applyStart state, 0
 	R: (state) -> 
 		echo 'R', state
-		withUsed {...state, state:[3,1]}, USED_R, true
+		applyStart state, 1
 
 script = """
 {"state":[0,0], "duo":[90,30], "quad":[91,31,92,32], "used":0}
@@ -146,11 +133,13 @@ script = """
 	A STATE [1,0] QUAD [91,31,92,32] USED 8
 		NEG QUAD [90,31,92,32] USED 10
 		A STATE [2,0] QUAD [91,31,92,32] USED 8
+		L STATE [3,0] QUAD [91,31,92,32] USED 32
+		R STATE [3,1] QUAD [91,31,92,32] USED 16
 	B STATE [0,1] DUO [90,30] USED 4
 		NEG DUO [90,25] USED 6
 		B STATE [0,0] DUO [90,30] USED 4
-	L STATE [3,0] QUAD [91,31,92,32] USED 32
-	R STATE [3,1] QUAD [91,31,92,32] USED 16
+	L STATE [3,0] QUAD [90,30,90,30] USED 32
+	R STATE [3,1] QUAD [90,30,90,30] USED 16
 """
 
 
@@ -203,6 +192,7 @@ saveSettings = ->
 		leftIncrement: leftIncrement
 		rightIncrement: rightIncrement
 	try
+		echo "Saving settings", data
 		localStorage.setItem STORAGE_KEY, JSON.stringify(data)
 	catch error
 		return
@@ -363,14 +353,23 @@ update = (key) ->
 			paused = true
 			lastTickMs = null
 			setupDirty = false
+		else if key is "L" or key is "R"
+			# Quick-start from setup: accept duo as quad and start immediately.
+			enterPlayFromSetup false
+			activeField = -1
+			started = true
+			paused = false
+			active = if key is "L" then 1 else 0
+			lastTickMs = nowMs()
 		updateView()
 		return
 
 	if key is "L"
-		if not started and activeField is -1
+		if not started
 			active = 1
 			started = true
 			paused = false
+			activeField = -1
 			lastTickMs = nowMs()
 		else if not paused and active is 0
 			advanceClock()
@@ -378,10 +377,11 @@ update = (key) ->
 			active = 1
 			lastTickMs = nowMs()
 	else if key is "R"
-		if not started and activeField is -1
+		if not started
 			active = 0
 			started = true
 			paused = false
+			activeField = -1
 			lastTickMs = nowMs()
 		else if not paused and active is 1
 			advanceClock()
