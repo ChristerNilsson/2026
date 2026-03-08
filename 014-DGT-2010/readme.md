@@ -22,17 +22,17 @@ Man kan ställa in 13 X 11 = 341 grova tider och 100 x 60 = 6000 fina tider.
 [] motsvarar understruket tal.  
 
 Efter att ha startat programmet, ser du t ex `[90]`:`30` och har följande val:
-* `-` minska markerat tal, t ex [`90`]:`30` blir [`60`]:`30`
-* `+` öka markerat tal, t ex [`60`]:`30` blir [`90`]:`30`
-* `B` gå till nästa tal, t ex `90`:[`30`]
-* `A` gå till finjusteringen, t ex [`90`]:`30` `90`:`30`
-* `-` minska markerat tal, t ex [`90`]:`30` `90`:`30` blir [`89`]:`30` `90`:`30`
-* `+` öka markerat tal, t ex [`89`]:`30` `90`:`30` blir [`90`]:`30` `90`:`30`
-* `B` gå till nästa tal, t ex `90`:[`30`] `90`:`30`
+* `-` minska markerat tal, t ex `[90]`:`30` blir `[60]`:`30`
+* `+` öka markerat tal, t ex `[60]`:`30` blir `[90]`:`30`
+* `B` gå till nästa tal, t ex `90`:`[30]`
+* `A` gå till finjusteringen, t ex `[90]`:`30` `90`:`30`
+* `-` minska markerat tal, t ex `[90]`:`30` `90`:`30` blir `[89]`:`30` `90`:`30`
+* `+` öka markerat tal, t ex `[89]`:`30` `90`:`30` blir `[90]`:`30` `90`:`30`
+* `B` gå till nästa tal, t ex `90`:`[30]` `90`:`30`
 * `L` starta klockan
 * `R` starta klockan
 
-Nu ser du t ex [`90`]:`30` `90`:`30`.  
+Nu ser du t ex `[90]`:`30` `90`:`30`.  
 Här kan du finjustera både minuter och sekunder samt införa handikapp
 * `-` => [`89`]:`30` `90`:`30`
 * `+` => [`90`]:`30` `90`:`30`
