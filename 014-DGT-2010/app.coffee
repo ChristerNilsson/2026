@@ -21,14 +21,10 @@ leftMs = 0
 rightMs = 0
 
 # 0: left ticks, 1: right ticks
-RESULT_NONE = 0
-RESULT_LEFT_WIN = 1
-RESULT_RIGHT_WIN = 2
 active = 0
 paused = false
 timerId = null
 lastTickMs = null
-resultState = RESULT_NONE
 
 div = tag "div"
 label = tag "label"
@@ -245,7 +241,7 @@ setSetupView = ->
 setPlayView = ->
 	lp = getParts leftMs
 	rp = getParts rightMs
-	if resultState isnt RESULT_NONE
+	if state.state[0] >= 4
 		clockLabel.textContent = "#{String(lp.m).padStart(2, '0')}:#{String(lp.s).padStart(2, '0')}  #{String(rp.m).padStart(2, '0')}:#{String(rp.s).padStart(2, '0')}"
 		return
 	mid = "  "
@@ -276,14 +272,14 @@ advanceClock = ->
 		leftMs = leftMs - delta
 		if leftMs <= 0
 			leftMs = 0
-			resultState = RESULT_RIGHT_WIN
+			state.state[0] = 5 # right wins on time
 			paused = true
 			lastTickMs = null
 	else
 		rightMs = rightMs - delta
 		if rightMs <= 0
 			rightMs = 0
-			resultState = RESULT_LEFT_WIN
+			state.state[0] = 4 # left wins on time
 			paused = true
 			lastTickMs = null
 
@@ -329,12 +325,11 @@ enterPlayFromSetup = (reuseSavedQuad = false) ->
 	active = 0
 	paused = true
 	lastTickMs = null
-	resultState = RESULT_NONE
 	state.used = 0
 	resetGameClocks()
 
 update = (key) ->
-	if resultState isnt RESULT_NONE and state.state[0] >= 2
+	if state.state[0] >= 4
 		return
 
 	if state.state[0] < 2
