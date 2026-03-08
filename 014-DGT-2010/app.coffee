@@ -1,30 +1,7 @@
 import {render, tag} from './fasthtml.js'
+import {testReducer} from './TestReducer.js'
 
-###
-Specifikation: 
-Med [90] menas att 90 är understruket
-
-Startläge: [90]:30
-	- [60]:30
-	+ [01]:30
-	A [90]:30 90:30
-		- [89]:30
-		+ [91]:30
-		A 90:30 90:30
-			L 90:30 [MM:SS] (höger tickar)
-				A [MM]:SS MM:SS
-			R [MM:SS] 90:30 (vänster tickar)
-				A [MM]:SS MM:SS
-		B 90:[30] 90:30
-		L NIX
-		R NIX
-	B 90:[30]
-		B [90]:30
-	L NIX
-	R NIX
-###
-
-# todo: Tillåt tre siffror för minuter. Lätt att nå över 99 minuter med vissa increment, i spelöppningen.
+echo = console.log
 
 MINUTES = [  1,2,3,4,5,10,15,20,25,30,45,60,90]
 SECONDS = [0,1,2,3,4,5,10,15,20,25,30]
@@ -60,6 +37,130 @@ label = tag "label"
 button = tag "button"
 
 STORAGE_KEY = "dgt2010.timeSettings"
+
+
+###
+Specifikation: 
+Med [90] menas att 90 är understruket
+
+Startläge: [90]:30
+	- [60]:30
+	+ [01]:30
+	A [90]:30 90:30
+		- [89]:30
+		+ [91]:30
+		A 90:30 90:30
+			L 90:30 [MM:SS] (höger tickar)
+				A [MM]:SS MM:SS
+			R [MM:SS] 90:30 (vänster tickar)
+				A [MM]:SS MM:SS
+		B 90:[30] 90:30
+		L NIX
+		R NIX
+	B 90:[30]
+		B [90]:30
+	L NIX
+	R NIX
+###
+
+mystack = []
+
+USED_POS = 0x01
+USED_NEG = 0x02
+USED_B = 0x04
+USED_A = 0x08
+USED_R = 0x10
+USED_L = 0x20
+USED_START = USED_L | USED_R
+
+withUsed = (state, used, replace = false) ->
+	if replace then {...state, used} else {...state, used: (state.used ? 0) | used}
+
+stepOption = (options, value, delta) ->
+	i = options.indexOf value
+	if i < 0 then i = 0
+	options[(i + delta + options.length) % options.length]
+
+adjustStateValue = (state, delta, usedBit) ->
+	phase = state.state[0]
+	field = state.state[1]
+	if phase is 0
+		duo = [...state.duo]
+		options = if field is 0 then MINUTES else SECONDS
+		duo[field] = stepOption options, duo[field], delta
+		withUsed {...state, duo}, usedBit
+	else if phase is 1
+		quad = [...state.quad]
+		options = if field % 2 is 0 then MINUTES else SECONDS
+		quad[field] = stepOption options, quad[field], delta
+		withUsed {...state, quad}, usedBit
+	else
+		withUsed state, usedBit
+
+applyA = (state) ->
+	phase = state.state[0]
+	if phase is 0
+		replaceQuad = ((state.used ? 0) & (USED_POS | USED_NEG)) isnt 0
+		quad = if replaceQuad then [state.duo[0], state.duo[1], state.duo[0], state.duo[1]] else [...state.quad]
+		withUsed {...state, state:[1,0], quad}, USED_A, true
+	else if phase is 1
+		withUsed {...state, state:[2,0]}, USED_A, true
+	else
+		withUsed state, USED_A, true
+
+applyB = (state) ->
+	phase = state.state[0]
+	field = state.state[1]
+	if phase is 0
+		withUsed {...state, state:[0, (field + 1) % 2]}, USED_B, true
+	else if phase is 1
+		withUsed {...state, state:[1, (field + 1) % 4]}, USED_B, true
+	else
+		withUsed state, USED_B, true
+
+reducers = 
+	NEG: (state) -> 
+		echo "NEG", state
+		adjustStateValue state, -1, USED_NEG
+	POS: (state) -> 
+		echo "POS", state
+		adjustStateValue state, 1, USED_POS
+	A: (state) -> 
+		echo 'A', state
+		applyA state
+	B: (state) -> 
+		echo 'B', state
+		applyB state
+	L: (state) -> 
+		echo 'L', state
+		withUsed {...state, state:[3,0]}, USED_L, true
+	R: (state) -> 
+		echo 'R', state
+		withUsed {...state, state:[3,1]}, USED_R, true
+
+script = """
+{"state":[0,0], "duo":[90,30], "quad":[91,31,92,32], "used":0}
+	STATE [0,0] DUO [90,30] QUAD [91,31,92,32] USED 0
+	NEG DUO [60,30] USED 2
+	POS DUO [1,30] USED 1
+	A STATE [1,0] QUAD [91,31,92,32] USED 8
+		NEG QUAD [90,31,92,32] USED 10
+		A STATE [2,0] QUAD [91,31,92,32] USED 8
+	B STATE [0,1] DUO [90,30] USED 4
+		NEG DUO [90,25] USED 6
+		B STATE [0,0] DUO [90,30] USED 4
+	L STATE [3,0] QUAD [91,31,92,32] USED 32
+	R STATE [3,1] QUAD [91,31,92,32] USED 16
+"""
+
+
+tester = testReducer script,reducers,mystack
+
+console.log 'Ready!'
+
+
+# todo: Tillåt tre siffror för minuter. Lätt att nå över 99 minuter med vissa increment, i spelöppningen.
+
 
 toInt = (value, fallback) ->
 	n = Number.parseInt(value, 10)
@@ -204,7 +305,7 @@ adjustActiveField = (delta) ->
 	else if activeField is 3
 		rightIncrement = ((rp.s + delta) % 60 + 60) % 60
 		setParts false, rp.m, rightIncrement
-	saveSettings()
+	if not started then saveSettings()
 
 tick = ->
 	return if setupStep < 2
@@ -247,10 +348,12 @@ update = (key) ->
 			if setupStep is 0 then min = (min + 1) % MINUTES.length
 			else sec = (sec + 1) % SECONDS.length
 			setupDirty = true
+			saveSettings()
 		else if key is "-"
 			if setupStep is 0 then min = (min - 1 + MINUTES.length) % MINUTES.length
 			else sec = (sec - 1 + SECONDS.length) % SECONDS.length
 			setupDirty = true
+			saveSettings()
 		else if key is "B"
 			setupStep = (setupStep + 1) % 2
 		else if key is "A"
@@ -322,7 +425,7 @@ render document.body, div {style:{maxWidth:"24em", margin:"0 auto", padding:"1em
 		button {style:{width:"8.1em", fontSize:"2em"}, onclick: -> update "L"}, "\u00A0"
 		button {style:{width:"8.1em", fontSize:"2em"}, onclick: -> update "R"}, "\u00A0"
 
-startTicker()
-loadSettings()
+startTicker() #
+loadSettings() # 
 increment = SECONDS[sec]
-updateView()
+updateView() #
