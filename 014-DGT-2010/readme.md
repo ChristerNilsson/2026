@@ -21,7 +21,7 @@ Fina tider:
 Man kan ställa in 13 X 11 = 341 grova tider och 100 x 60 = 6000 fina tider.  
 [] motsvarar understruket tal.  
 
-Efter att ha startat programmet, ser du t ex [`90`]:`30` och har följande val:
+Efter att ha startat programmet, ser du t ex `[90]`:`30` och har följande val:
 * `-` minska markerat tal, t ex [`90`]:`30` blir [`60`]:`30`
 * `+` öka markerat tal, t ex [`60`]:`30` blir [`90`]:`30`
 * `B` gå till nästa tal, t ex `90`:[`30`]
