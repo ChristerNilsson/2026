@@ -34,9 +34,9 @@ Efter att ha startat programmet, ser du t ex `[90]`:`30` och har följande val:
 
 Nu ser du t ex `[90]`:`30` `90`:`30`.  
 Här kan du finjustera både minuter och sekunder samt införa handikapp
-* `-` => [`89`]:`30` `90`:`30`
-* `+` => [`90`]:`30` `90`:`30`
-* `B` => `90`:[`30`] `90`:`30`
+* `-` => `[89]`:`30` `90`:`30`
+* `+` => `[90]`:`30` `90`:`30`
+* `B` => `90`:`[30]` `90`:`30`
 * `A` => `90`:`30` `90`:`30`
 * `L` starta klockan
 * `R` starta klockan
