@@ -6,6 +6,8 @@ echo = console.log
 MIN = [  1,2,3,4,5,10,15,20,25,30,45,60,90]
 SEC = [0,1,2,3,4,5,10,15,20,25,30]
 
+HELP = "https://github.com/ChristerNilsson/2026/blob/main/014-DGT-2010/readme.md"
+
 state =
 	state: [0, 0] # [phase, field]
 	duo: [MIN[MIN.length - 1], SEC[SEC.length - 1]]
@@ -392,8 +394,8 @@ update = (key) ->
 
 	updateView()
 
-render document.body, div {style:{maxWidth:"24em", margin:"0 auto", padding:"1em", fontFamily:"Consolas, 'Courier New', monospace", fontSize:"4em"}},
-	a {href:"https://github.com/ChristerNilsson/2026/blob/main/014-DGT-2010/readme.md", style:{position:"absolute", top:"0.5em", left:"0.5em", textDecoration:"none"}}, "Help"
+render document.body, div {style:{maxWidth:"16em", margin:"0 auto", padding:"1em", fontFamily:"Consolas, 'Courier New', monospace", fontSize:"2em"}},
+	a {href:HELP, style:{position:"absolute", top:"0.1em", left:"0.1em", textDecoration:"none"}, target:"_blank"}, "Help"
 	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.0em"}},
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "-"}, "➖"
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "+"}, "➕"
@@ -402,8 +404,8 @@ render document.body, div {style:{maxWidth:"24em", margin:"0 auto", padding:"1em
 	div {style:{display:"flex", justifyContent:"center", marginBottom:"0.1em"}},
 		clockLabel = label {style:{fontSize:"2em", minWidth:"11ch", textAlign:"center", whiteSpace:"pre"}}, ""
 	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.3em"}},
-		button {style:{width:"8.1em", fontSize:"2em"}, onclick: -> update "L"}, "\u00A0"
-		button {style:{width:"8.1em", fontSize:"2em"}, onclick: -> update "R"}, "\u00A0"
+		button {style:{width:"16.1em", fontSize:"2em"}, onclick: -> update "L"}, "\u00A0"
+		button {style:{width:"16.1em", fontSize:"2em"}, onclick: -> update "R"}, "\u00A0"
 
 startTicker() #
 loadSettings() # 

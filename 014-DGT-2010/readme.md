@@ -19,23 +19,24 @@ Fina tider:
   * `99:00` `99:01` .. `99:58` `99:59`  
 
 Man kan ställa in 13 X 11 = 341 grova tider och 100 x 60 = 6000 fina tider.  
+[] motsvarar understruket tal.  
 
-Efter att ha startat programmet, ser du t ex <u>`90`</u>:`30` och har följande val:
-* `-` minska markerat tal, t ex <u>`90`</u>:`30` blir <u>`60`</u>:`30`
-* `+` öka markerat tal, t ex <u>`60`</u>:`30` blir <u>`90`</u>:`30`
-* `B` gå till nästa tal, t ex `90`:<u>`30`</u>
-* `A` gå till finjusteringen, t ex <u>`90`</u>:`30` `90`:`30`
-* `-` minska markerat tal, t ex <u>`90`</u>:`30` `90`:`30` blir <u>`89`</u>:`30` `90`:`30`
-* `+` öka markerat tal, t ex <u>`89`</u>:`30` `90`:`30` blir <u>`90`</u>:`30` `90`:`30`
-* `B` gå till nästa tal, t ex `90`:<u>`30`</u> `90`:`30`
+Efter att ha startat programmet, ser du t ex [`90`]:`30` och har följande val:
+* `-` minska markerat tal, t ex [`90`]:`30` blir [`60`]:`30`
+* `+` öka markerat tal, t ex [`60`]:`30` blir [`90`]:`30`
+* `B` gå till nästa tal, t ex `90`:[`30`]
+* `A` gå till finjusteringen, t ex [`90`]:`30` `90`:`30`
+* `-` minska markerat tal, t ex [`90`]:`30` `90`:`30` blir [`89`]:`30` `90`:`30`
+* `+` öka markerat tal, t ex [`89`]:`30` `90`:`30` blir [`90`]:`30` `90`:`30`
+* `B` gå till nästa tal, t ex `90`:[`30`] `90`:`30`
 * `L` starta klockan
 * `R` starta klockan
 
-Nu ser du t ex <u>`90`</u>:`30` `90`:`30`.  
+Nu ser du t ex [`90`]:`30` `90`:`30`.  
 Här kan du finjustera både minuter och sekunder samt införa handikapp
-* `-` => <u>`89`</u>:`30` `90`:`30`
-* `+` => <u>`90`</u>:`30` `90`:`30`
-* `B` => `90`:<u>`30`</u> `90`:`30`
+* `-` => [`89`]:`30` `90`:`30`
+* `+` => [`90`]:`30` `90`:`30`
+* `B` => `90`:[`30`] `90`:`30`
 * `A` => `90`:`30` `90`:`30`
 * `L` starta klockan
 * `R` starta klockan
