@@ -3,19 +3,17 @@ import {testReducer} from './TestReducer.js'
 
 echo = console.log
 
-MINUTES = [  1,2,3,4,5,10,15,20,25,30,45,60,90]
-SECONDS = [0,1,2,3,4,5,10,15,20,25,30]
+MIN = [  1,2,3,4,5,10,15,20,25,30,45,60,90]
+SEC = [0,1,2,3,4,5,10,15,20,25,30]
 
 state =
 	state: [0, 0] # [phase, field]
-	duo: [MINUTES[MINUTES.length - 1], SECONDS[SECONDS.length - 1]]
-	quad: [MINUTES[MINUTES.length - 1], SECONDS[SECONDS.length - 1], MINUTES[MINUTES.length - 1], SECONDS[SECONDS.length - 1]]
+	duo: [MIN[MIN.length - 1], SEC[SEC.length - 1]]
+	quad: [MIN[MIN.length - 1], SEC[SEC.length - 1], MIN[MIN.length - 1], SEC[SEC.length - 1]]
 	used: 0
 
-leftMin = state.duo[0]
-rightMin = state.duo[0]
-leftSec = state.duo[1]
-rightSec = state.duo[1]
+[leftMin , leftSec] = state.duo
+[rightMin, rightSec] = state.duo
 
 leftMs = 0
 rightMs = 0
@@ -59,12 +57,12 @@ adjustStateValue = (state, delta, usedBit) ->
 	field = state.state[1]
 	if phase is 0
 		duo = [...state.duo]
-		options = if field is 0 then MINUTES else SECONDS
+		options = if field is 0 then MIN else SEC
 		duo[field] = stepOption options, duo[field], delta
 		withUsed {...state, duo}, usedBit
 	else if phase is 1
 		quad = [...state.quad]
-		options = if field % 2 is 0 then MINUTES else SECONDS
+		options = if field % 2 is 0 then MIN else SEC
 		quad[field] = stepOption options, quad[field], delta
 		withUsed {...state, quad}, usedBit
 	else
@@ -128,14 +126,8 @@ script = """
 	R STATE [3,1] QUAD [90,30,90,30] USED 16
 """
 
-
 tester = testReducer script,reducers,mystack
-
 console.log 'Ready!'
-
-
-# todo: Tillåt tre siffror för minuter. Lätt att nå över 99 minuter med vissa increment, i spelöppningen.
-
 
 toInt = (value, fallback) ->
 	n = Number.parseInt(value, 10)
@@ -154,32 +146,32 @@ loadSettings = ->
 	catch error
 		return
 
-	minCandidate = toInt(data.setupMin, MINUTES.indexOf(state.duo[0]))
-	secCandidate = toInt(data.setupSec, SECONDS.indexOf(state.duo[1]))
-	minIndex = if minCandidate >= 0 and minCandidate < MINUTES.length then minCandidate else MINUTES.indexOf(state.duo[0])
-	secIndex = if secCandidate >= 0 and secCandidate < SECONDS.length then secCandidate else SECONDS.indexOf(state.duo[1])
-	state.duo = [MINUTES[minIndex], SECONDS[secIndex]]
+	minCandidate = toInt(data.setupMin, MIN.indexOf(state.duo[0]))
+	secCandidate = toInt(data.setupSec, SEC.indexOf(state.duo[1]))
+	minIndex = if minCandidate >= 0 and minCandidate < MIN.length then minCandidate else MIN.indexOf(state.duo[0])
+	secIndex = if secCandidate >= 0 and secCandidate < SEC.length then secCandidate else SEC.indexOf(state.duo[1])
+	state.duo = [MIN[minIndex], SEC[secIndex]]
 	state.quad = [state.duo[0], state.duo[1], state.duo[0], state.duo[1]]
 	state.state = [0, 0]
 	state.used = 0
 
-	defaultBase = state.duo[0]
-	defaultIncrement = state.duo[1]
-	leftMin = Math.max 0, toInt(data.leftMin, defaultBase)
-	rightMin = Math.max 0, toInt(data.rightMin, defaultBase)
-	leftSec = ((toInt(data.leftSec, defaultIncrement) % 60) + 60) % 60
-	rightSec = ((toInt(data.rightSec, defaultIncrement) % 60) + 60) % 60
+	[min,sec] = state.duo
+	# sec = state.duo[1]
+	leftMin = Math.max 0, toInt(data.leftMin, min)
+	rightMin = Math.max 0, toInt(data.rightMin, min)
+	leftSec = ((toInt(data.leftSec, sec) % 60) + 60) % 60
+	rightSec = ((toInt(data.rightSec, sec) % 60) + 60) % 60
 
 	# Setup (duo) restored; runtime returns to setup mode.
 	state.state = [0, 0]
 	state.used = 0
 
 saveSettings = ->
-	ensureOption MINUTES, state.duo[0]
-	ensureOption SECONDS, state.duo[1]
+	ensureOption MIN, state.duo[0]
+	ensureOption SEC, state.duo[1]
 	data =
-		setupMin: MINUTES.indexOf(state.duo[0])
-		setupSec: SECONDS.indexOf(state.duo[1])
+		setupMin: MIN.indexOf(state.duo[0])
+		setupSec: SEC.indexOf(state.duo[1])
 		leftMin: leftMin
 		rightMin: rightMin
 		leftSec: leftSec
@@ -299,8 +291,7 @@ startTicker = ->
 	timerId = setInterval tick, 100
 
 enterPlayFromSetup = (reuseSavedQuad = false) ->
-	aa = state.duo[0]
-	dd = state.duo[1]
+	[aa,dd] = state.duo
 	state.state = [2, 0]
 	if reuseSavedQuad
 		state.quad = [leftMin, leftSec, rightMin, rightSec]
@@ -322,13 +313,13 @@ update = (key) ->
 
 	if state.state[0] < 2
 		if key is "+"
-			if state.state[0] is 0 then state.duo[0] = stepOption(MINUTES, state.duo[0], 1)
-			else state.duo[1] = stepOption(SECONDS, state.duo[1], 1)
+			if state.state[0] is 0 then state.duo[0] = stepOption(MIN, state.duo[0], 1)
+			else state.duo[1] = stepOption(SEC, state.duo[1], 1)
 			markUsed USED_POS
 			saveSettings()
 		else if key is "-"
-			if state.state[0] is 0 then state.duo[0] = stepOption(MINUTES, state.duo[0], -1)
-			else state.duo[1] = stepOption(SECONDS, state.duo[1], -1)
+			if state.state[0] is 0 then state.duo[0] = stepOption(MIN, state.duo[0], -1)
+			else state.duo[1] = stepOption(SEC, state.duo[1], -1)
 			markUsed USED_NEG
 			saveSettings()
 		else if key is "B"
