@@ -6,31 +6,29 @@ echo = console.log
 MINUTES = [  1,2,3,4,5,10,15,20,25,30,45,60,90]
 SECONDS = [0,1,2,3,4,5,10,15,20,25,30]
 
-# setupStep: 0 choose minutes, 1 choose increment, 2 playing
-setupStep = 0
-min = MINUTES.length - 1
-sec = SECONDS.length - 1
-increment = SECONDS[sec]
-leftBaseMin = MINUTES[min]
-rightBaseMin = MINUTES[min]
-leftIncrement = increment
-rightIncrement = increment
+state =
+	state: [0, 0] # [phase, field]
+	duo: [MINUTES[MINUTES.length - 1], SECONDS[SECONDS.length - 1]]
+	quad: [MINUTES[MINUTES.length - 1], SECONDS[SECONDS.length - 1], MINUTES[MINUTES.length - 1], SECONDS[SECONDS.length - 1]]
+	used: 0
+
+leftBaseMin = state.duo[0]
+rightBaseMin = state.duo[0]
+leftIncrement = state.duo[1]
+rightIncrement = state.duo[1]
 
 leftMs = 0
 rightMs = 0
 
 # 0: left ticks, 1: right ticks
+RESULT_NONE = 0
+RESULT_LEFT_WIN = 1
+RESULT_RIGHT_WIN = 2
 active = 0
 paused = false
 timerId = null
 lastTickMs = null
-firstFlag = null # "L" | "R" | null
-gameOver = false
-started = false
-savedOnFirstA = false
-setupDirty = false
-
-activeField = 0 # 0:Lmin 1:Lsec 2:Rmin 3:Rsec
+resultState = RESULT_NONE
 
 div = tag "div"
 label = tag "label"
@@ -50,6 +48,10 @@ USED_START = USED_L | USED_R
 
 withUsed = (state, used, replace = false) ->
 	if replace then {...state, used} else {...state, used: (state.used ? 0) | used}
+
+hasUsed = (mask) -> (state.used & mask) isnt 0
+markUsed = (mask) -> state.used = state.used | mask
+clearUsed = (mask) -> state.used = state.used & ~mask
 
 stepOption = (options, value, delta) ->
 	i = options.indexOf value
@@ -99,11 +101,11 @@ applyStart = (state, side) ->
 		duo0 = state.duo[0]
 		duo1 = state.duo[1]
 		quad = [duo0, duo1, duo0, duo1]
-		withUsed {...state, state:[3, side], quad}, if side is 0 then USED_L else USED_R, true
+		withUsed {...state, state:[3, side], quad}, [USED_L,USED_R][side], true
 	else if phase is 1
-		withUsed {...state, state:[3, side]}, if side is 0 then USED_L else USED_R, true
+		withUsed {...state, state:[3, side]}, (if side is 0 then USED_L else USED_R), true
 	else
-		withUsed {...state, state:[3, side]}, if side is 0 then USED_L else USED_R, true
+		withUsed {...state, state:[3, side]}, (if side is 0 then USED_L else USED_R), true
 
 reducers = 
 	NEG: (state) -> 
@@ -168,25 +170,32 @@ loadSettings = ->
 	catch error
 		return
 
-	minCandidate = toInt(data.setupMin, min)
-	secCandidate = toInt(data.setupSec, sec)
-	min = if minCandidate >= 0 and minCandidate < MINUTES.length then minCandidate else min
-	sec = if secCandidate >= 0 and secCandidate < SECONDS.length then secCandidate else sec
+	minCandidate = toInt(data.setupMin, MINUTES.indexOf(state.duo[0]))
+	secCandidate = toInt(data.setupSec, SECONDS.indexOf(state.duo[1]))
+	minIndex = if minCandidate >= 0 and minCandidate < MINUTES.length then minCandidate else MINUTES.indexOf(state.duo[0])
+	secIndex = if secCandidate >= 0 and secCandidate < SECONDS.length then secCandidate else SECONDS.indexOf(state.duo[1])
+	state.duo = [MINUTES[minIndex], SECONDS[secIndex]]
+	state.quad = [state.duo[0], state.duo[1], state.duo[0], state.duo[1]]
+	state.state = [0, 0]
+	state.used = 0
 
-	defaultBase = MINUTES[min]
-	defaultIncrement = SECONDS[sec]
+	defaultBase = state.duo[0]
+	defaultIncrement = state.duo[1]
 	leftBaseMin = Math.max 0, toInt(data.leftBaseMin, defaultBase)
 	rightBaseMin = Math.max 0, toInt(data.rightBaseMin, defaultBase)
 	leftIncrement = ((toInt(data.leftIncrement, defaultIncrement) % 60) + 60) % 60
 	rightIncrement = ((toInt(data.rightIncrement, defaultIncrement) % 60) + 60) % 60
 
-	# Setup (duo) comes from setupMin/setupSec; quad is restored separately.
-	setupDirty = false
+	# Setup (duo) restored; runtime returns to setup mode.
+	state.state = [0, 0]
+	state.used = 0
 
 saveSettings = ->
+	ensureOption MINUTES, state.duo[0]
+	ensureOption SECONDS, state.duo[1]
 	data =
-		setupMin: min
-		setupSec: sec
+		setupMin: MINUTES.indexOf(state.duo[0])
+		setupSec: SECONDS.indexOf(state.duo[1])
 		leftBaseMin: leftBaseMin
 		rightBaseMin: rightBaseMin
 		leftIncrement: leftIncrement
@@ -225,23 +234,23 @@ fieldHtml = (value, selected) ->
 	if selected then "<span style='text-decoration:underline'>#{text}</span>" else text
 
 setButtonStates = ->
-	isRunning = setupStep is 2 and not paused
-	lockSideButtons = setupStep < 2 or paused
+	isRunning = state.state[0] >= 2 and not paused
+	lockSideButtons = state.state[0] < 2 or paused
 
 setSetupView = ->
-	aaText = fieldHtml MINUTES[min], setupStep is 0
-	ddText = fieldHtml SECONDS[sec], setupStep is 1
+	aaText = fieldHtml state.duo[0], state.state[0] is 0
+	ddText = fieldHtml state.duo[1], state.state[0] is 1
 	clockLabel.innerHTML = "#{aaText}:#{ddText}"
 
 setPlayView = ->
 	lp = getParts leftMs
 	rp = getParts rightMs
-	if gameOver
+	if resultState isnt RESULT_NONE
 		clockLabel.textContent = "#{String(lp.m).padStart(2, '0')}:#{String(lp.s).padStart(2, '0')}  #{String(rp.m).padStart(2, '0')}:#{String(rp.s).padStart(2, '0')}"
 		return
-	mid = "#{if firstFlag is 'L' then '-' else ' '}#{if firstFlag is 'R' then '-' else ' '}"
+	mid = "  "
 	if paused
-		clockLabel.innerHTML = "#{fieldHtml(lp.m, activeField is 0)}:#{fieldHtml(lp.s, activeField is 1)}#{mid}#{fieldHtml(rp.m, activeField is 2)}:#{fieldHtml(rp.s, activeField is 3)}"
+		clockLabel.innerHTML = "#{fieldHtml(lp.m, state.state[1] is 0)}:#{fieldHtml(lp.s, state.state[1] is 1)}#{mid}#{fieldHtml(rp.m, state.state[1] is 2)}:#{fieldHtml(rp.s, state.state[1] is 3)}"
 	else
 		leftTicks = active is 0
 		rightTicks = active is 1
@@ -251,10 +260,10 @@ setPlayView = ->
 
 updateView = ->
 	setButtonStates()
-	if setupStep < 2 then setSetupView() else setPlayView()
+	if state.state[0] < 2 then setSetupView() else setPlayView()
 
 advanceClock = ->
-	return unless setupStep is 2
+	return unless state.state[0] >= 2
 	return if paused
 	return unless lastTickMs?
 
@@ -267,38 +276,36 @@ advanceClock = ->
 		leftMs = leftMs - delta
 		if leftMs <= 0
 			leftMs = 0
-			gameOver = true
+			resultState = RESULT_RIGHT_WIN
 			paused = true
 			lastTickMs = null
-			firstFlag = null
 	else
 		rightMs = rightMs - delta
 		if rightMs <= 0
 			rightMs = 0
-			gameOver = true
+			resultState = RESULT_LEFT_WIN
 			paused = true
 			lastTickMs = null
-			firstFlag = null
 
 adjustActiveField = (delta) ->
 	lp = getParts leftMs
 	rp = getParts rightMs
-	if activeField is 0
+	if state.state[1] is 0
 		leftBaseMin = Math.max 0, lp.m + delta
 		setParts true, leftBaseMin, lp.s
-	else if activeField is 1
+	else if state.state[1] is 1
 		leftIncrement = ((lp.s + delta) % 60 + 60) % 60
 		setParts true, lp.m, leftIncrement
-	else if activeField is 2
+	else if state.state[1] is 2
 		rightBaseMin = Math.max 0, rp.m + delta
 		setParts false, rightBaseMin, rp.s
-	else if activeField is 3
+	else if state.state[1] is 3
 		rightIncrement = ((rp.s + delta) % 60 + 60) % 60
 		setParts false, rp.m, rightIncrement
-	if not started then saveSettings()
+	if not hasUsed(USED_START) then saveSettings()
 
 tick = ->
-	return if setupStep < 2
+	return if state.state[0] < 2
 	return if paused
 	advanceClock()
 	updateView()
@@ -308,56 +315,53 @@ startTicker = ->
 	timerId = setInterval tick, 100
 
 enterPlayFromSetup = (reuseSavedQuad = false) ->
-	aa = MINUTES[min]
-	dd = SECONDS[sec]
-	setupStep = 2
+	aa = state.duo[0]
+	dd = state.duo[1]
+	state.state = [2, 0]
 	if reuseSavedQuad
-		increment = leftIncrement
+		state.quad = [leftBaseMin, leftIncrement, rightBaseMin, rightIncrement]
 	else
-		increment = dd
 		leftBaseMin = aa
 		rightBaseMin = aa
 		leftIncrement = dd
 		rightIncrement = dd
+		state.quad = [aa, dd, aa, dd]
 	active = 0
 	paused = true
 	lastTickMs = null
-	firstFlag = null
-	gameOver = false
-	started = false
-	savedOnFirstA = false
-	activeField = 0
+	resultState = RESULT_NONE
+	state.used = 0
 	resetGameClocks()
 
 update = (key) ->
-	if gameOver and setupStep is 2
+	if resultState isnt RESULT_NONE and state.state[0] >= 2
 		return
 
-	if setupStep < 2
+	if state.state[0] < 2
 		if key is "+"
-			if setupStep is 0 then min = (min + 1) % MINUTES.length
-			else sec = (sec + 1) % SECONDS.length
-			setupDirty = true
+			if state.state[0] is 0 then state.duo[0] = stepOption(MINUTES, state.duo[0], 1)
+			else state.duo[1] = stepOption(SECONDS, state.duo[1], 1)
+			markUsed USED_POS
 			saveSettings()
 		else if key is "-"
-			if setupStep is 0 then min = (min - 1 + MINUTES.length) % MINUTES.length
-			else sec = (sec - 1 + SECONDS.length) % SECONDS.length
-			setupDirty = true
+			if state.state[0] is 0 then state.duo[0] = stepOption(MINUTES, state.duo[0], -1)
+			else state.duo[1] = stepOption(SECONDS, state.duo[1], -1)
+			markUsed USED_NEG
 			saveSettings()
 		else if key is "B"
-			setupStep = (setupStep + 1) % 2
+			state.state[0] = (state.state[0] + 1) % 2
+			markUsed USED_B
 		else if key is "A"
-			enterPlayFromSetup not setupDirty
+			enterPlayFromSetup not hasUsed(USED_POS | USED_NEG)
+			markUsed USED_A
 			saveSettings()
-			savedOnFirstA = true
 			paused = true
 			lastTickMs = null
-			setupDirty = false
 		else if key is "L" or key is "R"
 			# Quick-start from setup: accept duo as quad and start immediately.
 			enterPlayFromSetup false
-			activeField = -1
-			started = true
+			state.state = [3, -1]
+			markUsed if key is "L" then USED_L else USED_R
 			paused = false
 			active = if key is "L" then 1 else 0
 			lastTickMs = nowMs()
@@ -365,11 +369,11 @@ update = (key) ->
 		return
 
 	if key is "L"
-		if not started
+		if not hasUsed(USED_START)
 			active = 1
-			started = true
+			markUsed USED_L
 			paused = false
-			activeField = -1
+			state.state = [3, -1]
 			lastTickMs = nowMs()
 		else if not paused and active is 0
 			advanceClock()
@@ -377,11 +381,11 @@ update = (key) ->
 			active = 1
 			lastTickMs = nowMs()
 	else if key is "R"
-		if not started
+		if not hasUsed(USED_START)
 			active = 0
-			started = true
+			markUsed USED_R
 			paused = false
-			activeField = -1
+			state.state = [3, -1]
 			lastTickMs = nowMs()
 		else if not paused and active is 1
 			advanceClock()
@@ -390,8 +394,8 @@ update = (key) ->
 			lastTickMs = nowMs()
 	else if key is "A"
 		if paused
-			if not started
-				activeField = if activeField is -1 then 0 else -1
+			if not hasUsed(USED_START)
+				state.state[1] = if state.state[1] is -1 then 0 else -1
 				lastTickMs = null
 			else
 				paused = false
@@ -400,16 +404,16 @@ update = (key) ->
 			advanceClock()
 			paused = true
 			lastTickMs = null
-			activeField = 0
+			state.state[1] = 0
 	else if key is "+"
-		if paused and activeField isnt -1
+		if paused and state.state[1] isnt -1
 			adjustActiveField 1
 	else if key is "-"
-		if paused and activeField isnt -1
+		if paused and state.state[1] isnt -1
 			adjustActiveField -1
 	else if key is "B"
-		if paused and activeField isnt -1
-			activeField = (activeField + 1) % 4
+		if paused and state.state[1] isnt -1
+			state.state[1] = (state.state[1] + 1) % 4
 
 	updateView()
 
@@ -427,5 +431,4 @@ render document.body, div {style:{maxWidth:"24em", margin:"0 auto", padding:"1em
 
 startTicker() #
 loadSettings() # 
-increment = SECONDS[sec]
 updateView() #
