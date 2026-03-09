@@ -1,3 +1,7 @@
+---
+permalink: /2026/014-DGT-2010/readme/
+---
+
 [Try it!](https://christernilsson.github.io/2026/014-DGT-2010/)
 
 Detta är ett förslag som visar hur man kan göra DGT 2010 lättare att använda.  
