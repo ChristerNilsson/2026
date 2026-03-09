@@ -19,7 +19,7 @@ Fina tider:
   * `99:00` `99:01` .. `99:58` `99:59`  
 
 Man kan ställa in 13 X 11 = 341 grova tider och 100 x 60 = 6000 fina tider.  
-[] motsvarar understruket tal.  
+`[90]` motsvarar understruket tal.  
 
 Efter att ha startat programmet, ser du t ex `[90]`:`30` och har följande val:
 * `-` minska markerat tal, t ex `[90]`:`30` blir `[60]`:`30`
@@ -29,20 +29,10 @@ Efter att ha startat programmet, ser du t ex `[90]`:`30` och har följande val:
 * `-` minska markerat tal, t ex `[90]`:`30` `90`:`30` blir `[89]`:`30` `90`:`30`
 * `+` öka markerat tal, t ex `[89]`:`30` `90`:`30` blir `[90]`:`30` `90`:`30`
 * `B` gå till nästa tal, t ex `90`:`[30]` `90`:`30`
-* `L` starta klockan
-* `R` starta klockan
-
-Nu ser du t ex `[90]`:`30` `90`:`30`.  
-Här kan du finjustera både minuter och sekunder samt införa handikapp
-* `-` => `[89]`:`30` `90`:`30`
-* `+` => `[90]`:`30` `90`:`30`
-* `B` => `90`:`[30]` `90`:`30`
-* `A` => `90`:`30` `90`:`30`
-* `L` starta klockan
-* `R` starta klockan
-
-När du startat någon klocka, kan du pausa med `A`. Fortsätt med `A` igen.  
-Vill du justera en klocka, använd `B`
+* `L` starta vänster klocka
+* `R` byt till höger klocka
+* `A` pausa klockan. Nu kan tider justeras
+* `A` fortsätt
 
 #### Genvägar
 
