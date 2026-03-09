@@ -8,7 +8,7 @@ SEC = [0,1,2,3,4,5,10,15,20,25,30]
 
 # HELP = "https://github.com/ChristerNilsson/2026/blob/main/014-DGT-2010/readme.md"
 # HELP = "https://github.com/ChristerNilsson/2026/blob/main/014-DGT-2010/readme.md"
-HELP = "https://christernilsson.github.io/2026/014-DGT-2010/readme/"
+HELP = "https://christernilsson.github.io/2026/014-DGT-2010/help/"
 
 state =
 	state: [0, 0] # [phase, field]
