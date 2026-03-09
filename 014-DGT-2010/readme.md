@@ -18,8 +18,8 @@ Fina tider:
   * `00:00` `00:01` .. `00:58` `99:59`  
   * `99:00` `99:01` .. `99:58` `99:59`  
 
-Man kan ställa in 13 X 11 = 341 grova tider och 100 x 60 = 6000 fina tider.  
-`[90]` motsvarar understruket tal.  
+`[90]` motsvarar understruket tal. Dessa tal kan redigeras med `+` och `-`.  
+Förändringen kan vara grov eller fin.  
 
 Efter att ha startat programmet, ser du t ex `[90]`:`30` och har följande val:
 * `-` minska markerat tal, t ex `[90]`:`30` blir `[60]`:`30`

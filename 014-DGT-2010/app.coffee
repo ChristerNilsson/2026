@@ -29,7 +29,7 @@ lastTickMs = null
 a = tag "a"
 button = tag "button"
 div = tag "div"
-label = tag "label"
+clockBox = tag "div"
 
 STORAGE_KEY = "dgt2010.timeSettings"
 
@@ -48,7 +48,7 @@ withUsed = (state, used, replace = false) ->
 
 hasUsed = (mask) -> (state.used & mask) isnt 0
 markUsed = (mask) -> state.used = state.used | mask
-clearUsed = (mask) -> state.used = state.used & ~mask
+# clearUsed = (mask) -> state.used = state.used & ~mask
 
 stepOption = (options, value, delta) ->
 	i = options.indexOf value
@@ -212,33 +212,40 @@ fieldHtml = (value, selected) ->
 	text = String(value).padStart(2, '0')
 	if selected then "<span style='text-decoration:underline'>#{text}</span>" else text
 
-setButtonStates = ->
-	isRunning = state.state[0] >= 2 and not paused
-	lockSideButtons = state.state[0] < 2 or paused
+#setButtonStates = ->
+	#isRunning = state.state[0] >= 2 and not paused
+	#lockSideButtons = state.state[0] < 2 or paused
 
 setSetupView = ->
+	clockLeft.style.width = "16.3em"
+	clockRight.style.display = "none"
 	aaText = fieldHtml state.duo[0], state.state[0] is 0
 	ddText = fieldHtml state.duo[1], state.state[0] is 1
-	clockLabel.innerHTML = "#{aaText}:#{ddText}"
+	clockLeft.innerHTML = "#{aaText}:#{ddText}"
 
 setPlayView = ->
+	clockLeft.style.width = "8.1em"
+	clockRight.style.display = "block"
 	lp = getParts leftMs
 	rp = getParts rightMs
 	if state.state[0] >= 4
-		clockLabel.textContent = "#{String(lp.m).padStart(2, '0')}:#{String(lp.s).padStart(2, '0')}  #{String(rp.m).padStart(2, '0')}:#{String(rp.s).padStart(2, '0')}"
+		clockLeft.textContent  = "#{String(lp.m).padStart(2, '0')}:#{String(lp.s).padStart(2, '0')}"
+		clockRight.textContent = "#{String(rp.m).padStart(2, '0')}:#{String(rp.s).padStart(2, '0')}"
 		return
-	mid = "  "
+	#mid = "  "
 	if paused
-		clockLabel.innerHTML = "#{fieldHtml(lp.m, state.state[1] is 0)}:#{fieldHtml(lp.s, state.state[1] is 1)}#{mid}#{fieldHtml(rp.m, state.state[1] is 2)}:#{fieldHtml(rp.s, state.state[1] is 3)}"
+		clockLeft.innerHTML  = "#{fieldHtml(lp.m, state.state[1] is 0)}:#{fieldHtml(lp.s, state.state[1] is 1)}"
+		clockRight.innerHTML = "#{fieldHtml(rp.m, state.state[1] is 2)}:#{fieldHtml(rp.s, state.state[1] is 3)}"
 	else
 		leftTicks = active is 0
 		rightTicks = active is 1
 		leftSep = if leftTicks then "<span style='text-decoration:underline'>:</span>" else ":"
 		rightSep = if rightTicks then "<span style='text-decoration:underline'>:</span>" else ":"
-		clockLabel.innerHTML = "#{fieldHtml(lp.m, leftTicks)}#{leftSep}#{fieldHtml(lp.s, leftTicks)}#{mid}#{fieldHtml(rp.m, rightTicks)}#{rightSep}#{fieldHtml(rp.s, rightTicks)}"
+		clockLeft.innerHTML  = "#{fieldHtml(lp.m, leftTicks)}#{leftSep}#{fieldHtml(lp.s, leftTicks)}"
+		clockRight.innerHTML = "#{fieldHtml(rp.m, rightTicks)}#{rightSep}#{fieldHtml(rp.s, rightTicks)}"
 
 updateView = ->
-	setButtonStates()
+	#setButtonStates()
 	if state.state[0] < 2 then setSetupView() else setPlayView()
 
 advanceClock = ->
@@ -395,14 +402,15 @@ update = (key) ->
 	updateView()
 
 render document.body, div {style:{maxWidth:"16em", margin:"0 auto", padding:"1em", fontFamily:"Consolas, 'Courier New', monospace", fontSize:"4em"}},
-	a {href:HELP, style:{position:"absolute", top:"0.1em", left:"0.1em", textDecoration:"none"}, target:"_blank"}, "Hjälp"
+	a {href:HELP, style:{position:"absolute", top:"0.1em", left:"0.1em", textDecoration:"none"}, target:"_blank"}, "?"
 	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.5em"}},
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "-"}, "➖"
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "+"}, "➕"
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "A"}, "⏯️"
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "B"}, "☑️"
 	div {style:{display:"flex", justifyContent:"center", marginBottom:"0.1em"}},
-		clockLabel = label {style:{fontSize:"2em", minWidth:"11ch", textAlign:"center", whiteSpace:"pre"}}, ""
+		clockLeft  = clockBox {style:{fontSize:"1.5em", width:"8.1em", display:"block", textAlign:"center", whiteSpace:"pre"}}, ""
+		clockRight = clockBox {style:{fontSize:"1.5em", width:"8.1em", display:"block", textAlign:"center", whiteSpace:"pre"}}, ""
 	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.3em"}},
 		button {style:{width:"16.1em", fontSize:"2em"}, onclick: -> update "L"}, "\u00A0"
 		button {style:{width:"16.1em", fontSize:"2em"}, onclick: -> update "R"}, "\u00A0"
