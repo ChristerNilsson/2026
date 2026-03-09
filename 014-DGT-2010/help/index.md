@@ -2,6 +2,7 @@
 
 Detta är ett förslag som visar hur man kan göra DGT 2010 lättare att använda.  
 Det förutsätter att DGT genomför förändringar i mjukvaran.  
+*Giljotin*, *Bronstein* och *byo-yomi* stöds ej.
 
 Knapparna för setup är `-` `+` `A` `B`  
 Knapparna för att starta klockan är `L` och `R`  
