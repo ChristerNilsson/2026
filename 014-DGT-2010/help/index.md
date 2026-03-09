@@ -31,8 +31,7 @@ Efter att ha startat programmet, ser du t ex `[90]`:`30` och har följande val:
 * `B` gå till nästa tal, t ex `90`:`[30]` `90`:`30`
 * `L` starta vänster klocka
 * `R` byt till höger klocka
-* `A` pausa klockan. Nu kan tider *finjusteras*
-* `A` fortsätt
+* `A` pausa klockan. Nu kan tider *finjusteras*. Fortsätt med `A`
 
 #### Genvägar
 
