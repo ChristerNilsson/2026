@@ -37,8 +37,8 @@ Efter att ha startat programmet, ser du t ex `[90]`:`30` och har följande val:
 
 #### Genvägar
 
-`Refresh` `L` eller `R` => Den *grovinställda* tiden används  
-`Refresh` `A` => Visar *fininställd* tid. Starta med `L` eller `R`  
+`Refresh` => *grovinställd* tid. Starta med `L` eller `R`  
+`Refresh` `A` => *fininställd* tid. Starta med `L` eller `R`  
 
 #### Skillnader gentemot originalklockan
 
