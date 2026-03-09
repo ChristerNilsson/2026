@@ -6,7 +6,9 @@ Det förutsätter enbart förändringar i mjukvaran.
 Knapparna för setup är `-` `+` `A` `B`  
 Knapparna för att starta klockan är `L` och `R`  
 Omstart sker med `Refresh`  
-Understruket tal innebär att `+` och `-` kan appliceras på det talet.  
+
+Understruket tal (visas som `[90]`) innebär att `+` och `-` kan appliceras på det talet.  
+
 Grova minuter: `1` `2` `3` `4` `5` `10` `15` `20` `25` `30` `45` `60` `90`  
 Grova sekunder: `0` `1` `2` `3` `4` `5` `10` `15` `20` `25` `30`  
 
@@ -17,9 +19,6 @@ Grova tider:
 Fina tider: 
   * `00:00` `00:01` .. `00:58` `99:59`  
   * `99:00` `99:01` .. `99:58` `99:59`  
-
-`[90]` motsvarar understruket tal. Dessa tal kan redigeras med `+` och `-`.  
-Förändringen kan vara grov eller fin.  
 
 Efter att ha startat programmet, ser du t ex `[90]`:`30` och har följande val:
 * `-` minska markerat tal, t ex `[90]`:`30` blir `[60]`:`30`
