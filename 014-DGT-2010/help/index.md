@@ -1,7 +1,7 @@
 [Try it!](https://christernilsson.github.io/2026/014-DGT-2010/)
 
 Detta är ett förslag som visar hur man kan göra DGT 2010 lättare att använda.  
-Det förutsätter enbart förändringar i mjukvaran.  
+Det förutsätter att DGT genomför förändringar i mjukvaran.  
 
 Knapparna för setup är `-` `+` `A` `B`  
 Knapparna för att starta klockan är `L` och `R`  
