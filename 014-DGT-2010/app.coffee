@@ -20,7 +20,6 @@ state =
 leftMs = 0
 rightMs = 0
 
-# 0: left ticks, 1: right ticks
 active = 0
 paused = false
 timerId = null
@@ -48,7 +47,6 @@ withUsed = (state, used, replace = false) ->
 
 hasUsed = (mask) -> (state.used & mask) isnt 0
 markUsed = (mask) -> state.used = state.used | mask
-# clearUsed = (mask) -> state.used = state.used & ~mask
 
 stepOption = (options, value, delta) ->
 	i = options.indexOf value
@@ -159,13 +157,11 @@ loadSettings = ->
 	state.used = 0
 
 	[min,sec] = state.duo
-	# sec = state.duo[1]
 	leftMin = Math.max 0, toInt(data.leftMin, min)
 	rightMin = Math.max 0, toInt(data.rightMin, min)
 	leftSec = ((toInt(data.leftSec, sec) % 60) + 60) % 60
 	rightSec = ((toInt(data.rightSec, sec) % 60) + 60) % 60
 
-	# Setup (duo) restored; runtime returns to setup mode.
 	state.state = [0, 0]
 	state.used = 0
 
@@ -212,10 +208,6 @@ fieldHtml = (value, selected) ->
 	text = String(value).padStart(2, '0')
 	if selected then "<span style='text-decoration:underline'>#{text}</span>" else text
 
-#setButtonStates = ->
-	#isRunning = state.state[0] >= 2 and not paused
-	#lockSideButtons = state.state[0] < 2 or paused
-
 setSetupView = ->
 	clockLeft.style.width = "16.3em"
 	clockRight.style.display = "none"
@@ -232,7 +224,6 @@ setPlayView = ->
 		clockLeft.textContent  = "#{String(lp.m).padStart(2, '0')}:#{String(lp.s).padStart(2, '0')}"
 		clockRight.textContent = "#{String(rp.m).padStart(2, '0')}:#{String(rp.s).padStart(2, '0')}"
 		return
-	#mid = "  "
 	if paused
 		clockLeft.innerHTML  = "#{fieldHtml(lp.m, state.state[1] is 0)}:#{fieldHtml(lp.s, state.state[1] is 1)}"
 		clockRight.innerHTML = "#{fieldHtml(rp.m, state.state[1] is 2)}:#{fieldHtml(rp.s, state.state[1] is 3)}"
@@ -245,7 +236,6 @@ setPlayView = ->
 		clockRight.innerHTML = "#{fieldHtml(rp.m, rightTicks)}#{rightSep}#{fieldHtml(rp.s, rightTicks)}"
 
 updateView = ->
-	#setButtonStates()
 	if state.state[0] < 2 then setSetupView() else setPlayView()
 
 advanceClock = ->
