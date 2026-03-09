@@ -21,6 +21,8 @@ Understruket tal (visas här som `[90]`) innebär att `+` och `-` kan appliceras
   * `00:00` `00:01` .. `00:58` `99:59`  
   * `99:00` `99:01` .. `99:58` `99:59`  
 
+*Grov* tid och *fin* tid kan vara helt olika. Det är upp till användaren.  
+
 Efter att ha startat programmet, ser du t ex `[90]`:`30` och har följande val:
 * `-` minska markerat tal, t ex `[90]`:`30` blir `[60]`:`30`
 * `+` öka markerat tal, t ex `[60]`:`30` blir `[90]`:`30`
@@ -37,7 +39,6 @@ Efter att ha startat programmet, ser du t ex `[90]`:`30` och har följande val:
 
 `Refresh` `L` eller `R` => Den *grovinställda* tiden används  
 `Refresh` `A` => Visar *fininställd* tid. Starta med `L` eller `R`  
-*Grov* tid och *fin* tid kan vara helt olika. Det är upp till användaren.  
 
 #### Skillnader gentemot originalklockan
 
