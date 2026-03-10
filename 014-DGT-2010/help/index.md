@@ -8,10 +8,10 @@ Knapparna för setup är `-` `+` `A` `B`
 Knapparna för att starta klockan är `L` och `R`  
 Omstart sker med `Refresh`  
 
-Understruket tal (visas här som `[90]`) innebär att `+` och `-` kan appliceras på det talet.  
-
-*Grova* minuter: `1` `2` `3` `4` `5` `10` `15` `20` `25` `30` `45` `60` `90`  
-*Grova* sekunder: `0` `1` `2` `3` `4` `5` `10` `15` `20` `25` `30`  
+|||||||||||||||
+|-|-|-|-|-|-|-|-|-|-|-|-|-|-|
+|*Grova* minuter |   |`1`|`2`|`3`|`4`|`5`|`10`|`15`|`20`|`25`|`30`|`45`|`60`|`90`|
+|*Grova* sekunder|`0`|`1`|`2`|`3`|`4`|`5`|`10`|`15`|`20`|`25`|`30`|    |    |    |
 
 *Grova* tider: 
   * `01:00` `01:01` .. `01:25` `01:30`  
@@ -22,6 +22,8 @@ Understruket tal (visas här som `[90]`) innebär att `+` och `-` kan appliceras
   * `99:00` `99:01` .. `99:58` `99:59`  
 
 *Grov* tid och *fin* tid kan vara helt olika. Det är upp till användaren.  
+
+Understruket tal (visas nedan som `[90]`) innebär att `+` och `-` kan utföras på det talet.  
 
 Efter att ha startat programmet, ser du t ex `[90]`:`30` och har följande val:
 * `-` minska markerat tal, t ex `[90]`:`30` blir `[60]`:`30`
