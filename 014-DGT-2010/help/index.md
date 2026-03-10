@@ -23,7 +23,7 @@ Omstart sker med `Refresh`
 
 *Grov* tid och *fin* tid kan vara helt olika. Det är upp till användaren.  
 
-Understruket tal (visas nedan som `[90]`) innebär att `+` och `-` kan utföras på det talet.  
+Understruket tal ( visas nedan som `[90]`) innebär att `+` och `-` kan utföras på det talet.  
 
 Efter att ha startat programmet, ser du t ex `[90]`:`30` och har följande val:
 * `-` minska markerat tal, t ex `[90]`:`30` blir `[60]`:`30`
