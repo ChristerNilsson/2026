@@ -86,3 +86,7 @@ export testReducer = (script, reducers) ->
 		tree
 		failures
 	}
+
+export node = (name) ->
+	(expected, children...) ->
+		{name, expected, children}

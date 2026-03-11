@@ -1,4 +1,4 @@
-import {testReducer} from './TestReducer.js'
+import {testReducer,node} from './TestReducer.js'
 
 reducers =
 	add2: (state) ->
@@ -9,10 +9,6 @@ reducers =
 		{...state, re: -state.im, im: state.re}
 	mirror: (state) ->
 		{...state, re: state.im, im: state.re}
-
-node = (name) ->
-	(expected, children...) ->
-		{name, expected, children}
 
 test = node 'test'
 add2 = node 'add2'
