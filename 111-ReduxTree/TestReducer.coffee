@@ -16,16 +16,6 @@ normalizeNode = (node) ->
 		children: (node.children ? []).map normalizeNode
 	}
 
-# Letar upp en reducer utifrån nodens namn.
-# Jag tillåter olika casing för att göra testträdet mindre känsligt.
-resolveReducer = (reducers, name) ->
-	candidates = [name, name.toUpperCase(), name.toLowerCase()]
-
-	for candidate in candidates when candidate of reducers
-		return reducers[candidate]
-
-	null
-
 # Jämför actual mot expected som en delmängd.
 # Om expected bara innehåller vissa fält, ignoreras resten av actual.
 matchesExpected = (actual, expected) ->
@@ -44,9 +34,9 @@ matchesExpected = (actual, expected) ->
 formatState = (value) -> JSON.stringify value
 
 # Kör en nod i trädet.
-# "test"-noden sätter start-state, övriga noder kör motsvarande reducer på
+# "test"-noden sätter start-state, övriga noder kör sin egen reducer på
 # förälderns state. Resultatet verifieras och skickas sedan vidare till barnen.
-executeNode = (node, parentState, reducers, path, failures, context) ->
+executeNode = (node, parentState, path, failures, context) ->
 	nextPath = [...path, node.name]
 	pathLabel = nextPath.join " > "
 	callNumber = context.callCount += 1
@@ -56,9 +46,8 @@ executeNode = (node, parentState, reducers, path, failures, context) ->
 	if node.name.toLowerCase() is "test"
 		actualState = node.expected
 	else
-		reducer = resolveReducer reducers, node.name
-		throw new Error "Reducer \"#{node.name}\" not found" unless reducer?
-		actualState = reducer parentState
+		throw new Error "Reducer \"#{node.name}\" not found" unless node.reducer?
+		actualState = node.reducer parentState
 
 	unless matchesExpected actualState, node.expected
 		message = "Assert failed at call #{callNumber} (#{pathLabel}): expected #{formatState(node.expected)}, got #{formatState(actualState)}"
@@ -66,18 +55,18 @@ executeNode = (node, parentState, reducers, path, failures, context) ->
 		console.assert false, message
 
 	for child in node.children
-		executeNode child, actualState, reducers, nextPath, failures, context
+		executeNode child, actualState, nextPath, failures, context
 
 # Publik entrypoint.
 # Kör hela trädet uppifrån och ned, samlar alla fel och returnerar både trädet
 # och listan med assertion-fel för vidare användning.
-export testReducer = (script, reducers) ->
+export testReducer = (script) ->
 	tree = normalizeTree script
 	failures = []
 	context = {callCount: 0}
 
 	for node in tree
-		executeNode node, null, reducers, [], failures, context
+		executeNode node, null, [], failures, context
 
 	if failures.length is 0
 		console.log "All assertions passed (#{tree.length} root test#{if tree.length is 1 then "" else "s"})."
@@ -87,6 +76,6 @@ export testReducer = (script, reducers) ->
 		failures
 	}
 
-export node = (name) ->
+export node = (name, reducer = null) ->
 	(expected, children...) ->
-		{name, expected, children}
+		{name, reducer, expected, children}

@@ -1,20 +1,14 @@
 import {testReducer,node} from './TestReducer.js'
 
-reducers =
-	add2: (state) ->
-		{...state, re: state.re + 2}
-	mul2: (state) ->
-		{...state, re: state.re * 2, im: state.im * 2}
-	rotate: (state) ->
-		{...state, re: -state.im, im: state.re}
-	mirror: (state) ->
-		{...state, re: state.im, im: state.re}
-
 test = node 'test'
-add2 = node 'add2'
-mul2 = node 'mul2'
-rotate = node 'rotate'
-mirror = node 'mirror'
+add2 = node 'add2', (state) ->
+	{...state, re: state.re + 2}
+mul2 = node 'mul2', (state) ->
+	{...state, re: state.re * 2, im: state.im * 2}
+rotate = node 'rotate', (state) ->
+	{...state, re: -state.im, im: state.re}
+mirror = node 'mirror', (state) ->
+	{...state, re: state.im, im: state.re}
 
 script = test {re:3, im:4},
 	add2 {re:5, im:4},
@@ -35,6 +29,6 @@ script = test {re:3, im:4},
 		mirror {re:3, im:-4}
 	mirror {re:4, im:3}
 
-result = testReducer script, reducers
+result = testReducer script
 
 console.log result
