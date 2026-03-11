@@ -33,6 +33,25 @@ matchesExpected = (actual, expected) ->
 # Hjälpfunktion för felmeddelanden så att state skrivs konsekvent.
 formatState = (value) -> JSON.stringify value
 
+# Normaliserar ett steg i en operator-kedja till en körbar reducerfunktion.
+resolveStepReducer = (step) ->
+	if typeof step is "function" and step.reducer?
+		return step.reducer
+
+	if typeof step is "function"
+		return step
+
+	throw new Error "Invalid reducer step: #{formatState(step)}"
+
+# Kör antingen en enkel reducer eller en kedja av reducers.
+applyReducer = (reducer, state) ->
+	if Array.isArray reducer
+		reducer.reduce ((currentState, step) ->
+			resolveStepReducer(step) currentState
+		), state
+	else
+		resolveStepReducer(reducer) state
+
 # Kör en nod i trädet.
 # "test"-noden sätter start-state, övriga noder kör sin egen reducer på
 # förälderns state. Resultatet verifieras och skickas sedan vidare till barnen.
@@ -47,7 +66,7 @@ executeNode = (node, parentState, path, failures, context) ->
 		actualState = node.expected
 	else
 		throw new Error "Reducer \"#{node.name}\" not found" unless node.reducer?
-		actualState = node.reducer parentState
+		actualState = applyReducer node.reducer, parentState
 
 	unless matchesExpected actualState, node.expected
 		message = "Assert failed at call #{callNumber} (#{pathLabel}): expected #{formatState(node.expected)}, got #{formatState(actualState)}"
@@ -77,5 +96,9 @@ export testReducer = (script) ->
 	}
 
 export node = (name, reducer = null) ->
-	(expected, children...) ->
+	definition = (expected, children...) ->
 		{name, reducer, expected, children}
+
+	definition.reducer = reducer
+	definition.nodeName = name
+	definition

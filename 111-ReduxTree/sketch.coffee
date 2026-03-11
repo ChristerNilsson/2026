@@ -9,6 +9,7 @@ rotate = node 'rotate', (state) ->
 	{...state, re: -state.im, im: state.re}
 mirror = node 'mirror', (state) ->
 	{...state, re: state.im, im: state.re}
+add2mul2 = node 'add2mul2', [add2, mul2]
 
 script = test {re:3, im:4},
 	add2 {re:5, im:4},
@@ -28,6 +29,8 @@ script = test {re:3, im:4},
 			mirror {re:6, im:-8}
 		mirror {re:3, im:-4}
 	mirror {re:4, im:3}
+	add2mul2 {re:10, im:8},
+		mirror {re:8, im:10}
 
 result = testReducer script
 
