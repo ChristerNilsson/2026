@@ -313,6 +313,8 @@ update = (key) ->
 	if state.state[0] >= 4
 		return
 
+	counter.textContent = 1 + parseInt counter.textContent
+
 	if state.state[0] < 2
 		if key is "+"
 			if state.state[0] is 0 then state.duo[0] = stepOption(MIN, state.duo[0], 1)
@@ -395,6 +397,7 @@ update = (key) ->
 
 render document.body, div {style:{maxWidth:"16em", margin:"0 auto", padding:"1em", fontFamily:"Consolas, 'Courier New', monospace", fontSize:"4em"}},
 	a {href:HELP, style:{position:"absolute", top:"0.1em", left:"0.1em", textDecoration:"none"}, target:"_blank"}, "?"
+	counter = div {style:{position:"absolute", top:"0.1em", right:"0.1em", fontSize:"0.5em"}},0
 	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.5em"}},
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "-"}, "➖"
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "+"}, "➕"
