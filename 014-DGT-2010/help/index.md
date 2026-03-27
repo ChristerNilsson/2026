@@ -35,17 +35,3 @@ Efter att ha startat programmet, ser du t ex `[90]`:`30` och har följande val:
 
 `Refresh` => *grovinställd* tid. Starta med `L` eller `R`  
 `Refresh` `A` => *fininställd* tid. Starta med `L` eller `R`  
-
-#### Skillnader gentemot originalklockan
-
-* Du ställer enbart in minuter med basen. Inte timmar, inte sekunder.
-* Du ställer enbart in sekunder med inkrementet. Inte minuter.
-* Du behöver inte komma ihåg vad *optionerna* står för. Dvs 17 => `90`:`30` osv
-* *Optionerna* motsvarar i viss mån *grova* tider, men är något färre, 7 istf 13*11.
-  * 01 => `05`:`00`
-  * 02 => `25`:`00`
-  * 03 => finjustering utan inkrement
-  * 15 => `03`:`02`
-  * 16 => `25`:`10`
-  * 17 => `90`:`30`
-  * 18 => finjustering med inkrement
