@@ -12,14 +12,8 @@ Omstart sker med `Refresh`
 |-               |-|-|-|-|-|-|- |- |- |- |- |- |- |- |
 |*Grova* minuter | |1|2|3|4|5|10|15|20|25|30|45|60|90|
 |*Grova* sekunder|0|1|2|3|4|5|10|15|20|25|30|  |  |  |
-
-*Grova* tider: 
-  * `01:00` `01:01` .. `01:25` `01:30`
-  * `90:00` `90:01` .. `90:25` `90:30`
-
-*Fina* tider: 
-  * `00:00` `00:01` .. `00:58` `99:59`
-  * `99:00` `99:01` .. `99:58` `99:59`
+|*Fina* minuter  |0|1|2|..|98|99|
+|*Fina* sekunder |0|1|2|..|58|59|
 
 *Grov* tid och *fin* tid kan vara helt olika. Det är upp till användaren.  
 
