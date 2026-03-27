@@ -401,14 +401,14 @@ render document.body, div {style:{maxWidth:"16em", margin:"0 auto", padding:"1em
 	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.5em"}},
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "-"}, "➖"
 		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "+"}, "➕"
-		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "A"}, "⏯️"
-		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "B"}, "☑️"
+		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "A"}, "A"
+		button {style:{width:"4em", fontSize:"1em"}, onclick: -> update "B"}, "B"
 	div {style:{display:"flex", justifyContent:"center", marginBottom:"0.1em"}},
-		clockLeft  = clockBox {style:{fontSize:"1.5em", width:"8.1em", display:"block", textAlign:"center", whiteSpace:"pre"}}, ""
-		clockRight = clockBox {style:{fontSize:"1.5em", width:"8.1em", display:"block", textAlign:"center", whiteSpace:"pre"}}, ""
+		clockLeft  = clockBox {style:{fontSize:"1.5em", width:"8.1em", display:"block", textAlign:"center", whiteSpace:"pre"}}, "L"
+		clockRight = clockBox {style:{fontSize:"1.5em", width:"8.1em", display:"block", textAlign:"center", whiteSpace:"pre"}}, "R"
 	div {style:{display:"flex", justifyContent:"center", gap:"0.1em", marginTop:"0.3em"}},
-		button {style:{width:"16.1em", fontSize:"2em"}, onclick: -> update "L"}, "\u00A0"
-		button {style:{width:"16.1em", fontSize:"2em"}, onclick: -> update "R"}, "\u00A0"
+		button {style:{width:"16.1em", height:"4em", fontSize:"1em"}, onclick: -> update "L"}, "L"
+		button {style:{width:"16.1em", height:"4em", fontSize:"1em"}, onclick: -> update "R"}, "R"
 
 startTicker()
 loadSettings()
