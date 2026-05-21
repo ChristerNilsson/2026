@@ -1,38 +1,49 @@
 const amountInput = document.querySelector("#amount");
 const stepInput = document.querySelector("#step");
-const goldPrice = document.querySelector("#gold-price");
-const silverPrice = document.querySelector("#silver-price");
-const bronzePrice = document.querySelector("#bronze-price");
-const totalPrice = document.querySelector("#total-price");
+
+const outputs = {
+  gold: document.querySelector("#gold-price"),
+  silver: document.querySelector("#silver-price"),
+  bronze: document.querySelector("#bronze-price"),
+  total: document.querySelector("#total-price")
+};
+
+function readNumber(input) {
+  return Number.parseFloat(input.value) || 0;
+}
 
 function roundUpToHundred(value) {
   return Math.ceil(value / 100) * 100;
 }
 
-function numberFrom(input) {
-  return Number(input.value) || 0;
+function formatKronor(value) {
+  return `${value.toLocaleString("sv-SE")} kr`;
 }
 
-function formatCurrency(value) {
-  return `${value} kr`;
-}
-
-function update() {
-  const amount = numberFrom(amountInput);
-  const step = numberFrom(stepInput);
+function calculatePrices(amount, step) {
   const base = amount / 3;
-
   const gold = roundUpToHundred(base + step);
   const silver = roundUpToHundred(base);
   const bronze = roundUpToHundred(base - step);
 
-  goldPrice.textContent = formatCurrency(gold);
-  silverPrice.textContent = formatCurrency(silver);
-  bronzePrice.textContent = formatCurrency(bronze);
-  totalPrice.textContent = formatCurrency(gold + silver + bronze);
+  return {
+    gold,
+    silver,
+    bronze,
+    total: gold + silver + bronze
+  };
 }
 
-amountInput.addEventListener("input", update);
-stepInput.addEventListener("input", update);
+function render() {
+  const prices = calculatePrices(readNumber(amountInput), readNumber(stepInput));
 
-update();
+  outputs.gold.value = formatKronor(prices.gold);
+  outputs.silver.value = formatKronor(prices.silver);
+  outputs.bronze.value = formatKronor(prices.bronze);
+  outputs.total.value = formatKronor(prices.total);
+}
+
+amountInput.addEventListener("input", render);
+stepInput.addEventListener("input", render);
+
+render();

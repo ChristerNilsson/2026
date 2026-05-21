@@ -22,8 +22,8 @@ Formler
 
 Exempel:
 
-* A = 2000
-* B = 100
+* Belopp = 2000
+* Steg = 100
 
 Guld:   800 kr
 Silver: 700 kr

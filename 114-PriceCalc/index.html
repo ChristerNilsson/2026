@@ -5,86 +5,187 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Priskalkylator</title>
     <style>
+      :root {
+        color-scheme: light;
+        --page: #f4f1ec;
+        --panel: #ffffff;
+        --ink: #222222;
+        --muted: #66625c;
+        --line: #ddd5ca;
+        --field: #fbfaf7;
+        --gold: #a87317;
+        --silver: #66727d;
+        --bronze: #936144;
+        --accent: #236c70;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         margin: 0;
         min-height: 100vh;
         display: grid;
         place-items: center;
-        font-family: Arial, sans-serif;
-        background: #f6f4ef;
-        color: #1f1f1f;
+        padding: 24px;
+        background: var(--page);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
       }
 
       main {
-        width: min(100% - 32px, 360px);
+        width: min(100%, 480px);
         display: grid;
-        gap: 16px;
-        padding: 24px;
-        background: #fff;
-        border: 1px solid #ded8cc;
+        gap: 22px;
+        padding: 28px;
+        background: var(--panel);
+        border: 1px solid var(--line);
         border-radius: 8px;
-        box-shadow: 0 16px 40px rgba(31, 31, 31, 0.12);
+        box-shadow: 0 18px 45px rgba(52, 45, 36, 0.14);
+      }
+
+      header {
+        display: grid;
+        gap: 6px;
       }
 
       h1 {
         margin: 0;
-        font-size: 1.75rem;
+        font-size: 1.8rem;
+        line-height: 1.15;
       }
 
-      label,
-      p {
-        display: grid;
-        gap: 4px;
+      header p {
         margin: 0;
+        color: var(--muted);
       }
 
-      input,
-      output {
-        padding: 10px;
-        font: inherit;
-        border: 1px solid #cfc7b8;
-        border-radius: 6px;
+      .controls,
+      .results {
+        display: grid;
+        gap: 12px;
       }
 
-      output {
-        background: #f8f7f3;
+      label {
+        display: grid;
+        gap: 7px;
         font-weight: 700;
+      }
+
+      input {
+        width: 100%;
+        min-height: 44px;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--field);
+        color: inherit;
+        font: inherit;
+      }
+
+      input:focus {
+        border-color: var(--accent);
+        outline: 3px solid rgba(35, 108, 112, 0.18);
+      }
+
+      .result {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: center;
+        min-height: 50px;
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--field);
+      }
+
+      .result strong {
+        min-width: 0;
+      }
+
+      output {
+        color: var(--accent);
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .gold output {
+        color: var(--gold);
+      }
+
+      .silver output {
+        color: var(--silver);
+      }
+
+      .bronze output {
+        color: var(--bronze);
+      }
+
+      .total {
+        background: #eef7f6;
+        border-color: rgba(35, 108, 112, 0.25);
+      }
+
+      @media (max-width: 420px) {
+        body {
+          padding: 14px;
+        }
+
+        main {
+          padding: 20px;
+        }
+
+        .result {
+          grid-template-columns: 1fr;
+          gap: 4px;
+        }
       }
     </style>
   </head>
   <body>
     <main>
-      <h1>Priskalkylator</h1>
+      <header>
+        <h1>Priskalkylator</h1>
+        <p>Fördela beloppet mellan guld, silver och brons.</p>
+      </header>
 
-      <label>
-        Belopp
-        <input id="amount" type="number" value="2000" step="50" />
-      </label>
+      <section class="controls" aria-label="Indata">
+        <label for="amount">
+          Belopp
+          <input id="amount" type="number" value="2000" min="0" step="50" />
+        </label>
 
-      <label>
-        Steg
-        <input id="step" type="number" value="100" step="50" />
-      </label>
+        <label for="step">
+          Steg
+          <input id="step" type="number" value="100" min="0" step="50" />
+        </label>
+      </section>
 
-      <p>
-        Guld
-        <output id="gold-price"></output>
-      </p>
+      <section class="results" aria-label="Priser">
+        <div class="result gold">
+          <strong>Guld</strong>
+          <output id="gold-price" for="amount step"></output>
+        </div>
 
-      <p>
-        Silver
-        <output id="silver-price"></output>
-      </p>
+        <div class="result silver">
+          <strong>Silver</strong>
+          <output id="silver-price" for="amount step"></output>
+        </div>
 
-      <p>
-        Brons
-        <output id="bronze-price"></output>
-      </p>
+        <div class="result bronze">
+          <strong>Brons</strong>
+          <output id="bronze-price" for="amount step"></output>
+        </div>
 
-      <p>
-        Total prissumma
-        <output id="total-price"></output>
-      </p>
+        <div class="result total">
+          <strong>Total prissumma</strong>
+          <output id="total-price" for="amount step"></output>
+        </div>
+      </section>
     </main>
 
     <script src="./sketch.js"></script>
