@@ -1,7 +1,9 @@
 Produce sketch.js and index.html
 
-Variabelnamnen ska inte visas.
+Variabelnamnen ska inte visas
 Använd UTF-8
+Om parametrar i urlen finns ska de användas i första hand, annars default
+Programmet uppdaterar urlen kontinuerligt
 
 Input:
 
