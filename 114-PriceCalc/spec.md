@@ -1,29 +1,32 @@
-Produce sketch.js and index.html
+Producera sketch.js och index.html
 
-Input:
+Avrunda uppåt till närmaste hundralapp.
+Inkrementering av Belopp och Steg ska ske i steg om 50 kr.
 
-* A = Belopp
-* B = Steg
+Indata:
 
-Output:
+* Belopp
+* Steg
 
-* O1 = Första pris
-* O2 = Andra pris
-* O3 = Tredje pris
+Utdata:
 
-Calculations
+* Guld
+* Silver
+* Brons
 
-* O1 = A / 3 + B
-* O2 = A / 3
-* O3 = A / 3 - B
+Formler
 
-All outputs are rounded up to nearest 100
+* Guld = Belopp / 3 + Steg
+* Silver = Belopp / 3
+* Brons = Belopp / 3 - Steg
 
-Examples:
+Exempel:
 
 * A = 2000
 * B = 100
 
-* O1 = 800
-* O2 = 700
-* O3 = 600
+Guld:   800 kr
+Silver: 700 kr
+Brons:  600 kr
+
+Total prissumma: 2100 kr

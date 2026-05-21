@@ -11,12 +11,24 @@
         display: grid;
         place-items: center;
         font-family: Arial, sans-serif;
+        background: #f6f4ef;
+        color: #1f1f1f;
       }
 
       main {
         width: min(100% - 32px, 360px);
         display: grid;
-        gap: 12px;
+        gap: 16px;
+        padding: 24px;
+        background: #fff;
+        border: 1px solid #ded8cc;
+        border-radius: 8px;
+        box-shadow: 0 16px 40px rgba(31, 31, 31, 0.12);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 1.75rem;
       }
 
       label,
@@ -28,8 +40,15 @@
 
       input,
       output {
-        padding: 8px;
+        padding: 10px;
         font: inherit;
+        border: 1px solid #cfc7b8;
+        border-radius: 6px;
+      }
+
+      output {
+        background: #f8f7f3;
+        font-weight: 700;
       }
     </style>
   </head>
@@ -39,27 +58,32 @@
 
       <label>
         Belopp
-        <input id="amount" type="number" value="2000" />
+        <input id="amount" type="number" value="2000" step="50" />
       </label>
 
       <label>
         Steg
-        <input id="step" type="number" value="100" />
+        <input id="step" type="number" value="100" step="50" />
       </label>
 
       <p>
-        Första pris
-        <output id="first-price"></output>
+        Guld
+        <output id="gold-price"></output>
       </p>
 
       <p>
-        Andra pris
-        <output id="second-price"></output>
+        Silver
+        <output id="silver-price"></output>
       </p>
 
       <p>
-        Tredje pris
-        <output id="third-price"></output>
+        Brons
+        <output id="bronze-price"></output>
+      </p>
+
+      <p>
+        Total prissumma
+        <output id="total-price"></output>
       </p>
     </main>
 
