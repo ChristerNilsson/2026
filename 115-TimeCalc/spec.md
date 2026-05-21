@@ -1,19 +1,19 @@
 Produce sketch.js and index.html
 
-Variabelnamnen ska inte visas
-Använd UTF-8
-Om parametrar i urlen finns ska de användas i första hand, annars default
-Programmet uppdaterar urlen kontinuerligt
+Variable should not be shown
+Use UTF-8
+Use the url if present, otherwise default values
+Update the url continuously
 
 Input:
 
-* A = Starttid (hh:mm)
+* A = Start time (hh:mm)
 * G = Intro (min)
-* D = Antal ronder
-* E = Antal ronder före lunch
-* B = Schackklocka (min)
-* F = Lottningstid (min)
-* C = Lunchpaus (min)
+* D = Number of rounds
+* E = Number of rounds before lunch
+* B = Chess Clock (min)
+* F = Paring Time (min)
+* C = Lunch Break (min)
 
 Example input:
 
@@ -28,12 +28,12 @@ Example input:
 Example output:
 
 Intro:  10:00
-Rond 1: 10:10
-Rond 2: 10:45
-Rond 3: 11:20
-Rond 4: 11:55
+Round 1: 10:10
+Round 2: 10:45
+Round 3: 11:20
+Round 4: 11:55
 Lunch:  30 min
-Rond 5: 13:00
-Rond 6: 13:35
-Rond 7: 14:10
-Prisutdelning: 14:35
+Round 5: 13:00
+Round 6: 13:35
+Round 7: 14:10
+Price Ceremony: 14:35

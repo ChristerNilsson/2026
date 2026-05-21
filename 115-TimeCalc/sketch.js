@@ -119,7 +119,7 @@ function render() {
   const lines = [`Intro:  ${formatTime(introStart)}`];
 
   for (let round = 1; round <= rounds; round += 1) {
-    lines.push(`Rond ${round}: ${formatTime(time)}`);
+    lines.push(`Round ${round}: ${formatTime(time)}`);
     prizeTime = time + clock + intro;
     time += roundStep;
 
@@ -129,7 +129,7 @@ function render() {
     }
   }
 
-  lines.push(`Prisutdelning: ${formatTime(prizeTime)}`);
+  lines.push(`Price Ceremony: ${formatTime(prizeTime)}`);
   result.textContent = lines.join("\n");
   updateUrl();
 }
