@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polling</title>
+
+<style>
+:root {
+  --list-offset: 0px;
+  --counter-height: 38px;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 0;
+  font-family: Arial, sans-serif;
+  background: #fff;
+}
+
+#viewport {
+  position: fixed;
+  top: var(--counter-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  background: #fff;
+}
+
+#counter {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  height: var(--counter-height);
+  box-sizing: border-box;
+  padding: 8px 12px;
+  background: #fff;
+  color: #111;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+#message {
+  display: none;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 20px;
+  color: #222;
+  font-size: 18px;
+}
+
+#page {
+  display: block;
+  width: 100%;
+  height: calc(100vh - var(--counter-height) + var(--list-offset));
+  margin-top: calc(-1 * var(--list-offset));
+  border: 0;
+}
+</style>
+</head>
+
+<body>
+<div id="counter">60</div>
+<div id="viewport">
+  <div id="message"></div>
+  <iframe id="page" title="Tournament"></iframe>
+</div>
+
+<script>
+const pollMs = 60000;
+const params = new URLSearchParams(window.location.search);
+const apiBase = window.location.port === "5500" ? "http://localhost:8080" : "";
+const requiredParams = ["type", "tournament", "height"];
+const missingParams = requiredParams.filter(name => !params.has(name) || params.get(name) === "");
+const counterEl = document.getElementById("counter");
+const pageEl = document.getElementById("page");
+const messageEl = document.getElementById("message");
+const type = params.get("type");
+const tournament = params.get("tournament");
+const height = params.get("height");
+let currentHash = "";
+let secondsLeft = 60;
+
+function showError(message) {
+  pageEl.style.display = "none";
+  messageEl.style.display = "block";
+  messageEl.textContent = message;
+}
+
+function hideError() {
+  messageEl.style.display = "none";
+  pageEl.style.display = "block";
+}
+
+function queryString() {
+  return new URLSearchParams({ type, tournament, height }).toString();
+}
+
+function setPage(snapshot) {
+  const url = new URL(`${apiBase}/page`, window.location.origin);
+  url.searchParams.set("type", snapshot.type);
+  url.searchParams.set("tournament", snapshot.tournament);
+  url.searchParams.set("height", snapshot.height);
+  url.searchParams.set("hash", snapshot.hash);
+  hideError();
+  pageEl.src = url.toString();
+}
+
+async function readSnapshot() {
+  const response = await fetch(`${apiBase}/snapshot?${queryString()}`, {
+    cache: "no-store"
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => null);
+    throw new Error(error?.error || `HTTP ${response.status}`);
+  }
+
+  return response.json();
+}
+
+async function poll() {
+  const snapshot = await readSnapshot();
+  document.documentElement.style.setProperty("--list-offset", `${snapshot.height}px`);
+
+  if (snapshot.hash !== currentHash) {
+    currentHash = snapshot.hash;
+    setPage(snapshot);
+  }
+}
+
+async function pollSafely() {
+  try {
+    await poll();
+  } catch (error) {
+    showError(error.message);
+  }
+}
+
+function resetCounter() {
+  secondsLeft = 60;
+  counterEl.textContent = secondsLeft.toString();
+}
+
+function startCounter() {
+  resetCounter();
+  setInterval(() => {
+    secondsLeft -= 1;
+    if (secondsLeft < 0) {
+      secondsLeft = 60;
+    }
+    counterEl.textContent = secondsLeft.toString();
+  }, 1000);
+}
+
+if (missingParams.length > 0) {
+  showError(`Saknar URL-parameter: ${missingParams.join(", ")}`);
+} else {
+  document.documentElement.style.setProperty("--list-offset", `${height}px`);
+  startCounter();
+  pollSafely();
+  setInterval(() => {
+    resetCounter();
+    pollSafely();
+  }, pollMs);
+}
+</script>
+</body>
+</html>
