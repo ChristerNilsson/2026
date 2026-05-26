@@ -1,5 +1,8 @@
 Jag behöver kod till ett bokmärke.
 
+Koden i bokmärket ska se ut så här:
+javascript:(()=>{const s=document.createElement('script');s.src='https://christernilsson.github.io/2026/117-NameList/sketch.js';document.head.appendChild(s)})()
+
 ### Indata:
 
 Url till en turnering.  
@@ -9,7 +12,7 @@ https://member.schack.se/ShowTournamentServlet?id=16547&listingtype=2
 
 ### Utdata:
 
-Spara utdata till filen matrix.txt
+Visa matrisen i webläsaren.
 
 En matris med N deltagare på båda axlarna
 Matrisen är symmetrisk kring huvuddiagonalen och innehåller N x N celler.

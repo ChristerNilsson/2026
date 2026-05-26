@@ -114,12 +114,6 @@
     return value;
   }
 
-  function padRight(value, width) {
-    value = String(value);
-    while (value.length < width) value += " ";
-    return value;
-  }
-
   function formatMatrix(result) {
     var players = result.players;
     var matrix = result.matrix;
@@ -161,25 +155,52 @@
       lines.push(
         padLeft(index + 1, rowNoWidth) + " " +
         padLeft(player.rating || "", ratingWidth) + " " +
-        padRight(player.name, 1)
+        player.name
       );
     });
 
     return lines.join("\n");
   }
 
-  function downloadText(filename, content) {
-    var blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-    var url = URL.createObjectURL(blob);
-    var link = document.createElement("a");
-    link.href = url;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    setTimeout(function () {
-      URL.revokeObjectURL(url);
-    }, 1000);
+  function showMatrix(content) {
+    var old = document.getElementById("round-matrix-bookmarklet");
+    if (old) old.remove();
+
+    var wrapper = document.createElement("div");
+    wrapper.id = "round-matrix-bookmarklet";
+    wrapper.innerHTML =
+      '<div class="rmb-panel">' +
+      '<div class="rmb-bar">' +
+      '<strong>Rondmatris</strong>' +
+      '<button type="button" class="rmb-copy">Kopiera</button>' +
+      '<button type="button" class="rmb-close">Stang</button>' +
+      "</div>" +
+      '<pre class="rmb-output"></pre>' +
+      "</div>";
+
+    var style = document.createElement("style");
+    style.textContent =
+      "#round-matrix-bookmarklet{position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.35);color:#111}" +
+      "#round-matrix-bookmarklet .rmb-panel{position:absolute;inset:20px;background:#fff;border:1px solid #555;box-shadow:0 8px 30px rgba(0,0,0,.3);display:flex;flex-direction:column}" +
+      "#round-matrix-bookmarklet .rmb-bar{display:flex;gap:10px;align-items:center;padding:8px;border-bottom:1px solid #ccc;background:#f3f3f3;font:14px Arial,sans-serif}" +
+      "#round-matrix-bookmarklet .rmb-bar strong{margin-right:auto}" +
+      "#round-matrix-bookmarklet button{font:inherit;padding:4px 10px;cursor:pointer}" +
+      "#round-matrix-bookmarklet .rmb-output{margin:0;padding:12px;overflow:auto;white-space:pre;font:13px Consolas,'Courier New',monospace;line-height:1.35;flex:1}";
+
+    wrapper.querySelector(".rmb-output").textContent = content;
+    wrapper.querySelector(".rmb-close").addEventListener("click", function () {
+      wrapper.remove();
+    });
+    wrapper.querySelector(".rmb-copy").addEventListener("click", function (event) {
+      navigator.clipboard.writeText(content).then(function () {
+        event.target.textContent = "Kopierat";
+        setTimeout(function () {
+          event.target.textContent = "Kopiera";
+        }, 1200);
+      });
+    });
+    wrapper.appendChild(style);
+    document.body.appendChild(wrapper);
   }
 
   try {
@@ -187,7 +208,7 @@
     if (!table) throw new Error("Kunde inte hitta resultat-tabellen.");
     var players = readPlayers(table, readColumns(table));
     if (players.length === 0) throw new Error("Kunde inte l\u00e4sa deltagare.");
-    downloadText("matrix.txt", formatMatrix(makeMatrix(players)));
+    showMatrix(formatMatrix(makeMatrix(players)));
   } catch (error) {
     alert("Rondmatris: " + error.message);
   }
