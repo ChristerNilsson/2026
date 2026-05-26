@@ -23,7 +23,7 @@ Matrisen är symmetrisk kring huvuddiagonalen och innehåller N x N celler.
 
 * X-axel: fallande elotal
 * Y-axel: fallande elotal
-* Cell: rondnummer för ett möte mellan två deltagare. Alla övriga har tecknet "•". Huvuddiagonalen innehåller asterisker.
+* Cell: rondnummer för ett möte mellan två deltagare. Alla övriga har tecknet ".". Huvuddiagonalen innehåller "•"
 
          1 2 3 4 5 6 7 8 9 0 1 2 3 osv
  1 2341  * 1 •                     Adam 

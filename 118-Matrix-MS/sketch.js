@@ -1,8 +1,8 @@
 (function () {
   "use strict";
 
-  var EMPTY = "\u2022";
-  var DIAGONAL = "*";
+  var EMPTY = ".";
+  var DIAGONAL = "\u2022";
   var ROUND_SYMBOLS = "123456789acdefghijklmnopqrstuvwxyz";
 
   function cleanText(node) {
