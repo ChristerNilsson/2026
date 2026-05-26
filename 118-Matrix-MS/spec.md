@@ -14,7 +14,8 @@ https://member.schack.se/ShowTournamentServlet?id=16547&listingtype=2
 
 ### Utdata:
 
-Visa enbart matrisen + spelarnas namn i webläsaren.  
+Visa enbart matrisen i webläsaren.  
+Till höger om matrisen ska spelarnas namn skrivas ut.  
 Rondnummer anges med 123456789acdefghijklmnop osv.  
 
 En matris med N deltagare på båda axlarna
@@ -25,8 +26,8 @@ Matrisen är symmetrisk kring huvuddiagonalen och innehåller N x N celler.
 * Cell: rondnummer för ett möte mellan två deltagare. Alla övriga har tecknet "•". Huvuddiagonalen innehåller asterisker.
 
          1 2 3 4 5 6 7 8 9 0 1 2 3 osv
- 1 2341  * 1 •
- 2 2300  1 * 2
- 3 2250  • 2 *
+ 1 2341  * 1 •                     Adam 
+ 2 2300  1 * 2                     Bertil
+ 3 2250  • 2 *                     Cesar
 osv
 

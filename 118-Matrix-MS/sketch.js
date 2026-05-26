@@ -115,6 +115,12 @@
     return value;
   }
 
+  function padRight(value, width) {
+    value = String(value);
+    while (value.length < width) value += " ";
+    return value;
+  }
+
   function roundSymbol(round) {
     return ROUND_SYMBOLS[round - 1] || "?";
   }
@@ -127,6 +133,7 @@
     var ratingWidth = Math.max(4, players.reduce(function (width, player) {
       return Math.max(width, String(player.rating || "").length);
     }, 0));
+    var matrixWidth = players.length * cellWidth + Math.max(0, players.length - 1);
     var prefixWidth = rowNoWidth + 1 + ratingWidth;
     var lines = [];
 
@@ -141,9 +148,9 @@
       lines.push(
         padLeft(index + 1, rowNoWidth) + " " +
         padLeft(player.rating || "", ratingWidth) + " " +
-        matrix[index].map(function (value) {
+        padRight(matrix[index].map(function (value) {
           return padLeft(value, cellWidth);
-        }).join(" ") +
+        }).join(" "), matrixWidth) +
         "  " + player.name
       );
     });

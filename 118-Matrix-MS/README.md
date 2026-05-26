@@ -22,6 +22,7 @@ javascript:(()=>{const s=document.createElement('script');s.src='https://christe
 Webbläsaren kan inte importera `sketch.js` direkt från den lokala arbetskatalogen
 när du är inne på en HTTPS-sida. Scriptet måste vara tillgängligt via URL.
 
-Matrisen sorteras efter fallande ranking/Elo på båda axlarna. Diagonalen visas
-med `*`, ospelade/ej parade celler med `•`, och möten visas med rondtecken.
+Matrisen sorteras efter fallande ranking/Elo på båda axlarna. Spelarnas namn
+skrivs till höger om matrisen. Diagonalen visas med `*`, ospelade/ej parade
+celler med `•`, och möten visas med rondtecken.
 Rondtecken anges som `123456789acdefghijklmnopqrstuvwxyz`.
