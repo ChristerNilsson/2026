@@ -26,3 +26,6 @@ Matrisen sorteras efter fallande ranking/Elo på båda axlarna. Spelarnas namn
 skrivs till höger om matrisen. Diagonalen visas med `•`, ospelade/ej parade
 celler med `.`, och möten visas med rondtecken.
 Rondtecken anges som `123456789abcdefghijklmnopqrstuvwxyz`.
+
+Under matrisen visas en FairPair-URL där `ROUNDS` sätts till antal rondkolumner
+och varje `p`-parameter byggs av spelarens Elo och namn.

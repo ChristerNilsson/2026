@@ -109,6 +109,25 @@
     };
   }
 
+  function encodeFairPairValue(value) {
+    return encodeURIComponent(String(value)).replace(/%20/g, "+");
+  }
+
+  function fairPairUrl(players, rounds) {
+    var url = "https://christernilsson.github.io/2025/035-FairPair/?" +
+      "TITLE=&CITY=&FED=SWE&ARB=&GAMES=1&ROUNDS=" + rounds +
+      "&currSort=%23&currRound=0&ONE=1&A=1&B=1&C=1&SPEED=0";
+
+    players.forEach(function (player) {
+      url += "&p=" +
+        encodeFairPairValue(player.rating || 0) + "|" +
+        encodeFairPairValue(player.name) + "|" +
+        "1786911";
+    });
+
+    return url;
+  }
+
   function padLeft(value, width) {
     value = String(value);
     while (value.length < width) value = " " + value;
@@ -125,7 +144,7 @@
     return ROUND_SYMBOLS[round - 1] || "?";
   }
 
-  function formatMatrix(result) {
+  function formatMatrix(result, rounds) {
     var players = result.players;
     var matrix = result.matrix;
     var cellWidth = 1;
@@ -155,6 +174,9 @@
       );
     });
 
+    lines.push("");
+    lines.push(fairPairUrl(players, rounds));
+
     return lines.join("\n");
   }
 
@@ -179,9 +201,10 @@
   try {
     var table = findResultTable();
     if (!table) throw new Error("Kunde inte hitta resultat-tabellen.");
-    var players = readPlayers(table, readColumns(table));
+    var columns = readColumns(table);
+    var players = readPlayers(table, columns);
     if (players.length === 0) throw new Error("Kunde inte l\u00e4sa deltagare.");
-    showMatrix(formatMatrix(makeMatrix(players)));
+    showMatrix(formatMatrix(makeMatrix(players), columns.roundIndexes.length));
   } catch (error) {
     alert("Rondmatris: " + error.message);
   }
