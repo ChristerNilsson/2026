@@ -144,7 +144,8 @@
         padLeft(player.rating || "", ratingWidth) + " " +
         matrix[index].map(function (value) {
           return padLeft(value, cellWidth);
-        }).join(" ")
+        }).join(" ") +
+        "  " + player.name
       );
     });
 
