@@ -3,7 +3,7 @@
 
   var EMPTY = ".";
   var DIAGONAL = "\u2022";
-  var ROUND_SYMBOLS = "123456789acdefghijklmnopqrstuvwxyz";
+  var ROUND_SYMBOLS = "123456789abcdefghijklmnopqrstuvwxyz";
 
   function cleanText(node) {
     return (node ? node.textContent : "").replace(/\s+/g, " ").trim();

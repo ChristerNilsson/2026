@@ -25,4 +25,4 @@ när du är inne på en HTTPS-sida. Scriptet måste vara tillgängligt via URL.
 Matrisen sorteras efter fallande ranking/Elo på båda axlarna. Spelarnas namn
 skrivs till höger om matrisen. Diagonalen visas med `•`, ospelade/ej parade
 celler med `.`, och möten visas med rondtecken.
-Rondtecken anges som `123456789acdefghijklmnopqrstuvwxyz`.
+Rondtecken anges som `123456789abcdefghijklmnopqrstuvwxyz`.

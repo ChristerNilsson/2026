@@ -16,14 +16,14 @@ https://member.schack.se/ShowTournamentServlet?id=16547&listingtype=2
 
 Visa enbart matrisen i webläsaren.  
 Till höger om matrisen ska spelarnas namn skrivas ut.  
-Rondnummer anges med 123456789acdefghijklmnop osv.  
+Rondnummer anges med 123456789abcdefghijklmnopqrstuvwxyz osv.  
 
 En matris med N deltagare på båda axlarna
 Matrisen är symmetrisk kring huvuddiagonalen och innehåller N x N celler.
 
 * X-axel: fallande elotal
 * Y-axel: fallande elotal
-* Cell: rondnummer för ett möte mellan två deltagare. Alla övriga har tecknet ".". Huvuddiagonalen innehåller "•"
+* Cell: rondnummer för ett möte mellan två deltagare. Alla övriga har tecknet ".". Huvuddiagonalen ska innehålla "•".
 
          1 2 3 4 5 6 7 8 9 0 1 2 3 osv
  1 2341  * 1 •                     Adam 
