@@ -3,6 +3,7 @@
 
   var EMPTY = "\u2022";
   var DIAGONAL = "*";
+  var ROUND_SYMBOLS = "123456789acdefghijklmnopqrstuvwxyz";
 
   function cleanText(node) {
     return (node ? node.textContent : "").replace(/\s+/g, " ").trim();
@@ -97,8 +98,8 @@
       player.rounds.forEach(function (entry) {
         var col = indexByStartNo.get(entry.opponentStartNo);
         if (row === undefined || col === undefined) return;
-        matrix[row][col] = String(entry.round);
-        matrix[col][row] = String(entry.round);
+        matrix[row][col] = roundSymbol(entry.round);
+        matrix[col][row] = roundSymbol(entry.round);
       });
     });
 
@@ -114,16 +115,14 @@
     return value;
   }
 
+  function roundSymbol(round) {
+    return ROUND_SYMBOLS[round - 1] || "?";
+  }
+
   function formatMatrix(result) {
     var players = result.players;
     var matrix = result.matrix;
-    var maxRound = matrix.reduce(function (highest, row) {
-      return row.reduce(function (rowHighest, value) {
-        var number = /^\d+$/.test(value) ? parseInt(value, 10) : 0;
-        return Math.max(rowHighest, number);
-      }, highest);
-    }, 0);
-    var cellWidth = Math.max(1, String(maxRound).length);
+    var cellWidth = 1;
     var rowNoWidth = String(players.length).length;
     var ratingWidth = Math.max(4, players.reduce(function (width, player) {
       return Math.max(width, String(player.rating || "").length);

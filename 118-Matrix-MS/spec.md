@@ -14,7 +14,8 @@ https://member.schack.se/ShowTournamentServlet?id=16547&listingtype=2
 
 ### Utdata:
 
-Visa enbart matrisen i webläsaren. 
+Visa enbart matrisen + spelarnas namn i webläsaren.  
+Rondnummer anges med 123456789acdefghijklmnop osv.  
 
 En matris med N deltagare på båda axlarna
 Matrisen är symmetrisk kring huvuddiagonalen och innehåller N x N celler.
