@@ -8,7 +8,7 @@ Det har projektet innehaller kod for ett bokmarke som korslaser resultatvyn pa
 1. Oppna en turnering pa `member.schack.se`, till exempel:
    `https://member.schack.se/ShowTournamentServlet?id=16547&listingtype=2`
 2. Skapa ett nytt bokmarke i webblasaren.
-3. Publicera `sketch.js` pa GitHub Pages.
+3. Publicera `sketch.js` i GitHub-repot.
 4. Klistra in innehallet fran `bookmarklet.txt` som bokmarkets URL.
 5. Klicka pa bokmarket nar turneringssidan ar oppen.
 6. Matrisen visas ovanpa turneringssidan.

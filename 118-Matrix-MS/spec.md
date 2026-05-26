@@ -1,5 +1,7 @@
 Jag behöver kod till ett bokmärke.
 
+UTF-8 ska gälla.
+
 Koden i bokmärket ska se ut så här:
 javascript:(()=>{const s=document.createElement('script');s.src='https://christernilsson.github.io/2026/118-Matrix-MS/sketch.js';document.head.appendChild(s)})()
 
@@ -12,7 +14,7 @@ https://member.schack.se/ShowTournamentServlet?id=16547&listingtype=2
 
 ### Utdata:
 
-Visa matrisen i webläsaren.
+Visa enbart matrisen i webläsaren. 
 
 En matris med N deltagare på båda axlarna
 Matrisen är symmetrisk kring huvuddiagonalen och innehåller N x N celler.
