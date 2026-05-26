@@ -16,7 +16,7 @@ Det har projektet innehaller kod for ett bokmarke som korslaser resultatvyn pa
 Bookmarklet-filen ar bara en loader:
 
 ```js
-javascript:(()=>{const s=document.createElement('script');s.src='https://christernilsson.github.io/2026/118-Matrix-MS/sketch.js';document.head.appendChild(s)})()
+javascript:(()=>{const s=document.createElement('script');s.src='https://christernilsson.github.io/2026/118-Matrix-MS/sketch.js';s.onerror=()=>alert('Kunde inte ladda '+s.src);document.head.appendChild(s)})()
 ```
 
 Webblasaren kan inte importera `sketch.js` direkt fran den lokala arbetskatalogen
