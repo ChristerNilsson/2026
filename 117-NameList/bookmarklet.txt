@@ -1,0 +1,2 @@
+javascript:(()=>{const s=document.createElement('script');s.src='https://christernilsson.github.io/2026/117-NameList/sketch.js';document.head.appendChild(s)})()
+
