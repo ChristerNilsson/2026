@@ -144,18 +144,7 @@
         padLeft(player.rating || "", ratingWidth) + " " +
         matrix[index].map(function (value) {
           return padLeft(value, cellWidth);
-        }).join(" ") +
-        "  " + player.name
-      );
-    });
-
-    lines.push("");
-    lines.push("Spelare:");
-    players.forEach(function (player, index) {
-      lines.push(
-        padLeft(index + 1, rowNoWidth) + " " +
-        padLeft(player.rating || "", ratingWidth) + " " +
-        player.name
+        }).join(" ")
       );
     });
 
@@ -168,37 +157,14 @@
 
     var wrapper = document.createElement("div");
     wrapper.id = "round-matrix-bookmarklet";
-    wrapper.innerHTML =
-      '<div class="rmb-panel">' +
-      '<div class="rmb-bar">' +
-      '<strong>Rondmatris</strong>' +
-      '<button type="button" class="rmb-copy">Kopiera</button>' +
-      '<button type="button" class="rmb-close">Stang</button>' +
-      "</div>" +
-      '<pre class="rmb-output"></pre>' +
-      "</div>";
+    wrapper.innerHTML = '<pre class="rmb-output"></pre>';
 
     var style = document.createElement("style");
     style.textContent =
-      "#round-matrix-bookmarklet{position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.35);color:#111}" +
-      "#round-matrix-bookmarklet .rmb-panel{position:absolute;inset:20px;background:#fff;border:1px solid #555;box-shadow:0 8px 30px rgba(0,0,0,.3);display:flex;flex-direction:column}" +
-      "#round-matrix-bookmarklet .rmb-bar{display:flex;gap:10px;align-items:center;padding:8px;border-bottom:1px solid #ccc;background:#f3f3f3;font:14px Arial,sans-serif}" +
-      "#round-matrix-bookmarklet .rmb-bar strong{margin-right:auto}" +
-      "#round-matrix-bookmarklet button{font:inherit;padding:4px 10px;cursor:pointer}" +
-      "#round-matrix-bookmarklet .rmb-output{margin:0;padding:12px;overflow:auto;white-space:pre;font:13px Consolas,'Courier New',monospace;line-height:1.35;flex:1}";
+      "#round-matrix-bookmarklet{position:fixed;inset:0;z-index:2147483647;background:#fff;color:#111;overflow:auto}" +
+      "#round-matrix-bookmarklet .rmb-output{margin:0;padding:12px;white-space:pre;font:13px Consolas,'Courier New',monospace;line-height:1.35}";
 
     wrapper.querySelector(".rmb-output").textContent = content;
-    wrapper.querySelector(".rmb-close").addEventListener("click", function () {
-      wrapper.remove();
-    });
-    wrapper.querySelector(".rmb-copy").addEventListener("click", function (event) {
-      navigator.clipboard.writeText(content).then(function () {
-        event.target.textContent = "Kopierat";
-        setTimeout(function () {
-          event.target.textContent = "Kopiera";
-        }, 1200);
-      });
-    });
     wrapper.appendChild(style);
     document.body.appendChild(wrapper);
   }
