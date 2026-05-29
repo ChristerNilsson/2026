@@ -182,6 +182,42 @@
 
   const formatGroupTitle = (group) => (group.type === "Schweizer" ? `Grupp ${group.name} Schweizer` : `Grupp ${group.name}`);
 
+  const formatInstructionTitle = (group) => `Grupp ${group.name} ${group.type}`;
+
+  const bergerInstructionOrder = (players) => {
+    const result = [];
+    let left = 0;
+    let right = players.length - 1;
+    let reverse = false;
+
+    while (left <= right) {
+      const pair = left === right ? [players[left]] : [players[left], players[right]];
+      result.push(...(reverse ? pair.reverse() : pair));
+      left += 1;
+      right -= 1;
+      reverse = !reverse;
+    }
+
+    return result;
+  };
+
+  const schweizerInstructionOrder = (players) => {
+    const result = [];
+    const pattern = [0, 3, 4, 1, 2, 5];
+
+    for (let offset = 0; offset < players.length; offset += pattern.length) {
+      const block = players.slice(offset, offset + pattern.length);
+      for (const index of pattern) {
+        if (block[index]) result.push(block[index]);
+      }
+    }
+
+    return result;
+  };
+
+  const instructionOrder = (group) =>
+    group.type === "Schweizer" ? schweizerInstructionOrder(group.players) : bergerInstructionOrder(group.players);
+
   const textBoardList = (title, groups) => {
     let board = 1;
     const lines = [title, ""];
@@ -199,6 +235,16 @@
         );
       }
 
+      lines.push("");
+    }
+
+    lines.push("Instruktioner för att skapa grupperna i medlemssystemet.", "");
+
+    for (const group of groups) {
+      lines.push(formatInstructionTitle(group));
+      instructionOrder(group).forEach((player, index) => {
+        lines.push(`${index + 1}. ${player.name}`);
+      });
       lines.push("");
     }
 
@@ -263,6 +309,26 @@
     }
   };
 
+  const renderInstructions = (container, groups) => {
+    const heading = document.createElement("h1");
+    heading.textContent = "Instruktioner för att skapa grupperna i medlemssystemet";
+    container.append(heading);
+
+    for (const group of groups) {
+      const groupHeading = document.createElement("h2");
+      groupHeading.textContent = formatInstructionTitle(group);
+      container.append(groupHeading);
+
+      const list = document.createElement("ol");
+      for (const player of instructionOrder(group)) {
+        const item = document.createElement("li");
+        item.textContent = player.name;
+        list.append(item);
+      }
+      container.append(list);
+    }
+  };
+
   const render = (copyText, title, groups, count, size) => {
     document.getElementById(APP_ID)?.remove();
 
@@ -318,6 +384,13 @@
           margin: 0 0 18px;
           min-width: 720px;
         }
+        #${APP_ID} ol {
+          margin: 0 0 18px;
+          padding-left: 28px;
+        }
+        #${APP_ID} li {
+          padding: 2px 0;
+        }
         #${APP_ID} th,
         #${APP_ID} td {
           border: 1px solid #888;
@@ -363,6 +436,7 @@
     `;
 
     renderTables(root.querySelector("main"), title, groups);
+    if (groups.length) renderInstructions(root.querySelector("main"), groups);
     root.addEventListener("click", async (event) => {
       const action = event.target?.dataset?.action;
       if (action === "copy") await navigator.clipboard?.writeText(copyText);

@@ -18,7 +18,7 @@ Varje deltagare möter ett antal motspelare.
 
 https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8
 
-### Utdata:
+### Utdata Bordslistor:
 
 * Sortera deltagarna på elo.
 * Gruppera dem med gruppstorleken n.
@@ -37,4 +37,26 @@ https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8
 
 Rubrik:
 Bord Vit              Elo  Resultat Elo  Svart
-   1 Christer Nilsson 1668     -    1678 Mikael Ekbom 
+   1 A                1668     -    1678 B 
+   2 C                1668     -    1678 D
+   3 E                1700     -    1600 F
+
+### Utdata: Instruktioner för att skapa grupperna i medlemssystemet.
+
+#### Berger
+1. A
+2. F
+3. E
+4. B
+5. C
+6. D
+
+#### Schweizer
+1. A
+2. D
+3. E
+4. B
+5. C
+6. F
+
+Byt ut bokstäverna mot deltagarnas riktiga namn.
