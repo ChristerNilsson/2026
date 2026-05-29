@@ -18,12 +18,13 @@ Varje deltagare möter ett antal motspelare.
 
 https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8
 
-### Instruktioner för att skapa grupper
+### Grupper
 * Sortera deltagarna på elo.
 * Gruppera dem med gruppstorleken n.
 * Grupperna ska benämnas A, B, C osv
 * Sista två grupperna slås ihop. Detta blir en Schweizergrupp. Övriga blir Berger.
 * Skriv ut grupperna
+* Före Bordslistorna ska en sidbrytning placeras.
 
 ### Bordslista Bergergrupp:
 * Bergergrupperna skapas genom att första deltagaren möter sista, andra möter näst sista, osv.  

@@ -303,6 +303,12 @@
     }
   };
 
+  const appendPageBreak = (container) => {
+    const breakElement = document.createElement("div");
+    breakElement.className = "page-break";
+    container.append(breakElement);
+  };
+
   const render = (title, groups, count, size) => {
     document.getElementById(APP_ID)?.remove();
 
@@ -372,6 +378,13 @@
           text-align: center;
           white-space: nowrap;
         }
+        #${APP_ID} .page-break {
+          break-before: page;
+          page-break-before: always;
+          height: 24px;
+          border-top: 1px dashed #bbb;
+          margin: 24px 0 0;
+        }
         @media print {
           body > :not(#${APP_ID}) {
             display: none !important;
@@ -388,6 +401,11 @@
           #${APP_ID} table {
             min-width: 0;
             width: 100%;
+          }
+          #${APP_ID} .page-break {
+            height: 0;
+            border: 0;
+            margin: 0;
           }
         }
       </style>
@@ -407,6 +425,7 @@
 
     if (groups.length) {
       renderGroups(main, groups);
+      appendPageBreak(main);
       renderBoardLists(main, groups);
     } else {
       const message = document.createElement("p");
