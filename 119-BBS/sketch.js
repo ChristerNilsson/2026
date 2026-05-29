@@ -234,11 +234,18 @@
     container.append(heading);
   };
 
+  const createGroupSection = (title) => {
+    const section = document.createElement("section");
+    section.className = "group-section";
+    appendHeading(section, "h2", title);
+    return section;
+  };
+
   const renderGroups = (container, groups) => {
     appendHeading(container, "h1", "Grupper");
 
     for (const group of groups) {
-      appendHeading(container, "h2", groupTitle(group));
+      const section = createGroupSection(groupTitle(group));
 
       const table = document.createElement("table");
       const thead = document.createElement("thead");
@@ -263,7 +270,8 @@
         tbody.append(row);
       });
 
-      container.append(table);
+      section.append(table);
+      container.append(section);
     }
   };
 
@@ -271,7 +279,7 @@
     appendHeading(container, "h1", "Bordslistor");
 
     for (const section of boardRows(groups)) {
-      appendHeading(container, "h2", groupTitle(section.group));
+      const groupSection = createGroupSection(groupTitle(section.group));
 
       const table = document.createElement("table");
       const thead = document.createElement("thead");
@@ -299,7 +307,8 @@
         tbody.append(row);
       }
 
-      container.append(table);
+      groupSection.append(table);
+      container.append(groupSection);
     }
   };
 
@@ -359,6 +368,10 @@
         #${APP_ID} h2 {
           margin: 22px 0 8px;
           font-size: 18px;
+        }
+        #${APP_ID} .group-section {
+          break-inside: avoid;
+          page-break-inside: avoid;
         }
         #${APP_ID} table {
           border-collapse: collapse;

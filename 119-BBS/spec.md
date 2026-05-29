@@ -48,3 +48,5 @@ Rubrik:
 Bord Vit              Elo  Resultat Elo  Svart
    1 Christer Nilsson 1668     -    1668 Mikael Ekbom
 
+Sidbrytning vid utskrift ska om möjligt undvikas inuti en grupp.
+
