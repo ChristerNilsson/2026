@@ -23,6 +23,11 @@
     return match ? Number(match[0]) : 0;
   };
 
+  const parseSsfId = (value) => {
+    const match = String(value || "").match(/postshowindtournamentresultform\([^,]+,\s*['"](\d+)['"]\)/i);
+    return match ? match[1] : "";
+  };
+
   const getGroupSize = () => {
     const params = new URLSearchParams(location.search);
     const size = Number(params.get("n") || params.get("gruppstorlek"));
@@ -73,7 +78,8 @@
 
       const name = nodeText(cells[columns.nameIndex]);
       const elo = parseElo(nodeText(cells[columns.eloIndex]));
-      if (name && elo) players.push({ name, elo });
+      const ssfId = parseSsfId(row.innerHTML);
+      if (name && elo) players.push({ name, elo, ssfId });
     }
 
     return players;
@@ -87,6 +93,7 @@
         return {
           name: cells[3] || "",
           elo: parseElo(cells[7] || ""),
+          ssfId: parseSsfId(row.innerHTML),
         };
       })
       .filter((player) => player.name && player.elo);
@@ -99,7 +106,8 @@
     for (const player of source) {
       const name = cleanText(player.name);
       const elo = Number(player.elo);
-      if (name && elo) unique.set(`${keyText(name)}:${elo}`, { name, elo });
+      const ssfId = cleanText(player.ssfId);
+      if (name && elo) unique.set(`${ssfId || keyText(name)}:${elo}`, { name, elo, ssfId });
     }
 
     return [...unique.values()].sort((a, b) => b.elo - a.elo || a.name.localeCompare(b.name, "sv"));
@@ -199,7 +207,7 @@
     for (const group of groups) {
       lines.push(groupTitle(group));
       group.players.forEach((player, index) => {
-        lines.push(`${index + 1}. ${player.name} ${player.elo}`);
+        lines.push(`${index + 1}. ${player.ssfId} ${player.name} ${player.elo}`);
       });
       lines.push("");
     }
@@ -252,7 +260,7 @@
       const tbody = document.createElement("tbody");
       const headerRow = document.createElement("tr");
 
-      for (const header of ["Nr", "Namn", "Elo"]) {
+      for (const header of ["Nr", "SSF-ID", "Namn", "Elo"]) {
         const cell = document.createElement("th");
         cell.textContent = header;
         if (header !== "Namn") cell.className = "center";
@@ -265,6 +273,7 @@
       group.players.forEach((player, index) => {
         const row = document.createElement("tr");
         appendCell(row, index + 1, "center");
+        appendCell(row, player.ssfId, "center");
         appendCell(row, player.name);
         appendCell(row, player.elo, "center");
         tbody.append(row);
