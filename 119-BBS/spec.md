@@ -20,7 +20,7 @@ Från indata hämtas Namn, Elo samt SSF-ID, t ex 716556 för Christer Nilsson
 https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8
 
 ### Grupper
-* Sortera deltagarna på elo
+* Sortera deltagarna på [fallande elo, stigande SSF-ID]
 * Gruppera dem med gruppstorleken n
 * Grupperna ska benämnas A, B, C osv
 * Sista två grupperna slås ihop. Detta blir en Schweizergrupp. Övriga blir Berger
