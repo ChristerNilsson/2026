@@ -37,9 +37,7 @@ https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8
 
 Rubrik:
 Bord Vit              Elo  Resultat Elo  Svart
-   1 A                1668     -    1678 B 
-   2 C                1668     -    1678 D
-   3 E                1700     -    1600 F
+   1 Christer Nilsson 1668     -    1668 Mikael Ekbom
 
 ### Utdata: Instruktioner för att skapa bergergrupperna i medlemssystemet.
 
@@ -49,7 +47,7 @@ Bord Vit              Elo  Resultat Elo  Svart
 ### Utdata: Instruktioner för att skapa schweizergruppen i medlemssystemet.
 
 * Om antalet är udda, lägg till en frirond.  
-* Sortera grupperna enligt fallande elo.
-* Dela därefter in deltagarna i två lika hälfter.
+* Sortera deltagarna i gruppen enligt fallande elo.
+* Dela därefter in deltagarna i två lika hälfter. Den första har högre elotal.
 * Den två ettorna möter varandra, osv.
 * Färgväxling sker för vartannat bord.
