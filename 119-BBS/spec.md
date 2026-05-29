@@ -16,12 +16,12 @@ javascript:(()=>{const s=document.createElement('script');s.src='https://christe
 Url till en turnering med alla grupper.  
 Varje deltagare möter ett antal motspelare.  
 
-https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&gruppstorlek=8
+https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8
 
 ### Utdata:
 
 * Sortera deltagarna på elo.
-* Gruppera dem med gruppstorlek.
+* Gruppera dem med gruppstorleken n.
 * Grupperna ska benämnas A, B, C osv
 * Sista två grupperna slås ihop. Detta blir en Schweizergrupp. Övriga blir Berger.
 * Varje grupp randomiseras.

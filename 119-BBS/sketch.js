@@ -24,7 +24,8 @@
   };
 
   const getGroupSize = () => {
-    const size = Number(new URLSearchParams(location.search).get("gruppstorlek"));
+    const params = new URLSearchParams(location.search);
+    const size = Number(params.get("n") || params.get("gruppstorlek"));
     return Number.isInteger(size) && size > 1 ? size : DEFAULT_GROUP_SIZE;
   };
 
