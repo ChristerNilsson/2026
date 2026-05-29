@@ -240,6 +240,7 @@
       for (const header of ["Bord", "Vit", "Elo", "Resultat", "Elo", "Svart"]) {
         const cell = document.createElement("th");
         cell.textContent = header;
+        if (["Bord", "Elo", "Resultat"].includes(header)) cell.className = "center";
         headerRow.append(cell);
       }
 
@@ -248,11 +249,11 @@
 
       for (const pairing of paired.rows) {
         const row = document.createElement("tr");
-        appendCell(row, pairing.board, "number");
+        appendCell(row, pairing.board, "center");
         appendCell(row, pairing.white.name);
-        appendCell(row, pairing.white.elo, "number");
-        appendCell(row, "-", "result");
-        appendCell(row, pairing.black.elo, "number");
+        appendCell(row, pairing.white.elo, "center");
+        appendCell(row, "-", "center");
+        appendCell(row, pairing.black.elo, "center");
         appendCell(row, pairing.black.name);
         tbody.append(row);
       }
@@ -325,9 +326,8 @@
         #${APP_ID} th {
           background: #f0f0f0;
         }
-        #${APP_ID} .number,
-        #${APP_ID} .result {
-          text-align: right;
+        #${APP_ID} .center {
+          text-align: center;
           white-space: nowrap;
         }
         @media print {

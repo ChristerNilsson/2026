@@ -33,6 +33,7 @@ https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&gruppst
 * Visa Bordslistor för alla grupper
 * Deltagarnas namn ska skrivas ut, inte klubbnamnen.
 * Använd <table> för tabellerna.
+* Centrera kolumnerna Bord, Elo och Resultat
 
 Rubrik:
 Bord Vit              Elo  Resultat Elo  Svart
