@@ -1,6 +1,6 @@
 Detta bokmärke bryter ner en member-turnering till ett antal bergergrupper plus en schweizer i slutet vid behov.  
 Avsikten med bokmärket är att snabbt komma igång med första ronden.  
-När första rond kommit igång skapar man grupperna för hand i medlemssystemet.  
+När första ronden kommit igång skapar man grupperna för hand i medlemssystemet.  
 
 Skapa ett bokmärke
 

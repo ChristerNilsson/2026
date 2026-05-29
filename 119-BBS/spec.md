@@ -41,22 +41,15 @@ Bord Vit              Elo  Resultat Elo  Svart
    2 C                1668     -    1678 D
    3 E                1700     -    1600 F
 
-### Utdata: Instruktioner för att skapa grupperna i medlemssystemet.
+### Utdata: Instruktioner för att skapa bergergrupperna i medlemssystemet.
 
-#### Berger
-1. A
-2. F
-3. E
-4. B
-5. C
-6. D
+* Bergergrupperna skapas genom att första möter sista, andra möter näst sista, osv.  
+* Färgväxling sker för vartannat bord.
 
-#### Schweizer
-1. A
-2. D
-3. E
-4. B
-5. C
-6. F
+### Utdata: Instruktioner för att skapa schweizergruppen i medlemssystemet.
 
-Byt ut bokstäverna mot deltagarnas riktiga namn.
+* Om antalet är udda, lägg till en frirond.  
+* Sortera grupperna enligt fallande elo.
+* Dela därefter in deltagarna i två lika hälfter.
+* Den två ettorna möter varandra, osv.
+* Färgväxling sker för vartannat bord.

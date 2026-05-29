@@ -184,39 +184,45 @@
 
   const formatInstructionTitle = (group) => `Grupp ${group.name} ${group.type}`;
 
-  const bergerInstructionOrder = (players) => {
-    const result = [];
+  const bergerInstructionPairs = (players) => {
+    const pairs = [];
     let left = 0;
     let right = players.length - 1;
     let reverse = false;
 
     while (left <= right) {
-      const pair = left === right ? [players[left]] : [players[left], players[right]];
-      result.push(...(reverse ? pair.reverse() : pair));
+      if (left === right) {
+        pairs.push({ white: players[left], black: { name: "Frirond", elo: "" } });
+      } else {
+        const pair = { white: players[left], black: players[right] };
+        pairs.push(reverse ? { white: pair.black, black: pair.white } : pair);
+      }
       left += 1;
       right -= 1;
       reverse = !reverse;
     }
 
-    return result;
+    return pairs;
   };
 
-  const schweizerInstructionOrder = (players) => {
-    const result = [];
-    const pattern = [0, 3, 4, 1, 2, 5];
+  const schweizerInstructionPairs = (players) => {
+    let ordered = [...players].sort((a, b) => b.elo - a.elo || a.name.localeCompare(b.name, "sv"));
 
-    for (let offset = 0; offset < players.length; offset += pattern.length) {
-      const block = players.slice(offset, offset + pattern.length);
-      for (const index of pattern) {
-        if (block[index]) result.push(block[index]);
-      }
+    if (ordered.length % 2 === 1) {
+      const bye = ordered.reduce((lowest, player) => (player.elo < lowest.elo ? player : lowest), ordered[0]);
+      ordered = ordered.filter((player) => player !== bye);
+      ordered.push({ name: "Frirond", elo: "" });
     }
 
-    return result;
+    const half = ordered.length / 2;
+    return ordered.slice(0, half).map((player, index) => {
+      const pair = { white: player, black: ordered[index + half] };
+      return index % 2 === 0 ? pair : { white: pair.black, black: pair.white };
+    });
   };
 
-  const instructionOrder = (group) =>
-    group.type === "Schweizer" ? schweizerInstructionOrder(group.players) : bergerInstructionOrder(group.players);
+  const instructionPairs = (group) =>
+    group.type === "Schweizer" ? schweizerInstructionPairs(group.players) : bergerInstructionPairs(group.players);
 
   const textBoardList = (title, groups) => {
     let board = 1;
@@ -242,8 +248,8 @@
 
     for (const group of groups) {
       lines.push(formatInstructionTitle(group));
-      instructionOrder(group).forEach((player, index) => {
-        lines.push(`${index + 1}. ${player.name}`);
+      instructionPairs(group).forEach((pair, index) => {
+        lines.push(`${index + 1}. ${pair.white.name} - ${pair.black.name}`);
       });
       lines.push("");
     }
@@ -320,9 +326,9 @@
       container.append(groupHeading);
 
       const list = document.createElement("ol");
-      for (const player of instructionOrder(group)) {
+      for (const pair of instructionPairs(group)) {
         const item = document.createElement("li");
-        item.textContent = player.name;
+        item.textContent = `${pair.white.name} - ${pair.black.name}`;
         list.append(item);
       }
       container.append(list);
