@@ -43,6 +43,7 @@ Bord Vit              Elo  Resultat Elo  Svart
 
 * Bergergrupperna skapas genom att första möter sista, andra möter näst sista, osv.  
 * Färgväxling sker för vartannat bord.
+* Skriv ut en spelare per rad
 
 ### Utdata: Instruktioner för att skapa schweizergruppen i medlemssystemet.
 
@@ -51,3 +52,4 @@ Bord Vit              Elo  Resultat Elo  Svart
 * Dela därefter in deltagarna i två lika hälfter. Den första har högre elotal.
 * Den två ettorna möter varandra, osv.
 * Färgväxling sker för vartannat bord.
+* Skriv ut en spelare per rad

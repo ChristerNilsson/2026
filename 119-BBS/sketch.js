@@ -224,6 +224,8 @@
   const instructionPairs = (group) =>
     group.type === "Schweizer" ? schweizerInstructionPairs(group.players) : bergerInstructionPairs(group.players);
 
+  const instructionPlayers = (group) => instructionPairs(group).flatMap((pair) => [pair.white, pair.black]);
+
   const textBoardList = (title, groups) => {
     let board = 1;
     const lines = [title, ""];
@@ -248,8 +250,8 @@
 
     for (const group of groups) {
       lines.push(formatInstructionTitle(group));
-      instructionPairs(group).forEach((pair, index) => {
-        lines.push(`${index + 1}. ${pair.white.name} - ${pair.black.name}`);
+      instructionPlayers(group).forEach((player, index) => {
+        lines.push(`${index + 1}. ${player.name}`);
       });
       lines.push("");
     }
@@ -326,9 +328,9 @@
       container.append(groupHeading);
 
       const list = document.createElement("ol");
-      for (const pair of instructionPairs(group)) {
+      for (const player of instructionPlayers(group)) {
         const item = document.createElement("li");
-        item.textContent = `${pair.white.name} - ${pair.black.name}`;
+        item.textContent = player.name;
         list.append(item);
       }
       container.append(list);
