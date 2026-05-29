@@ -3,117 +3,101 @@
 
   const APP_ID = "bbs-board-list";
   const DEFAULT_GROUP_SIZE = 6;
+  const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-  const normalize = (value) =>
-    String(value || "")
+  const text = (node) =>
+    String(node?.innerText || node?.textContent || "")
       .replace(/\s+/g, " ")
       .trim();
 
-  const normalizeKey = (value) =>
-    normalize(value)
+  const key = (value) =>
+    text({ textContent: value })
       .toLowerCase()
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "");
 
   const parseElo = (value) => {
-    const match = normalize(value).match(/\b([1-2]\d{3}|3[0-1]\d{2})\b/);
-    return match ? Number(match[1]) : 0;
+    const match = text({ textContent: value }).match(/\b\d{3,4}\b/);
+    return match ? Number(match[0]) : 0;
   };
 
-  const getGroupSize = () => {
-    const params = new URLSearchParams(location.search);
-    const size = Number(params.get("gruppstorlek"));
-    return Number.isInteger(size) && size > 1 ? size : DEFAULT_GROUP_SIZE;
+  const groupSize = () => {
+    const value = Number(new URLSearchParams(location.search).get("gruppstorlek"));
+    return Number.isInteger(value) && value > 1 ? value : DEFAULT_GROUP_SIZE;
   };
 
-  const textFromCell = (cell) => normalize(cell.innerText || cell.textContent);
-
-  const isLikelyHeader = (cells) =>
-    cells.some((cell) => ["th"].includes(cell.tagName.toLowerCase())) ||
-    cells.some((cell) => /namn|name|spelare|deltagare|elo|rating|rank/.test(normalizeKey(textFromCell(cell))));
-
-  const findColumn = (headers, patterns) =>
-    headers.findIndex((header) => patterns.some((pattern) => pattern.test(normalizeKey(header))));
-
-  const nameScore = (value) => {
-    const text = normalize(value);
-    if (!/[A-Za-z\u00c0-\u024f]/.test(text)) return -100;
-    if (/^\d+$/.test(text)) return -100;
-    if (/^(ja|nej|yes|no|ok|betald|paid)$/i.test(text)) return -50;
-    return text.length + (text.includes(" ") ? 20 : 0) - (/\d/.test(text) ? 15 : 0);
+  const groupName = (index) => {
+    let name = "";
+    let value = index;
+    do {
+      name = LETTERS[value % LETTERS.length] + name;
+      value = Math.floor(value / LETTERS.length) - 1;
+    } while (value >= 0);
+    return name;
   };
 
-  const participantKey = (participant) => `${normalizeKey(participant.name)}:${participant.elo}`;
+  const findHeaderIndexes = (row) => {
+    const cells = [...row.children].filter((cell) => /^(td|th)$/i.test(cell.tagName));
+    const headers = cells.map(text);
+    const nameIndex = headers.findIndex((header) => /^(namn|name|spelare|deltagare)$/i.test(header));
+    const eloIndex = headers.findIndex((header) => /elo|rating|ranking|rankning|rank|rtg/i.test(header));
+    return nameIndex >= 0 && eloIndex >= 0 ? { nameIndex, eloIndex } : null;
+  };
 
-  const readRowsWithHeaders = (table) => {
+  const tableParticipants = (table) => {
     const rows = [...table.querySelectorAll("tr")];
-    let headers = [];
-    let nameIndex = -1;
-    let eloIndex = -1;
-    const participants = [];
+    let indexes = null;
+    const players = [];
 
     for (const row of rows) {
       const cells = [...row.children].filter((cell) => /^(td|th)$/i.test(cell.tagName));
       if (cells.length < 2) continue;
 
-      if (isLikelyHeader(cells)) {
-        headers = cells.map(textFromCell);
-        nameIndex = findColumn(headers, [/namn/, /name/, /spelare/, /deltagare/]);
-        eloIndex = findColumn(headers, [/elo/, /rating/, /rtg/]);
-        if (nameIndex >= 0 && eloIndex >= 0) continue;
+      const headerIndexes = findHeaderIndexes(row);
+      if (headerIndexes) {
+        indexes = headerIndexes;
+        continue;
       }
 
-      if (nameIndex < 0 || eloIndex < 0) continue;
+      if (!indexes || cells.length <= Math.max(indexes.nameIndex, indexes.eloIndex)) continue;
 
-      const name = textFromCell(cells[nameIndex]);
-      const elo = parseElo(textFromCell(cells[eloIndex]));
-      if (name && elo) participants.push({ name, elo });
+      const name = text(cells[indexes.nameIndex]);
+      const elo = parseElo(text(cells[indexes.eloIndex]));
+      if (!name || !elo) continue;
+      if (/^(namn|name|spelare|deltagare)$/i.test(name)) continue;
+
+      players.push({ name, elo });
     }
 
-    return participants;
+    return players;
   };
 
-  const readRowsHeuristically = (table) => {
-    const participants = [];
+  const fallbackParticipants = () => {
+    const rows = [...document.querySelectorAll("tr")].filter((row) =>
+      /postshowindtournamentresultform/i.test(row.getAttribute("onclick") || row.innerHTML),
+    );
 
-    for (const row of table.querySelectorAll("tr")) {
-      const values = [...row.children]
-        .filter((cell) => /^(td|th)$/i.test(cell.tagName))
-        .map(textFromCell)
-        .filter(Boolean);
-
-      if (values.length < 2 || values.some((value) => /namn|spelare|deltagare/i.test(value))) continue;
-
-      const eloCell = values.find((value) => parseElo(value));
-      const elo = parseElo(eloCell);
-      if (!elo) continue;
-
-      const name = values
-        .filter((value) => value !== eloCell)
-        .sort((a, b) => nameScore(b) - nameScore(a))[0];
-
-      if (name && nameScore(name) > 0) participants.push({ name, elo });
-    }
-
-    return participants;
+    return rows
+      .map((row) => {
+        const cells = [...row.children].map(text);
+        return {
+          name: cells[3] || "",
+          elo: parseElo(cells[7] || ""),
+        };
+      })
+      .filter((player) => player.name && player.elo);
   };
 
-  const extractParticipants = () => {
-    const found = [];
-
-    for (const table of document.querySelectorAll("table")) {
-      const fromHeaders = readRowsWithHeaders(table);
-      found.push(...fromHeaders);
-      if (!fromHeaders.length) found.push(...readRowsHeuristically(table));
-    }
-
+  const participants = () => {
+    const found = document.querySelectorAll("table").length
+      ? [...document.querySelectorAll("table")].flatMap(tableParticipants)
+      : [];
+    const source = found.length ? found : fallbackParticipants();
     const unique = new Map();
-    for (const participant of found) {
-      const clean = {
-        name: normalize(participant.name).replace(/\s+\d{4}\s*$/, ""),
-        elo: participant.elo,
-      };
-      if (clean.name && clean.elo) unique.set(participantKey(clean), clean);
+
+    for (const player of source) {
+      const clean = { name: text({ textContent: player.name }), elo: Number(player.elo) };
+      unique.set(`${key(clean.name)}:${clean.elo}`, clean);
     }
 
     return [...unique.values()].sort((a, b) => b.elo - a.elo || a.name.localeCompare(b.name, "sv"));
@@ -121,9 +105,9 @@
 
   const randomInt = (max) => {
     if (window.crypto?.getRandomValues) {
-      const values = new Uint32Array(1);
-      window.crypto.getRandomValues(values);
-      return values[0] % max;
+      const value = new Uint32Array(1);
+      window.crypto.getRandomValues(value);
+      return value[0] % max;
     }
     return Math.floor(Math.random() * max);
   };
@@ -137,84 +121,83 @@
     return result;
   };
 
-  const makeGroups = (participants, groupSize) => {
+  const makeGroups = (players, size) => {
     const chunks = [];
-    for (let index = 0; index < participants.length; index += groupSize) {
-      chunks.push(participants.slice(index, index + groupSize));
+    for (let index = 0; index < players.length; index += size) {
+      chunks.push(players.slice(index, index + size));
     }
 
-    if (chunks.length <= 1) {
-      return chunks.map((players) => ({ type: "Schweizer", players: shuffle(players) }));
+    if (chunks.length === 0) return [];
+    if (chunks.length === 1) {
+      return [{ name: "A", type: "Schweizer", players: shuffle(chunks[0]) }];
     }
 
-    const berger = chunks.slice(0, -2).map((players) => ({ type: "Berger", players: shuffle(players) }));
-    const swissPlayers = chunks.slice(-2).flat();
-    return [...berger, { type: "Schweizer", players: shuffle(swissPlayers) }];
+    const berger = chunks.slice(0, -2).map((chunk, index) => ({
+      name: groupName(index),
+      type: "Berger",
+      players: shuffle(chunk),
+    }));
+
+    return [
+      ...berger,
+      {
+        name: groupName(berger.length),
+        type: "Schweizer",
+        players: shuffle(chunks.slice(-2).flat()),
+      },
+    ];
   };
 
-  const pairGroup = (group, firstBoard) => {
+  const pairings = (group, firstBoard) => {
     let board = firstBoard;
     let players = [...group.players];
-    const pairings = [];
-    let bye = null;
+    const result = [];
 
     if (group.type === "Schweizer" && players.length % 2 === 1) {
-      bye = players.reduce((lowest, player) => (player.elo < lowest.elo ? player : lowest), players[0]);
+      const bye = players.reduce((lowest, player) => (player.elo < lowest.elo ? player : lowest), players[0]);
       players = players.filter((player) => player !== bye);
+      result.push({ board: null, white: bye, black: { name: "Frirond", elo: "" } });
     }
 
     for (let index = 0; index < players.length; index += 2) {
-      pairings.push({
-        board,
-        white: players[index],
-        black: players[index + 1],
-      });
+      result.push({ board, white: players[index], black: players[index + 1] });
       board += 1;
     }
 
-    if (bye) {
-      pairings.push({
-        board,
-        white: bye,
-        black: { name: "Frirond", elo: "" },
-      });
-      board += 1;
-    }
-
-    return { pairings, nextBoard: board };
+    return { rows: result, nextBoard: board };
   };
 
-  const pad = (value, width, alignRight = false) => {
-    const text = String(value ?? "");
-    if (text.length >= width) return text;
-    const padding = " ".repeat(width - text.length);
-    return alignRight ? padding + text : text + padding;
+  const pad = (value, width, right = false) => {
+    const output = String(value ?? "");
+    const padding = " ".repeat(Math.max(0, width - output.length));
+    return right ? padding + output : output + padding;
   };
 
-  const formatList = (groups) => {
+  const boardList = (groups) => {
     let board = 1;
     const lines = [];
 
-    groups.forEach((group, index) => {
-      const paired = pairGroup(group, board);
+    for (const group of groups) {
+      const paired = pairings(group, board);
       board = paired.nextBoard;
 
-      lines.push(`Grupp ${index + 1} (${group.type})`);
+      lines.push(`Grupp ${group.name} (${group.type})`);
       lines.push(`${pad("Bord", 4, true)} ${pad("Vit", 24)} ${pad("Elo", 4, true)}  Resultat ${pad("Elo", 4, true)}  Svart`);
 
-      for (const pairing of paired.pairings) {
+      for (const row of paired.rows) {
+        const boardText = row.board === null ? "" : row.board;
         lines.push(
-          `${pad(pairing.board, 4, true)} ${pad(pairing.white.name, 24)} ${pad(pairing.white.elo, 4, true)}     -    ${pad(pairing.black.elo, 4, true)}  ${pairing.black.name}`,
+          `${pad(boardText, 4, true)} ${pad(row.white.name, 24)} ${pad(row.white.elo, 4, true)}     -    ${pad(row.black.elo, 4, true)}  ${row.black.name}`,
         );
       }
 
       lines.push("");
-    });
+    }
 
     return lines.join("\n").trimEnd();
   };
 
-  const render = (text, count, groupSize) => {
+  const render = (content, count, size) => {
     document.getElementById(APP_ID)?.remove();
 
     const root = document.createElement("div");
@@ -225,43 +208,36 @@
           position: fixed;
           inset: 0;
           z-index: 2147483647;
-          background: #f6f6f2;
-          color: #1d1d1b;
-          font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          background: #fff;
+          color: #111;
+          font: 14px/1.4 Arial, sans-serif;
           overflow: auto;
         }
-        #${APP_ID} .bbs-toolbar {
+        #${APP_ID} .toolbar {
           position: sticky;
           top: 0;
           display: flex;
-          gap: 8px;
-          align-items: center;
           justify-content: space-between;
-          padding: 12px 16px;
-          border-bottom: 1px solid #d8d6cc;
-          background: #ffffff;
+          gap: 12px;
+          padding: 10px 14px;
+          border-bottom: 1px solid #bbb;
+          background: #eee;
         }
-        #${APP_ID} .bbs-actions {
+        #${APP_ID} .actions {
           display: flex;
           gap: 8px;
           flex-wrap: wrap;
         }
         #${APP_ID} button {
-          border: 1px solid #8a877d;
-          border-radius: 4px;
-          background: #ffffff;
-          color: #1d1d1b;
+          padding: 5px 10px;
+          border: 1px solid #777;
+          border-radius: 3px;
+          background: #fff;
           cursor: pointer;
           font: inherit;
-          padding: 6px 10px;
-        }
-        #${APP_ID} button:hover {
-          background: #ecebe5;
         }
         #${APP_ID} main {
-          max-width: 960px;
-          margin: 0 auto;
-          padding: 20px 16px 48px;
+          padding: 16px;
         }
         #${APP_ID} pre {
           margin: 0;
@@ -274,20 +250,18 @@
           }
           #${APP_ID} {
             position: static;
-            background: #ffffff;
           }
-          #${APP_ID} .bbs-toolbar {
+          #${APP_ID} .toolbar {
             display: none;
           }
           #${APP_ID} main {
-            max-width: none;
             padding: 0;
           }
         }
       </style>
-      <div class="bbs-toolbar">
-        <strong>Bordslistor: ${count} deltagare, gruppstorlek ${groupSize}</strong>
-        <div class="bbs-actions">
+      <div class="toolbar">
+        <strong>Bordslistor: ${count} deltagare, gruppstorlek ${size}</strong>
+        <div class="actions">
           <button type="button" data-action="copy">Kopiera</button>
           <button type="button" data-action="print">Skriv ut</button>
           <button type="button" data-action="rerun">Slumpa om</button>
@@ -297,33 +271,28 @@
       <main><pre></pre></main>
     `;
 
-    root.querySelector("pre").textContent = text;
+    root.querySelector("pre").textContent = content;
     root.addEventListener("click", async (event) => {
       const action = event.target?.dataset?.action;
       if (action === "close") root.remove();
       if (action === "print") window.print();
       if (action === "rerun") run();
-      if (action === "copy") await navigator.clipboard?.writeText(text);
+      if (action === "copy") await navigator.clipboard?.writeText(content);
     });
 
-    document.body.appendChild(root);
-  };
-
-  const renderError = (message) => {
-    render(message, 0, getGroupSize());
+    document.body.append(root);
   };
 
   const run = () => {
-    const groupSize = getGroupSize();
-    const participants = extractParticipants();
+    const size = groupSize();
+    const players = participants();
 
-    if (!participants.length) {
-      renderError("Inga deltagare med namn och elo hittades på sidan.");
+    if (!players.length) {
+      render("Inga deltagare med namn och ranking hittades på sidan.", 0, size);
       return;
     }
 
-    const groups = makeGroups(participants, groupSize);
-    render(formatList(groups), participants.length, groupSize);
+    render(boardList(makeGroups(players, size)), players.length, size);
   };
 
   run();

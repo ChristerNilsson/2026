@@ -22,12 +22,14 @@ https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&gruppst
 
 * Sortera deltagarna på elo.
 * Gruppera dem med gruppstorlek.
+* Grupperna ska benämnas A, B, C osv
 * Sista två grupperna slås ihop. Detta blir en Schweizergrupp. Övriga blir Berger.
 * Varje grupp randomiseras.
-* Bergergrupperna låter ettan möte tvåan osv.
+* Bergergrupperna låter ettan möta tvåan osv.
 * Schweizergruppen kan ha udda antal. I så fall ska den med lägst elo få en frirond.
-* Schweizergruppen låter ettan möte tvåan osv.
+* Schweizergruppen låter ettan möta tvåan osv.
 * Visa Bordslistor för alla grupper
+* Deltagarnas namn ska skrivas ut, inte klubbnamnen.
 
 Rubrik:
 Bord Vit              Elo  Resultat Elo  Svart
