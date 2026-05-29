@@ -31,8 +31,7 @@
 
   const getTournamentName = () => {
     const header = document.querySelector("#content h4.header, h4.header, h1, h2, title");
-    const name = nodeText(header).replace(/\s+/g, " ");
-    return name || "Bordslistor";
+    return nodeText(header) || "Bordslistor";
   };
 
   const groupName = (index) => {
@@ -74,7 +73,6 @@
 
       const name = nodeText(cells[columns.nameIndex]);
       const elo = parseElo(nodeText(cells[columns.eloIndex]));
-
       if (name && elo) players.push({ name, elo });
     }
 
@@ -107,26 +105,6 @@
     return [...unique.values()].sort((a, b) => b.elo - a.elo || a.name.localeCompare(b.name, "sv"));
   };
 
-  const randomIndex = (max) => {
-    if (window.crypto?.getRandomValues) {
-      const values = new Uint32Array(1);
-      window.crypto.getRandomValues(values);
-      return values[0] % max;
-    }
-    return Math.floor(Math.random() * max);
-  };
-
-  const shuffle = (items) => {
-    const result = [...items];
-
-    for (let index = result.length - 1; index > 0; index -= 1) {
-      const swapIndex = randomIndex(index + 1);
-      [result[index], result[swapIndex]] = [result[swapIndex], result[index]];
-    }
-
-    return result;
-  };
-
   const buildGroups = (players, size) => {
     const chunks = [];
 
@@ -134,15 +112,15 @@
       chunks.push(players.slice(index, index + size));
     }
 
-    if (chunks.length === 0) return [];
+    if (!chunks.length) return [];
     if (chunks.length === 1) {
-      return [{ name: "A", type: "Schweizer", players: shuffle(chunks[0]) }];
+      return [{ name: "A", type: "Schweizer", players: chunks[0] }];
     }
 
     const bergerGroups = chunks.slice(0, -2).map((chunk, index) => ({
       name: groupName(index),
       type: "Berger",
-      players: shuffle(chunk),
+      players: chunk,
     }));
 
     return [
@@ -150,28 +128,61 @@
       {
         name: groupName(bergerGroups.length),
         type: "Schweizer",
-        players: shuffle(chunks.slice(-2).flat()),
+        players: chunks.slice(-2).flat(),
       },
     ];
   };
 
-  const pairGroup = (group, firstBoard) => {
-    const rows = [];
-    let board = firstBoard;
-    let players = [...group.players];
+  const isByePair = (pair) => pair.white.name === "Frirond" || pair.black.name === "Frirond";
 
-    if (group.type === "Schweizer" && players.length % 2 === 1) {
-      const bye = players.reduce((lowest, player) => (player.elo < lowest.elo ? player : lowest), players[0]);
-      players = players.filter((player) => player !== bye);
-      rows.push({ board: "", white: bye, black: { name: "Frirond", elo: "" } });
+  const withColorSwitching = (pairs) =>
+    pairs.map((pair, index) => (index % 2 === 0 || isByePair(pair) ? pair : { white: pair.black, black: pair.white }));
+
+  const bergerPairs = (players) => {
+    const pairs = [];
+    let left = 0;
+    let right = players.length - 1;
+
+    while (left <= right) {
+      if (left === right) {
+        pairs.push({ white: players[left], black: { name: "Frirond", elo: "" } });
+      } else {
+        pairs.push({ white: players[left], black: players[right] });
+      }
+      left += 1;
+      right -= 1;
     }
 
-    for (let index = 0; index < players.length; index += 2) {
-      rows.push({ board, white: players[index], black: players[index + 1] });
-      board += 1;
-    }
+    return withColorSwitching(pairs);
+  };
 
-    return { rows, nextBoard: board };
+  const schweizerPairs = (players) => {
+    const sorted = [...players].sort((a, b) => b.elo - a.elo || a.name.localeCompare(b.name, "sv"));
+    if (sorted.length % 2 === 1) sorted.push({ name: "Frirond", elo: "" });
+
+    const half = sorted.length / 2;
+    const pairs = sorted.slice(0, half).map((player, index) => ({
+      white: player,
+      black: sorted[index + half],
+    }));
+
+    return withColorSwitching(pairs);
+  };
+
+  const groupPairs = (group) => (group.type === "Schweizer" ? schweizerPairs(group.players) : bergerPairs(group.players));
+
+  const boardRows = (groups) => {
+    let board = 1;
+
+    return groups.map((group) => {
+      const rows = groupPairs(group).map((pair) => {
+        const row = { board, ...pair };
+        board += isByePair(pair) ? 0 : 1;
+        return row;
+      });
+
+      return { group, rows };
+    });
   };
 
   const pad = (value, width, right = false) => {
@@ -180,79 +191,30 @@
     return right ? spaces + output : output + spaces;
   };
 
-  const formatGroupTitle = (group) => (group.type === "Schweizer" ? `Grupp ${group.name} Schweizer` : `Grupp ${group.name}`);
+  const groupTitle = (group) => (group.type === "Schweizer" ? `Grupp ${group.name} Schweizer` : `Grupp ${group.name}`);
 
-  const formatInstructionTitle = (group) => `Grupp ${group.name} ${group.type}`;
-
-  const bergerInstructionPairs = (players) => {
-    const pairs = [];
-    let left = 0;
-    let right = players.length - 1;
-    let reverse = false;
-
-    while (left <= right) {
-      if (left === right) {
-        pairs.push({ white: players[left], black: { name: "Frirond", elo: "" } });
-      } else {
-        const pair = { white: players[left], black: players[right] };
-        pairs.push(reverse ? { white: pair.black, black: pair.white } : pair);
-      }
-      left += 1;
-      right -= 1;
-      reverse = !reverse;
-    }
-
-    return pairs;
-  };
-
-  const schweizerInstructionPairs = (players) => {
-    let ordered = [...players].sort((a, b) => b.elo - a.elo || a.name.localeCompare(b.name, "sv"));
-
-    if (ordered.length % 2 === 1) {
-      const bye = ordered.reduce((lowest, player) => (player.elo < lowest.elo ? player : lowest), ordered[0]);
-      ordered = ordered.filter((player) => player !== bye);
-      ordered.push({ name: "Frirond", elo: "" });
-    }
-
-    const half = ordered.length / 2;
-    return ordered.slice(0, half).map((player, index) => {
-      const pair = { white: player, black: ordered[index + half] };
-      return index % 2 === 0 ? pair : { white: pair.black, black: pair.white };
-    });
-  };
-
-  const instructionPairs = (group) =>
-    group.type === "Schweizer" ? schweizerInstructionPairs(group.players) : bergerInstructionPairs(group.players);
-
-  const instructionPlayers = (group) => instructionPairs(group).flatMap((pair) => [pair.white, pair.black]);
-
-  const textBoardList = (title, groups) => {
-    let board = 1;
-    const lines = [title, ""];
+  const textOutput = (title, groups) => {
+    const lines = [title, "", "Grupper", ""];
 
     for (const group of groups) {
-      const paired = pairGroup(group, board);
-      board = paired.nextBoard;
-
-      lines.push(formatGroupTitle(group));
-      lines.push(`${pad("Bord", 4, true)} ${pad("Vit", 24)} ${pad("Elo", 4, true)}  Resultat ${pad("Elo", 4, true)}  Svart`);
-
-      for (const row of paired.rows) {
-        lines.push(
-          `${pad(row.board, 4, true)} ${pad(row.white.name, 24)} ${pad(row.white.elo, 4, true)}     -    ${pad(row.black.elo, 4, true)}  ${row.black.name}`,
-        );
-      }
-
+      lines.push(groupTitle(group));
+      group.players.forEach((player, index) => {
+        lines.push(`${index + 1}. ${player.name} ${player.elo}`);
+      });
       lines.push("");
     }
 
-    lines.push("Instruktioner för att skapa grupperna i medlemssystemet.", "");
+    for (const section of boardRows(groups)) {
+      lines.push(groupTitle(section.group));
+      lines.push(`${pad("Bord", 4, true)} ${pad("Vit", 24)} ${pad("Elo", 4, true)}  Resultat ${pad("Elo", 4, true)}  Svart`);
 
-    for (const group of groups) {
-      lines.push(formatInstructionTitle(group));
-      instructionPlayers(group).forEach((player, index) => {
-        lines.push(`${index + 1}. ${player.name}`);
-      });
+      for (const row of section.rows) {
+        const board = row.black.name === "Frirond" ? "" : row.board;
+        lines.push(
+          `${pad(board, 4, true)} ${pad(row.white.name, 24)} ${pad(row.white.elo, 4, true)}     -    ${pad(row.black.elo, 4, true)}  ${row.black.name}`,
+        );
+      }
+
       lines.push("");
     }
 
@@ -266,26 +228,50 @@
     row.append(cell);
   };
 
-  const renderTables = (container, title, groups) => {
-    let board = 1;
-    const heading = document.createElement("h1");
-    heading.textContent = title;
+  const appendHeading = (container, level, value) => {
+    const heading = document.createElement(level);
+    heading.textContent = value;
     container.append(heading);
+  };
 
-    if (!groups.length) {
-      const message = document.createElement("p");
-      message.textContent = "Inga deltagare med namn och ranking hittades på sidan.";
-      container.append(message);
-      return;
-    }
+  const renderGroups = (container, groups) => {
+    appendHeading(container, "h1", "Grupper");
 
     for (const group of groups) {
-      const paired = pairGroup(group, board);
-      board = paired.nextBoard;
+      appendHeading(container, "h2", groupTitle(group));
 
-      const groupHeading = document.createElement("h2");
-      groupHeading.textContent = formatGroupTitle(group);
-      container.append(groupHeading);
+      const table = document.createElement("table");
+      const thead = document.createElement("thead");
+      const tbody = document.createElement("tbody");
+      const headerRow = document.createElement("tr");
+
+      for (const header of ["Nr", "Namn", "Elo"]) {
+        const cell = document.createElement("th");
+        cell.textContent = header;
+        if (header !== "Namn") cell.className = "center";
+        headerRow.append(cell);
+      }
+
+      thead.append(headerRow);
+      table.append(thead, tbody);
+
+      group.players.forEach((player, index) => {
+        const row = document.createElement("tr");
+        appendCell(row, index + 1, "center");
+        appendCell(row, player.name);
+        appendCell(row, player.elo, "center");
+        tbody.append(row);
+      });
+
+      container.append(table);
+    }
+  };
+
+  const renderBoardLists = (container, groups) => {
+    appendHeading(container, "h1", "Bordslistor");
+
+    for (const section of boardRows(groups)) {
+      appendHeading(container, "h2", groupTitle(section.group));
 
       const table = document.createElement("table");
       const thead = document.createElement("thead");
@@ -302,9 +288,9 @@
       thead.append(headerRow);
       table.append(thead, tbody);
 
-      for (const pairing of paired.rows) {
+      for (const pairing of section.rows) {
         const row = document.createElement("tr");
-        appendCell(row, pairing.board, "center");
+        appendCell(row, pairing.black.name === "Frirond" ? "" : pairing.board, "center");
         appendCell(row, pairing.white.name);
         appendCell(row, pairing.white.elo, "center");
         appendCell(row, "-", "center");
@@ -317,29 +303,10 @@
     }
   };
 
-  const renderInstructions = (container, groups) => {
-    const heading = document.createElement("h1");
-    heading.textContent = "Instruktioner för att skapa grupperna i medlemssystemet";
-    container.append(heading);
-
-    for (const group of groups) {
-      const groupHeading = document.createElement("h2");
-      groupHeading.textContent = formatInstructionTitle(group);
-      container.append(groupHeading);
-
-      const list = document.createElement("ol");
-      for (const player of instructionPlayers(group)) {
-        const item = document.createElement("li");
-        item.textContent = player.name;
-        list.append(item);
-      }
-      container.append(list);
-    }
-  };
-
-  const render = (copyText, title, groups, count, size) => {
+  const render = (title, groups, count, size) => {
     document.getElementById(APP_ID)?.remove();
 
+    const copyText = groups.length ? textOutput(title, groups) : `${title}\n\nInga deltagare med namn och ranking hittades på sidan.`;
     const root = document.createElement("div");
     root.id = APP_ID;
     root.innerHTML = `
@@ -392,13 +359,6 @@
           margin: 0 0 18px;
           min-width: 720px;
         }
-        #${APP_ID} ol {
-          margin: 0 0 18px;
-          padding-left: 28px;
-        }
-        #${APP_ID} li {
-          padding: 2px 0;
-        }
         #${APP_ID} th,
         #${APP_ID} td {
           border: 1px solid #888;
@@ -432,24 +392,32 @@
         }
       </style>
       <div class="toolbar">
-        <strong>Bordslistor: ${count} deltagare, gruppstorlek ${size}</strong>
+        <strong>Bordslistor: ${count} deltagare, n=${size}</strong>
         <div class="actions">
           <button type="button" data-action="copy">Kopiera</button>
           <button type="button" data-action="print">Skriv ut</button>
-          <button type="button" data-action="rerun">Slumpa om</button>
           <button type="button" data-action="close">Stäng</button>
         </div>
       </div>
       <main></main>
     `;
 
-    renderTables(root.querySelector("main"), title, groups);
-    if (groups.length) renderInstructions(root.querySelector("main"), groups);
+    const main = root.querySelector("main");
+    appendHeading(main, "h1", title);
+
+    if (groups.length) {
+      renderGroups(main, groups);
+      renderBoardLists(main, groups);
+    } else {
+      const message = document.createElement("p");
+      message.textContent = "Inga deltagare med namn och ranking hittades på sidan.";
+      main.append(message);
+    }
+
     root.addEventListener("click", async (event) => {
       const action = event.target?.dataset?.action;
       if (action === "copy") await navigator.clipboard?.writeText(copyText);
       if (action === "print") window.print();
-      if (action === "rerun") run();
       if (action === "close") root.remove();
     });
 
@@ -459,15 +427,7 @@
   const run = () => {
     const size = getGroupSize();
     const players = readParticipants();
-    const title = getTournamentName();
-
-    if (!players.length) {
-      render(`${title}\n\nInga deltagare med namn och ranking hittades på sidan.`, title, [], 0, size);
-      return;
-    }
-
-    const groups = buildGroups(players, size);
-    render(textBoardList(title, groups), title, groups, players.length, size);
+    render(getTournamentName(), buildGroups(players, size), players.length, size);
   };
 
   run();
