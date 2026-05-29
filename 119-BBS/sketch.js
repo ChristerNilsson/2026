@@ -110,7 +110,13 @@
       if (name && elo) unique.set(`${ssfId || keyText(name)}:${elo}`, { name, elo, ssfId });
     }
 
-    return [...unique.values()].sort((a, b) => b.elo - a.elo || a.name.localeCompare(b.name, "sv"));
+    return [...unique.values()].sort(compareByEloThenSsfId);
+  };
+
+  const compareByEloThenSsfId = (a, b) => {
+    const ssfA = Number(a.ssfId) || Number.MAX_SAFE_INTEGER;
+    const ssfB = Number(b.ssfId) || Number.MAX_SAFE_INTEGER;
+    return b.elo - a.elo || ssfA - ssfB || a.name.localeCompare(b.name, "sv");
   };
 
   const buildGroups = (players, size) => {
@@ -143,8 +149,8 @@
 
   const isByePair = (pair) => pair.white.name === "Frirond" || pair.black.name === "Frirond";
 
-  const withColorSwitching = (pairs) =>
-    pairs.map((pair, index) => (index % 2 === 0 || isByePair(pair) ? pair : { white: pair.black, black: pair.white }));
+  const switchOddBoards = (pairs) =>
+    pairs.map((pair, index) => (index % 2 === 0 && !isByePair(pair) ? { white: pair.black, black: pair.white } : pair));
 
   const bergerPairs = (players) => {
     const pairs = [];
@@ -161,11 +167,11 @@
       right -= 1;
     }
 
-    return withColorSwitching(pairs);
+    return pairs;
   };
 
   const schweizerPairs = (players) => {
-    const sorted = [...players].sort((a, b) => b.elo - a.elo || a.name.localeCompare(b.name, "sv"));
+    const sorted = [...players].sort(compareByEloThenSsfId);
     if (sorted.length % 2 === 1) sorted.push({ name: "Frirond", elo: "" });
 
     const half = sorted.length / 2;
@@ -174,7 +180,7 @@
       black: sorted[index + half],
     }));
 
-    return withColorSwitching(pairs);
+    return switchOddBoards(pairs);
   };
 
   const groupPairs = (group) => (group.type === "Schweizer" ? schweizerPairs(group.players) : bergerPairs(group.players));

@@ -20,29 +20,29 @@ Från indata hämtas Namn, Elo samt SSF-ID, t ex 716556 för Christer Nilsson
 https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8
 
 ### Grupper
-* Sortera deltagarna på elo.
-* Gruppera dem med gruppstorleken n.
+* Sortera deltagarna på elo
+* Gruppera dem med gruppstorleken n
 * Grupperna ska benämnas A, B, C osv
-* Sista två grupperna slås ihop. Detta blir en Schweizergrupp. Övriga blir Berger.
+* Sista två grupperna slås ihop. Detta blir en Schweizergrupp. Övriga blir Berger
 * Skriv ut grupperna med följande kolumner: Nr, SSF-ID, Namn, Elo
-* Före Bordslistorna ska en sidbrytning placeras.
+* Före Bordslistorna ska en sidbrytning placeras
 
 ### Bordslista Bergergrupp:
-* Bergergrupperna skapas genom att första deltagaren möter sista, andra möter näst sista, osv.  
-* Färgväxling sker för vartannat bord.
+* Bergergrupperna skapas genom att första deltagaren möter sista, andra möter näst sista, osv
+* Första halvan har vit färg. Sista halvan har svart.
 
 ### Bordslista Schweizergrupp:
-* Om antalet är udda, lägg till en frirond.  
-* Sortera deltagarna i gruppen enligt fallande elo.
-* Dela därefter in deltagarna i två lika hälfter. Den första har högre elotal.
-* De två ettorna möter varandra, osv.
-* Färgväxling sker för vartannat bord.
+* Om antalet är udda, lägg till en frirond
+* Sortera deltagarna i gruppen enligt [fallande elo, stigande SSF-ID]
+* Dela därefter in deltagarna i två lika hälfter. Den första har högre elotal
+* De två ettorna möter varandra, osv
+* Udda bord färgväxlas
 
-* Skriv ut det övergripande turneringsnamnet.
-* (Berger) behöver inte skrivas ut.
+* Skriv ut det övergripande turneringsnamnet
+* (Berger) behöver inte skrivas ut
 * Visa Bordslistor för alla grupper
-* Deltagarnas namn ska skrivas ut, inte klubbnamnen.
-* Använd <table> för tabellerna.
+* Deltagarnas namn ska skrivas ut, inte klubbnamnen
+* Använd <table> för tabellerna
 * Centrera kolumnerna Bord, Elo och Resultat
 
 Rubrik:
