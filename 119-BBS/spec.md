@@ -16,7 +16,7 @@ javascript:(()=>{const s=document.createElement('script');s.src='https://christe
 Url till en turnering med alla grupper.  
 Varje deltagare möter ett antal motspelare.  
 
-https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&gruppstorlek=6
+https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&gruppstorlek=8
 
 ### Utdata:
 
@@ -28,8 +28,11 @@ https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&gruppst
 * Bergergrupperna låter ettan möta tvåan osv.
 * Schweizergruppen kan ha udda antal. I så fall ska den med lägst elo få en frirond.
 * Schweizergruppen låter ettan möta tvåan osv.
+* Skriv ut det övergripande turneringsnamnet.
+* (Berger) behöver inte skrivas ut.
 * Visa Bordslistor för alla grupper
 * Deltagarnas namn ska skrivas ut, inte klubbnamnen.
+* Använd <table> för tabellerna.
 
 Rubrik:
 Bord Vit              Elo  Resultat Elo  Svart
