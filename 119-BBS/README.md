@@ -7,9 +7,9 @@ Skapa ett bokmärke med namnet BBS och följande innehåll:
 javascript:(()=>{const s=document.createElement('script');s.src='https://christernilsson.github.io/2026/119-BBS/sketch.js';document.head.appendChild(s)})()
 ```
 
-Styr gruppstorleken genom att lägga t ex lägga in `&n=8` i slutet av urlen.
+Styr gruppstorleken genom att lägga t ex lägga in `&n=6` i slutet av urlen.
 
-Exempel: `https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8`
+Exempel: `https://member.schack.se/ShowTournamentServlet?id=16696&n=6`
 
 Utdataexempel:
 
