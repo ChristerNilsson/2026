@@ -56,13 +56,14 @@
 
   const tableCells = (row) => [...row.children].filter((cell) => /^(td|th)$/i.test(cell.tagName));
 
-  const participantLink = (row) =>
-    [...row.querySelectorAll("a, button, [onclick]")]
-      .find((node) => /postshowindtournamentresultform/i.test(node.getAttribute("onclick") || node.getAttribute("href") || ""));
+  const hasLetters = (value) => /[A-Za-zÅÄÖåäö]/.test(cleanText(value));
 
   const textFromParticipantLink = (row) => {
-    const link = participantLink(row);
-    return link ? nodeText(link) : "";
+    const candidates = [...row.querySelectorAll("a, button, [onclick]")]
+      .filter((node) => /postshowindtournamentresultform/i.test(node.getAttribute("onclick") || node.getAttribute("href") || ""))
+      .map(nodeText);
+
+    return candidates.find((value) => hasLetters(value)) || "";
   };
 
   const findColumns = (row) => {
@@ -88,7 +89,7 @@
 
       if (!columns || cells.length <= Math.max(columns.nameIndex, columns.eloIndex)) continue;
 
-      const name = textFromParticipantLink(row) || nodeText(cells[columns.nameIndex]);
+      const name = nodeText(cells[columns.nameIndex]) || textFromParticipantLink(row);
       const elo = parseElo(nodeText(cells[columns.eloIndex]));
       const ssfId = parseSsfId(row.innerHTML);
       if (name && elo) players.push({ name, elo, ssfId });
@@ -104,7 +105,7 @@
         const cells = tableCells(row).map(nodeText);
         const eloCells = cells.map(parseElo).filter(Boolean);
         return {
-          name: textFromParticipantLink(row) || cells[3] || "",
+          name: cells[3] || textFromParticipantLink(row) || "",
           elo: parseElo(cells[7] || "") || eloCells[eloCells.length - 1] || 0,
           ssfId: parseSsfId(row.innerHTML),
         };
