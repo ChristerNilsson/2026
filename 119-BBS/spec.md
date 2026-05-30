@@ -9,6 +9,7 @@ Skapa följande filer:
 * index.html
 
 Koden i bokmärket ska se ut så här:
+
 javascript:(()=>{const s=document.createElement('script');s.src='https://christernilsson.github.io/2026/119-BBS/sketch.js';document.head.appendChild(s)})()
 
 ### Indata:

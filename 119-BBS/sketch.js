@@ -4,6 +4,7 @@
   const APP_ID = "bbs-board-list";
   const DEFAULT_GROUP_SIZE = 8;
   const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const BYE = { name: "Frirond", elo: "", ssfId: "" };
 
   const cleanText = (value) =>
     String(value || "")
@@ -24,7 +25,9 @@
   };
 
   const parseSsfId = (value) => {
-    const match = String(value || "").match(/postshowindtournamentresultform\([^,]+,\s*['"](\d+)['"]\)/i);
+    const match =
+      String(value || "").match(/postshowindtournamentresultform\([^,]+,\s*['"](\d+)['"]\)/i) ||
+      String(value || "").match(/[?&](?:person|member|id|ssf(?:id)?|ssf_id)=?(\d{4,})/i);
     return match ? match[1] : "";
   };
 
@@ -53,6 +56,15 @@
 
   const tableCells = (row) => [...row.children].filter((cell) => /^(td|th)$/i.test(cell.tagName));
 
+  const participantLink = (row) =>
+    [...row.querySelectorAll("a, button, [onclick]")]
+      .find((node) => /postshowindtournamentresultform/i.test(node.getAttribute("onclick") || node.getAttribute("href") || ""));
+
+  const textFromParticipantLink = (row) => {
+    const link = participantLink(row);
+    return link ? nodeText(link) : "";
+  };
+
   const findColumns = (row) => {
     const headers = tableCells(row).map(nodeText).map(keyText);
     const nameIndex = headers.findIndex((header) => ["namn", "name", "spelare", "deltagare"].includes(header));
@@ -76,7 +88,7 @@
 
       if (!columns || cells.length <= Math.max(columns.nameIndex, columns.eloIndex)) continue;
 
-      const name = nodeText(cells[columns.nameIndex]);
+      const name = textFromParticipantLink(row) || nodeText(cells[columns.nameIndex]);
       const elo = parseElo(nodeText(cells[columns.eloIndex]));
       const ssfId = parseSsfId(row.innerHTML);
       if (name && elo) players.push({ name, elo, ssfId });
@@ -90,9 +102,10 @@
       .filter((row) => /postshowindtournamentresultform/i.test(row.innerHTML))
       .map((row) => {
         const cells = tableCells(row).map(nodeText);
+        const eloCells = cells.map(parseElo).filter(Boolean);
         return {
-          name: cells[3] || "",
-          elo: parseElo(cells[7] || ""),
+          name: textFromParticipantLink(row) || cells[3] || "",
+          elo: parseElo(cells[7] || "") || eloCells[eloCells.length - 1] || 0,
           ssfId: parseSsfId(row.innerHTML),
         };
       })
@@ -159,7 +172,7 @@
 
     while (left <= right) {
       if (left === right) {
-        pairs.push({ white: players[left], black: { name: "Frirond", elo: "" } });
+        pairs.push({ white: players[left], black: BYE });
       } else {
         pairs.push({ white: players[left], black: players[right] });
       }
@@ -172,7 +185,7 @@
 
   const schweizerPairs = (players) => {
     const sorted = [...players].sort(compareByEloThenSsfId);
-    if (sorted.length % 2 === 1) sorted.push({ name: "Frirond", elo: "" });
+    if (sorted.length % 2 === 1) sorted.push(BYE);
 
     const half = sorted.length / 2;
     const pairs = sorted.slice(0, half).map((player, index) => ({
