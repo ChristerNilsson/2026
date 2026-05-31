@@ -7,9 +7,12 @@ Skapa ett bokmärke med namnet BBS och följande innehåll:
 javascript:(()=>{const s=document.createElement('script');s.src='https://christernilsson.github.io/2026/119-BBS/sketch.js';document.head.appendChild(s)})()
 ```
 
-Styr gruppstorleken genom att lägga t ex lägga in `&n=6` i slutet av urlen.
+Styr bokmärket med tangenterna:
 
-Exempel: `https://member.schack.se/ShowTournamentServlet?id=16696&n=6`
+* `+`: öka gruppstorleken med 2
+* `-`: minska gruppstorleken med 2
+* `A`: toggla filtrering på avprickade deltagare
+* `B`: toggla filtrering på betalda deltagare
 
 Utdataexempel:
 

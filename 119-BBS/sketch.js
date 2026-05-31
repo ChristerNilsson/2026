@@ -2,9 +2,13 @@
   "use strict";
 
   const APP_ID = "bbs-board-list";
-  const DEFAULT_GROUP_SIZE = 8;
+  const GROUP_SIZES = [4, 6, 8, 10, 12];
+  const DEFAULT_GROUP_SIZE = 6;
   const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const BYE = { name: "Frirond", elo: "", ssfId: "" };
+  const previousRoot = document.getElementById(APP_ID);
+  previousRoot?.cleanup?.();
+  previousRoot?.remove();
 
   const cleanText = (value) =>
     String(value || "")
@@ -31,24 +35,14 @@
     return match ? match[1] : "";
   };
 
-  const getGroupSize = () => {
-    const params = new URLSearchParams(location.search);
-    const size = Number(params.get("n") || params.get("gruppstorlek"));
-    return Number.isInteger(size) && size > 1 ? size : DEFAULT_GROUP_SIZE;
+  const filterLabel = (state) => {
+    if (state.paidOnly && state.checkedOnly) return "BETALT och AVPRICKAD";
+    if (state.paidOnly) return "BETALT";
+    if (state.checkedOnly) return "AVPRICKAD";
+    return "alla";
   };
 
-  const getFilter = () => {
-    const filter = Number(new URLSearchParams(location.search).get("filter"));
-    return [1, 2, 3].includes(filter) ? filter : 0;
-  };
-
-  const filterLabel = (filter) =>
-    ({
-      0: "alla",
-      1: "AVPRICKAD",
-      2: "BETALT",
-      3: "BETALT och AVPRICKAD",
-    })[filter];
+  const enabledLabel = (enabled) => (enabled ? "PÅ" : "AV");
 
   const getTournamentName = () => {
     const header = document.querySelector("#content h4.header, h4.header, h1, h2, title");
@@ -133,10 +127,9 @@
       })
       .filter((player) => player.name && player.elo);
 
-  const matchesFilter = (player, filter) =>
-    filter === 0 || (filter === 1 && player.checked) || (filter === 2 && player.paid) || (filter === 3 && player.paid && player.checked);
+  const matchesFilter = (player, state) => (!state.checkedOnly || player.checked) && (!state.paidOnly || player.paid);
 
-  const readParticipants = (filter) => {
+  const readParticipants = () => {
     const fromHeaders = [...document.querySelectorAll("table")].flatMap(readParticipantTable);
     const source = fromHeaders.length ? fromHeaders : readParticipantsByKnownLayout();
     const unique = new Map();
@@ -145,7 +138,7 @@
       const name = cleanText(player.name);
       const elo = Number(player.elo);
       const ssfId = cleanText(player.ssfId);
-      if (name && elo && matchesFilter(player, filter)) unique.set(`${ssfId || keyText(name)}:${elo}`, { name, elo, ssfId });
+      if (name && elo) unique.set(`${ssfId || keyText(name)}:${elo}`, { name, elo, ssfId, paid: player.paid, checked: player.checked });
     }
 
     return [...unique.values()].sort(compareByEloThenSsfId);
@@ -250,8 +243,16 @@
     return `${sizes.join(" + ")} = ${total}`;
   };
 
-  const textOutput = (title, groups, filter) => {
-    const lines = [title, `Filter: ${filterLabel(filter)}`, `Storlekar: ${groupSizes(groups)}`, "", "Grupp Nr SSF-ID Namn Elo"];
+  const textOutput = (title, groups, state) => {
+    const lines = [
+      title,
+      `Betalt: ${enabledLabel(state.paidOnly)}`,
+      `Avprickad: ${enabledLabel(state.checkedOnly)}`,
+      `Gruppstorlek: ${state.size}`,
+      `Storlekar: ${groupSizes(groups)}`,
+      "",
+      "Grupp Nr SSF-ID Namn Elo",
+    ];
 
     for (const group of groups) {
       group.players.forEach((player, index) => {
@@ -360,10 +361,10 @@
     container.append(breakElement);
   };
 
-  const render = (title, groups, count, size, filter) => {
+  const render = (title, groups, count, state) => {
     document.getElementById(APP_ID)?.remove();
 
-    const copyText = groups.length ? textOutput(title, groups, filter) : `${title}\n\nInga deltagare med namn och ranking hittades på sidan.`;
+    const copyText = groups.length ? textOutput(title, groups, state) : `${title}\n\nInga deltagare med namn och ranking hittades på sidan.`;
     const root = document.createElement("div");
     root.id = APP_ID;
     root.innerHTML = `
@@ -465,7 +466,7 @@
         }
       </style>
       <div class="toolbar">
-        <strong>Bordslistor: ${count} deltagare, n=${size}</strong>
+        <strong>Bordslistor: ${count} deltagare, n=${state.size}</strong>
         <div class="actions">
           <button type="button" data-action="copy">Kopiera</button>
           <button type="button" data-action="print">Skriv ut</button>
@@ -478,7 +479,7 @@
     const main = root.querySelector("main");
     appendHeading(main, "h1", title);
     const info = document.createElement("p");
-    info.textContent = `Filter: ${filterLabel(filter)}. Storlekar: ${groupSizes(groups)}.`;
+    info.textContent = `Betalt: ${enabledLabel(state.paidOnly)}. Avprickad: ${enabledLabel(state.checkedOnly)}. Gruppstorlek: ${state.size}. Storlekar: ${groupSizes(groups)}. Tangenter: +, -, A och B.`;
     main.append(info);
 
     if (groups.length) {
@@ -496,18 +497,45 @@
       const action = event.target?.dataset?.action;
       if (action === "copy") await navigator.clipboard?.writeText(copyText);
       if (action === "print") window.print();
-      if (action === "close") root.remove();
+      if (action === "close") {
+        root.cleanup();
+        root.remove();
+      }
     });
 
     document.body.append(root);
   };
 
-  const run = () => {
-    const size = getGroupSize();
-    const filter = getFilter();
-    const players = readParticipants(filter);
-    render(getTournamentName(), buildGroups(players, size), players.length, size, filter);
+  const state = {
+    size: DEFAULT_GROUP_SIZE,
+    paidOnly: false,
+    checkedOnly: false,
   };
 
+  const title = getTournamentName();
+  const allPlayers = readParticipants();
+
+  const run = () => {
+    const players = allPlayers.filter((player) => matchesFilter(player, state));
+    render(title, buildGroups(players, state.size), players.length, state);
+    document.getElementById(APP_ID).cleanup = () => document.removeEventListener("keydown", onKeyDown);
+  };
+
+  const onKeyDown = (event) => {
+    if (event.ctrlKey || event.metaKey || event.altKey || /^(INPUT|TEXTAREA|SELECT)$/.test(event.target?.tagName)) return;
+
+    const key = event.key.toLowerCase();
+    const sizeIndex = GROUP_SIZES.indexOf(state.size);
+    if (key === "+" && sizeIndex < GROUP_SIZES.length - 1) state.size = GROUP_SIZES[sizeIndex + 1];
+    else if (key === "-" && sizeIndex > 0) state.size = GROUP_SIZES[sizeIndex - 1];
+    else if (key === "a") state.checkedOnly = !state.checkedOnly;
+    else if (key === "b") state.paidOnly = !state.paidOnly;
+    else return;
+
+    event.preventDefault();
+    run();
+  };
+
+  document.addEventListener("keydown", onKeyDown);
   run();
 })();

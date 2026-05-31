@@ -22,19 +22,20 @@ Kolumner:
 |-|-|-|-|-|-|-|
 |26|Christer Nilsson|Seniorschack Stockholm|1668|Stockholms SF|JA||
 
-Parameterar till url:
+Tangentkommandon:
 
-|Namn|värde|betydelse|
-|-|-|-|
-|n|8|gruppstorlek|
-|filter|1|AVPRICKAD|
-|filter|2|BETALT|
-|filter|3|BETALT och AVPRICKAD|
-|filter|saknas|alla|
+`+` : Öka gruppstorlek med 2
+`-` : Minska gruppstorlek med 2
+`A` : Toggla Avprickad
+`B` : Toggla Betalt
 
-https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8&filter=1
+* Programmet filtrerar på Avprickad och Betalt. Initialt visas alla deltagare. 
+* Initial gruppstorlek: 6
+* Möjliga gruppstorlekar: 4,6,8,10 eller 12 deltagare
 
-* Skriv ut turneringens namn, filter och storlekarna (t ex 8 + 8 + 8 + 13 = 37) initialt.
+https://member.schack.se/ShowTournamentServlet?id=16696
+
+* Skriv ut turneringens namn, Betalt, Avprickad och gruppstorlekar (t ex 8 + 8 + 8 + 13 = 37) initialt.
 
 ### Grupper
 * Sortera deltagarna på [fallande elo, stigande SSF-ID]
