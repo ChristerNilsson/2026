@@ -259,7 +259,7 @@
       });
     }
 
-    lines.push("", `Grupp ${pad("Bord", 4, true)} ${pad("Vit", 24)} ${pad("Elo", 4, true)}  Resultat ${pad("Elo", 4, true)}  Svart`);
+    lines.push("", title, "", `Grupp ${pad("Bord", 4, true)} ${pad("Vit", 24)} ${pad("Elo", 4, true)}  Resultat ${pad("Elo", 4, true)}  Svart`);
 
     for (const section of boardRows(groups)) {
       for (const row of section.rows) {
@@ -484,6 +484,7 @@
     if (groups.length) {
       renderGroups(main, groups);
       appendPageBreak(main);
+      appendHeading(main, "h1", title);
       renderBoardLists(main, groups);
     } else {
       const message = document.createElement("p");

@@ -74,3 +74,4 @@ Sidbrytning vid utskrift ska om möjligt undvikas inuti en grupp.
 Det behövs ingen utskrift av gruppnamnet i Bordslistorna.
 Skriv inte ut rubrikerna Grupper och Bordslistor. Det kan vara ont om utrymme.
 Slå ihop bordslistorna till en tabell.
+Skriv även ut turneringens namn före Bordslistan.
