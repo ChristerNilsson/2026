@@ -35,14 +35,7 @@
     return match ? match[1] : "";
   };
 
-  const filterLabel = (state) => {
-    if (state.paidOnly && state.checkedOnly) return "BETALT och AVPRICKAD";
-    if (state.paidOnly) return "BETALT";
-    if (state.checkedOnly) return "AVPRICKAD";
-    return "alla";
-  };
-
-  const enabledLabel = (enabled) => (enabled ? "PÅ" : "AV");
+  const enabledLabel = (enabled) => (enabled ? "YES" : "NO");
 
   const getTournamentName = () => {
     const header = document.querySelector("#content h4.header, h4.header, h1, h2, title");

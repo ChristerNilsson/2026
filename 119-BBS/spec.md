@@ -26,8 +26,8 @@ Tangentkommandon:
 
 `+` : Öka gruppstorlek med 2
 `-` : Minska gruppstorlek med 2
-`A` : Toggla Avprickad
-`B` : Toggla Betalt
+`A` : Toggla Avprickad [NO, YES]
+`B` : Toggla Betalt [NO, YES]
 
 * Programmet filtrerar på Avprickad och Betalt. Initialt visas alla deltagare. 
 * Initial gruppstorlek: 6
