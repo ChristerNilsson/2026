@@ -210,7 +210,7 @@
 
   const schweizerPairs = (players) => {
     const sorted = [...players].sort(compareByEloThenSsfId);
-    if (sorted.length % 2 === 1) sorted.push(BYE);
+    const byePlayer = sorted.length % 2 === 1 ? sorted.pop() : null;
 
     const half = sorted.length / 2;
     const pairs = sorted.slice(0, half).map((player, index) => ({
@@ -218,6 +218,7 @@
       black: sorted[index + half],
     }));
 
+    if (byePlayer) pairs.push({ white: byePlayer, black: BYE });
     return switchOddBoards(pairs);
   };
 
@@ -250,7 +251,7 @@
   };
 
   const textOutput = (title, groups, filter) => {
-    const lines = [title, `Filter: ${filterLabel(filter)}`, `Storlekar: ${groupSizes(groups)}`, "", "Grupper", "", "Grupp Nr SSF-ID Namn Elo"];
+    const lines = [title, `Filter: ${filterLabel(filter)}`, `Storlekar: ${groupSizes(groups)}`, "", "Grupp Nr SSF-ID Namn Elo"];
 
     for (const group of groups) {
       group.players.forEach((player, index) => {
@@ -258,7 +259,7 @@
       });
     }
 
-    lines.push("", "Bordslistor", "", `Grupp ${pad("Bord", 4, true)} ${pad("Vit", 24)} ${pad("Elo", 4, true)}  Resultat ${pad("Elo", 4, true)}  Svart`);
+    lines.push("", `Grupp ${pad("Bord", 4, true)} ${pad("Vit", 24)} ${pad("Elo", 4, true)}  Resultat ${pad("Elo", 4, true)}  Svart`);
 
     for (const section of boardRows(groups)) {
       for (const row of section.rows) {
@@ -287,8 +288,6 @@
   };
 
   const renderGroups = (container, groups) => {
-    appendHeading(container, "h1", "Grupper");
-
     const table = document.createElement("table");
     const thead = document.createElement("thead");
     const tbody = document.createElement("tbody");
@@ -320,8 +319,6 @@
   };
 
   const renderBoardLists = (container, groups) => {
-    appendHeading(container, "h1", "Bordslistor");
-
     const table = document.createElement("table");
     const thead = document.createElement("thead");
     const headerRow = document.createElement("tr");

@@ -52,9 +52,10 @@ https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8&fil
 * Första halvan har vit färg. Sista halvan har svart.
 
 ### Bordslista Schweizergrupp:
-* Om antalet är udda, lägg till en frirond
-* Sortera deltagarna i gruppen enligt [fallande elo, stigande SSF-ID]
-* Dela därefter in deltagarna i två lika hälfter. Den första har högre elotal
+* Om antalet deltagare är udda, lägg till en frirondspelare.
+* Sortera därefter deltagarna i schweizergruppen enligt [fallande elo, stigande SSF-ID]
+* Dela därefter in deltagarna i två lika stora halvor.
+* Deltagaren med lägst elo-tal ska frironden om frirond är nödvändigt.
 * De två ettorna möter varandra, osv
 * Udda bord färgväxlas
 
@@ -71,4 +72,5 @@ https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8&fil
 
 Sidbrytning vid utskrift ska om möjligt undvikas inuti en grupp.
 Det behövs ingen utskrift av gruppnamnet i Bordslistorna.
+Skriv inte ut rubrikerna Grupper och Bordslistor. Det kan vara ont om utrymme.
 Slå ihop bordslistorna till en tabell.
