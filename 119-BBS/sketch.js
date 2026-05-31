@@ -2,7 +2,7 @@
   "use strict";
 
   const APP_ID = "bbs-board-list";
-  const GROUP_SIZES = [4, 6, 8, 10, 12];
+  const GROUP_SIZES = [4, 6, 8, 10, 12, 14, 16];
   const DEFAULT_GROUP_SIZE = 6;
   const LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const BYE = { name: "Frirond", elo: "", ssfId: "" };
@@ -35,7 +35,7 @@
     return match ? match[1] : "";
   };
 
-  const enabledLabel = (enabled) => (enabled ? "YES" : "NO");
+  const enabledLabel = (enabled) => (enabled ? "JA" : "NEJ");
 
   const getTournamentName = () => {
     const header = document.querySelector("#content h4.header, h4.header, h1, h2, title");

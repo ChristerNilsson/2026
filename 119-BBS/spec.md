@@ -26,12 +26,12 @@ Tangentkommandon:
 
 `+` : Öka gruppstorlek med 2
 `-` : Minska gruppstorlek med 2
-`A` : Toggla Avprickad [NO, YES]
-`B` : Toggla Betalt [NO, YES]
+`A` : Toggla Avprickad [NEJ, JA]
+`B` : Toggla Betalt [NEJ, JA]
 
 * Programmet filtrerar på Avprickad och Betalt. Initialt visas alla deltagare. 
 * Initial gruppstorlek: 6
-* Möjliga gruppstorlekar: 4,6,8,10 eller 12 deltagare
+* Möjliga gruppstorlekar: 4,6,8,10,12,14,16 deltagare
 
 https://member.schack.se/ShowTournamentServlet?id=16696
 
