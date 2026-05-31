@@ -258,11 +258,9 @@
       });
     }
 
-    lines.push("", "Bordslistor", "");
+    lines.push("", "Bordslistor", "", `Grupp ${pad("Bord", 4, true)} ${pad("Vit", 24)} ${pad("Elo", 4, true)}  Resultat ${pad("Elo", 4, true)}  Svart`);
 
     for (const section of boardRows(groups)) {
-      lines.push(`Grupp ${pad("Bord", 4, true)} ${pad("Vit", 24)} ${pad("Elo", 4, true)}  Resultat ${pad("Elo", 4, true)}  Svart`);
-
       for (const row of section.rows) {
         const board = row.black.name === "Frirond" ? "" : row.board;
         lines.push(
@@ -270,7 +268,6 @@
         );
       }
 
-      lines.push("");
     }
 
     return lines.join("\n").trimEnd();
@@ -287,12 +284,6 @@
     const heading = document.createElement(level);
     heading.textContent = value;
     container.append(heading);
-  };
-
-  const createGroupSection = () => {
-    const section = document.createElement("section");
-    section.className = "group-section";
-    return section;
   };
 
   const renderGroups = (container, groups) => {
@@ -331,24 +322,23 @@
   const renderBoardLists = (container, groups) => {
     appendHeading(container, "h1", "Bordslistor");
 
+    const table = document.createElement("table");
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+
+    for (const header of ["Grupp", "Bord", "Vit", "Elo", "Resultat", "Elo", "Svart"]) {
+      const cell = document.createElement("th");
+      cell.textContent = header;
+      if (["Grupp", "Bord", "Elo", "Resultat"].includes(header)) cell.className = "center";
+      headerRow.append(cell);
+    }
+
+    thead.append(headerRow);
+    table.append(thead);
+
     for (const section of boardRows(groups)) {
-      const groupSection = createGroupSection();
-
-      const table = document.createElement("table");
-      const thead = document.createElement("thead");
       const tbody = document.createElement("tbody");
-      const headerRow = document.createElement("tr");
-
-      for (const header of ["Grupp", "Bord", "Vit", "Elo", "Resultat", "Elo", "Svart"]) {
-        const cell = document.createElement("th");
-        cell.textContent = header;
-        if (["Grupp", "Bord", "Elo", "Resultat"].includes(header)) cell.className = "center";
-        headerRow.append(cell);
-      }
-
-      thead.append(headerRow);
-      table.append(thead, tbody);
-
+      tbody.className = "group-section";
       for (const pairing of section.rows) {
         const row = document.createElement("tr");
         appendCell(row, section.group.name, "center");
@@ -361,9 +351,10 @@
         tbody.append(row);
       }
 
-      groupSection.append(table);
-      container.append(groupSection);
+      table.append(tbody);
     }
+
+    container.append(table);
   };
 
   const appendPageBreak = (container) => {

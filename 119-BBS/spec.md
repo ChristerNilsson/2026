@@ -71,3 +71,4 @@ https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8&fil
 
 Sidbrytning vid utskrift ska om möjligt undvikas inuti en grupp.
 Det behövs ingen utskrift av gruppnamnet i Bordslistorna.
+Slå ihop bordslistorna till en tabell.
