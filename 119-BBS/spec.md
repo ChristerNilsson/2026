@@ -34,12 +34,17 @@ Parameterar till url:
 
 https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8&filter=1
 
+* Skriv ut turneringens namn, gruppstorlek och filter initialt.
+
 ### Grupper
 * Sortera deltagarna på [fallande elo, stigande SSF-ID]
 * Gruppera dem med gruppstorleken n
 * Grupperna ska benämnas A, B, C osv
 * Sista två grupperna slås ihop. Detta blir en Schweizergrupp. Övriga blir Berger
-* Skriv ut grupperna med följande kolumner: Nr, SSF-ID, Namn, Elo
+* Skriv ut grupperna kompakt så här: 
+|Grupp|Nr|SSF-ID|Namn|Elo|
+|-|-|-|-|-|
+|A    | 1|366174|Lars Norqvist|1762|
 * Före Bordslistorna ska en sidbrytning placeras
 
 ### Bordslista Bergergrupp:
@@ -60,10 +65,9 @@ https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8&fil
 * Använd <table> för tabellerna
 * Centrera kolumnerna Bord, Elo och Resultat
 
-
-Rubrik:
-Bord Vit              Elo  Resultat Elo  Svart
-   1 Christer Nilsson 1668     -    1668 Mikael Ekbom
+|Grupp|Bord|Vit             |Elo |Resultat|Elo |Svart|
+|-|-|-|-|-|-|
+|  D  |  1 |Christer Nilsson|1668|    -   |1668|Mikael Ekbom|
 
 Sidbrytning vid utskrift ska om möjligt undvikas inuti en grupp.
 

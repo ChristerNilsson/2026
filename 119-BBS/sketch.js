@@ -42,6 +42,14 @@
     return [1, 2, 3].includes(filter) ? filter : 0;
   };
 
+  const filterLabel = (filter) =>
+    ({
+      0: "alla",
+      1: "AVPRICKAD",
+      2: "BETALT",
+      3: "BETALT och AVPRICKAD",
+    })[filter];
+
   const getTournamentName = () => {
     const header = document.querySelector("#content h4.header, h4.header, h1, h2, title");
     return nodeText(header) || "Bordslistor";
@@ -237,25 +245,25 @@
 
   const groupTitle = (group) => (group.type === "Schweizer" ? `Grupp ${group.name} Schweizer` : `Grupp ${group.name}`);
 
-  const textOutput = (title, groups) => {
-    const lines = [title, "", "Grupper", ""];
+  const textOutput = (title, groups, size, filter) => {
+    const lines = [title, `Gruppstorlek: ${size}`, `Filter: ${filterLabel(filter)}`, "", "Grupper", "", "Grupp Nr SSF-ID Namn Elo"];
 
     for (const group of groups) {
-      lines.push(groupTitle(group));
       group.players.forEach((player, index) => {
-        lines.push(`${index + 1}. ${player.ssfId} ${player.name} ${player.elo}`);
+        lines.push(`${group.name} ${index + 1} ${player.ssfId} ${player.name} ${player.elo}`);
       });
-      lines.push("");
     }
+
+    lines.push("", "Bordslistor", "");
 
     for (const section of boardRows(groups)) {
       lines.push(groupTitle(section.group));
-      lines.push(`${pad("Bord", 4, true)} ${pad("Vit", 24)} ${pad("Elo", 4, true)}  Resultat ${pad("Elo", 4, true)}  Svart`);
+      lines.push(`Grupp ${pad("Bord", 4, true)} ${pad("Vit", 24)} ${pad("Elo", 4, true)}  Resultat ${pad("Elo", 4, true)}  Svart`);
 
       for (const row of section.rows) {
         const board = row.black.name === "Frirond" ? "" : row.board;
         lines.push(
-          `${pad(board, 4, true)} ${pad(row.white.name, 24)} ${pad(row.white.elo, 4, true)}     -    ${pad(row.black.elo, 4, true)}  ${row.black.name}`,
+          `${pad(section.group.name, 5, true)} ${pad(board, 4, true)} ${pad(row.white.name, 24)} ${pad(row.white.elo, 4, true)}     -    ${pad(row.black.elo, 4, true)}  ${row.black.name}`,
         );
       }
 
@@ -288,36 +296,34 @@
   const renderGroups = (container, groups) => {
     appendHeading(container, "h1", "Grupper");
 
+    const table = document.createElement("table");
+    const thead = document.createElement("thead");
+    const tbody = document.createElement("tbody");
+    const headerRow = document.createElement("tr");
+
+    for (const header of ["Grupp", "Nr", "SSF-ID", "Namn", "Elo"]) {
+      const cell = document.createElement("th");
+      cell.textContent = header;
+      if (header !== "Namn") cell.className = "center";
+      headerRow.append(cell);
+    }
+
+    thead.append(headerRow);
+    table.append(thead, tbody);
+
     for (const group of groups) {
-      const section = createGroupSection(groupTitle(group));
-
-      const table = document.createElement("table");
-      const thead = document.createElement("thead");
-      const tbody = document.createElement("tbody");
-      const headerRow = document.createElement("tr");
-
-      for (const header of ["Nr", "SSF-ID", "Namn", "Elo"]) {
-        const cell = document.createElement("th");
-        cell.textContent = header;
-        if (header !== "Namn") cell.className = "center";
-        headerRow.append(cell);
-      }
-
-      thead.append(headerRow);
-      table.append(thead, tbody);
-
       group.players.forEach((player, index) => {
         const row = document.createElement("tr");
+        appendCell(row, group.name, "center");
         appendCell(row, index + 1, "center");
         appendCell(row, player.ssfId, "center");
         appendCell(row, player.name);
         appendCell(row, player.elo, "center");
         tbody.append(row);
       });
-
-      section.append(table);
-      container.append(section);
     }
+
+    container.append(table);
   };
 
   const renderBoardLists = (container, groups) => {
@@ -331,10 +337,10 @@
       const tbody = document.createElement("tbody");
       const headerRow = document.createElement("tr");
 
-      for (const header of ["Bord", "Vit", "Elo", "Resultat", "Elo", "Svart"]) {
+      for (const header of ["Grupp", "Bord", "Vit", "Elo", "Resultat", "Elo", "Svart"]) {
         const cell = document.createElement("th");
         cell.textContent = header;
-        if (["Bord", "Elo", "Resultat"].includes(header)) cell.className = "center";
+        if (["Grupp", "Bord", "Elo", "Resultat"].includes(header)) cell.className = "center";
         headerRow.append(cell);
       }
 
@@ -343,6 +349,7 @@
 
       for (const pairing of section.rows) {
         const row = document.createElement("tr");
+        appendCell(row, section.group.name, "center");
         appendCell(row, pairing.black.name === "Frirond" ? "" : pairing.board, "center");
         appendCell(row, pairing.white.name);
         appendCell(row, pairing.white.elo, "center");
@@ -363,10 +370,10 @@
     container.append(breakElement);
   };
 
-  const render = (title, groups, count, size) => {
+  const render = (title, groups, count, size, filter) => {
     document.getElementById(APP_ID)?.remove();
 
-    const copyText = groups.length ? textOutput(title, groups) : `${title}\n\nInga deltagare med namn och ranking hittades på sidan.`;
+    const copyText = groups.length ? textOutput(title, groups, size, filter) : `${title}\n\nInga deltagare med namn och ranking hittades på sidan.`;
     const root = document.createElement("div");
     root.id = APP_ID;
     root.innerHTML = `
@@ -480,6 +487,9 @@
 
     const main = root.querySelector("main");
     appendHeading(main, "h1", title);
+    const info = document.createElement("p");
+    info.textContent = `Gruppstorlek: ${size}. Filter: ${filterLabel(filter)}.`;
+    main.append(info);
 
     if (groups.length) {
       renderGroups(main, groups);
@@ -503,8 +513,9 @@
 
   const run = () => {
     const size = getGroupSize();
-    const players = readParticipants(getFilter());
-    render(getTournamentName(), buildGroups(players, size), players.length, size);
+    const filter = getFilter();
+    const players = readParticipants(filter);
+    render(getTournamentName(), buildGroups(players, size), players.length, size, filter);
   };
 
   run();
