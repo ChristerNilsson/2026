@@ -17,8 +17,22 @@ javascript:(()=>{const s=document.createElement('script');s.src='https://christe
 Url till en turnering med alla grupper.  
 Varje deltagare möter ett antal motspelare.  
 Från indata hämtas Namn, Elo samt SSF-ID, t ex 716556 för Christer Nilsson
+Kolumner:
+||NAMN|KLUBB|RANKING (datum)|DISTRIKT|BETALT|AVPRICKAD|
+|-|-|-|-|-|-|-|
+|26|Christer Nilsson|Seniorschack Stockholm|1668|Stockholms SF|JA||
 
-https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8
+Parameterar till url:
+
+|Namn|värde|betydelse|
+|-|-|-|
+|n|8|gruppstorlek|
+|filter|1|AVPRICKAD|
+|filter|2|BETALT|
+|filter|3|BETALT och AVPRICKAD|
+|filter|saknas|alla|
+
+https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8&filter=1
 
 ### Grupper
 * Sortera deltagarna på [fallande elo, stigande SSF-ID]
@@ -45,6 +59,7 @@ https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8
 * Deltagarnas namn ska skrivas ut, inte klubbnamnen
 * Använd <table> för tabellerna
 * Centrera kolumnerna Bord, Elo och Resultat
+
 
 Rubrik:
 Bord Vit              Elo  Resultat Elo  Svart

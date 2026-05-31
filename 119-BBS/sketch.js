@@ -37,6 +37,11 @@
     return Number.isInteger(size) && size > 1 ? size : DEFAULT_GROUP_SIZE;
   };
 
+  const getFilter = () => {
+    const filter = Number(new URLSearchParams(location.search).get("filter"));
+    return [1, 2, 3].includes(filter) ? filter : 0;
+  };
+
   const getTournamentName = () => {
     const header = document.querySelector("#content h4.header, h4.header, h1, h2, title");
     return nodeText(header) || "Bordslistor";
@@ -70,8 +75,12 @@
     const headers = tableCells(row).map(nodeText).map(keyText);
     const nameIndex = headers.findIndex((header) => ["namn", "name", "spelare", "deltagare"].includes(header));
     const eloIndex = headers.findIndex((header) => /elo|rating|ranking|rankning|rank|rtg/.test(header));
-    return nameIndex >= 0 && eloIndex >= 0 ? { nameIndex, eloIndex } : null;
+    const paidIndex = headers.findIndex((header) => header === "betalt");
+    const checkedIndex = headers.findIndex((header) => header === "avprickad");
+    return nameIndex >= 0 && eloIndex >= 0 ? { nameIndex, eloIndex, paidIndex, checkedIndex } : null;
   };
+
+  const isYes = (value) => ["ja", "yes", "x"].includes(keyText(value));
 
   const readParticipantTable = (table) => {
     const players = [];
@@ -92,7 +101,9 @@
       const name = nodeText(cells[columns.nameIndex]) || textFromParticipantLink(row);
       const elo = parseElo(nodeText(cells[columns.eloIndex]));
       const ssfId = parseSsfId(row.innerHTML);
-      if (name && elo) players.push({ name, elo, ssfId });
+      const paid = columns.paidIndex >= 0 && isYes(nodeText(cells[columns.paidIndex]));
+      const checked = columns.checkedIndex >= 0 && isYes(nodeText(cells[columns.checkedIndex]));
+      if (name && elo) players.push({ name, elo, ssfId, paid, checked });
     }
 
     return players;
@@ -108,11 +119,16 @@
           name: cells[3] || textFromParticipantLink(row) || "",
           elo: parseElo(cells[7] || "") || eloCells[eloCells.length - 1] || 0,
           ssfId: parseSsfId(row.innerHTML),
+          paid: false,
+          checked: false,
         };
       })
       .filter((player) => player.name && player.elo);
 
-  const readParticipants = () => {
+  const matchesFilter = (player, filter) =>
+    filter === 0 || (filter === 1 && player.checked) || (filter === 2 && player.paid) || (filter === 3 && player.paid && player.checked);
+
+  const readParticipants = (filter) => {
     const fromHeaders = [...document.querySelectorAll("table")].flatMap(readParticipantTable);
     const source = fromHeaders.length ? fromHeaders : readParticipantsByKnownLayout();
     const unique = new Map();
@@ -121,7 +137,7 @@
       const name = cleanText(player.name);
       const elo = Number(player.elo);
       const ssfId = cleanText(player.ssfId);
-      if (name && elo) unique.set(`${ssfId || keyText(name)}:${elo}`, { name, elo, ssfId });
+      if (name && elo && matchesFilter(player, filter)) unique.set(`${ssfId || keyText(name)}:${elo}`, { name, elo, ssfId });
     }
 
     return [...unique.values()].sort(compareByEloThenSsfId);
@@ -487,7 +503,7 @@
 
   const run = () => {
     const size = getGroupSize();
-    const players = readParticipants();
+    const players = readParticipants(getFilter());
     render(getTournamentName(), buildGroups(players, size), players.length, size);
   };
 
