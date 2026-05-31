@@ -34,7 +34,7 @@ Parameterar till url:
 
 https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8&filter=1
 
-* Skriv ut turneringens namn, gruppstorlek och filter initialt.
+* Skriv ut turneringens namn, filter och storlekarna (t ex 8 + 8 + 8 + 13 = 37) initialt.
 
 ### Grupper
 * Sortera deltagarna på [fallande elo, stigande SSF-ID]
@@ -70,4 +70,4 @@ https://member.schack.se/ShowTournamentServlet?id=16696&hideclasses=true&n=8&fil
 |  D  |  1 |Christer Nilsson|1668|    -   |1668|Mikael Ekbom|
 
 Sidbrytning vid utskrift ska om möjligt undvikas inuti en grupp.
-
+Det behövs ingen utskrift av gruppnamnet i Bordslistorna.

@@ -243,10 +243,14 @@
     return right ? spaces + output : output + spaces;
   };
 
-  const groupTitle = (group) => (group.type === "Schweizer" ? `Grupp ${group.name} Schweizer` : `Grupp ${group.name}`);
+  const groupSizes = (groups) => {
+    const sizes = groups.map((group) => group.players.length);
+    const total = sizes.reduce((sum, size) => sum + size, 0);
+    return `${sizes.join(" + ")} = ${total}`;
+  };
 
-  const textOutput = (title, groups, size, filter) => {
-    const lines = [title, `Gruppstorlek: ${size}`, `Filter: ${filterLabel(filter)}`, "", "Grupper", "", "Grupp Nr SSF-ID Namn Elo"];
+  const textOutput = (title, groups, filter) => {
+    const lines = [title, `Filter: ${filterLabel(filter)}`, `Storlekar: ${groupSizes(groups)}`, "", "Grupper", "", "Grupp Nr SSF-ID Namn Elo"];
 
     for (const group of groups) {
       group.players.forEach((player, index) => {
@@ -257,7 +261,6 @@
     lines.push("", "Bordslistor", "");
 
     for (const section of boardRows(groups)) {
-      lines.push(groupTitle(section.group));
       lines.push(`Grupp ${pad("Bord", 4, true)} ${pad("Vit", 24)} ${pad("Elo", 4, true)}  Resultat ${pad("Elo", 4, true)}  Svart`);
 
       for (const row of section.rows) {
@@ -286,10 +289,9 @@
     container.append(heading);
   };
 
-  const createGroupSection = (title) => {
+  const createGroupSection = () => {
     const section = document.createElement("section");
     section.className = "group-section";
-    appendHeading(section, "h2", title);
     return section;
   };
 
@@ -330,7 +332,7 @@
     appendHeading(container, "h1", "Bordslistor");
 
     for (const section of boardRows(groups)) {
-      const groupSection = createGroupSection(groupTitle(section.group));
+      const groupSection = createGroupSection();
 
       const table = document.createElement("table");
       const thead = document.createElement("thead");
@@ -373,7 +375,7 @@
   const render = (title, groups, count, size, filter) => {
     document.getElementById(APP_ID)?.remove();
 
-    const copyText = groups.length ? textOutput(title, groups, size, filter) : `${title}\n\nInga deltagare med namn och ranking hittades på sidan.`;
+    const copyText = groups.length ? textOutput(title, groups, filter) : `${title}\n\nInga deltagare med namn och ranking hittades på sidan.`;
     const root = document.createElement("div");
     root.id = APP_ID;
     root.innerHTML = `
@@ -488,7 +490,7 @@
     const main = root.querySelector("main");
     appendHeading(main, "h1", title);
     const info = document.createElement("p");
-    info.textContent = `Gruppstorlek: ${size}. Filter: ${filterLabel(filter)}.`;
+    info.textContent = `Filter: ${filterLabel(filter)}. Storlekar: ${groupSizes(groups)}.`;
     main.append(info);
 
     if (groups.length) {
