@@ -1,242 +1,299 @@
-(async () => {
+(() => {
   "use strict";
 
-  const APP_ID = "lotta-skriv";
-  const GROUP_SPECS = [
-    { name: "S_1", type: "Berger", size: 4, fallbackId: 18772 },
-    { name: "S_2", type: "Berger", size: 4, fallbackId: 18773 },
-    { name: "S_3", type: "Berger", size: 4, fallbackId: 18774 },
-    { name: "S_4", type: "Berger", size: 4, fallbackId: 18775 },
-    { name: "S_5", type: "Schweizer", size: 6, fallbackId: 18776 },
-  ];
+  const DEFAULT_GROUP_SIZE = 4;
+  const DEFAULT_PLAYER_COUNT = 48;
+  const VALID_RESULTS = new Set(["1", "0", "r"]);
+  const RESULT_LABELS = { "1": "1 - 0", "0": "0 - 1", r: "½ - ½" };
+  const SCORE = { "1": [1, 0], "0": [0, 1], r: [0.5, 0.5] };
+  const params = new URLSearchParams(location.search);
+  const tournament = params.get("turnering") || "Bergerturnering";
+  const groupSize = Number(params.get("n") || DEFAULT_GROUP_SIZE);
 
-  document.getElementById(APP_ID)?.remove();
-
-  const clean = (value) =>
-    String(value || "")
-      .replace(/\s+/g, " ")
-      .trim();
-
-  const text = (node) => clean(node?.innerText || node?.textContent);
-
-  const key = (value) =>
-    clean(value)
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-
-  const cells = (row) => [...row.children].filter((cell) => /^(TD|TH)$/.test(cell.tagName));
-
-  const parseSsfId = (row) =>
-    row.innerHTML.match(/postshowindtournamentresultform\([^,]+,\s*['"](\d+)['"]\)/i)?.[1] ||
-    row.innerHTML.match(/[?&](?:person|member|part|id|ssf(?:id)?|ssf_id)=?(\d{4,})/i)?.[1] ||
-    "";
-
-  const parseElo = (value) => Number(clean(value).match(/\b\d{3,4}\b/)?.[0] || 0);
-
-  const findColumns = (row) => {
-    const headers = cells(row).map(text).map(key);
-    const find = (patterns) => headers.findIndex((header) => patterns.some((pattern) => header.includes(pattern)));
-    const name = find(["namn", "name", "spelare", "deltagare"]);
-    const elo = find(["elo", "ranking", "rankning", "rating", "rtg"]);
-    return name >= 0 && elo >= 0 ? { name, elo } : null;
+  const fail = (message) => {
+    document.body.innerHTML = "";
+    const error = document.createElement("p");
+    error.className = "fatal";
+    error.textContent = message;
+    document.body.append(error);
+    throw new Error(message);
   };
 
-  const readPlayers = (html) => {
-    const page = new DOMParser().parseFromString(html, "text/html");
-    const players = [];
-    const found = new Set();
+  const parsePlayer = (value, index) => {
+    const match = value.trim().match(/^(\d{4})\s+(.+)$/);
+    if (!match) fail(`Spelare ${index + 1} måste börja med ett fyrsiffrigt Elo-tal.`);
+    return { elo: Number(match[1]), name: match[2].trim(), order: index };
+  };
+  const suppliedPlayers = (params.get("players") || "")
+    .split("|")
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .map(parsePlayer)
+    .sort((a, b) => b.elo - a.elo || a.order - b.order);
+  const players = suppliedPlayers.length
+    ? suppliedPlayers
+    : Array.from({ length: DEFAULT_PLAYER_COUNT }, (_, index) => ({
+        elo: DEFAULT_PLAYER_COUNT - index,
+        name: `Spelare ${index + 1}`,
+        order: index,
+      }));
 
-    const tables = page.querySelectorAll("table.js-sort-table");
-    for (const table of tables.length ? tables : page.querySelectorAll("table")) {
-      let columns = null;
-      for (const row of table.querySelectorAll("tr")) {
-        const rowCells = cells(row);
-        const foundColumns = findColumns(row);
-        if (foundColumns) {
-          columns = foundColumns;
-          continue;
-        }
-        if (!columns || rowCells.length <= Math.max(columns.name, columns.elo)) continue;
-        const player = {
-          name: text(rowCells[columns.name]),
-          elo: parseElo(text(rowCells[columns.elo])),
-          ssfId: parseSsfId(row),
-        };
-        const id = player.ssfId || key(player.name);
-        if (!player.name || !player.elo || found.has(id)) continue;
-        found.add(id);
-        players.push(player);
+  if (!Number.isInteger(groupSize) || groupSize < 2 || groupSize % 2 !== 0) {
+    fail("Parametern n måste vara ett jämnt heltal som är minst 2.");
+  }
+  if (players.length % groupSize !== 0) {
+    fail(`Antalet spelare (${players.length}) måste vara jämnt delbart med n (${groupSize}).`);
+  }
+
+  const groupName = (index) => {
+    let name = "";
+    let value = index;
+    do {
+      name = String.fromCharCode(65 + (value % 26)) + name;
+      value = Math.floor(value / 26) - 1;
+    } while (value >= 0);
+    return name;
+  };
+
+  const bergerRounds = (size) => {
+    let order = Array.from({ length: size }, (_, index) => index);
+    const rounds = [];
+    for (let round = 0; round < size - 1; round += 1) {
+      const pairs = [];
+      for (let index = 0; index < size / 2; index += 1) {
+        const first = order[index];
+        const second = order[size - 1 - index];
+        pairs.push((round + index) % 2 === 0 ? [first, second] : [second, first]);
       }
+      rounds.push(pairs);
+      order = [order[0], order[size - 1], ...order.slice(1, -1)];
     }
-    return players;
+    return rounds;
   };
 
-  const groupId = (href) =>
-    clean(href).match(/ViewTournamentClassGroupServlet\?(?:[^#]*&)?id=(\d+)/i)?.[1] || "";
+  const schedule = bergerRounds(groupSize);
+  const groups = Array.from({ length: players.length / groupSize }, (_, groupIndex) => ({
+    name: groupName(groupIndex),
+    players: players.slice(groupIndex * groupSize, (groupIndex + 1) * groupSize).map((player, playerIndex) => ({
+      id: playerIndex + 1,
+      name: player.name,
+      elo: player.elo,
+    })),
+  }));
+  const boardCount = players.length / 2;
+  const roundCount = groupSize - 1;
 
-  const discoverGroups = () => {
-    const idsByName = new Map();
-    for (const node of document.querySelectorAll("a[href], [onclick]")) {
-      const id = groupId(node.getAttribute("href") || node.getAttribute("onclick") || "");
-      const name = text(node).match(/\bS_[1-5]\b/i)?.[0]?.toUpperCase();
-      if (id && name) idsByName.set(name, id);
+  const boardsByRound = schedule.map((round) => {
+    let board = 1;
+    return groups.flatMap((group) =>
+      round.map(([whiteIndex, blackIndex]) => ({
+        board: board++,
+        group: group.name,
+        white: group.players[whiteIndex],
+        black: group.players[blackIndex],
+      })),
+    );
+  });
+
+  const readRound = (round) => {
+    const value = params.get(`r${round + 1}`) || "";
+    return Array.from({ length: boardCount }, (_, index) => (VALID_RESULTS.has(value[index]) ? value[index] : "."));
+  };
+
+  const results = Array.from({ length: roundCount }, (_, round) => readRound(round));
+  const inputState = results.map((round) => round.map((result) => (result === "." ? "" : "pending")));
+  let selectedRound = 0;
+  let selectedBoard = 0;
+
+  const writeRound = (round) => {
+    const name = `r${round + 1}`;
+    const value = results[round].join("").replace(/\.+$/, "");
+    if (value) params.set(name, value);
+    else params.delete(name);
+    const query = params.toString();
+    history.replaceState(null, "", `${location.pathname}${query ? `?${query}` : ""}${location.hash}`);
+  };
+
+  const resultForPlayer = (round, group, player) => {
+    const boards = boardsByRound[round];
+    const boardIndex = boards.findIndex(
+      (board) => board.group === group.name && (board.white === player || board.black === player),
+    );
+    const board = boards[boardIndex];
+    const result = results[round][boardIndex];
+    if (!board) return { label: "", points: 0, opponent: null, complete: false };
+    const isWhite = board.white === player;
+    const opponent = isWhite ? board.black : board.white;
+    if (result === ".") return { label: "", points: 0, opponent, complete: false };
+    const points = SCORE[result][isWhite ? 0 : 1];
+    const marker = result === "r" ? "=" : String(points);
+    return { label: `${opponent.id}${isWhite ? "w" : "b"}${marker}`, points, opponent, complete: true };
+  };
+
+  const compareTieBreaks = (a, b, tied) => {
+    const canUseHeadToHead = tied.every((standing) =>
+      tied.every(
+        (opponent) =>
+          standing === opponent ||
+          standing.rounds.some((round) => round.opponent === opponent.player && round.complete),
+      ),
+    );
+    if (canUseHeadToHead) {
+      const headToHead = (standing) =>
+        standing.rounds
+          .filter((round) => tied.some((opponent) => opponent.player === round.opponent))
+          .reduce((sum, round) => sum + round.points, 0);
+      const difference = headToHead(b) - headToHead(a);
+      if (difference) return difference;
     }
-
-    return GROUP_SPECS.map((group) => ({
-      ...group,
-      id: idsByName.get(group.name) || group.fallbackId,
-    }));
+    return b.sonnebornBerger - a.sonnebornBerger || b.wins - a.wins || a.id - b.id;
   };
 
-  const fetchGroup = async (group) => {
-    const response = await fetch(`./ViewTournamentClassGroupServlet?id=${group.id}`, { credentials: "same-origin" });
-    if (!response.ok) throw new Error(`${group.name}: HTTP ${response.status}`);
-    const html = await response.text();
-    if (/id=["']username["']|>\s*Logga in\s*</i.test(html)) throw new Error(`${group.name}: sessionen är inte inloggad`);
-    return { ...group, players: readPlayers(html) };
-  };
-
-  const randomIndex = (max) => {
-    if (max <= 1) return 0;
-    if (!globalThis.crypto?.getRandomValues) return Math.floor(Math.random() * max);
-    const limit = 0x100000000 - (0x100000000 % max);
-    const value = new Uint32Array(1);
-    do crypto.getRandomValues(value);
-    while (value[0] >= limit);
-    return value[0] % max;
-  };
-
-  const shuffled = (players) => {
-    const result = [...players];
-    for (let index = result.length - 1; index > 0; index -= 1) {
-      const other = randomIndex(index + 1);
-      [result[index], result[other]] = [result[other], result[index]];
-    }
-    return result;
-  };
-
-  const comparePlayers = (a, b) => b.elo - a.elo || Number(a.ssfId) - Number(b.ssfId) || a.name.localeCompare(b.name, "sv");
-
-  const bergerPairs = (players) => {
-    const draw = shuffled(players);
-    return [
-      { white: draw[0], black: draw[3] },
-      { white: draw[1], black: draw[2] },
-    ];
-  };
-
-  const schweizerPairs = (players) => {
-    const sorted = [...players].sort(comparePlayers);
-    const half = sorted.length / 2;
-    return sorted.slice(0, half).map((player, index) => {
-      const pair = { white: player, black: sorted[index + half] };
-      return index % 2 === 0 ? { white: pair.black, black: pair.white } : pair;
+  const sortedGroupStandings = (group) => {
+    const groupStandings = group.players.map((player) => {
+      const rounds = Array.from({ length: roundCount }, (_, round) => resultForPlayer(round, group, player));
+      return {
+        group: group.name,
+        id: player.id,
+        name: player.name,
+        elo: player.elo,
+        player,
+        rounds,
+        points: rounds.reduce((sum, result) => sum + result.points, 0),
+        wins: rounds.filter((result) => result.points === 1).length,
+        sonnebornBerger: 0,
+      };
+    });
+    const byPlayer = new Map(groupStandings.map((standing) => [standing.player, standing]));
+    groupStandings.forEach((standing) => {
+      standing.sonnebornBerger = standing.rounds.reduce(
+        (sum, round) => sum + (round.opponent ? round.points * byPlayer.get(round.opponent).points : 0),
+        0,
+      );
+    });
+    return groupStandings.sort((a, b) => {
+      if (a.points !== b.points) return b.points - a.points;
+      const tied = groupStandings.filter((standing) => standing.points === a.points);
+      return compareTieBreaks(a, b, tied);
     });
   };
 
-  const drawGroups = (groups) =>
-    groups.map((group) => ({
-      ...group,
-      pairs: group.type === "Berger" ? bergerPairs(group.players) : schweizerPairs(group.players),
-    }));
+  const standings = () => groups.flatMap(sortedGroupStandings);
 
   const appendCell = (row, value, className = "") => {
     const cell = document.createElement("td");
-    cell.textContent = value ?? "";
-    cell.className = className;
+    cell.textContent = value;
+    if (className) cell.className = className;
     row.append(cell);
   };
 
-  const appendHeading = (parent, level, value) => {
-    const heading = document.createElement(level);
-    heading.textContent = value;
-    parent.append(heading);
+  const appendHeader = (table, labels) => {
+    const row = document.createElement("tr");
+    labels.forEach((label) => {
+      const cell = document.createElement("th");
+      cell.textContent = label;
+      row.append(cell);
+    });
+    table.append(row);
   };
 
-  const appendBoardList = (parent, group) => {
-    appendHeading(parent, "h2", group.name);
+  const renderBoards = (container) => {
+    const heading = document.createElement("h2");
+    heading.textContent = `${tournament} - Rond ${selectedRound + 1}`;
+    container.append(heading);
     const table = document.createElement("table");
-    const header = document.createElement("tr");
-    header.className = "header";
-    ["Bord", "Vit", "Elo", "Resultat", "Elo", "Svart"].forEach((value) => appendCell(header, value));
-    table.append(header);
-    group.pairs.forEach((pair, index) => {
+    table.className = "boards";
+    appendHeader(table, ["Grupp", "Bord", "Vit", "Resultat", "Svart"]);
+    boardsByRound[selectedRound].forEach((board, index) => {
       const row = document.createElement("tr");
-      appendCell(row, index + 1, "center");
-      appendCell(row, pair.white.name);
-      appendCell(row, pair.white.elo, "center");
-      appendCell(row, "-", "center");
-      appendCell(row, pair.black.elo, "center");
-      appendCell(row, pair.black.name);
+      if (index === selectedBoard) row.classList.add("selected");
+      if (inputState[selectedRound][index] === "mismatch") row.classList.add("mismatch");
+      if (inputState[selectedRound][index] === "pending") row.classList.add("pending");
+      appendCell(row, board.group, "center");
+      appendCell(row, board.board, "center");
+      appendCell(row, board.white.name);
+      appendCell(row, RESULT_LABELS[results[selectedRound][index]] || "-", "center result");
+      appendCell(row, board.black.name);
       table.append(row);
     });
-    parent.append(table);
+    container.append(table);
   };
 
-  const sourceGroups = await Promise.all(discoverGroups().map(fetchGroup));
-  let groups = drawGroups(sourceGroups);
+  const renderStandings = (container) => {
+    const heading = document.createElement("h2");
+    heading.textContent = `${tournament} - Ställning`;
+    container.append(heading);
+    const table = document.createElement("table");
+    table.className = "standings";
+    appendHeader(table, ["Grupp", "Id", "Namn", "Elo", ...Array.from({ length: roundCount }, (_, index) => index + 1), "Poäng"]);
+    standings().forEach((standing) => {
+      const row = document.createElement("tr");
+      appendCell(row, standing.group, "center");
+      appendCell(row, standing.id, "center");
+      appendCell(row, standing.name);
+      appendCell(row, standing.elo, "center");
+      standing.rounds.forEach((round) => appendCell(row, round.label, "center"));
+      appendCell(row, String(standing.points), "center");
+      table.append(row);
+    });
+    container.append(table);
+  };
 
   const render = () => {
-    document.getElementById(APP_ID)?.remove();
-    const root = document.createElement("div");
-    root.id = APP_ID;
-    root.innerHTML = `
+    document.body.innerHTML = `
       <style>
-        #${APP_ID}{position:fixed;inset:0;z-index:2147483647;overflow:auto;background:#fff;color:#111;font:14px/1.4 Arial,sans-serif}
-        #${APP_ID} .toolbar{position:sticky;top:0;display:flex;justify-content:space-between;gap:12px;padding:10px 14px;border-bottom:1px solid #bbb;background:#eee}
-        #${APP_ID} .actions{display:flex;gap:8px}
-        #${APP_ID} button{padding:5px 10px;border:1px solid #777;border-radius:3px;background:#fff;cursor:pointer;font:inherit}
-        #${APP_ID} main{padding:16px}
-        #${APP_ID} h1{margin:0 0 16px;font-size:22px}
-        #${APP_ID} h2{margin:18px 0 5px;font-size:16px}
-        #${APP_ID} table{border-collapse:collapse;margin-bottom:14px;min-width:620px;break-inside:avoid;page-break-inside:avoid}
-        #${APP_ID} td{border:1px solid #888;padding:4px 8px;text-align:left}
-        #${APP_ID} .header td{background:#f0f0f0;font-weight:bold}
-        #${APP_ID} .center{text-align:center;white-space:nowrap}
-        #${APP_ID} .error{color:#900}
-        @media print {
-          body > :not(#${APP_ID}){display:none!important}
-          #${APP_ID}{position:static}
-          #${APP_ID} .toolbar{display:none}
-          #${APP_ID} main{padding:0}
-          #${APP_ID} table{min-width:0;width:100%}
-        }
+        *{box-sizing:border-box}body{margin:0;padding:16px;color:#111;background:#fff;font:14px/1.35 Arial,sans-serif}
+        h1{margin:0 0 4px;font-size:22px}h2{margin:18px 0 6px;font-size:17px}
+        .help{margin:0 0 10px;color:#555}table{border-collapse:collapse;margin-bottom:16px}
+        th,td{border:1px solid #999;padding:3px 7px;text-align:left}.center{text-align:center}.result{min-width:64px}
+        .selected{outline:3px solid #1677ff;outline-offset:-3px}.pending{background:#fff1b8}.mismatch{background:#ffb3b3}
+        .fatal{color:#900;font-weight:bold}
+        @media print{.help{display:none}.selected{outline:0}}
       </style>
-      <div class="toolbar">
-        <strong>Bordslistor</strong>
-        <div class="actions">
-          <button type="button" data-action="shuffle">Lotta om</button>
-          <button type="button" data-action="print">Skriv ut</button>
-          <button type="button" data-action="close">Stäng</button>
-        </div>
-      </div>
-      <main></main>
     `;
-    const main = root.querySelector("main");
-    appendHeading(main, "h1", "SRS");
-    const invalid = groups.filter((group) => group.players.length !== group.size);
-    if (invalid.length) {
-      const error = document.createElement("p");
-      error.className = "error";
-      error.textContent = invalid.map((group) => `${group.name}: förväntade ${group.size}, hittade ${group.players.length}`).join(". ");
-      main.append(error);
-    } else {
-      groups.forEach((group) => appendBoardList(main, group));
-    }
-    root.addEventListener("click", (event) => {
-      const action = event.target?.dataset?.action;
-      if (action === "shuffle") {
-        groups = drawGroups(sourceGroups);
-        render();
-      }
-      if (action === "print") window.print();
-      if (action === "close") root.remove();
-    });
-    document.body.append(root);
+    const title = document.createElement("h1");
+    title.textContent = tournament;
+    document.body.append(title);
+    const help = document.createElement("p");
+    help.className = "help";
+    help.textContent = "← → rond • ↑ ↓ bord • 1 vit vinst • 0 vit förlust • space/r remi • Delete radera";
+    document.body.append(help);
+    renderBoards(document.body);
+    renderStandings(document.body);
   };
 
+  const advanceBoard = () => {
+    selectedBoard = (selectedBoard + 1) % boardCount;
+  };
+
+  document.addEventListener("keydown", (event) => {
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+    if (event.key === "ArrowLeft") selectedRound = (selectedRound + roundCount - 1) % roundCount;
+    else if (event.key === "ArrowRight") selectedRound = (selectedRound + 1) % roundCount;
+    else if (event.key === "ArrowUp") selectedBoard = (selectedBoard + boardCount - 1) % boardCount;
+    else if (event.key === "ArrowDown") selectedBoard = (selectedBoard + 1) % boardCount;
+    else if (event.key === "Delete") {
+      results[selectedRound][selectedBoard] = ".";
+      inputState[selectedRound][selectedBoard] = "";
+      writeRound(selectedRound);
+      advanceBoard();
+    } else if (VALID_RESULTS.has(event.key.toLowerCase()) || event.key === " ") {
+      const value = event.key === " " ? "r" : event.key.toLowerCase();
+      const stored = results[selectedRound][selectedBoard];
+      const state = inputState[selectedRound][selectedBoard];
+      if (stored === ".") {
+        results[selectedRound][selectedBoard] = value;
+        inputState[selectedRound][selectedBoard] = "pending";
+        writeRound(selectedRound);
+        advanceBoard();
+      } else if (state === "pending") {
+        inputState[selectedRound][selectedBoard] = stored === value ? "confirmed" : "mismatch";
+        advanceBoard();
+      } else advanceBoard();
+    } else return;
+    event.preventDefault();
+    render();
+  });
+
   render();
-})().catch((error) => {
-  alert(`Lotta-Skriv: ${error.message}`);
-});
+})();

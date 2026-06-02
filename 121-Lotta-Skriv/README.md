@@ -1,15 +1,5 @@
-# Lotta och skriv ut
+Exempel:
 
-Detta bokmärke hämtar grupperna `S_1` till `S_5`, lottar Bergergrupperna och
-skapar utskrivbara bordslistor. `S_5` paras som Schweizergrupp.
-
-Skapa ett bokmärke med namnet `Lotta-Skriv` och följande innehåll:
-
-```text
-javascript:(()=>{const s=document.createElement('script');s.src='https://christernilsson.github.io/2026/121-Lotta-Skriv/sketch.js';document.head.appendChild(s)})()
-```
-
-Öppna den inloggade klassidan som länkar till grupperna och kör bokmärket. Vyn
-innehåller knappar för att lotta om, skriva ut och stänga.
-
-`index.html` innehåller lokala provdata för samtliga fem grupper.
+http://127.0.0.1:5500/?turnering=Juniturneringen
+&n=6
+&players=2072 Axel Jönsson|2063 William Gunnare|2011 Emanuel Rosenthal|2019 Zoran Todorovic|2042 Kiarash Jaghoory|1999 Khaschuluu Sergelenbaatar|1916 Anders Berg|1953 Sebastian Shi|1939 Hugo Hardwick|1876 Svante Wedin|1926 Svante Nödtveidt|1868 Peter Silins|1811 Ludwig Sandhu|1823 Sam Alseif|1845 Umair Islam|1824 Ala Tarighati|1838 Dilip Sunderraj Bjerre|1797 Hanns Ivar Uniyal|1733 Daniel Arrospide|1775 Yohan Thamarai|1755 Sten Hellman|1726 Fredrik Sandström|1709 Sture Lindberg|1765 Erik Strömbäck|1689 Axel Larsson|1708 Stefan Kolev|1685 Fred Kjellberg|1668 Christer Nilsson|1668 Mikael Ekbom|1691 Sayak Raj Bardhan

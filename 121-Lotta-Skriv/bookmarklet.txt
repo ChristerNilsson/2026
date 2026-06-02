@@ -1,1 +1,0 @@
-javascript:(()=>{const s=document.createElement('script');s.src='https://christernilsson.github.io/2026/121-Lotta-Skriv/sketch.js';document.head.appendChild(s)})()
