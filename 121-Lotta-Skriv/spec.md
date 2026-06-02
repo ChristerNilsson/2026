@@ -26,7 +26,7 @@ Jag behöver en webapplikation som accepterar en parameter n för gruppstorlek s
 
 Exempel:
 
-http://127.0.0.1:5500/?turnering=Växjö spelen&n=4&players=1984 Adam Nilsson|1954 Bertil Svensson|1812 Cesar Persson|1776 David Eriksson|1912 Erik Karlsson|1917 Filip Jönsson|2026 Gustav Hansson|1945 Helge Ågren
+http://127.0.0.1:5500/?turnering=Växjö spelen&n=4&players=1984 Adam Nilsson_1954 Bertil Svensson_1812 Cesar Persson_1776 David Eriksson_1912 Erik Karlsson_1917 Filip Jönsson_2026 Gustav Hansson_1945 Helge Ågren
 
 De första fyra tecknena utgör elo-talet.
 Spelarna ska sorteras enligt fallande elo-tal

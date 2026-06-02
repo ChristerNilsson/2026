@@ -25,7 +25,7 @@
     return { elo: Number(match[1]), name: match[2].trim(), order: index };
   };
   const suppliedPlayers = (params.get("players") || "")
-    .split("|")
+    .split("_")
     .map((value) => value.trim())
     .filter(Boolean)
     .map(parsePlayer)
