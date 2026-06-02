@@ -49,6 +49,8 @@ Om swiss > 0 ska den sista gruppen plus den näst sista gruppen slås ihop och b
 
 Exempel: d = 53. Det innebär att de sista tretton deltagarna går till Schweizergruppen och övriga 40 ska med i urlen längst ner i denna fil.
 
+Schweizergruppen ska alltid vara större än n om den existerar.
+
 Schweizergruppen hanteras inte av denna bookmarklet.
 
 Om elo-talet har färre än fyra siffror ska nollutfyllnad ske. T ex 0 => 0000

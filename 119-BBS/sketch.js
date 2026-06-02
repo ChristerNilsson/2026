@@ -40,7 +40,7 @@ function createGroups(players, n) {
   }
 
   const swiss = players.length % n;
-  if (swiss > 0 && groups.length > 0) {
+  if (swiss > 0 && groups.length >= 2) {
     const last = groups.pop();
     const previous = groups.pop();
     groups.push({
@@ -53,8 +53,10 @@ function createGroups(players, n) {
 }
 
 function selectBergerPlayers(players, n) {
-  const swiss = players.length % n;
-  return swiss === 0 ? players : players.slice(0, -(n + swiss));
+  const { groups } = createGroups(players, n);
+  const swissGroup = groups.at(-1);
+  const swissSize = swissGroup?.type === 'Schweizer' ? swissGroup.players.length : 0;
+  return swissSize === 0 ? players : players.slice(0, -swissSize);
 }
 
 function createViewerUrl(players, n, title) {
