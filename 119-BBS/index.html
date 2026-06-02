@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>119-BBS Gruppgenerator</title>
+  <style>
+    body { font-family: system-ui, sans-serif; line-height: 1.5; margin: 0; padding: 0; background: #f7f7f7; color: #111; }
+    .page { max-width: 960px; margin: 0 auto; padding: 24px; }
+    h1, h2, h3 { margin-top: 0; }
+    .hero { background: #fff; border-radius: 12px; padding: 20px 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); margin-bottom: 24px; }
+    .summary { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-top: 12px; }
+    .card { background: #fff; border: 1px solid #e2e2e2; border-radius: 10px; padding: 16px; }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 18px; }
+    button { border: none; border-radius: 8px; padding: 10px 16px; cursor: pointer; font-size: 1rem; background: #0b67ff; color: white; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+    th, td { border: 1px solid #d9d9d9; padding: 10px 12px; text-align: left; }
+    th { background: #f1f5ff; }
+    td.center { text-align: center; }
+    .note { font-size: .95rem; color: #555; }
+    .warning { color: #b33; }
+    .group-type { font-size: .95rem; color: #444; margin-bottom: 6px; }
+    .group-block { margin-top: 24px; }
+    .instructions { background:#fff;border:1px solid #e2e2e2;border-radius:12px;padding:18px; }
+    .small { font-size:.95rem; color:#555; }
+    .link { display:inline-block; margin-top:12px; color:#0b67ff; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <h1>119-BBS Gruppgenerator</h1>
+      <p class="note">Skriv in turneringens namn, gruppstorlek och spelare i URL-parametrar. Använd + och - för att ändra gruppstorlek.</p>
+      <div class="controls">
+        <button id="decrease">-</button>
+        <button id="increase">+</button>
+        <div id="n-value" class="note"></div>
+      </div>
+      <div id="status" class="note"></div>
+    </section>
+
+    <section id="output"></section>
+
+    <section id="instructions" class="instructions"></section>
+  </main>
+
+  <script src="sketch.js" defer></script>
+</body>
+</html>
