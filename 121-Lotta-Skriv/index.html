@@ -9,36 +9,15 @@
     <h1>Klubbturnering</h1>
     <script>
       const names = [
-        "Anna Andersson",
-        "Bo Berg",
-        "Cecilia Carlsson",
-        "David Dahl",
-        "Eva Ek",
-        "Filip Fors",
-        "Greta Gran",
-        "Hans Holm",
-        "Ida Isaksson",
-        "Jan Jansson",
-        "Karin Karlsson",
-        "Lars Lind",
-        "Maria Mark",
-        "Nils Nord",
-        "Olivia Olofsson",
-        "Per Persson",
-        "Rita Roos",
-        "Stig Strand",
-        "Tove Törn",
-        "Ulf Ull",
-        "Vera Vik",
-        "Wilma Wall",
-        "Yngve Ytter",
-        "Åsa Åker",
-        "Ärvid Äng",
-        "Örjan Öst",
+        "Anna Andersson", "Bo Berg", "Cecilia Carlsson", "David Dahl", "Eva Ek",
+        "Filip Fors", "Greta Gran", "Hans Holm", "Ida Isaksson", "Jan Jansson",
+        "Karin Karlsson", "Lars Lind", "Maria Mark", "Nils Nord", "Olivia Olofsson",
+        "Per Persson", "Rita Roos", "Stig Strand", "Tove Törn", "Ulf Ull",
+        "Vera Vik", "Wilma Wall", "Yngve Ytter", "Åsa Åker", "Ärvid Äng",
       ];
-      for (let group = 0; group < 5; group += 1) {
-        document.write(`<h2>Grupp ${String.fromCharCode(65 + group)}</h2><table><tr><th>SSF-ID</th><th>Namn</th><th>Elo</th></tr>`);
-        for (let index = group * 5; index < group * 5 + 5; index += 1) {
+      for (let group = 1; group <= 5; group += 1) {
+        document.write(`<h2>S_${group}</h2><table><tr><th>SSF-ID</th><th>Namn</th><th>Elo</th></tr>`);
+        for (let index = (group - 1) * 5; index < group * 5; index += 1) {
           document.write(`<tr><td>${10000 + index}</td><td>${names[index]}</td><td>${1800 - index * 11}</td></tr>`);
         }
         document.write("</table>");
