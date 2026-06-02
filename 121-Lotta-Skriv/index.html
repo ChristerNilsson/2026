@@ -7,22 +7,16 @@
   </head>
   <body>
     <h1>Klubbturnering</h1>
-    <script>
-      const names = [
-        "Anna Andersson", "Bo Berg", "Cecilia Carlsson", "David Dahl", "Eva Ek",
-        "Filip Fors", "Greta Gran", "Hans Holm", "Ida Isaksson", "Jan Jansson",
-        "Karin Karlsson", "Lars Lind", "Maria Mark", "Nils Nord", "Olivia Olofsson",
-        "Per Persson", "Rita Roos", "Stig Strand", "Tove Törn", "Ulf Ull",
-        "Vera Vik", "Wilma Wall", "Yngve Ytter", "Åsa Åker", "Ärvid Äng",
-      ];
-      for (let group = 1; group <= 5; group += 1) {
-        document.write(`<h2>S_${group}</h2><table><tr><th>SSF-ID</th><th>Namn</th><th>Elo</th></tr>`);
-        for (let index = (group - 1) * 5; index < group * 5; index += 1) {
-          document.write(`<tr><td>${10000 + index}</td><td>${names[index]}</td><td>${1800 - index * 11}</td></tr>`);
-        }
-        document.write("</table>");
-      }
-    </script>
+    <table>
+      <tr><th>SSF-ID</th><th>Namn</th><th>Elo</th></tr>
+      <tr><td>10001</td><td>Anna Andersson</td><td>1800</td></tr>
+      <tr><td>10002</td><td>Bo Berg</td><td>1789</td></tr>
+      <tr><td>10003</td><td>Cecilia Carlsson</td><td>1778</td></tr>
+      <tr><td>10004</td><td>David Dahl</td><td>1767</td></tr>
+      <tr><td>10005</td><td>Eva Ek</td><td>1756</td></tr>
+      <tr><td>10006</td><td>Filip Fors</td><td>1745</td></tr>
+      <tr><td>10007</td><td>Greta Gran</td><td>1734</td></tr>
+    </table>
     <script src="./sketch.js"></script>
   </body>
 </html>

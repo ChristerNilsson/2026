@@ -2,8 +2,7 @@
   "use strict";
 
   const APP_ID = "lotta-skriv";
-  const GROUP_NAMES = ["S_1", "S_2", "S_3", "S_4", "S_5"];
-  const BYE = { name: "Frirond", ssfId: "", elo: "" };
+  const BYE = { name: "Frirond", elo: "" };
 
   document.getElementById(APP_ID)?.remove();
 
@@ -22,8 +21,6 @@
 
   const cells = (row) => [...row.children].filter((cell) => /^(TD|TH)$/.test(cell.tagName));
 
-  const groupName = (value) => clean(value).toUpperCase().match(/\bS_[1-5]\b/)?.[0] || "";
-
   const parseSsfId = (row, value) =>
     clean(value).match(/\b\d{4,}\b/)?.[0] ||
     row.innerHTML.match(/postshowindtournamentresultform\([^,]+,\s*['"](\d+)['"]\)/i)?.[1] ||
@@ -41,18 +38,7 @@
           name,
           ssfId: find(["ssf-id", "ssfid", "medlems-id", "member id"]),
           elo: find(["elo", "ranking", "rankning", "rating", "rtg"]),
-          group: find(["grupp", "group", "klass"]),
         };
-  };
-
-  const precedingGroup = (table) => {
-    const candidates = [...document.querySelectorAll("h1,h2,h3,h4,h5,h6,caption,strong,b")];
-    return candidates
-      .filter((node) => node === table.querySelector("caption") || node.compareDocumentPosition(table) & Node.DOCUMENT_POSITION_FOLLOWING)
-      .map(text)
-      .map(groupName)
-      .filter(Boolean)
-      .at(-1);
   };
 
   const unique = (players) => {
@@ -65,13 +51,10 @@
     });
   };
 
-  const readGroups = () => {
-    const groups = new Map(GROUP_NAMES.map((name) => [name, []]));
-
+  const readPlayers = () => {
+    const players = [];
     for (const table of document.querySelectorAll("table")) {
       let columns = null;
-      const fallbackGroup = groupName(text(table.querySelector("caption"))) || precedingGroup(table);
-
       for (const row of table.querySelectorAll("tr")) {
         const rowCells = cells(row);
         const foundColumns = findColumns(row);
@@ -82,18 +65,15 @@
         if (!columns || rowCells.length <= columns.name) continue;
 
         const name = text(rowCells[columns.name]);
-        const group = columns.group >= 0 ? groupName(text(rowCells[columns.group])) : fallbackGroup;
-        if (!name || !groups.has(group)) continue;
-
-        groups.get(group).push({
+        if (!name) continue;
+        players.push({
           name,
           ssfId: parseSsfId(row, columns.ssfId >= 0 ? text(rowCells[columns.ssfId]) : ""),
           elo: columns.elo >= 0 ? parseElo(text(rowCells[columns.elo])) : "",
         });
       }
     }
-
-    return GROUP_NAMES.map((name) => ({ name, players: unique(groups.get(name)) }));
+    return unique(players);
   };
 
   const randomIndex = (max) => {
@@ -130,36 +110,9 @@
     row.append(cell);
   };
 
-  const appendHeading = (parent, level, value) => {
-    const heading = document.createElement(level);
-    heading.textContent = value;
-    parent.append(heading);
-  };
-
-  const appendBoardList = (parent, group) => {
-    appendHeading(parent, "h2", group.name);
-    const table = document.createElement("table");
-    const header = document.createElement("tr");
-    header.className = "header";
-    ["Bord", "Vit", "Elo", "Resultat", "Elo", "Svart"].forEach((value) => appendCell(header, value));
-    table.append(header);
-
-    pairs(group.players).forEach((pair, index) => {
-      const row = document.createElement("tr");
-      appendCell(row, pair.black === BYE ? "" : index + 1, "center");
-      appendCell(row, pair.white.name);
-      appendCell(row, pair.white.elo, "center");
-      appendCell(row, "-", "center");
-      appendCell(row, pair.black.elo, "center");
-      appendCell(row, pair.black.name);
-      table.append(row);
-    });
-    parent.append(table);
-  };
-
-  const title = text(document.querySelector("#content h4.header, h4.header, h1, h2, title")) || "Bordslistor";
-  const sourceGroups = readGroups();
-  let groups = sourceGroups.map((group) => ({ ...group, players: shuffled(group.players) }));
+  const title = text(document.querySelector("#content h4.header, h4.header, h1, h2, title")) || "Bordslista";
+  const sourcePlayers = readPlayers();
+  let players = shuffled(sourcePlayers);
 
   const render = () => {
     document.getElementById(APP_ID)?.remove();
@@ -173,8 +126,7 @@
         #${APP_ID} button{padding:5px 10px;border:1px solid #777;border-radius:3px;background:#fff;cursor:pointer;font:inherit}
         #${APP_ID} main{padding:16px}
         #${APP_ID} h1{margin:0 0 16px;font-size:22px}
-        #${APP_ID} h2{margin:18px 0 5px;font-size:16px}
-        #${APP_ID} table{border-collapse:collapse;margin-bottom:14px;min-width:620px;break-inside:avoid;page-break-inside:avoid}
+        #${APP_ID} table{border-collapse:collapse;min-width:620px}
         #${APP_ID} td{border:1px solid #888;padding:4px 8px;text-align:left}
         #${APP_ID} .header td{background:#f0f0f0;font-weight:bold}
         #${APP_ID} .center{text-align:center;white-space:nowrap}
@@ -188,7 +140,7 @@
         }
       </style>
       <div class="toolbar">
-        <strong>Bordslistor</strong>
+        <strong>Bordslista: ${players.length} deltagare</strong>
         <div class="actions">
           <button type="button" data-action="shuffle">Lotta om</button>
           <button type="button" data-action="print">Skriv ut</button>
@@ -198,19 +150,38 @@
       <main></main>
     `;
     const main = root.querySelector("main");
-    appendHeading(main, "h1", title);
-    const missing = groups.filter((group) => !group.players.length).map((group) => group.name);
-    if (missing.length) {
+    const heading = document.createElement("h1");
+    heading.textContent = title;
+    main.append(heading);
+
+    if (!players.length) {
       const error = document.createElement("p");
       error.className = "error";
-      error.textContent = `Hittade inga deltagare i: ${missing.join(", ")}.`;
+      error.textContent = "Hittade inga deltagare på sidan.";
       main.append(error);
+    } else {
+      const table = document.createElement("table");
+      const header = document.createElement("tr");
+      header.className = "header";
+      ["Bord", "Vit", "Elo", "Resultat", "Elo", "Svart"].forEach((value) => appendCell(header, value));
+      table.append(header);
+      pairs(players).forEach((pair, index) => {
+        const row = document.createElement("tr");
+        appendCell(row, pair.black === BYE ? "" : index + 1, "center");
+        appendCell(row, pair.white.name);
+        appendCell(row, pair.white.elo, "center");
+        appendCell(row, "-", "center");
+        appendCell(row, pair.black.elo, "center");
+        appendCell(row, pair.black.name);
+        table.append(row);
+      });
+      main.append(table);
     }
-    groups.forEach((group) => appendBoardList(main, group));
+
     root.addEventListener("click", (event) => {
       const action = event.target?.dataset?.action;
       if (action === "shuffle") {
-        groups = sourceGroups.map((group) => ({ ...group, players: shuffled(group.players) }));
+        players = shuffled(sourcePlayers);
         render();
       }
       if (action === "print") window.print();

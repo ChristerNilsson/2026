@@ -1,5 +1,4 @@
-Url till en turnering med fem grupper.  
+Url till en turnering
 
-https://halvarsson.no-ip.com/webapp/memdb/ViewTournamentServlet?tournamentid=6926
-
+https://halvarsson.no-ip.com/webapp/memdb/ViewTournamentClassGroupServlet?id=18772
 
