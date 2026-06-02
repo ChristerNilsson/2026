@@ -14,7 +14,7 @@ Koden i bokmärket ska se ut så här:
 
 javascript:(()=>{const s=document.createElement('script');s.src='https://christernilsson.github.io/2026/119-BBS/sketch.js';document.head.appendChild(s)})()
 
-Denna bookmarklet beöver inte sortera, inte para. Sortering är redan gjord. Parandet sker senare av ett annat program.
+Denna bookmarklet behöver inte sortera, inte para. Sortering är redan gjord. Parandet sker senare av ett annat program.
 
 ### Input
 
@@ -57,7 +57,7 @@ Om elo-talet har färre än fyra siffror ska nollutfyllnad ske. T ex 0 => 0000
 
 Exempel på url:
 
-https://christernilsson.github.io/2026/121-Lotta-Skriv/?turnering=Växjöspelen&n=4&players=1984 Adam Nilsson|1954 Bertil Svensson|1812 Cesar Persson|1776 David Eriksson|1912 Erik Karlsson|1917 Filip Jönsson|2026 Gustav Hansson|0000 Helge Ågren
+https://christernilsson.github.io/2026/121-Lotta-Skriv/?turnering=Växjöspelen&n=4&players=1984 Adam Nilsson_1954 Bertil Svensson_1812 Cesar Persson_1776 David Eriksson_1912 Erik Karlsson_1917 Filip Jönsson_2026 Gustav Hansson_0000 Helge Ågren
 
 Man måste klicka på urlen för att gå vidare.
 

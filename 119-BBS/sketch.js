@@ -22,7 +22,7 @@ function formatRanking(ranking) {
 function parsePlayers(value) {
   if (!value) return [];
 
-  return value.split('|').map(token => {
+  return value.split(/[|_]/).map(token => {
     const parts = normalizeText(token).split(' ');
     const ranking = Number(parts.shift());
     return { ranking, name: parts.join(' ') };
@@ -64,7 +64,7 @@ function createViewerUrl(players, n, title) {
   const params = new URLSearchParams({
     turnering: normalizeText(title),
     n,
-    players: bergerPlayers.map(player => `${formatRanking(player.ranking)} ${player.name}`).join('|')
+    players: bergerPlayers.map(player => `${formatRanking(player.ranking)} ${player.name}`).join('_')
   });
 
   return `${VIEWER_URL}?${params}`;

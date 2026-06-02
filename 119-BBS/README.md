@@ -13,17 +13,17 @@ Filer
 Användning
 - Bookmarklet: besök turneringssidan och klicka bookmarkleten. Välj `n` med tangenterna `+` och `-`, och klicka sedan på länken till `https://christernilsson.github.io/2026/121-Lotta-Skriv/`.
 - Testvy: öppna `index.html` lokalt och ange parametern `players` i formatet:
-  `?turnering=Växjöspelen&n=8&players=1984 Adam Nilsson|1954 Bertil Svensson|...`
+  `?turnering=Växjöspelen&n=8&players=1984 Adam Nilsson_1954 Bertil Svensson_...`
 
 Parametrar
 - `turnering` – turneringens namn.
 - `n` – gruppstorlek (tillåtet: 4,6,8,10,12,14,16).
-- `players` – pipe-separerad lista: `Ranking Namn`.
+- `players` – underscore-separerad lista: `Ranking Namn`.
 - Ranking nollutfylls till minst fyra siffror, till exempel `0000`.
 - Om antalet spelare inte är jämnt delbart med `n` och minst två grupper finns slås de två sista grupperna ihop till en Schweizergrupp. Dessa `n + (d modulo n)` spelare skickas inte vidare. Gruppstorlekarna visas i bookmarkletpanelen.
 
 Exempel
-`index.html?turnering=Växjöspelen&n=4&players=1984 Adam Nilsson|0000 Helge Ågren`
+`index.html?turnering=Växjöspelen&n=4&players=1984 Adam Nilsson_0000 Helge Ågren`
 
 Bookmarklet
 Innehåll i `bookmarklet.txt` kan klistras som ett bokmärke. Den laddar `sketch.js` från GitHub Pages.
