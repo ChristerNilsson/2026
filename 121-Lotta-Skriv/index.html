@@ -22,7 +22,8 @@
         const rows = players
           .map((name, index) => `<tr><td onclick="postshowindtournamentresultform('${id}','${id}${index}')"></td><td></td><td></td><td>${name}</td><td></td><td></td><td></td><td>${2000 - index * 20}</td></tr>`)
           .join("");
-        return new Response(`<table class="js-sort-table"><tr><td></td><td></td><td></td><td>NAMN</td><td></td><td>KLUBB</td><td></td><td>RANKING 1/6</td></tr>${rows}</table>`);
+        const group = `S_${Number(id) - 18771}`;
+        return new Response(`<title>SRS ${group} SRS</title><table class="js-sort-table"><tr><td></td><td></td><td></td><td>NAMN</td><td></td><td>KLUBB</td><td></td><td>RANKING 1/6</td></tr>${rows}</table>`);
       };
     </script>
     <script src="./sketch.js"></script>

@@ -45,7 +45,8 @@
     const players = [];
     const found = new Set();
 
-    for (const table of page.querySelectorAll("table.js-sort-table")) {
+    const tables = page.querySelectorAll("table.js-sort-table");
+    for (const table of tables.length ? tables : page.querySelectorAll("table")) {
       let columns = null;
       for (const row of table.querySelectorAll("tr")) {
         const rowCells = cells(row);
@@ -72,9 +73,15 @@
   };
 
   const fetchGroup = async (group) => {
-    const response = await fetch(`./ShowTournamentServlet?id=${group.id}`, { credentials: "same-origin" });
+    const response = await fetch(`./ViewTournamentClassGroupServlet?id=${group.id}`, { credentials: "same-origin" });
     if (!response.ok) throw new Error(`${group.name}: HTTP ${response.status}`);
-    return { ...group, players: readPlayers(await response.text()) };
+    const html = await response.text();
+    const page = new DOMParser().parseFromString(html, "text/html");
+    const title = text(page.querySelector("#content h4.header, h4.header")) || text(page.querySelector("title"));
+    if (!new RegExp(`\\b${group.name}\\b`, "i").test(title)) {
+      throw new Error(`${group.name}: fick fel gruppsida (${title || "saknar rubrik"})`);
+    }
+    return { ...group, players: readPlayers(html) };
   };
 
   const randomIndex = (max) => {
