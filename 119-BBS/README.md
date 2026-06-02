@@ -2,7 +2,7 @@
 
 Detta repo innehåller ett bookmarklet för schackturneringar samt en lokal testvy.
 
-1. Bookmarklet-läge: körs på turneringssidan (t.ex. `member.schack.se`) för att hämta tabellen med deltagare och öppna `121-Lotta-Skriv`.
+1. Bookmarklet-läge: körs på turneringssidan (t.ex. `member.schack.se`) för att hämta tabellen med deltagare och skapa en länk till `121-Lotta-Skriv`.
 2. Testvy: öppna `index.html` lokalt med URL-parametrar för att kontrollera grupperna.
 
 Filer
@@ -11,7 +11,7 @@ Filer
 - `bookmarklet.txt` – bookmarklet-kod som du kan dra till bokmärkesfältet.
 
 Användning
-- Bookmarklet: besök turneringssidan och klicka bookmarkleten. Den öppnar `https://christernilsson.github.io/2026/121-Lotta-Skriv/` med Berger-spelarna i tabellens befintliga ordning.
+- Bookmarklet: besök turneringssidan och klicka bookmarkleten. Välj `n` med tangenterna `+` och `-`, och klicka sedan på länken till `https://christernilsson.github.io/2026/121-Lotta-Skriv/`.
 - Testvy: öppna `index.html` lokalt och ange parametern `players` i formatet:
   `?turnering=Växjöspelen&n=8&players=1984 Adam Nilsson|1954 Bertil Svensson|...`
 

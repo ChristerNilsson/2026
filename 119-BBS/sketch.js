@@ -57,6 +57,17 @@ function selectBergerPlayers(players, n) {
   return swiss === 0 ? players : players.slice(0, -swiss);
 }
 
+function createViewerUrl(players, n, title) {
+  const bergerPlayers = selectBergerPlayers(players, n);
+  const params = new URLSearchParams({
+    turnering: normalizeText(title),
+    n,
+    players: bergerPlayers.map(player => `${formatRanking(player.ranking)} ${player.name}`).join('|')
+  });
+
+  return `${VIEWER_URL}?${params}`;
+}
+
 function renderGroups(players, n) {
   const output = document.getElementById('output');
   const status = document.getElementById('status');
@@ -156,14 +167,49 @@ function runBookmarklet() {
     return;
   }
 
-  const bergerPlayers = selectBergerPlayers(players, DEFAULT_N);
-  const params = new URLSearchParams({
-    turnering: normalizeText(document.title),
-    n: DEFAULT_N,
-    players: bergerPlayers.map(player => `${formatRanking(player.ranking)} ${player.name}`).join('|')
-  });
+  let n = DEFAULT_N;
+  const existing = document.getElementById('bbs-bookmarklet-panel');
+  if (existing) existing.remove();
 
-  window.location.href = `${VIEWER_URL}?${params}`;
+  const panel = document.createElement('div');
+  panel.id = 'bbs-bookmarklet-panel';
+  panel.style.cssText = 'position:fixed;inset:1rem;z-index:2147483647;overflow:auto;padding:1.5rem;background:white;border:2px solid #222;box-shadow:0 4px 20px #0004;font:16px system-ui,sans-serif;color:#111';
+  panel.innerHTML = `
+    <h1 style="margin-top:0">Bergergrupper</h1>
+    <p id="bbs-bookmarklet-status"></p>
+    <p>Tryck <strong>+</strong> för att öka n med 2 och <strong>-</strong> för att minska n med 2.</p>
+    <p><a id="bbs-bookmarklet-link"></a></p>
+    <button id="bbs-bookmarklet-close" type="button">Stäng</button>
+  `;
+  document.body.appendChild(panel);
+
+  const status = document.getElementById('bbs-bookmarklet-status');
+  const link = document.getElementById('bbs-bookmarklet-link');
+
+  function render() {
+    const bergerPlayers = selectBergerPlayers(players, n);
+    const url = createViewerUrl(players, n, document.title);
+    status.textContent = `Valt n: ${n}. Deltagare: ${players.length}. Berger-spelare i länken: ${bergerPlayers.length}.`;
+    link.href = url;
+    link.textContent = url;
+  }
+
+  function onKeydown(event) {
+    const step = event.key === '+' ? 1 : event.key === '-' ? -1 : 0;
+    if (step === 0) return;
+    const next = ALLOWED_N[ALLOWED_N.indexOf(n) + step];
+    if (next === undefined) return;
+    event.preventDefault();
+    n = next;
+    render();
+  }
+
+  document.getElementById('bbs-bookmarklet-close').addEventListener('click', () => {
+    window.removeEventListener('keydown', onKeydown);
+    panel.remove();
+  });
+  window.addEventListener('keydown', onKeydown);
+  render();
 }
 
 if (window.location.hostname === 'member.schack.se') {

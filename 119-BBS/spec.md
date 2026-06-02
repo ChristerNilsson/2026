@@ -35,6 +35,8 @@ n är något av följande [4,6,8,10,12,14,16]
 
 ### Output
 
+Visa vilket n som valts samt information om tangenterna.
+
 d = antalet deltagare.
 
 swiss = d modulo n
@@ -52,5 +54,8 @@ Om elo-talet har färre än fyra siffror ska nollutfyllnad ske. T ex 0 => 0000
 Exempel på url:
 
 https://christernilsson.github.io/2026/121-Lotta-Skriv/?turnering=Växjöspelen&n=4&players=1984 Adam Nilsson|1954 Bertil Svensson|1812 Cesar Persson|1776 David Eriksson|1912 Erik Karlsson|1917 Filip Jönsson|2026 Gustav Hansson|0000 Helge Ågren
+
+Man måste klicka på urlen för att gå vidare.
+
 
 
