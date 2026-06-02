@@ -3,39 +3,28 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SRS S_1 SRS</title>
+    <title>Lotta-Skriv</title>
   </head>
   <body>
-    <div id="content">
-      <h4 class="header">SRS S_1 SRS</h4>
-      <table class="js-sort-table">
-        <tr>
-          <td></td><td></td><td></td><td>NAMN</td><td></td><td>KLUBB</td><td></td>
-          <td>RANKING 1/6</td><td></td><td></td><td>DISTRIKT</td><td></td><td>BETALT</td>
-          <td></td><td>AVPRICKAD</td>
-        </tr>
-        <tr class="memberrow_neutral">
-          <td onclick="postshowindtournamentresultform('18772','350118')"></td><td></td><td></td>
-          <td>Stefan Engström</td><td></td><td>Stockholms SS</td><td></td><td>1964</td>
-          <td></td><td></td><td>Stockholms SF</td><td></td><td></td><td></td><td>JA</td>
-        </tr>
-        <tr class="memberrow_neutral">
-          <td onclick="postshowindtournamentresultform('18772','366093')"></td><td></td><td></td>
-          <td>Tom Braathen</td><td></td><td>Stockholms SS</td><td></td><td>2018</td>
-          <td></td><td></td><td>Stockholms SF</td><td></td><td></td><td></td><td>JA</td>
-        </tr>
-        <tr class="memberrow_neutral">
-          <td onclick="postshowindtournamentresultform('18772','376546')"></td><td></td><td></td>
-          <td>Stéphane Bruchfeld</td><td></td><td>Seniorschack Stockholm</td><td></td><td>2083</td>
-          <td></td><td></td><td>Stockholms SF</td><td></td><td></td><td></td><td>JA</td>
-        </tr>
-        <tr class="memberrow_neutral">
-          <td onclick="postshowindtournamentresultform('18772','366092')"></td><td></td><td></td>
-          <td>FM Rolf Bergström</td><td></td><td>Stockholms SS</td><td></td><td>2149</td>
-          <td></td><td></td><td>Stockholms SF</td><td></td><td></td><td></td><td>JA</td>
-        </tr>
-      </table>
-    </div>
+    <script>
+      const groups = {
+        18772: ["Stefan Engström", "Tom Braathen", "Stéphane Bruchfeld", "FM Rolf Bergström"],
+        18773: ["Anna Andersson", "Bo Berg", "Cecilia Carlsson", "David Dahl"],
+        18774: ["Eva Ek", "Filip Fors", "Greta Gran", "Hans Holm"],
+        18775: ["Ida Isaksson", "Jan Jansson", "Karin Karlsson", "Lars Lind"],
+        18776: ["Maria Mark", "Nils Nord", "Olivia Olofsson", "Per Persson", "Rita Roos", "Stig Strand"],
+      };
+      const originalFetch = window.fetch;
+      window.fetch = async (url, options) => {
+        const id = new URL(url, location.href).searchParams.get("id");
+        const players = groups[id];
+        if (!players) return originalFetch(url, options);
+        const rows = players
+          .map((name, index) => `<tr><td onclick="postshowindtournamentresultform('${id}','${id}${index}')"></td><td></td><td></td><td>${name}</td><td></td><td></td><td></td><td>${2000 - index * 20}</td></tr>`)
+          .join("");
+        return new Response(`<table class="js-sort-table"><tr><td></td><td></td><td></td><td>NAMN</td><td></td><td>KLUBB</td><td></td><td>RANKING 1/6</td></tr>${rows}</table>`);
+      };
+    </script>
     <script src="./sketch.js"></script>
   </body>
 </html>

@@ -1,8 +1,14 @@
-(() => {
+(async () => {
   "use strict";
 
   const APP_ID = "lotta-skriv";
-  const PLAYER_COUNT = 4;
+  const GROUPS = [
+    { id: 18772, name: "S_1", type: "Berger", size: 4 },
+    { id: 18773, name: "S_2", type: "Berger", size: 4 },
+    { id: 18774, name: "S_3", type: "Berger", size: 4 },
+    { id: 18775, name: "S_4", type: "Berger", size: 4 },
+    { id: 18776, name: "S_5", type: "Schweizer", size: 6 },
+  ];
 
   document.getElementById(APP_ID)?.remove();
 
@@ -21,39 +27,25 @@
 
   const cells = (row) => [...row.children].filter((cell) => /^(TD|TH)$/.test(cell.tagName));
 
-  const parseSsfId = (row, value) =>
-    clean(value).match(/\b\d{4,}\b/)?.[0] ||
-    row.innerHTML.match(/postshowindtournamentresultform\([^,]+,\s*['"](\d+)['"]\)/i)?.[1] ||
-    "";
+  const parseSsfId = (row) =>
+    row.innerHTML.match(/postshowindtournamentresultform\([^,]+,\s*['"](\d+)['"]\)/i)?.[1] || "";
 
-  const parseElo = (value) => clean(value).match(/\b\d{3,4}[A-Z]?\b/i)?.[0] || "";
+  const parseElo = (value) => Number(clean(value).match(/\b\d{3,4}\b/)?.[0] || 0);
 
   const findColumns = (row) => {
     const headers = cells(row).map(text).map(key);
     const find = (patterns) => headers.findIndex((header) => patterns.some((pattern) => header.includes(pattern)));
     const name = find(["namn", "name", "spelare", "deltagare"]);
-    return name < 0
-      ? null
-      : {
-          name,
-          ssfId: find(["ssf-id", "ssfid", "medlems-id", "member id"]),
-          elo: find(["elo", "ranking", "rankning", "rating", "rtg"]),
-        };
+    const elo = find(["elo", "ranking", "rankning", "rating", "rtg"]);
+    return name >= 0 && elo >= 0 ? { name, elo } : null;
   };
 
-  const unique = (players) => {
-    const found = new Set();
-    return players.filter((player) => {
-      const id = player.ssfId || key(player.name);
-      if (found.has(id)) return false;
-      found.add(id);
-      return true;
-    });
-  };
-
-  const readPlayers = () => {
+  const readPlayers = (html) => {
+    const page = new DOMParser().parseFromString(html, "text/html");
     const players = [];
-    for (const table of document.querySelectorAll("table.js-sort-table")) {
+    const found = new Set();
+
+    for (const table of page.querySelectorAll("table.js-sort-table")) {
       let columns = null;
       for (const row of table.querySelectorAll("tr")) {
         const rowCells = cells(row);
@@ -62,19 +54,27 @@
           columns = foundColumns;
           continue;
         }
-        if (!columns || rowCells.length <= columns.name) continue;
+        if (!columns || rowCells.length <= Math.max(columns.name, columns.elo)) continue;
         if (!/postshowindtournamentresultform/i.test(row.innerHTML)) continue;
 
-        const name = text(rowCells[columns.name]);
-        if (!name) continue;
-        players.push({
-          name,
-          ssfId: parseSsfId(row, columns.ssfId >= 0 ? text(rowCells[columns.ssfId]) : ""),
-          elo: columns.elo >= 0 ? parseElo(text(rowCells[columns.elo])) : "",
-        });
+        const player = {
+          name: text(rowCells[columns.name]),
+          elo: parseElo(text(rowCells[columns.elo])),
+          ssfId: parseSsfId(row),
+        };
+        const id = player.ssfId || key(player.name);
+        if (!player.name || !player.elo || found.has(id)) continue;
+        found.add(id);
+        players.push(player);
       }
     }
-    return unique(players);
+    return players;
+  };
+
+  const fetchGroup = async (group) => {
+    const response = await fetch(`./ShowTournamentServlet?id=${group.id}`, { credentials: "same-origin" });
+    if (!response.ok) throw new Error(`${group.name}: HTTP ${response.status}`);
+    return { ...group, players: readPlayers(await response.text()) };
   };
 
   const randomIndex = (max) => {
@@ -96,10 +96,30 @@
     return result;
   };
 
-  const pairs = (players) => [
-    { white: players[0], black: players[3] },
-    { white: players[1], black: players[2] },
-  ];
+  const comparePlayers = (a, b) => b.elo - a.elo || Number(a.ssfId) - Number(b.ssfId) || a.name.localeCompare(b.name, "sv");
+
+  const bergerPairs = (players) => {
+    const draw = shuffled(players);
+    return [
+      { white: draw[0], black: draw[3] },
+      { white: draw[1], black: draw[2] },
+    ];
+  };
+
+  const schweizerPairs = (players) => {
+    const sorted = [...players].sort(comparePlayers);
+    const half = sorted.length / 2;
+    return sorted.slice(0, half).map((player, index) => {
+      const pair = { white: player, black: sorted[index + half] };
+      return index % 2 === 0 ? { white: pair.black, black: pair.white } : pair;
+    });
+  };
+
+  const drawGroups = (groups) =>
+    groups.map((group) => ({
+      ...group,
+      pairs: group.type === "Berger" ? bergerPairs(group.players) : schweizerPairs(group.players),
+    }));
 
   const appendCell = (row, value, className = "") => {
     const cell = document.createElement("td");
@@ -108,9 +128,34 @@
     row.append(cell);
   };
 
-  const title = text(document.querySelector("#content h4.header, h4.header, h1, h2, title")) || "Bordslista";
-  const sourcePlayers = readPlayers();
-  let players = shuffled(sourcePlayers);
+  const appendHeading = (parent, level, value) => {
+    const heading = document.createElement(level);
+    heading.textContent = value;
+    parent.append(heading);
+  };
+
+  const appendBoardList = (parent, group) => {
+    appendHeading(parent, "h2", group.name);
+    const table = document.createElement("table");
+    const header = document.createElement("tr");
+    header.className = "header";
+    ["Bord", "Vit", "Elo", "Resultat", "Elo", "Svart"].forEach((value) => appendCell(header, value));
+    table.append(header);
+    group.pairs.forEach((pair, index) => {
+      const row = document.createElement("tr");
+      appendCell(row, index + 1, "center");
+      appendCell(row, pair.white.name);
+      appendCell(row, pair.white.elo, "center");
+      appendCell(row, "-", "center");
+      appendCell(row, pair.black.elo, "center");
+      appendCell(row, pair.black.name);
+      table.append(row);
+    });
+    parent.append(table);
+  };
+
+  const sourceGroups = await Promise.all(GROUPS.map(fetchGroup));
+  let groups = drawGroups(sourceGroups);
 
   const render = () => {
     document.getElementById(APP_ID)?.remove();
@@ -124,7 +169,8 @@
         #${APP_ID} button{padding:5px 10px;border:1px solid #777;border-radius:3px;background:#fff;cursor:pointer;font:inherit}
         #${APP_ID} main{padding:16px}
         #${APP_ID} h1{margin:0 0 16px;font-size:22px}
-        #${APP_ID} table{border-collapse:collapse;min-width:620px}
+        #${APP_ID} h2{margin:18px 0 5px;font-size:16px}
+        #${APP_ID} table{border-collapse:collapse;margin-bottom:14px;min-width:620px;break-inside:avoid;page-break-inside:avoid}
         #${APP_ID} td{border:1px solid #888;padding:4px 8px;text-align:left}
         #${APP_ID} .header td{background:#f0f0f0;font-weight:bold}
         #${APP_ID} .center{text-align:center;white-space:nowrap}
@@ -138,7 +184,7 @@
         }
       </style>
       <div class="toolbar">
-        <strong>Bordslista: ${players.length} deltagare</strong>
+        <strong>Bordslistor</strong>
         <div class="actions">
           <button type="button" data-action="shuffle">Lotta om</button>
           <button type="button" data-action="print">Skriv ut</button>
@@ -148,38 +194,20 @@
       <main></main>
     `;
     const main = root.querySelector("main");
-    const heading = document.createElement("h1");
-    heading.textContent = title;
-    main.append(heading);
-
-    if (players.length !== PLAYER_COUNT) {
+    appendHeading(main, "h1", "SRS");
+    const invalid = groups.filter((group) => group.players.length !== group.size);
+    if (invalid.length) {
       const error = document.createElement("p");
       error.className = "error";
-      error.textContent = `Förväntade ${PLAYER_COUNT} deltagare men hittade ${players.length}.`;
+      error.textContent = invalid.map((group) => `${group.name}: förväntade ${group.size}, hittade ${group.players.length}`).join(". ");
       main.append(error);
     } else {
-      const table = document.createElement("table");
-      const header = document.createElement("tr");
-      header.className = "header";
-      ["Bord", "Vit", "Elo", "Resultat", "Elo", "Svart"].forEach((value) => appendCell(header, value));
-      table.append(header);
-      pairs(players).forEach((pair, index) => {
-        const row = document.createElement("tr");
-        appendCell(row, index + 1, "center");
-        appendCell(row, pair.white.name);
-        appendCell(row, pair.white.elo, "center");
-        appendCell(row, "-", "center");
-        appendCell(row, pair.black.elo, "center");
-        appendCell(row, pair.black.name);
-        table.append(row);
-      });
-      main.append(table);
+      groups.forEach((group) => appendBoardList(main, group));
     }
-
     root.addEventListener("click", (event) => {
       const action = event.target?.dataset?.action;
       if (action === "shuffle") {
-        players = shuffled(sourcePlayers);
+        groups = drawGroups(sourceGroups);
         render();
       }
       if (action === "print") window.print();
@@ -189,4 +217,6 @@
   };
 
   render();
-})();
+})().catch((error) => {
+  alert(`Lotta-Skriv: ${error.message}`);
+});
