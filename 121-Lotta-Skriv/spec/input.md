@@ -1,4 +1,5 @@
 Url till en turnering
 
-https://halvarsson.no-ip.com/webapp/memdb/ViewTournamentClassGroupServlet?id=18772
+Detta är den publika sidan som inte kräver inloggning:
+https://halvarsson.no-ip.com/webapp/memdb/ShowTournamentServlet?id=18772
 

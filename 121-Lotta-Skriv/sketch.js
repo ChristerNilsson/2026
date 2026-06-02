@@ -2,7 +2,7 @@
   "use strict";
 
   const APP_ID = "lotta-skriv";
-  const BYE = { name: "Frirond", elo: "" };
+  const PLAYER_COUNT = 4;
 
   document.getElementById(APP_ID)?.remove();
 
@@ -53,7 +53,7 @@
 
   const readPlayers = () => {
     const players = [];
-    for (const table of document.querySelectorAll("table")) {
+    for (const table of document.querySelectorAll("table.js-sort-table")) {
       let columns = null;
       for (const row of table.querySelectorAll("tr")) {
         const rowCells = cells(row);
@@ -63,6 +63,7 @@
           continue;
         }
         if (!columns || rowCells.length <= columns.name) continue;
+        if (!/postshowindtournamentresultform/i.test(row.innerHTML)) continue;
 
         const name = text(rowCells[columns.name]);
         if (!name) continue;
@@ -95,13 +96,10 @@
     return result;
   };
 
-  const pairs = (players) => {
-    const result = [];
-    for (let left = 0, right = players.length - 1; left <= right; left += 1, right -= 1) {
-      result.push({ white: players[left], black: left === right ? BYE : players[right] });
-    }
-    return result;
-  };
+  const pairs = (players) => [
+    { white: players[0], black: players[3] },
+    { white: players[1], black: players[2] },
+  ];
 
   const appendCell = (row, value, className = "") => {
     const cell = document.createElement("td");
@@ -154,10 +152,10 @@
     heading.textContent = title;
     main.append(heading);
 
-    if (!players.length) {
+    if (players.length !== PLAYER_COUNT) {
       const error = document.createElement("p");
       error.className = "error";
-      error.textContent = "Hittade inga deltagare på sidan.";
+      error.textContent = `Förväntade ${PLAYER_COUNT} deltagare men hittade ${players.length}.`;
       main.append(error);
     } else {
       const table = document.createElement("table");
@@ -167,7 +165,7 @@
       table.append(header);
       pairs(players).forEach((pair, index) => {
         const row = document.createElement("tr");
-        appendCell(row, pair.black === BYE ? "" : index + 1, "center");
+        appendCell(row, index + 1, "center");
         appendCell(row, pair.white.name);
         appendCell(row, pair.white.elo, "center");
         appendCell(row, "-", "center");

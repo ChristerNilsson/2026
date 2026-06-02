@@ -13,4 +13,5 @@ Koden i bokmärket ska se ut så här:
 javascript:(()=>{const s=document.createElement('script');s.src='https://christernilsson.github.io/2026/121-Lotta-Skriv/sketch.js';document.head.appendChild(s)})()
 
 * lotta och skriv ut en bordslista.
+* Det handlar om fyra deltagare och två bord.
 
