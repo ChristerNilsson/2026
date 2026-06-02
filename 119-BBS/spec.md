@@ -43,8 +43,10 @@ Om swiss == 0 ska alla grupperna vara Berger.
 
 Om swiss > 0 ska de två sista grupperna slås ihop och utgöra en Schweizergrupp. Övriga blir Berger-grupper
 
+Om elo-talet har färre än fyra siffror ska nollutfyllnad ske.
+
 Exempel på url:
 
-https://christernilsson.github.io/2026/121-Lotta-Skriv/?turnering=Växjöspelen&n=4&players=1984 Adam Nilsson|1954 Bertil Svensson|1812 Cesar Persson|1776 David Eriksson|1912 Erik Karlsson|1917 Filip Jönsson|2026 Gustav Hansson|1945 Helge Ågren
+https://christernilsson.github.io/2026/121-Lotta-Skriv/?turnering=Växjöspelen&n=4&players=1984 Adam Nilsson|1954 Bertil Svensson|1812 Cesar Persson|1776 David Eriksson|1912 Erik Karlsson|1917 Filip Jönsson|2026 Gustav Hansson|0000 Helge Ågren
 
 

@@ -15,6 +15,10 @@ function escapeHtml(value) {
     .replace(/'/g, '&#39;');
 }
 
+function formatRanking(ranking) {
+  return String(ranking).padStart(4, '0');
+}
+
 function parsePlayers(value) {
   if (!value) return [];
 
@@ -64,7 +68,7 @@ function renderGroups(players, n) {
     const rows = group.players.map(player => `
       <tr>
         <td>${escapeHtml(player.name)}</td>
-        <td class="ranking">${player.ranking}</td>
+        <td class="ranking">${formatRanking(player.ranking)}</td>
       </tr>
     `).join('');
 
@@ -150,7 +154,7 @@ function runBookmarklet() {
   const params = new URLSearchParams({
     turnering: normalizeText(document.title),
     n: DEFAULT_N,
-    players: players.map(player => `${player.ranking} ${player.name}`).join('|')
+    players: players.map(player => `${formatRanking(player.ranking)} ${player.name}`).join('|')
   });
 
   window.location.href = `${VIEWER_URL}?${params}`;

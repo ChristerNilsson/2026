@@ -19,9 +19,10 @@ Parametrar
 - `turnering` – turneringens namn.
 - `n` – gruppstorlek (tillåtet: 4,6,8,10,12,14,16).
 - `players` – pipe-separerad lista: `Ranking Namn`.
+- Ranking nollutfylls till minst fyra siffror, till exempel `0000`.
 
 Exempel
-`index.html?turnering=Växjöspelen&n=4&players=1984 Adam Nilsson|1954 Bertil Svensson`
+`index.html?turnering=Växjöspelen&n=4&players=1984 Adam Nilsson|0000 Helge Ågren`
 
 Bookmarklet
 Innehåll i `bookmarklet.txt` kan klistras som ett bokmärke. Den laddar `sketch.js` från GitHub Pages.
