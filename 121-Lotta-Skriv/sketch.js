@@ -2,12 +2,12 @@
   "use strict";
 
   const APP_ID = "lotta-skriv";
-  const GROUPS = [
-    { id: 18772, name: "S_1", type: "Berger", size: 4 },
-    { id: 18773, name: "S_2", type: "Berger", size: 4 },
-    { id: 18774, name: "S_3", type: "Berger", size: 4 },
-    { id: 18775, name: "S_4", type: "Berger", size: 4 },
-    { id: 18776, name: "S_5", type: "Schweizer", size: 6 },
+  const GROUP_SPECS = [
+    { name: "S_1", type: "Berger", size: 4, fallbackId: 18772 },
+    { name: "S_2", type: "Berger", size: 4, fallbackId: 18773 },
+    { name: "S_3", type: "Berger", size: 4, fallbackId: 18774 },
+    { name: "S_4", type: "Berger", size: 4, fallbackId: 18775 },
+    { name: "S_5", type: "Schweizer", size: 6, fallbackId: 18776 },
   ];
 
   document.getElementById(APP_ID)?.remove();
@@ -28,7 +28,9 @@
   const cells = (row) => [...row.children].filter((cell) => /^(TD|TH)$/.test(cell.tagName));
 
   const parseSsfId = (row) =>
-    row.innerHTML.match(/postshowindtournamentresultform\([^,]+,\s*['"](\d+)['"]\)/i)?.[1] || "";
+    row.innerHTML.match(/postshowindtournamentresultform\([^,]+,\s*['"](\d+)['"]\)/i)?.[1] ||
+    row.innerHTML.match(/[?&](?:person|member|part|id|ssf(?:id)?|ssf_id)=?(\d{4,})/i)?.[1] ||
+    "";
 
   const parseElo = (value) => Number(clean(value).match(/\b\d{3,4}\b/)?.[0] || 0);
 
@@ -56,8 +58,6 @@
           continue;
         }
         if (!columns || rowCells.length <= Math.max(columns.name, columns.elo)) continue;
-        if (!/postshowindtournamentresultform/i.test(row.innerHTML)) continue;
-
         const player = {
           name: text(rowCells[columns.name]),
           elo: parseElo(text(rowCells[columns.elo])),
@@ -72,15 +72,28 @@
     return players;
   };
 
+  const groupId = (href) =>
+    clean(href).match(/ViewTournamentClassGroupServlet\?(?:[^#]*&)?id=(\d+)/i)?.[1] || "";
+
+  const discoverGroups = () => {
+    const idsByName = new Map();
+    for (const node of document.querySelectorAll("a[href], [onclick]")) {
+      const id = groupId(node.getAttribute("href") || node.getAttribute("onclick") || "");
+      const name = text(node).match(/\bS_[1-5]\b/i)?.[0]?.toUpperCase();
+      if (id && name) idsByName.set(name, id);
+    }
+
+    return GROUP_SPECS.map((group) => ({
+      ...group,
+      id: idsByName.get(group.name) || group.fallbackId,
+    }));
+  };
+
   const fetchGroup = async (group) => {
     const response = await fetch(`./ViewTournamentClassGroupServlet?id=${group.id}`, { credentials: "same-origin" });
     if (!response.ok) throw new Error(`${group.name}: HTTP ${response.status}`);
     const html = await response.text();
-    const page = new DOMParser().parseFromString(html, "text/html");
-    const title = text(page.querySelector("#content h4.header, h4.header")) || text(page.querySelector("title"));
-    if (!new RegExp(`\\b${group.name}\\b`, "i").test(title)) {
-      throw new Error(`${group.name}: fick fel gruppsida (${title || "saknar rubrik"})`);
-    }
+    if (/id=["']username["']|>\s*Logga in\s*</i.test(html)) throw new Error(`${group.name}: sessionen är inte inloggad`);
     return { ...group, players: readPlayers(html) };
   };
 
@@ -161,7 +174,7 @@
     parent.append(table);
   };
 
-  const sourceGroups = await Promise.all(GROUPS.map(fetchGroup));
+  const sourceGroups = await Promise.all(discoverGroups().map(fetchGroup));
   let groups = drawGroups(sourceGroups);
 
   const render = () => {
