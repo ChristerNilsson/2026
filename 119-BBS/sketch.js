@@ -54,7 +54,7 @@ function createGroups(players, n) {
 
 function selectBergerPlayers(players, n) {
   const swiss = players.length % n;
-  return swiss === 0 ? players : players.slice(0, -swiss);
+  return swiss === 0 ? players : players.slice(0, -(n + swiss));
 }
 
 function createViewerUrl(players, n, title) {
@@ -187,8 +187,9 @@ function runBookmarklet() {
 
   function render() {
     const bergerPlayers = selectBergerPlayers(players, n);
+    const groupSizes = createGroups(players, n).groups.map(group => group.players.length).join(' + ');
     const url = createViewerUrl(players, n, document.title);
-    status.innerHTML = `Valt n: <strong>${n}</strong>.<br>Tryck <strong>+</strong> för att öka n med 2 och <strong>-</strong> för att minska n med 2.<br>Deltagare: ${players.length}. Berger-spelare i länken: ${bergerPlayers.length}.`;
+    status.innerHTML = `Valt n: <strong>${n}</strong>.<br>Tryck <strong>+</strong> för att öka n med 2 och <strong>-</strong> för att minska n med 2.<br>Gruppstorlekar: ${groupSizes}.<br>Deltagare: ${players.length}. Berger-spelare i länken: ${bergerPlayers.length}.`;
     link.href = url;
     link.textContent = url;
   }
