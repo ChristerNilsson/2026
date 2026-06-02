@@ -14,15 +14,18 @@ Koden i bokmärket ska se ut så här:
 
 javascript:(()=>{const s=document.createElement('script');s.src='https://christernilsson.github.io/2026/119-BBS/sketch.js';document.head.appendChild(s)})()
 
+Denna bookmarklet beöver inte sortera, inte para. Sortering är redan gjord. Parandet sker senare av ett annat program.
+
 ### Input
 
 https://member.schack.se/ShowTournamentServlet?id=17900
 
 Här hämtas deltagarnas Namn, Ranking samt Betalt och Avprickad
 
-Filtrera på Avprickad. Endast dessa ska vara med.
+a = antalet avprickade
+Om a==0 ska alla deltagare tas med. I annat fall bara de som är avprickade.
 
-Den är sorterad på [fallande elo, stigande SSF-ID]
+Deltagarna är redan sorterade.
 
 ### Tangenter
 
