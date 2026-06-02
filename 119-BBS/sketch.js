@@ -22,7 +22,7 @@ function formatRanking(ranking) {
 function parsePlayers(value) {
   if (!value) return [];
 
-  return value.split(/[|_]/).map(token => {
+  return value.split('_').map(token => {
     const parts = normalizeText(token).split(' ');
     const ranking = Number(parts.shift());
     return { ranking, name: parts.join(' ') };
