@@ -22,8 +22,7 @@ https://member.schack.se/ShowTournamentServlet?id=17900
 
 Här hämtas deltagarnas Namn, Ranking samt Betalt och Avprickad
 
-a = antalet avprickade
-Om a==0 ska alla deltagare tas med. I annat fall bara de som är avprickade.
+Tag med alla deltagare oavsett värde på AVPRICKAD
 
 Deltagarna är redan sorterade.
 

@@ -137,11 +137,6 @@ function parseTable(table) {
   }).filter(player => player.name && Number.isFinite(player.ranking));
 }
 
-function selectPlayers(players) {
-  const checkedPlayers = players.filter(player => player.checked.toUpperCase() === 'JA');
-  return checkedPlayers.length === 0 ? players : checkedPlayers;
-}
-
 function runBookmarklet() {
   const players = Array.from(document.querySelectorAll('table'))
     .map(parseTable)
@@ -152,11 +147,10 @@ function runBookmarklet() {
     return;
   }
 
-  const selectedPlayers = selectPlayers(players);
   const params = new URLSearchParams({
     turnering: normalizeText(document.title),
     n: DEFAULT_N,
-    players: selectedPlayers.map(player => `${player.ranking} ${player.name}`).join('|')
+    players: players.map(player => `${player.ranking} ${player.name}`).join('|')
   });
 
   window.location.href = `${VIEWER_URL}?${params}`;
