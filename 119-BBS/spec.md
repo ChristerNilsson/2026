@@ -39,7 +39,13 @@ d = antalet deltagare.
 
 swiss = d modulo n
 
-Om swiss == 0 ska alla grupperna vara Berger annars ska de två sista grupperna slås ihop och utgöra en Schweizergrupp. Övriga blir Berger-grupper
+Om swiss == 0 ska alla grupperna vara Berger 
+
+Om swiss > 0 ska den sista gruppen plus den näst sista gruppen slås ihop och bilda en Schweizergrupp. Övriga blir Berger-grupper
+
+Exempel: d = 53. Det innebär att de sista fem deltagarna går till Schweizergruppen och övriga 48 ska med i urlen längst ner i denna fil.
+
+Schweizergruppen hanteras inte av denna bookmarklet.
 
 Om elo-talet har färre än fyra siffror ska nollutfyllnad ske. T ex 0 => 0000
 

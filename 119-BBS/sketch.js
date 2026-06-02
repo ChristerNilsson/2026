@@ -52,6 +52,11 @@ function createGroups(players, n) {
   return { groups, swiss };
 }
 
+function selectBergerPlayers(players, n) {
+  const swiss = players.length % n;
+  return swiss === 0 ? players : players.slice(0, -swiss);
+}
+
 function renderGroups(players, n) {
   const output = document.getElementById('output');
   const status = document.getElementById('status');
@@ -151,10 +156,11 @@ function runBookmarklet() {
     return;
   }
 
+  const bergerPlayers = selectBergerPlayers(players, DEFAULT_N);
   const params = new URLSearchParams({
     turnering: normalizeText(document.title),
     n: DEFAULT_N,
-    players: players.map(player => `${formatRanking(player.ranking)} ${player.name}`).join('|')
+    players: bergerPlayers.map(player => `${formatRanking(player.ranking)} ${player.name}`).join('|')
   });
 
   window.location.href = `${VIEWER_URL}?${params}`;

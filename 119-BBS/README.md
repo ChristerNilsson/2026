@@ -11,7 +11,7 @@ Filer
 - `bookmarklet.txt` – bookmarklet-kod som du kan dra till bokmärkesfältet.
 
 Användning
-- Bookmarklet: besök turneringssidan och klicka bookmarkleten. Den öppnar `https://christernilsson.github.io/2026/121-Lotta-Skriv/` med samtliga spelare i tabellens befintliga ordning.
+- Bookmarklet: besök turneringssidan och klicka bookmarkleten. Den öppnar `https://christernilsson.github.io/2026/121-Lotta-Skriv/` med Berger-spelarna i tabellens befintliga ordning.
 - Testvy: öppna `index.html` lokalt och ange parametern `players` i formatet:
   `?turnering=Växjöspelen&n=8&players=1984 Adam Nilsson|1954 Bertil Svensson|...`
 
@@ -20,6 +20,7 @@ Parametrar
 - `n` – gruppstorlek (tillåtet: 4,6,8,10,12,14,16).
 - `players` – pipe-separerad lista: `Ranking Namn`.
 - Ranking nollutfylls till minst fyra siffror, till exempel `0000`.
+- Om antalet spelare inte är jämnt delbart med `n` skickas inte de sista `d modulo n` spelarna vidare. De tillhör Schweizergruppen, som hanteras separat.
 
 Exempel
 `index.html?turnering=Växjöspelen&n=4&players=1984 Adam Nilsson|0000 Helge Ågren`
