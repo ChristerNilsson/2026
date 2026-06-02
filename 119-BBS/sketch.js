@@ -1,6 +1,6 @@
 const ALLOWED_N = [4, 6, 8, 10, 12, 14, 16];
 const DEFAULT_N = 8;
-const VIEWER_URL = 'https://christernilsson.github.io/2026/119-BBS/';
+const VIEWER_URL = 'https://christernilsson.github.io/2026/121-Lotta-Skriv/';
 
 function normalizeText(value) {
   return String(value || '').trim().replace(/\s+/g, ' ');

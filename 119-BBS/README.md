@@ -1,9 +1,9 @@
 # 119-BBS Gruppgenerator
 
-Detta repo innehåller en enkel gruppgenerator för schackturneringar. Verktyget finns i två lägen:
+Detta repo innehåller ett bookmarklet för schackturneringar samt en lokal testvy.
 
-1. Bookmarklet-läge: körs på turneringssidan (t.ex. `member.schack.se`) för att hämta tabellen med deltagare.
-2. Viewer-läge: öppna `index.html` (eller GitHub Pages) med URL-parametrar för att visa grupper.
+1. Bookmarklet-läge: körs på turneringssidan (t.ex. `member.schack.se`) för att hämta tabellen med deltagare och öppna `121-Lotta-Skriv`.
+2. Testvy: öppna `index.html` lokalt med URL-parametrar för att kontrollera grupperna.
 
 Filer
 - `index.html` – enkel vy för att visa grupper.
@@ -11,8 +11,8 @@ Filer
 - `bookmarklet.txt` – bookmarklet-kod som du kan dra till bokmärkesfältet.
 
 Användning
-- Bookmarklet: besök turneringssidan och klicka bookmarkleten. Den öppnar verktyget med samtliga spelare i tabellens befintliga ordning.
-- Direkt: öppna `index.html` lokalt eller via Pages och ange parametern `players` i formatet:
+- Bookmarklet: besök turneringssidan och klicka bookmarkleten. Den öppnar `https://christernilsson.github.io/2026/121-Lotta-Skriv/` med samtliga spelare i tabellens befintliga ordning.
+- Testvy: öppna `index.html` lokalt och ange parametern `players` i formatet:
   `?turnering=Växjöspelen&n=8&players=1984 Adam Nilsson|1954 Bertil Svensson|...`
 
 Parametrar
