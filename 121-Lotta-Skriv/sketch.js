@@ -66,12 +66,31 @@
         pairs.push((round + index) % 2 === 0 ? [first, second] : [second, first]);
       }
       rounds.push(pairs);
-      order = [order[0], order[size - 1], ...order.slice(1, -1)];
+      // Rotate the circle so the last player remains fixed at board 1,
+      // matching the PDF-style Berger schedule where player 8 sits still
+      // and alternates color each round.
+      order = [...order.slice(1, -1), order[0], order[order.length - 1]];
     }
     return rounds;
   };
 
+  const debugBergerSchedule = (size) => {
+    const rounds = bergerRounds(size);
+    console.log(`Berger schedule for ${size} players:`);
+    rounds.forEach((pairs, round) => {
+      console.log(
+        `R${round + 1}: ${pairs
+          .map(([a, b]) => `(${a + 1}, ${b + 1})`)
+          .join(", ")}`,
+      );
+    });
+    return rounds;
+  };
+
   const schedule = bergerRounds(groupSize);
+  if (params.get("debug") === "berger") {
+    debugBergerSchedule(groupSize);
+  }
   const groups = Array.from({ length: players.length / groupSize }, (_, groupIndex) => ({
     name: groupName(groupIndex),
     players: players.slice(groupIndex * groupSize, (groupIndex + 1) * groupSize).map((player, playerIndex) => ({
