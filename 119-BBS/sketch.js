@@ -177,7 +177,6 @@ function runBookmarklet() {
   panel.innerHTML = `
     <h1 style="margin-top:0">Bergergrupper</h1>
     <p id="bbs-bookmarklet-status"></p>
-    <p>Tryck <strong>+</strong> för att öka n med 2 och <strong>-</strong> för att minska n med 2.</p>
     <p><a id="bbs-bookmarklet-link"></a></p>
     <button id="bbs-bookmarklet-close" type="button">Stäng</button>
   `;
@@ -189,7 +188,7 @@ function runBookmarklet() {
   function render() {
     const bergerPlayers = selectBergerPlayers(players, n);
     const url = createViewerUrl(players, n, document.title);
-    status.textContent = `Valt n: ${n}. Deltagare: ${players.length}. Berger-spelare i länken: ${bergerPlayers.length}.`;
+    status.innerHTML = `Valt n: <strong>${n}</strong>.<br>Tryck <strong>+</strong> för att öka n med 2 och <strong>-</strong> för att minska n med 2.<br>Deltagare: ${players.length}. Berger-spelare i länken: ${bergerPlayers.length}.`;
     link.href = url;
     link.textContent = url;
   }
