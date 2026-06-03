@@ -214,14 +214,14 @@ function runBookmarklet() {
   render();
 }
 
-if (window.location.hostname === 'halvarsson.no-ip.com') {
-  runBookmarklet();
-} else {
-  window.addEventListener('DOMContentLoaded', initViewer);
-}
-
-// if (window.location.hostname === 'member.schack.se') {
+// if (window.location.hostname === 'halvarsson.no-ip.com') {
 //   runBookmarklet();
 // } else {
 //   window.addEventListener('DOMContentLoaded', initViewer);
 // }
+
+if (window.location.hostname === 'member.schack.se') {
+  runBookmarklet();
+} else {
+  window.addEventListener('DOMContentLoaded', initViewer);
+}
