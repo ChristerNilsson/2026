@@ -8,30 +8,24 @@ def berger(n):
     def wrap(x):
         return ((x - 1) % mod) + 1
 
-    def board_order(m):
-        # För m=4 ger detta: [3,2,4,1]
-        return list(range(m - 1, 1, -1)) + [m, 1]
-
-    order = board_order(m)
     rounds = []
 
     for r in range(1, n):
         games = []
 
+        # Motståndare till den fasta spelaren n
         if r % 2 == 1:
             opp = (r + 1) // 2
-            games.append((opp, fixed))
+            games.append((opp, fixed))      # opp vit
         else:
             opp = m + r // 2
-            games.append((fixed, opp))
+            games.append((fixed, opp))      # fixed vit
 
+        # Övriga partier
         for i in range(1, m):
             white = wrap(opp + i)
             black = wrap(opp - i)
             games.append((white, black))
-
-        # kasta om till bordsordning
-        games = [games[i - 1] for i in order]
 
         rounds.append(games)
 
@@ -40,10 +34,8 @@ def berger(n):
 
 def print_berger(n):
     for r, games in enumerate(berger(n), start=1):
-        print(f"Rond {r}:")
-        for board, (white, black) in enumerate(games, start=1):
-            print(f"  Bord {board}: {white}-{black}")
-        print()
+        text = ", ".join(f"{w}-{b}" for w, b in games)
+        print(f"Rd {r}: {text}.")
 
 
 print_berger(8)
