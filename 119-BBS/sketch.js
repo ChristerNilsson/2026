@@ -214,7 +214,7 @@ function runBookmarklet() {
   render();
 }
 
-if (window.location.hostname === 'halvarsson.no-ip.com/') {
+if (window.location.hostname === 'halvarsson.no-ip.com') {
   runBookmarklet();
 } else {
   window.addEventListener('DOMContentLoaded', initViewer);
