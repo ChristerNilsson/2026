@@ -24,12 +24,14 @@
     if (!match) fail(`Spelare ${index + 1} måste börja med ett fyrsiffrigt Elo-tal.`);
     return { elo: Number(match[1]), name: match[2].trim(), order: index };
   };
+
   const suppliedPlayers = (params.get("players") || "")
     .split("_")
     .map((value) => value.trim())
     .filter(Boolean)
     .map(parsePlayer)
     .sort((a, b) => b.elo - a.elo || a.order - b.order);
+
   const players = suppliedPlayers.length
     ? suppliedPlayers
     : Array.from({ length: DEFAULT_PLAYER_COUNT }, (_, index) => ({
@@ -38,11 +40,14 @@
         order: index,
       }));
 
-  if (!Number.isInteger(groupSize) || groupSize < 2 || groupSize % 2 !== 0) {
-    fail("Parametern n måste vara ett jämnt heltal som är minst 2.");
+  if (!Number.isInteger(groupSize) || groupSize < 4 || groupSize % 2 !== 0) {
+    fail("Parametern n måste vara ett jämnt heltal som är minst 4.");
   }
   if (players.length % groupSize !== 0) {
     fail(`Antalet spelare (${players.length}) måste vara jämnt delbart med n (${groupSize}).`);
+  }
+  if (typeof window.berger !== "function") {
+    fail("Bergerlottningen kunde inte laddas från berger_4.js.");
   }
 
   const groupName = (index) => {
@@ -55,42 +60,20 @@
     return name;
   };
 
-  const bergerRounds = (size) => {
-    let order = Array.from({ length: size }, (_, index) => index);
-    const rounds = [];
-    for (let round = 0; round < size - 1; round += 1) {
-      const pairs = [];
-      for (let index = 0; index < size / 2; index += 1) {
-        const first = order[index];
-        const second = order[size - 1 - index];
-        pairs.push((round + index) % 2 === 0 ? [first, second] : [second, first]);
-      }
-      rounds.push(pairs);
-      // Rotate the circle so the last player remains fixed at board 1,
-      // matching the PDF-style Berger schedule where player 8 sits still
-      // and alternates color each round.
-      order = [...order.slice(1, -1), order[0], order[order.length - 1]];
-    }
-    return rounds;
-  };
-
   const debugBergerSchedule = (size) => {
-    const rounds = bergerRounds(size);
+    const rounds = window.berger(size);
     console.log(`Berger schedule for ${size} players:`);
     rounds.forEach((pairs, round) => {
-      console.log(
-        `R${round + 1}: ${pairs
-          .map(([a, b]) => `(${a + 1}, ${b + 1})`)
-          .join(", ")}`,
-      );
+      console.log(`R${round + 1}: ${pairs.map(([a, b]) => `(${a}, ${b})`).join(", ")}`);
     });
     return rounds;
   };
 
-  const schedule = bergerRounds(groupSize);
+  const schedule = window.berger(groupSize).map((round) => round.map(([white, black]) => [white - 1, black - 1]));
   if (params.get("debug") === "berger") {
     debugBergerSchedule(groupSize);
   }
+
   const groups = Array.from({ length: players.length / groupSize }, (_, groupIndex) => ({
     name: groupName(groupIndex),
     players: players.slice(groupIndex * groupSize, (groupIndex + 1) * groupSize).map((player, playerIndex) => ({
@@ -99,9 +82,9 @@
       elo: player.elo,
     })),
   }));
+
   const boardCount = players.length / 2;
   const roundCount = groupSize - 1;
-
   const boardsByRound = schedule.map((round) => {
     let board = 1;
     return groups.flatMap((group) =>
@@ -244,7 +227,14 @@
     container.append(heading);
     const table = document.createElement("table");
     table.className = "standings";
-    appendHeader(table, ["Grupp", "Id", "Namn", "Elo", ...Array.from({ length: roundCount }, (_, index) => index + 1), "Poäng"]);
+    appendHeader(table, [
+      "Grupp",
+      "Id",
+      "Namn",
+      "Elo",
+      ...Array.from({ length: roundCount }, (_, index) => index + 1),
+      "Poäng",
+    ]);
     standings().forEach((standing) => {
       const row = document.createElement("tr");
       appendCell(row, standing.group, "center");

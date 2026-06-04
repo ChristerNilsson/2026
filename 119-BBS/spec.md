@@ -63,6 +63,6 @@ Underscore ska alltid användas som avskiljare.
 
 Man måste klicka på urlen för att gå vidare.
 
-Använd berger_4.js för att presentera partiera i samma ordning som medlemssystemet.
+Använd berger_4.js för att presentera partierna i samma ordning som medlemssystemet.
 
 

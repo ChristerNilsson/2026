@@ -42,6 +42,8 @@ Remi visas alltså med r.
 
 Urlen uppdateras för varje inmatat resultat
 
+Bergerlottningen ska skötas med hjälp av berger_4.js
+
 ### Bordslistan ser ut så här, 24 rader
 
 Lämplig rubrik
