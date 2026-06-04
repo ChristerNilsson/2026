@@ -70,42 +70,13 @@ function createViewerUrl(players, n, title) {
   return `${VIEWER_URL}?${params}`;
 }
 
-function renderPairings(players) {
-  if (typeof window.berger !== 'function') return '';
-
-  const rounds = window.berger(players.length);
-  return rounds.map((games, roundIndex) => {
-    const rows = games.map(([whiteNumber, blackNumber], boardIndex) => {
-      const white = players[whiteNumber - 1];
-      const black = players[blackNumber - 1];
-
-      return `
-        <tr>
-          <td>${boardIndex + 1}</td>
-          <td>${escapeHtml(white.name)}</td>
-          <td>${formatRanking(white.ranking)}</td>
-          <td>${escapeHtml(black.name)}</td>
-          <td>${formatRanking(black.ranking)}</td>
-        </tr>
-      `;
-    }).join('');
-
-    return `
-      <h3>Rond ${roundIndex + 1}</h3>
-      <table>
-        <thead><tr><th>Bord</th><th>Vit</th><th>Ranking</th><th>Svart</th><th>Ranking</th></tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-    `;
-  }).join('');
-}
-
 function renderGroups(players, n) {
   const output = document.getElementById('output');
   const status = document.getElementById('status');
   const { groups, swiss } = createGroups(players, n);
+  const groupSizes = groups.map(group => group.players.length).join(' + ');
 
-  status.textContent = `${players.length} deltagare, swiss = ${swiss}`;
+  status.textContent = `n = ${n}. Tangenter: + ökar n med 2, - minskar n med 2. Gruppstorlekar: ${groupSizes || '-'}. Deltagare: ${players.length}. swiss = ${swiss}.`;
 
   if (players.length === 0) {
     output.innerHTML = '<p>Inga deltagare hittades.</p>';
@@ -120,8 +91,6 @@ function renderGroups(players, n) {
       </tr>
     `).join('');
 
-    const pairings = group.type === 'Berger' ? renderPairings(group.players) : '';
-
     return `
       <section>
         <h2>Grupp ${index + 1}: ${group.type}</h2>
@@ -129,7 +98,6 @@ function renderGroups(players, n) {
           <thead><tr><th>Namn</th><th class="ranking">Ranking</th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
-        ${pairings}
       </section>
     `;
   }).join('');

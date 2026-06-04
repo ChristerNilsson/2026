@@ -62,7 +62,3 @@ https://christernilsson.github.io/2026/121-Lotta-Skriv/?turnering=Växjöspelen&
 Underscore ska alltid användas som avskiljare.
 
 Man måste klicka på urlen för att gå vidare.
-
-Använd berger_4.js för att presentera partierna i samma ordning som medlemssystemet.
-
-

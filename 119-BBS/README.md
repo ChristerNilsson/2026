@@ -20,7 +20,8 @@ Parametrar
 - `n` – gruppstorlek (tillåtet: 4,6,8,10,12,14,16).
 - `players` – underscore-separerad lista: `Ranking Namn`.
 - Ranking nollutfylls till minst fyra siffror, till exempel `0000`.
-- Om antalet spelare inte är jämnt delbart med `n` och minst två grupper finns slås de två sista grupperna ihop till en Schweizergrupp. Dessa `n + (d modulo n)` spelare skickas inte vidare. Gruppstorlekarna visas i bookmarkletpanelen.
+- Bookmarkleten sorterar inte och parar inte. Deltagarna behåller ordningen från medlemssystemet.
+- Om antalet spelare inte är jämnt delbart med `n` slås den sista gruppen ihop med den näst sista och bildar en Schweizergrupp. Schweizergruppen skickas inte vidare. Gruppstorlekarna visas i bookmarkletpanelen.
 
 Exempel
 `index.html?turnering=Växjöspelen&n=4&players=1984 Adam Nilsson_0000 Helge Ågren`
