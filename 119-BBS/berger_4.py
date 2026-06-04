@@ -36,15 +36,3 @@ def berger(n):
         rounds.append(games)
 
     return rounds
-
-
-# def print_berger(n):
-#     for r, games in enumerate(berger(n), start=1):
-#         print(f"Rond {r}:")
-#         for board, (white, black) in enumerate(games, start=1):
-#             print(f"  Bord {board}: {white}-{black}")
-#         print()
-
-z = berger(8)
-z=99
-#print_berger(8)
