@@ -1,6 +1,6 @@
 function assertEvenPlayerCount(n) {
-  if (!Number.isInteger(n) || n < 4 || n % 2 !== 0) {
-    throw new RangeError('n must be an even integer >= 4');
+  if (!Number.isInteger(n) || n < 4 || n > 36 || n % 2 !== 0) {
+    throw new RangeError('n must be an even integer from 4 to 36');
   }
 }
 
@@ -29,7 +29,7 @@ function boardOrder(boardCount) {
   return order;
 }
 
-function bergerRound(n, rond) {
+export function bergerRound(n, rond) {
   assertEvenPlayerCount(n);
   assertRound(n, rond);
 
@@ -51,16 +51,10 @@ function bergerRound(n, rond) {
     ]);
   }
 
-  if (rond % 2 === 0) {
-    for (const game of games) {
-      game.reverse();
-    }
-  }
-
   return boardOrder(boardCount).map(board => games[board - 1]);
 }
 
-function berger(n, rond) {
+export function berger(n, rond) {
   assertEvenPlayerCount(n);
 
   if (rond === undefined) {
@@ -70,20 +64,47 @@ function berger(n, rond) {
   return bergerRound(n, rond);
 }
 
-function formatBoardList(boardList) {
-  return boardList.map(([white, black]) => `${white}-${black}`).join('\n');
-}
+export function formatBoardList(boardList) {
+  const playerSymbols = '123456789abcdefghijklmnopqrstuvwxyzå';
 
-if (typeof module !== 'undefined') {
-  module.exports = { berger, bergerRound, formatBoardList };
+  function formatPlayer(player) {
+    return playerSymbols[player - 1];
+  }
+
+  return boardList
+    .map(([white, black]) => `${formatPlayer(white)}${formatPlayer(black)}`)
+    .join(' ');
 }
 
 if (typeof window !== 'undefined') {
   window.berger = berger;
 }
 
-if (typeof require !== 'undefined' && require.main === module) {
+function isCliEntryPoint() {
+  if (typeof process === 'undefined' || !process.argv?.[1]) {
+    return false;
+  }
+
+  const modulePath = decodeURIComponent(new URL(import.meta.url).pathname)
+    .replace(/^\/([A-Za-z]:)/, '$1')
+    .replace(/\\/g, '/');
+  const entryPath = process.argv[1].replace(/\\/g, '/');
+
+  return modulePath === entryPath;
+}
+
+if (isCliEntryPoint()) {
+  if (process.argv[2] === undefined) {
+    console.log('Usage: node berger.js <n 4..36> [rond]');
+    process.exit(0);
+  }
+
   const n = Number(process.argv[2]);
-  const rond = Number(process.argv[3]);
-  console.log(formatBoardList(berger(n, rond)));
+  const rond = process.argv[3] === undefined ? undefined : Number(process.argv[3]);
+  const result = berger(n, rond);
+  const output = rond === undefined
+    ? result.map(formatBoardList).join('\n')
+    : formatBoardList(result);
+
+  console.log(output);
 }
