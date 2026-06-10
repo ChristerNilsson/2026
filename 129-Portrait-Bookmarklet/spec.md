@@ -39,3 +39,7 @@ Byt POÄNG till P.
 Då flera tomma kolumner i bredd förekommer, byt dem mot en enda.
 
 Gör tomma kolumner fem pixlar breda.
+
+Visa bara tabeller som innehåller rubrikrader.
+
+Kom ihåg antalet valda kolumner per tabell.

@@ -19,7 +19,6 @@
 
   const state = {
     selected: 0,
-    columns: 1,
     tables: findCandidateTables(),
   };
 
@@ -41,6 +40,7 @@
     return Array.from(document.querySelectorAll("table"))
       .filter((table) => !table.closest("#" + APP_ID))
       .filter((table) => !isLinkTable(table))
+      .filter((table) => getHeaderRows(table).length > 0)
       .map((table, index) => ({
         table,
         index,
@@ -52,6 +52,7 @@
         node: item.table,
         label: getTableLabel(item.table, visibleIndex),
         visuals: item.visuals,
+        columns: 1,
       }));
   }
 
@@ -145,10 +146,10 @@
     } else if (action === "next") {
       state.selected = (state.selected + 1) % state.tables.length;
     } else if (action === "plus") {
-      const rowCount = getDataRows(currentTable().node).length;
-      state.columns = Math.min(rowCount, state.columns + 1);
+      const rowCount = getCurrentDataRows().length;
+      currentTable().columns = Math.min(rowCount, currentTable().columns + 1);
     } else if (action === "minus") {
-      state.columns = Math.max(1, state.columns - 1);
+      currentTable().columns = Math.max(1, currentTable().columns - 1);
     } else if (action === "close") {
       close();
       return;
@@ -172,6 +173,11 @@
     return state.tables[state.selected];
   }
 
+  function getCurrentDataRows() {
+    const item = currentTable();
+    return getDisplayModel(getHeaderRows(item.node), getDataRows(item.node), item.visuals).dataRows;
+  }
+
   function render() {
     const item = currentTable();
     const original = item.node;
@@ -181,19 +187,19 @@
     const headers = model.headers;
     const dataRows = model.dataRows;
     const tableWidth = model.tableWidth || item.visuals.tableWidth;
-    state.columns = Math.min(Math.max(1, state.columns), Math.max(1, dataRows.length));
+    item.columns = Math.min(Math.max(1, item.columns), Math.max(1, dataRows.length));
 
     document.getElementById("pb-title").textContent = item.label;
     document.getElementById("pb-count").textContent =
       " (" + (state.selected + 1) + "/" + state.tables.length + ", " + dataRows.length + " rader)";
-    document.getElementById("pb-columns").textContent = state.columns + " kol";
+    document.getElementById("pb-columns").textContent = item.columns + " kol";
 
     const wrap = document.getElementById("pb-table-wrap");
     wrap.textContent = "";
-    wrap.style.gridTemplateColumns = "repeat(" + state.columns + ", max-content)";
+    wrap.style.gridTemplateColumns = "repeat(" + item.columns + ", max-content)";
     const columnPlan = getColumnPlan(headers, dataRows, wrap, tableWidth);
 
-    splitRows(dataRows, state.columns).forEach((rows) => {
+    splitRows(dataRows, item.columns).forEach((rows) => {
       const table = cloneElement(original, item.visuals);
       table.classList.add("pb-table");
       table.textContent = "";
@@ -227,7 +233,7 @@
     const emptyColumns = getEmptyColumnIndexes(headerLabels, dataRows);
     const narrow = new Set(getFirstIndexesInRuns(emptyColumns));
     const hidden = new Set();
-    const projectedWidth = tableWidth * state.columns + Math.max(0, state.columns - 1) * 12;
+    const projectedWidth = tableWidth * currentTable().columns + Math.max(0, currentTable().columns - 1) * 12;
     const availableWidth = wrap.clientWidth || document.documentElement.clientWidth || window.innerWidth;
 
     getRemainingIndexesInRuns(emptyColumns).forEach((index) => hidden.add(index));
