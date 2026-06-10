@@ -361,7 +361,7 @@
     const wrap = document.getElementById("pcr-table-wrap");
     wrap.textContent = "";
     wrap.style.gridTemplateColumns = "repeat(" + view.columns + ", max-content)";
-    const columnPlan = getColumnPlan(headers, dataRows, wrap, tableWidth, view.columns);
+    const columnPlan = getColumnPlan(headers, dataRows, wrap, tableWidth, view.columns, view.key);
 
     splitRows(dataRows, view.columns).forEach((rows) => {
       const table = cloneElement(original, item.visuals);
@@ -383,7 +383,7 @@
     });
   }
 
-  function getColumnPlan(headerRows, dataRows, wrap, tableWidth, columns) {
+  function getColumnPlan(headerRows, dataRows, wrap, tableWidth, columns, viewKey) {
     const headerLabels = getHeaderLabels(headerRows);
     const emptyColumns = getEmptyColumnIndexes(headerLabels, dataRows);
     const narrow = new Set(getFirstIndexesInRuns(emptyColumns));
@@ -392,12 +392,37 @@
     const availableWidth = wrap.clientWidth || document.documentElement.clientWidth || window.innerWidth;
 
     getRemainingIndexesInRuns(emptyColumns).forEach((index) => hidden.add(index));
+    getAlwaysHiddenColumnIndexes(headerLabels, viewKey).forEach((index) => hidden.add(index));
 
     if (projectedWidth > availableWidth) {
       hideOptionalColumns(headerLabels, dataRows, hidden, projectedWidth, availableWidth, tableWidth, columns);
     }
 
     return { hidden, narrow };
+  }
+
+  function getAlwaysHiddenColumnIndexes(headerLabels, viewKey) {
+    if (viewKey !== "standings") return [];
+
+    const hiddenLabels = new Set([
+      "SEX",
+      "FED",
+      "TYP",
+      "SNO",
+      "RP",
+      "N",
+      "W",
+      "WE",
+      "W-WE",
+      "K",
+      "TB3",
+      "TB2",
+      "TB1",
+    ]);
+
+    return headerLabels
+      .map((label, index) => (hiddenLabels.has(getHeaderKey(label)) ? index : -1))
+      .filter((index) => index >= 0);
   }
 
   function hideOptionalColumns(headerLabels, dataRows, hidden, projectedWidth, availableWidth, tableWidth, columns) {
@@ -428,7 +453,7 @@
 
     priorities.forEach((labels) => {
       headerLabels.forEach((label, index) => {
-        const normalized = normalizeText(label).replace(/[:/].*$/, "");
+        const normalized = getHeaderKey(label);
         if (!used.has(index) && labels.includes(normalized)) {
           used.add(index);
           indexes.push(index);
@@ -618,6 +643,12 @@
     if (key.startsWith("RANKING")) return "ELO";
     if (key === "POANG") return "P";
     return "";
+  }
+
+  function getHeaderKey(text) {
+    return normalizeText(text)
+      .replace(/[:/].*$/, "")
+      .replace(/\.+$/, "");
   }
 
   function normalizeText(text) {

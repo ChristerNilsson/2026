@@ -31,7 +31,20 @@ Gör inte tabellerna bredare. Centrera istället.
 
 Undvik att tabellraderna glesas ut på höjden.
 
-Om platsbrist råder, skippa onödiga kolumner, t ex `Rp n w we w-we K TB3 TB2 TB1` för Ställning.
+Skippa följande kolumner för Ställning.
+* sex 
+* FED
+* Typ
+* SNo
+* Rp
+* n
+* w
+* we
+* w-we
+* K
+* TB3
+* TB2
+* TB1
 
 Då flera tomma kolumner i bredd förekommer, byt dem mot en enda.
 
