@@ -78,7 +78,6 @@
       '  <div>',
       '    <strong id="pb-title"></strong>',
       '    <span id="pb-count"></span>',
-      '    <span id="pb-class"></span>',
       '  </div>',
       '  <div class="pb-controls">',
       '    <button type="button" data-action="prev">Up</button>',
@@ -179,7 +178,6 @@
     document.getElementById("pb-title").textContent = item.label;
     document.getElementById("pb-count").textContent =
       " (" + (state.selected + 1) + "/" + state.tables.length + ", " + dataRows.length + " rader)";
-    document.getElementById("pb-class").textContent = "class: " + (original.className || "-");
     document.getElementById("pb-columns").textContent = item.columns + " kol";
 
     const wrap = document.getElementById("pb-table-wrap");
@@ -584,13 +582,6 @@
         align-items: center;
         gap: 6px;
         white-space: nowrap;
-      }
-
-      #pb-class {
-        display: block;
-        margin-top: 2px;
-        color: #555;
-        font-size: 12px;
       }
 
       #${APP_ID} button {

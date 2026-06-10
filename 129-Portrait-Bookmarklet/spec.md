@@ -10,6 +10,8 @@ https://member.schack.se/ShowTournamentServlet?id=15056
 
 Enbart en av tabellerna ska visas.
 
+Visa inte tabellens klassnamn i panelen. Det vara bara debug.
+
 Tabellen med klassnamnet tournamentbottom ska inte visas.
 
 Vald tabell kan visas som en eller flera kolumner.
