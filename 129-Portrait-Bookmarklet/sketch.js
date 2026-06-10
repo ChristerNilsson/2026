@@ -40,15 +40,26 @@
   function findCandidateTables() {
     return Array.from(document.querySelectorAll("table"))
       .filter((table) => !table.closest("#" + APP_ID))
+      .filter((table) => !isLinkTable(table))
       .map((table, index) => ({ table, index, rows: getDataRows(table).length }))
       .filter((item) => item.rows >= MIN_DATA_ROWS)
-      .sort((a, b) => b.rows - a.rows)
-      .slice(0, 3)
-      .sort((a, b) => a.index - b.index)
       .map((item, visibleIndex) => ({
         node: item.table,
         label: getTableLabel(item.table, visibleIndex),
       }));
+  }
+
+  function isLinkTable(table) {
+    const links = Array.from(table.querySelectorAll("a"));
+    if (links.length < 5) return false;
+
+    const textLength = table.textContent.replace(/\s+/g, "").length;
+    const linkTextLength = links
+      .map((link) => link.textContent)
+      .join("")
+      .replace(/\s+/g, "").length;
+
+    return linkTextLength > 0 && linkTextLength / Math.max(1, textLength) > 0.6;
   }
 
   function getTableLabel(table, index) {
@@ -76,8 +87,8 @@
       '    <span id="pb-count"></span>',
       '  </div>',
       '  <div class="pb-controls">',
-      '    <button type="button" data-action="prev">S</button>',
-      '    <button type="button" data-action="next">T</button>',
+      '    <button type="button" data-action="prev">Up</button>',
+      '    <button type="button" data-action="next">Down</button>',
       '    <button type="button" data-action="minus">-</button>',
       '    <span id="pb-columns"></span>',
       '    <button type="button" data-action="plus">+</button>',
@@ -103,11 +114,11 @@
       return;
     }
 
-    const key = event.key.toLowerCase();
-    if (key === "s") {
+    const key = event.key;
+    if (key === "ArrowUp" || key === "Up") {
       event.preventDefault();
       runAction("prev");
-    } else if (key === "t") {
+    } else if (key === "ArrowDown" || key === "Down") {
       event.preventDefault();
       runAction("next");
     } else if (key === "+" || key === "=") {

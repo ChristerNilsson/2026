@@ -69,6 +69,15 @@
     </div>
 
     <table>
+      <caption>Länkar</caption>
+      <tbody>
+        <tr><td><a href="#a">Start</a></td><td><a href="#b">Resultat</a></td><td><a href="#c">Tabell</a></td></tr>
+        <tr><td><a href="#d">Rond 1</a></td><td><a href="#e">Rond 2</a></td><td><a href="#f">Rond 3</a></td></tr>
+        <tr><td><a href="#g">Rond 4</a></td><td><a href="#h">Rond 5</a></td><td><a href="#i">Rond 6</a></td></tr>
+      </tbody>
+    </table>
+
+    <table>
       <caption>Startlista</caption>
       <thead>
         <tr><th>Nr</th><th>Namn</th><th>Klubb</th><th>Rating</th></tr>
@@ -91,6 +100,14 @@
       </thead>
       <tbody id="standings"></tbody>
     </table>
+
+    <table>
+      <caption>Priser</caption>
+      <thead>
+        <tr><th>Pris</th><th>Namn</th><th>Kommentar</th></tr>
+      </thead>
+      <tbody id="prizes"></tbody>
+    </table>
   </main>
 
   <script>
@@ -108,6 +125,10 @@
       document.getElementById("standings").insertAdjacentHTML(
         "beforeend",
         `<tr><td>${i}</td><td>${names[(i + 3) % names.length]} ${i}</td><td>${(50 - i / 2).toFixed(1)}</td><td>${200 - i}</td></tr>`
+      );
+      document.getElementById("prizes").insertAdjacentHTML(
+        "beforeend",
+        `<tr><td>${i}</td><td>${names[(i + 6) % names.length]} ${i}</td><td>Prisgrupp ${1 + (i % 5)}</td></tr>`
       );
     }
 
