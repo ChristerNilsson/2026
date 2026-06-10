@@ -202,6 +202,7 @@
       if (headers.length) {
         const thead = cloneElement(original.tHead, item.visuals) || document.createElement("thead");
         thead.textContent = "";
+        thead.classList.add("pb-repeated-header");
         headers.forEach((row) => thead.appendChild(cloneTableRow(row, item.visuals, columnPlan, true)));
         table.appendChild(thead);
       }
@@ -590,6 +591,11 @@
         justify-self: center;
         height: auto !important;
         max-width: 100%;
+      }
+
+      #${APP_ID} .pb-repeated-header {
+        display: table-header-group !important;
+        visibility: visible !important;
       }
 
       @media (max-width: 700px) {

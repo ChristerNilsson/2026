@@ -14,6 +14,8 @@ Välj med tangenten Up eller Down. Man ska kunna välja mellan flera tabeller, i
 
 Vald tabell kan visas som en eller flera kolumner.
 
+Om en tabell visas som flera kolumner, ska kolumnrubrikerna synas för alla kolumner.
+
 Använd tangenterna l och m för att välja antal kolumner. (Less and More)
 
 (Denna bookmarklet kan användas istället för att använda skärmen i porträtt-läget)
