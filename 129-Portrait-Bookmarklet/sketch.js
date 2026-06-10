@@ -39,6 +39,7 @@
   function findCandidateTables() {
     return Array.from(document.querySelectorAll("table"))
       .filter((table) => !table.closest("#" + APP_ID))
+      .filter((table) => !table.classList.contains("tournamentbottom"))
       .map((table, index) => ({
         table,
         index,
@@ -199,24 +200,14 @@
         .filter((child) => child.tagName === "COLGROUP")
         .forEach((child) => table.appendChild(cloneElement(child, item.visuals, true)));
 
-      if (headers.length) {
-        table.appendChild(createHeaderBody(headers, item.visuals, columnPlan));
-      }
-
       const sourceBody = rows[0] ? rows[0].parentElement : null;
       const tbody = cloneElement(sourceBody, item.visuals) || document.createElement("tbody");
       tbody.textContent = "";
+      headers.forEach((row) => tbody.appendChild(cloneTableRow(row, item.visuals, columnPlan, true)));
       rows.forEach((row) => tbody.appendChild(cloneTableRow(row, item.visuals, columnPlan, false)));
       table.appendChild(tbody);
       wrap.appendChild(table);
     });
-  }
-
-  function createHeaderBody(headers, visuals, columnPlan) {
-    const tbody = document.createElement("tbody");
-    tbody.className = "pb-repeated-header";
-    headers.forEach((row) => tbody.appendChild(cloneTableRow(row, visuals, columnPlan, true)));
-    return tbody;
   }
 
   function getColumnPlan(headerRows, dataRows, wrap, tableWidth) {
@@ -373,6 +364,7 @@
 
   function cloneTableRow(row, visuals, columnPlan, isHeader) {
     const clone = cloneElement(row, visuals, true);
+    if (isHeader) clone.classList.add("pb-repeated-header");
     Array.from(clone.cells).forEach((cell, index) => {
       if (cell.colSpan === 1 && columnPlan.hidden.has(index)) {
         cell.remove();
@@ -628,18 +620,13 @@
         max-width: 100%;
       }
 
-      #${APP_ID} .pb-repeated-header {
-        display: table-row-group !important;
-        visibility: visible !important;
-      }
-
-      #${APP_ID} .pb-repeated-header tr,
+      #${APP_ID} tr.pb-repeated-header,
       #${APP_ID} .pb-repeated-header th,
       #${APP_ID} .pb-repeated-header td {
         visibility: visible !important;
       }
 
-      #${APP_ID} .pb-repeated-header tr {
+      #${APP_ID} tr.pb-repeated-header {
         display: table-row !important;
       }
 
