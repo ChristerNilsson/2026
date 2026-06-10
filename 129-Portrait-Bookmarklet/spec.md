@@ -4,7 +4,9 @@ Jag behöver kod till ett bokmärke.
 * sketch.js
 * index.html
 
-Input:
+Använd UTF-8 i alla filer.
+
+### Input
 
 https://member.schack.se/ShowTournamentServlet?id=15056
 
@@ -43,6 +45,8 @@ Då flera tomma kolumner i bredd förekommer, byt dem mot en enda.
 Gör tomma kolumner fem pixlar breda.
 
 Kom ihåg antalet valda kolumner per tabell.
+
+Skapa en readme.md som riktar sig till den som ska installera denna bookmarklet och även använda den.
 
 ### Kommandon
 
