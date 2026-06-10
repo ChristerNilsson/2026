@@ -418,6 +418,7 @@
 
   function getOptionalColumnIndexes(headerLabels, dataRows) {
     const priorities = [
+      ["RP", "N", "W", "WE", "W-WE", "K", "TB3", "TB2", "TB1"],
       ["KLUBB", "CLUB", "FED", "LAND", "NATION", "COUNTRY", "FIDE-ID", "FIDEID", "ID"],
       ["TITLE", "TITEL", "TIT", "KON", "SEX", "GRUPP", "GROUP", "BIRTH", "FODD"],
       ["RANKING", "RATING", "ELO", "RTG", "RTGI", "RTGF", "INT.RTG", "NAT.RTG"],
