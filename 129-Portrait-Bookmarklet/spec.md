@@ -30,8 +30,8 @@ Undvik att tabellraderna glesas ut på höjden.
 
 Om platsbrist råder, skippa KLUBB-kolumnen.
 
-Byt rubriken RANKING till ELO
+Byt rubriker som inleds med RANKING till ELO.
 
-Byt POÄNG till P
+Byt POÄNG till P.
 
-Skippa tomma kolumner eller gör dem smalare.
+Gör tomma kolumner 10 pixlar breda.

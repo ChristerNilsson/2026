@@ -220,7 +220,8 @@
 
   function getColumnPlan(headerRows, dataRows, wrap, tableWidth) {
     const headerLabels = getHeaderLabels(headerRows);
-    const hidden = new Set(getEmptyColumnIndexes(headerLabels, dataRows));
+    const narrow = new Set(getEmptyColumnIndexes(headerLabels, dataRows));
+    const hidden = new Set();
     const projectedWidth = tableWidth * state.columns + Math.max(0, state.columns - 1) * 12;
     const availableWidth = wrap.clientWidth || document.documentElement.clientWidth || window.innerWidth;
 
@@ -232,10 +233,7 @@
 
     return {
       hidden,
-      replacements: {
-        RANKING: "ELO",
-        POANG: "P",
-      },
+      narrow,
     };
   }
 
@@ -258,12 +256,13 @@
     const indexes = [];
 
     for (let index = 0; index < maxColumns; index += 1) {
+      const hasHeader = Boolean((headerLabels[index] || "").trim());
       const hasData = dataRows.some((row) => {
         const cell = row.cells[index];
         return cell && cell.textContent.trim();
       });
 
-      if (!hasData) indexes.push(index);
+      if (!hasHeader && !hasData) indexes.push(index);
     }
 
     return indexes;
@@ -277,14 +276,23 @@
         return;
       }
 
-      if (isHeader) updateHeaderText(cell, columnPlan.replacements);
+      if (cell.colSpan === 1 && columnPlan.narrow.has(index)) makeNarrowCell(cell);
+      if (isHeader) updateHeaderText(cell);
     });
     return clone;
   }
 
-  function updateHeaderText(cell, replacements) {
+  function makeNarrowCell(cell) {
+    cell.style.width = "10px";
+    cell.style.minWidth = "10px";
+    cell.style.maxWidth = "10px";
+    cell.style.paddingLeft = "0";
+    cell.style.paddingRight = "0";
+  }
+
+  function updateHeaderText(cell) {
     const key = normalizeText(cell.textContent);
-    const replacement = replacements[key];
+    const replacement = getHeaderReplacement(key);
     if (!replacement) return;
 
     const textNode = Array.from(cell.childNodes).find(
@@ -295,6 +303,12 @@
     } else {
       cell.textContent = replacement;
     }
+  }
+
+  function getHeaderReplacement(key) {
+    if (key.startsWith("RANKING")) return "ELO";
+    if (key === "POANG") return "P";
+    return "";
   }
 
   function normalizeText(text) {
