@@ -10,8 +10,6 @@ https://member.schack.se/ShowTournamentServlet?id=15056
 
 Enbart en av tabellerna ska visas. Denna tabells class ska visas i panelen till vänster
 
-Tabellen med klassnamn tournamentbottom är inte intressant.
-
 Välj med tangenten Up eller Down. Man ska kunna välja mellan flera tabeller, inte bara två.
 
 Vald tabell kan visas som en eller flera kolumner.

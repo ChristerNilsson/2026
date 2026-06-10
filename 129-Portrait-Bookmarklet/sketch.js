@@ -39,7 +39,6 @@
   function findCandidateTables() {
     return Array.from(document.querySelectorAll("table"))
       .filter((table) => !table.closest("#" + APP_ID))
-      .filter((table) => !table.classList.contains("tournamentbottom"))
       .map((table, index) => ({
         table,
         index,
