@@ -52,6 +52,7 @@
         label: getTableLabel(item.table, visibleIndex),
         visuals: item.visuals,
         columns: 1,
+        roundIndex: 0,
       }));
   }
 
@@ -115,6 +116,12 @@
     } else if (key === "ArrowDown" || key === "Down") {
       event.preventDefault();
       runAction("next");
+    } else if (key === "ArrowLeft" || key === "Left") {
+      event.preventDefault();
+      runAction("roundPrev");
+    } else if (key === "ArrowRight" || key === "Right") {
+      event.preventDefault();
+      runAction("roundNext");
     } else if (key.toLowerCase() === "l") {
       event.preventDefault();
       runAction("minus");
@@ -137,6 +144,10 @@
       currentTable().columns = Math.min(rowCount, currentTable().columns + 1);
     } else if (action === "minus") {
       currentTable().columns = Math.max(1, currentTable().columns - 1);
+    } else if (action === "roundPrev") {
+      changeRound(-1);
+    } else if (action === "roundNext") {
+      changeRound(1);
     } else if (action === "close") {
       close();
       return;
@@ -162,14 +173,27 @@
 
   function getCurrentDataRows() {
     const item = currentTable();
-    return getDisplayModel(getHeaderRows(item.node), getDataRows(item.node), item.visuals).dataRows;
+    const headers = getHeaderRows(item.node);
+    const dataRows = getRowsForSelectedRound(item, headers, getDataRows(item.node));
+    return getDisplayModel(headers, dataRows, item.visuals).dataRows;
+  }
+
+  function changeRound(delta) {
+    const item = currentTable();
+    const rounds = getRoundValues(item, getHeaderRows(item.node), getDataRows(item.node));
+    if (!rounds.length) return;
+
+    item.roundIndex = (item.roundIndex + rounds.length + delta) % rounds.length;
   }
 
   function render() {
     const item = currentTable();
     const original = item.node;
     const sourceHeaders = getHeaderRows(original);
-    const sourceDataRows = getDataRows(original);
+    const allDataRows = getDataRows(original);
+    const rounds = getRoundValues(item, sourceHeaders, allDataRows);
+    item.roundIndex = rounds.length ? Math.min(item.roundIndex, rounds.length - 1) : 0;
+    const sourceDataRows = getRowsForSelectedRound(item, sourceHeaders, allDataRows);
     const model = getDisplayModel(sourceHeaders, sourceDataRows, item.visuals);
     const headers = model.headers;
     const dataRows = model.dataRows;
@@ -178,7 +202,8 @@
 
     document.getElementById("pb-title").textContent = item.label;
     document.getElementById("pb-count").textContent =
-      " (" + (state.selected + 1) + "/" + state.tables.length + ", " + dataRows.length + " rader)";
+      " (" + (state.selected + 1) + "/" + state.tables.length + getRoundLabel(rounds, item) +
+      ", " + dataRows.length + " rader)";
     document.getElementById("pb-class").textContent = "class: " + (original.className || "-");
     document.getElementById("pb-columns").textContent = item.columns + " kol";
 
@@ -231,6 +256,56 @@
       hidden,
       narrow,
     };
+  }
+
+  function getRoundLabel(rounds, item) {
+    if (!rounds.length) return "";
+    return ", rond " + rounds[item.roundIndex];
+  }
+
+  function getRowsForSelectedRound(item, headerRows, dataRows) {
+    const rounds = getRoundValues(item, headerRows, dataRows);
+    if (!rounds.length) return dataRows;
+
+    const roundColumn = getRoundColumnIndex(item, headerRows, dataRows);
+    const selectedRound = rounds[item.roundIndex] || rounds[0];
+    return dataRows.filter((row) => getCellText(row, roundColumn) === selectedRound);
+  }
+
+  function getRoundValues(item, headerRows, dataRows) {
+    const roundColumn = getRoundColumnIndex(item, headerRows, dataRows);
+    if (roundColumn < 0) return [];
+
+    return Array.from(new Set(dataRows.map((row) => getCellText(row, roundColumn)).filter(Boolean)));
+  }
+
+  function getRoundColumnIndex(item, headerRows, dataRows) {
+    const labels = getHeaderLabels(headerRows).map(normalizeText);
+    const headerIndex = labels.findIndex((label) => label === "ROND" || label === "ROUND");
+    if (headerIndex >= 0) return headerIndex;
+    if (!isBoardTable(item, labels)) return -1;
+
+    const maxColumns = dataRows.reduce((max, row) => Math.max(max, row.cells.length), 0);
+    for (let index = 0; index < maxColumns; index += 1) {
+      const values = dataRows.map((row) => getCellText(row, index)).filter(Boolean);
+      const numericValues = values.filter((value) => /^\d+$/.test(value));
+      const uniqueValues = new Set(numericValues);
+      if (values.length >= 4 && numericValues.length / values.length >= 0.8 && uniqueValues.size > 1 && uniqueValues.size <= 20) {
+        return index;
+      }
+    }
+
+    return -1;
+  }
+
+  function isBoardTable(item, labels) {
+    const text = normalizeText([item.label, item.node.className, labels.join(" ")].join(" "));
+    return /\b(BORD|BOARD|LOTTNING|PAIRING|RONDER|ROND|ROUND)\b/.test(text);
+  }
+
+  function getCellText(row, index) {
+    const cell = row.cells[index];
+    return cell ? cell.textContent.trim() : "";
   }
 
   function getDisplayModel(headerRows, dataRows, visuals) {

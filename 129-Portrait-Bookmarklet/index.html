@@ -104,6 +104,14 @@
       <tbody id="results"></tbody>
     </table>
 
+    <table class="board-table">
+      <caption>Bord</caption>
+      <thead>
+        <tr><th>Rond</th><th>Bord</th><th>Vit</th><th>Svart</th></tr>
+      </thead>
+      <tbody id="boards"></tbody>
+    </table>
+
     <table class="js-sort-table greyproptable standings-table">
       <caption>Tabell</caption>
       <thead>
@@ -140,6 +148,10 @@
       document.getElementById("results").insertAdjacentHTML(
         "beforeend",
         `<tr><td>${1 + (i % 7)}</td><td>Spelare ${i}</td><td>Spelare ${101 - i}</td><td>${i % 3 === 0 ? "1-0" : i % 3 === 1 ? "0-1" : "remi"}</td></tr>`
+      );
+      document.getElementById("boards").insertAdjacentHTML(
+        "beforeend",
+        `<tr><td>${1 + (i % 5)}</td><td>${1 + (i % 20)}</td><td>Vit ${i}</td><td>Svart ${101 - i}</td></tr>`
       );
       document.getElementById("standings").insertAdjacentHTML(
         "beforeend",
