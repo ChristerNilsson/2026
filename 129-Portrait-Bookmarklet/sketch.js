@@ -39,6 +39,7 @@
   function findCandidateTables() {
     return Array.from(document.querySelectorAll("table"))
       .filter((table) => !table.closest("#" + APP_ID))
+      .filter((table) => !table.classList.contains("tournamentbottom"))
       .map((table, index) => ({
         table,
         index,
@@ -503,11 +504,12 @@
 
   function splitRows(rows, columns) {
     const base = Math.floor(rows.length / columns);
+    const extra = rows.length % columns;
     const result = [];
     let start = 0;
 
     for (let column = 0; column < columns; column += 1) {
-      const count = column === columns - 1 ? rows.length - start : base;
+      const count = base + (column < extra ? 1 : 0);
       result.push(rows.slice(start, start + count));
       start += count;
     }

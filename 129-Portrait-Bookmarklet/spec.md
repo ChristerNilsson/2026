@@ -10,6 +10,8 @@ https://member.schack.se/ShowTournamentServlet?id=15056
 
 Enbart en av tabellerna ska visas. Denna tabells class ska visas i panelen till vänster
 
+Tabellen med klassnamn tournamentbottom är inte intressant.
+
 Välj med tangenten Up eller Down. Man ska kunna välja mellan flera tabeller, inte bara två.
 
 Vald tabell kan visas som en eller flera kolumner.
@@ -19,6 +21,8 @@ Använd tangenterna l och m för att välja antal kolumner. (Less and More)
 (Denna bookmarklet kan användas istället för att använda skärmen i porträtt-läget)
 
 Om en tabell innehåller 100 rader ska den kunna visas som 50+50, 33+33+34, 25+25+25+25 osv
+
+Försök ha så lika antal rader i varje kolumn som möjligt. T ex är 48+48+48+50 inte ok.
 
 Behåll tabellernas utseende så långt möjligt.
 
