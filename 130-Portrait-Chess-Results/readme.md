@@ -28,4 +28,4 @@ Endast en tabell visas åt gången. När en tabell delas i flera kolumner upprep
 
 Raderna fördelas så jämnt som möjligt. En tabell med 100 rader blir till exempel `50+50`, `33+33+34` eller `25+25+25+25` beroende på valt antal kolumner.
 
-Bokmärket försöker behålla Chess-Results-tabellens utseende. Tomma kolumner i bredd minskas till en enda fem pixlar bred kolumn. Om tabellerna inte får plats tas `KLUBB`-kolumnen bort i den visade kopian.
+Bokmärket försöker behålla Chess-Results-tabellens utseende. Tomma kolumner i bredd minskas till en enda fem pixlar bred kolumn. Om tabellerna inte får plats tas onödiga kolumner bort i den visade kopian, till exempel klubb, land, id, titel, rating eller flagga.

@@ -31,7 +31,7 @@ Gör inte tabellerna bredare. Centrera istället.
 
 Undvik att tabellraderna glesas ut på höjden.
 
-Om platsbrist råder skippa KLUBB-kolumnen
+Om platsbrist råder, skippa onödiga kolumner.
 
 Då flera tomma kolumner i bredd förekommer, byt dem mot en enda.
 

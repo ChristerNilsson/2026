@@ -394,12 +394,80 @@
     getRemainingIndexesInRuns(emptyColumns).forEach((index) => hidden.add(index));
 
     if (projectedWidth > availableWidth) {
-      headerLabels.forEach((label, index) => {
-        if (normalizeText(label) === "KLUBB") hidden.add(index);
-      });
+      hideOptionalColumns(headerLabels, dataRows, hidden, projectedWidth, availableWidth, tableWidth, columns);
     }
 
     return { hidden, narrow };
+  }
+
+  function hideOptionalColumns(headerLabels, dataRows, hidden, projectedWidth, availableWidth, tableWidth, columns) {
+    const maxColumns = Math.max(
+      headerLabels.length,
+      dataRows.reduce((max, row) => Math.max(max, row.cells.length), 0)
+    );
+    const averageColumnWidth = maxColumns ? tableWidth / maxColumns : 0;
+    let adjustedWidth = projectedWidth;
+
+    getOptionalColumnIndexes(headerLabels, dataRows).forEach((index) => {
+      if (adjustedWidth <= availableWidth || hidden.has(index)) return;
+
+      hidden.add(index);
+      adjustedWidth -= averageColumnWidth * columns;
+    });
+  }
+
+  function getOptionalColumnIndexes(headerLabels, dataRows) {
+    const priorities = [
+      ["KLUBB", "CLUB", "FED", "LAND", "NATION", "COUNTRY", "FIDE-ID", "FIDEID", "ID"],
+      ["TITLE", "TITEL", "TIT", "KON", "SEX", "GRUPP", "GROUP", "BIRTH", "FODD"],
+      ["RANKING", "RATING", "ELO", "RTG", "RTGI", "RTGF", "INT.RTG", "NAT.RTG"],
+    ];
+    const indexes = [];
+    const used = new Set();
+
+    priorities.forEach((labels) => {
+      headerLabels.forEach((label, index) => {
+        const normalized = normalizeText(label).replace(/[:/].*$/, "");
+        if (!used.has(index) && labels.includes(normalized)) {
+          used.add(index);
+          indexes.push(index);
+        }
+      });
+    });
+
+    getFlagColumnIndexes(dataRows).forEach((index) => {
+      if (!used.has(index)) {
+        used.add(index);
+        indexes.push(index);
+      }
+    });
+
+    return indexes;
+  }
+
+  function getFlagColumnIndexes(dataRows) {
+    const maxColumns = dataRows.reduce((max, row) => Math.max(max, row.cells.length), 0);
+    const indexes = [];
+
+    for (let index = 0; index < maxColumns; index += 1) {
+      const cells = dataRows.map((row) => row.cells[index]).filter(Boolean);
+      if (cells.length === 0) continue;
+
+      const flagCells = cells.filter(isFlagCell).length;
+      if (flagCells / cells.length >= 0.5) indexes.push(index);
+    }
+
+    return indexes;
+  }
+
+  function isFlagCell(cell) {
+    const text = cell.textContent.trim();
+    const images = Array.from(cell.querySelectorAll("img"));
+    if (images.some((image) => /flag|flagg|nation|country/i.test(image.src + " " + image.alt + " " + image.title))) {
+      return true;
+    }
+
+    return /^[\u{1F1E6}-\u{1F1FF}]{2}$/u.test(text);
   }
 
   function getDisplayModel(headerRows, dataRows, visuals) {
