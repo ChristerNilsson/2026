@@ -200,11 +200,7 @@
         .forEach((child) => table.appendChild(cloneElement(child, item.visuals, true)));
 
       if (headers.length) {
-        const thead = cloneElement(original.tHead, item.visuals) || document.createElement("thead");
-        thead.textContent = "";
-        thead.classList.add("pb-repeated-header");
-        headers.forEach((row) => thead.appendChild(cloneTableRow(row, item.visuals, columnPlan, true)));
-        table.appendChild(thead);
+        table.appendChild(createHeaderBody(headers, item.visuals, columnPlan));
       }
 
       const sourceBody = rows[0] ? rows[0].parentElement : null;
@@ -214,6 +210,13 @@
       table.appendChild(tbody);
       wrap.appendChild(table);
     });
+  }
+
+  function createHeaderBody(headers, visuals, columnPlan) {
+    const tbody = document.createElement("tbody");
+    tbody.className = "pb-repeated-header";
+    headers.forEach((row) => tbody.appendChild(cloneTableRow(row, visuals, columnPlan, true)));
+    return tbody;
   }
 
   function getColumnPlan(headerRows, dataRows, wrap, tableWidth) {
@@ -594,7 +597,14 @@
       }
 
       #${APP_ID} .pb-repeated-header {
-        display: table-header-group !important;
+        display: table-row-group !important;
+        visibility: visible !important;
+      }
+
+      #${APP_ID} .pb-repeated-header tr,
+      #${APP_ID} .pb-repeated-header th,
+      #${APP_ID} .pb-repeated-header td {
+        display: revert !important;
         visibility: visible !important;
       }
 
