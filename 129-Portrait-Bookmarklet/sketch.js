@@ -496,7 +496,39 @@
 
     const firstRow = table.rows[0];
     if (!firstRow) return [];
-    return firstRow.querySelector("th") ? [firstRow] : [];
+    return isHeaderLikeRow(firstRow) ? [firstRow] : [];
+  }
+
+  function isHeaderLikeRow(row) {
+    if (row.querySelector("th")) return true;
+
+    const rowClass = row.className || "";
+    const cells = Array.from(row.cells);
+    if (/\b(head|header|rubrik|sort)\b/i.test(rowClass)) return true;
+    if (cells.some((cell) => /\b(head|header|rubrik|sort)\b/i.test(cell.className || ""))) return true;
+
+    const knownLabels = new Set([
+      "BORD",
+      "ELO",
+      "KLUBB",
+      "NAMN",
+      "NR",
+      "PL",
+      "POANG",
+      "RANKING",
+      "RESULTAT",
+      "ROND",
+      "SPELARE",
+      "SVART",
+      "TB",
+      "VIT",
+    ]);
+    const matchingLabels = cells.filter((cell) => {
+      const label = normalizeText(cell.textContent).replace(/[:/].*$/, "");
+      return knownLabels.has(label) || label.startsWith("RANKING");
+    }).length;
+
+    return cells.length > 1 && matchingLabels >= 2;
   }
 
   function getDataRows(table) {
@@ -604,8 +636,16 @@
       #${APP_ID} .pb-repeated-header tr,
       #${APP_ID} .pb-repeated-header th,
       #${APP_ID} .pb-repeated-header td {
-        display: revert !important;
         visibility: visible !important;
+      }
+
+      #${APP_ID} .pb-repeated-header tr {
+        display: table-row !important;
+      }
+
+      #${APP_ID} .pb-repeated-header th,
+      #${APP_ID} .pb-repeated-header td {
+        display: table-cell !important;
       }
 
       @media (max-width: 700px) {
