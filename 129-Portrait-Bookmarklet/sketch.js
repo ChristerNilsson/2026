@@ -186,12 +186,17 @@
 
     const wrap = document.getElementById("pb-table-wrap");
     wrap.textContent = "";
-    wrap.style.gridTemplateColumns = "repeat(" + state.columns + ", minmax(0, 1fr))";
+    wrap.style.gridTemplateColumns = "repeat(" + state.columns + ", max-content)";
 
     splitRows(dataRows, state.columns).forEach((rows) => {
       const table = cloneElement(original, item.visuals);
       table.classList.add("pb-table");
       table.textContent = "";
+      table.removeAttribute("width");
+      table.removeAttribute("height");
+      table.style.width = "auto";
+      table.style.height = "auto";
+      table.style.maxWidth = Math.ceil(item.visuals.tableWidth) + "px";
       Array.from(original.children)
         .filter((child) => child.tagName === "COLGROUP")
         .forEach((child) => table.appendChild(cloneElement(child, item.visuals, true)));
@@ -227,7 +232,6 @@
       "font-size",
       "font-style",
       "font-weight",
-      "height",
       "line-height",
       "margin",
       "padding",
@@ -246,6 +250,7 @@
           .join(";");
         visuals.set(element, css);
       });
+    visuals.tableWidth = table.getBoundingClientRect().width;
     return visuals;
   }
 
@@ -366,9 +371,14 @@
         display: grid;
         gap: 12px;
         align-items: start;
+        align-content: start;
+        justify-content: center;
+        overflow-x: auto;
       }
 
       #${APP_ID} .pb-table {
+        justify-self: center;
+        height: auto !important;
         max-width: 100%;
       }
 

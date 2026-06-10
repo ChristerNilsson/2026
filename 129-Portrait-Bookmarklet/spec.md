@@ -23,3 +23,7 @@ Om en tabell innehåller 100 rader ska den kunna visas som 50+50, 33+33+34, 25+2
 Ignorera tabellen som visar en mängd länkar.
 
 Behåll tabellernas utseende så långt möjligt.
+
+Gör inte tabellerna bredare. Centrera istället.
+
+Undvik att tabellraderna glesas ut på höjden.
