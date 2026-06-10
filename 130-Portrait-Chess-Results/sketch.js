@@ -1,12 +1,13 @@
 (function () {
   "use strict";
 
-  const APP_ID = "portrait-bookmarklet";
-  const STYLE_ID = "portrait-bookmarklet-style";
+  const APP_ID = "portrait-chess-results";
+  const STYLE_ID = "portrait-chess-results-style";
+  const STORAGE_PREFIX = "portrait-chess-results:";
   const MIN_DATA_ROWS = 2;
 
-  if (window.__portraitBookmarkletCleanup) {
-    window.__portraitBookmarkletCleanup();
+  if (window.__portraitChessResultsCleanup) {
+    window.__portraitChessResultsCleanup();
   }
 
   const existing = document.getElementById(APP_ID);
@@ -14,81 +15,117 @@
     existing.remove();
     const style = document.getElementById(STYLE_ID);
     if (style) style.remove();
-    document.body.classList.remove("pb-active");
+    document.body.classList.remove("pcr-active");
   }
 
+  const tournament = getTournamentContext();
   const state = {
-    selected: 0,
-    tables: findCandidateTables(),
+    selected: getInitialViewIndex(),
+    views: [
+      createView("standings", "Ställning", 1),
+      createView("boardlist", "Bordslista", 2),
+    ],
   };
-
-  if (state.tables.length === 0) {
-    alert("Hittade inga tabeller att visa.");
-    return;
-  }
 
   installStyle();
   const app = buildShell();
   document.body.appendChild(app);
-  document.body.classList.add("pb-active");
-  render();
+  document.body.classList.add("pcr-active");
 
   document.addEventListener("keydown", onKeyDown, true);
-  window.__portraitBookmarkletCleanup = close;
+  window.__portraitChessResultsCleanup = close;
+  render();
 
-  function findCandidateTables() {
-    return Array.from(document.querySelectorAll("table"))
-      .filter((table) => !table.closest("#" + APP_ID))
-      .filter((table) => !table.classList.contains("tournamentbottom"))
-      .map((table, index) => ({
-        table,
-        index,
-        rows: getDataRows(table).length,
-        visuals: captureTableVisuals(table),
-      }))
-      .filter((item) => item.rows >= MIN_DATA_ROWS)
-      .map((item, visibleIndex) => ({
-        node: item.table,
-        label: getTableLabel(item.table, visibleIndex),
-        visuals: item.visuals,
-        columns: 1,
-      }));
+  function getTournamentContext() {
+    const url = new URL(window.location.href);
+    const tnrMatch = url.pathname.match(/(tnr\d+)\.aspx/i);
+    const params = url.searchParams;
+    const round = params.get("rd") || findLatestRound();
+
+    return {
+      id: tnrMatch ? tnrMatch[1].toLowerCase() : "unknown",
+      round,
+      url,
+    };
   }
 
-  function getTableLabel(table, index) {
-    const caption = table.querySelector("caption");
-    if (caption && caption.textContent.trim()) return caption.textContent.trim();
+  function findLatestRound() {
+    const rounds = Array.from(document.querySelectorAll("a[href]"))
+      .map((link) => {
+        try {
+          return new URL(link.href, window.location.href);
+        } catch (_error) {
+          return null;
+        }
+      })
+      .filter(Boolean)
+      .filter((url) => /tnr\d+\.aspx/i.test(url.pathname))
+      .map((url) => Number(url.searchParams.get("rd") || 0))
+      .filter((round) => Number.isFinite(round) && round > 0);
 
-    let element = table.previousElementSibling;
-    while (element) {
-      if (/^H[1-6]$/.test(element.tagName) && element.textContent.trim()) {
-        return element.textContent.trim();
-      }
-      element = element.previousElementSibling;
-    }
+    return rounds.length ? String(Math.max.apply(null, rounds)) : "";
+  }
 
-    return "Tabell " + (index + 1);
+  function getInitialViewIndex() {
+    const art = new URL(window.location.href).searchParams.get("art");
+    if (art === "2") return 1;
+    return 0;
+  }
+
+  function createView(key, label, art) {
+    return {
+      key,
+      label,
+      art,
+      url: createChessResultsUrl(art),
+      columns: loadColumns(key),
+      status: "idle",
+      error: "",
+      item: null,
+    };
+  }
+
+  function createChessResultsUrl(art) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("art", String(art));
+    if (tournament.round) url.searchParams.set("rd", tournament.round);
+    if (art === 1 || art === 2) url.searchParams.set("turdet", "YES");
+    return url.toString();
+  }
+
+  function storageKey(viewKey) {
+    return STORAGE_PREFIX + tournament.id + ":" + viewKey + ":columns";
+  }
+
+  function loadColumns(viewKey) {
+    const value = Number(localStorage.getItem(storageKey(viewKey)));
+    return Number.isFinite(value) && value > 0 ? value : 1;
+  }
+
+  function saveColumns(view) {
+    localStorage.setItem(storageKey(view.key), String(view.columns));
   }
 
   function buildShell() {
     const root = document.createElement("section");
     root.id = APP_ID;
     root.innerHTML = [
-      '<div class="pb-toolbar">',
+      '<div class="pcr-toolbar">',
       '  <div>',
-      '    <strong id="pb-title"></strong>',
-      '    <span id="pb-count"></span>',
+      '    <strong id="pcr-title"></strong>',
+      '    <span id="pcr-count"></span>',
       '  </div>',
-      '  <div class="pb-controls">',
-      '    <button type="button" data-action="prev">↑</button>',
-      '    <button type="button" data-action="next">↓</button>',
-      '    <button type="button" data-action="minus">←</button>',
-      '    <span id="pb-columns"></span>',
-      '    <button type="button" data-action="plus">→</button>',
-      '    <button type="button" data-action="close">x</button>',
+      '  <div class="pcr-controls">',
+      '    <button type="button" data-action="prev" title="Föregående tabell">&#8593;</button>',
+      '    <button type="button" data-action="next" title="Nästa tabell">&#8595;</button>',
+      '    <button type="button" data-action="minus" title="Färre kolumner">&#8592;</button>',
+      '    <span id="pcr-columns"></span>',
+      '    <button type="button" data-action="plus" title="Fler kolumner">&#8594;</button>',
+      '    <button type="button" data-action="close" title="Stäng">x</button>',
       '  </div>',
       '</div>',
-      '<div id="pb-table-wrap"></div>',
+      '<div id="pcr-message"></div>',
+      '<div id="pcr-table-wrap"></div>',
     ].join("");
 
     root.addEventListener("click", (event) => {
@@ -120,26 +157,31 @@
     } else if (key === "ArrowRight" || key === "Right") {
       event.preventDefault();
       runAction("plus");
-    } else if (key === "escape") {
+    } else if (key === "Escape") {
       event.preventDefault();
       runAction("close");
     }
   }
 
   function runAction(action) {
+    const view = currentView();
+
     if (action === "prev") {
-      state.selected = (state.selected + state.tables.length - 1) % state.tables.length;
+      state.selected = (state.selected + state.views.length - 1) % state.views.length;
     } else if (action === "next") {
-      state.selected = (state.selected + 1) % state.tables.length;
+      state.selected = (state.selected + 1) % state.views.length;
     } else if (action === "plus") {
       const rowCount = getCurrentDataRows().length;
-      currentTable().columns = Math.min(rowCount, currentTable().columns + 1);
+      view.columns = Math.min(Math.max(1, rowCount), view.columns + 1);
+      saveColumns(view);
     } else if (action === "minus") {
-      currentTable().columns = Math.max(1, currentTable().columns - 1);
+      view.columns = Math.max(1, view.columns - 1);
+      saveColumns(view);
     } else if (action === "close") {
       close();
       return;
     }
+
     render();
   }
 
@@ -148,57 +190,190 @@
     const style = document.getElementById(STYLE_ID);
     if (app) app.remove();
     if (style) style.remove();
-    document.body.classList.remove("pb-active");
+    document.body.classList.remove("pcr-active");
     document.removeEventListener("keydown", onKeyDown, true);
-    if (window.__portraitBookmarkletCleanup === close) {
-      window.__portraitBookmarkletCleanup = null;
+    if (window.__portraitChessResultsCleanup === close) {
+      window.__portraitChessResultsCleanup = null;
     }
   }
 
-  function currentTable() {
-    return state.tables[state.selected];
+  function currentView() {
+    return state.views[state.selected];
   }
 
   function getCurrentDataRows() {
-    const item = currentTable();
-    return getDisplayModel(getHeaderRows(item.node), getDataRows(item.node), item.visuals).dataRows;
+    const view = currentView();
+    if (!view.item) return [];
+    return getDisplayModel(getHeaderRows(view.item.node), getDataRows(view.item.node), view.item.visuals).dataRows;
   }
 
-  function render() {
-    const item = currentTable();
+  async function render() {
+    const view = currentView();
+    updateToolbar(view, 0);
+    clearMessage();
+
+    if (!view.item && view.status !== "loading") {
+      await loadView(view);
+    }
+
+    if (view.status === "loading") {
+      showMessage("Hämtar " + view.label.toLowerCase() + "...");
+      return;
+    }
+
+    if (view.error) {
+      showMessage(view.error);
+      return;
+    }
+
+    renderTable(view);
+  }
+
+  async function loadView(view) {
+    view.status = "loading";
+    showMessage("Hämtar " + view.label.toLowerCase() + "...");
+
+    try {
+      const sourceDocument = isCurrentDocument(view) ? document : await fetchDocument(view.url);
+      const item = findMainTable(sourceDocument, view);
+      if (!item) throw new Error("Hittade ingen tabell för " + view.label.toLowerCase() + ".");
+      view.item = item;
+      view.status = "ready";
+      view.error = "";
+    } catch (error) {
+      view.status = "error";
+      view.error = error.message || String(error);
+    }
+  }
+
+  function isCurrentDocument(view) {
+    if (window.location.protocol === "file:" || /\/index\.html?$/i.test(window.location.pathname)) return true;
+    const art = new URL(window.location.href).searchParams.get("art");
+    return art === String(view.art);
+  }
+
+  async function fetchDocument(url) {
+    const response = await fetch(url, { credentials: "include" });
+    if (!response.ok) throw new Error("Kunde inte hämta " + url + ".");
+
+    const html = await response.text();
+    return new DOMParser().parseFromString(html, "text/html");
+  }
+
+  function findMainTable(sourceDocument, view) {
+    const candidates = Array.from(sourceDocument.querySelectorAll("table"))
+      .filter((table) => !table.closest("#" + APP_ID))
+      .filter((table) => !table.classList.contains("tournamentbottom"))
+      .map((table) => ({
+        node: table,
+        rows: getDataRows(table).length,
+        score: scoreTable(table, view),
+      }))
+      .filter((item) => item.rows >= MIN_DATA_ROWS)
+      .sort((a, b) => b.score - a.score || b.rows - a.rows);
+
+    return candidates[0] ? createTableItem(candidates[0].node) : null;
+  }
+
+  function createTableItem(table) {
+    if (table.ownerDocument === document) {
+      return {
+        node: table,
+        visuals: captureTableVisuals(table),
+      };
+    }
+
+    const mount = document.createElement("div");
+    mount.setAttribute("aria-hidden", "true");
+    mount.style.cssText = [
+      "position:absolute",
+      "left:-10000px",
+      "top:0",
+      "visibility:hidden",
+      "pointer-events:none",
+    ].join(";");
+
+    const imported = document.importNode(table, true);
+    mount.appendChild(imported);
+    document.body.appendChild(mount);
+    const visuals = captureTableVisuals(imported);
+    mount.remove();
+
+    return {
+      node: imported,
+      visuals,
+    };
+  }
+
+  function scoreTable(table, view) {
+    const labels = getHeaderLabels(getHeaderRows(table)).map(normalizeText);
+    let score = 0;
+    if (table.classList.contains("greyproptable")) score += 20;
+    if (table.classList.contains("js-sort-table")) score += 20;
+    if (labels.some((label) => label === "NAMN" || label === "NAME")) score += 10;
+    if (view.key === "standings") {
+      if (labels.some((label) => label === "PL" || label === "RANK")) score += 20;
+      if (labels.some((label) => label === "POANG" || label === "PTS." || label === "PUNKTE")) score += 20;
+    }
+    if (view.key === "boardlist") {
+      if (labels.some((label) => label === "BORD" || label === "BO." || label === "BOARD")) score += 25;
+      if (labels.some((label) => label === "VIT" || label === "WHITE")) score += 15;
+      if (labels.some((label) => label === "SVART" || label === "BLACK")) score += 15;
+      if (labels.some((label) => label === "RESULTAT" || label === "RESULT")) score += 10;
+    }
+    return score;
+  }
+
+  function updateToolbar(view, rowCount) {
+    document.getElementById("pcr-title").textContent = view.label;
+    document.getElementById("pcr-count").textContent =
+      " (" + (state.selected + 1) + "/" + state.views.length + (rowCount ? ", " + rowCount + " rader" : "") + ")";
+    document.getElementById("pcr-columns").textContent = view.columns + " kol";
+  }
+
+  function showMessage(text) {
+    const message = document.getElementById("pcr-message");
+    const wrap = document.getElementById("pcr-table-wrap");
+    message.textContent = text;
+    message.hidden = false;
+    wrap.textContent = "";
+  }
+
+  function clearMessage() {
+    const message = document.getElementById("pcr-message");
+    message.textContent = "";
+    message.hidden = true;
+  }
+
+  function renderTable(view) {
+    const item = view.item;
     const original = item.node;
     const sourceHeaders = getHeaderRows(original);
     const sourceDataRows = getDataRows(original);
     const model = getDisplayModel(sourceHeaders, sourceDataRows, item.visuals);
     const headers = model.headers;
     const dataRows = model.dataRows;
-    const tableWidth = model.tableWidth || item.visuals.tableWidth;
-    item.columns = Math.min(Math.max(1, item.columns), Math.max(1, dataRows.length));
+    const tableWidth = model.tableWidth || item.visuals.tableWidth || 0;
 
-    document.getElementById("pb-title").textContent = item.label;
-    document.getElementById("pb-count").textContent =
-      " (" + (state.selected + 1) + "/" + state.tables.length + ", " + dataRows.length + " rader)";
-    document.getElementById("pb-columns").textContent = item.columns + " kol";
+    view.columns = Math.min(Math.max(1, view.columns), Math.max(1, dataRows.length));
+    updateToolbar(view, dataRows.length);
 
-    const wrap = document.getElementById("pb-table-wrap");
+    const wrap = document.getElementById("pcr-table-wrap");
     wrap.textContent = "";
-    wrap.style.gridTemplateColumns = "repeat(" + item.columns + ", max-content)";
-    const columnPlan = getColumnPlan(headers, dataRows, wrap, tableWidth);
+    wrap.style.gridTemplateColumns = "repeat(" + view.columns + ", max-content)";
+    const columnPlan = getColumnPlan(headers, dataRows, wrap, tableWidth, view.columns);
 
-    splitRows(dataRows, item.columns).forEach((rows) => {
+    splitRows(dataRows, view.columns).forEach((rows) => {
       const table = cloneElement(original, item.visuals);
-      table.classList.add("pb-table");
+      table.classList.add("pcr-table");
       table.textContent = "";
       table.removeAttribute("width");
       table.removeAttribute("height");
       table.style.width = "auto";
       table.style.height = "auto";
-      table.style.maxWidth = Math.ceil(tableWidth) + "px";
-      Array.from(original.children)
-        .filter((child) => child.tagName === "COLGROUP")
-        .forEach((child) => table.appendChild(cloneElement(child, item.visuals, true)));
+      if (tableWidth) table.style.maxWidth = Math.ceil(tableWidth) + "px";
 
-      const sourceBody = rows[0] ? rows[0].parentElement : null;
+      const sourceBody = rows[0] ? rows[0].parentElement : original.tBodies[0];
       const tbody = cloneElement(sourceBody, item.visuals) || document.createElement("tbody");
       tbody.textContent = "";
       headers.forEach((row) => tbody.appendChild(cloneTableRow(row, item.visuals, columnPlan, true)));
@@ -208,16 +383,15 @@
     });
   }
 
-  function getColumnPlan(headerRows, dataRows, wrap, tableWidth) {
+  function getColumnPlan(headerRows, dataRows, wrap, tableWidth, columns) {
     const headerLabels = getHeaderLabels(headerRows);
     const emptyColumns = getEmptyColumnIndexes(headerLabels, dataRows);
     const narrow = new Set(getFirstIndexesInRuns(emptyColumns));
     const hidden = new Set();
-    const projectedWidth = tableWidth * currentTable().columns + Math.max(0, currentTable().columns - 1) * 12;
+    const projectedWidth = tableWidth * columns + Math.max(0, columns - 1) * 12;
     const availableWidth = wrap.clientWidth || document.documentElement.clientWidth || window.innerWidth;
 
     getRemainingIndexesInRuns(emptyColumns).forEach((index) => hidden.add(index));
-    getFlagColumnIndexes(dataRows).forEach((index) => hidden.add(index));
 
     if (projectedWidth > availableWidth) {
       headerLabels.forEach((label, index) => {
@@ -225,10 +399,7 @@
       });
     }
 
-    return {
-      hidden,
-      narrow,
-    };
+    return { hidden, narrow };
   }
 
   function getDisplayModel(headerRows, dataRows, visuals) {
@@ -296,37 +467,12 @@
     return Array.from(row.cells).some((cell) => cell.textContent.trim() || cell.querySelector("img, svg"));
   }
 
-  function getFlagColumnIndexes(dataRows) {
-    const maxColumns = dataRows.reduce((max, row) => Math.max(max, row.cells.length), 0);
-    const indexes = [];
-
-    for (let index = 0; index < maxColumns; index += 1) {
-      const cells = dataRows.map((row) => row.cells[index]).filter(Boolean);
-      if (cells.length === 0) continue;
-
-      const flagCells = cells.filter(isFlagCell).length;
-      if (flagCells / cells.length >= 0.5) indexes.push(index);
-    }
-
-    return indexes;
-  }
-
   function getFirstIndexesInRuns(indexes) {
     return indexes.filter((index, position) => position === 0 || indexes[position - 1] !== index - 1);
   }
 
   function getRemainingIndexesInRuns(indexes) {
     return indexes.filter((index, position) => position > 0 && indexes[position - 1] === index - 1);
-  }
-
-  function isFlagCell(cell) {
-    const text = cell.textContent.trim();
-    const images = Array.from(cell.querySelectorAll("img"));
-    if (images.some((image) => /flag|flagg|nation|country/i.test(image.src + " " + image.alt + " " + image.title))) {
-      return true;
-    }
-
-    return /^[\u{1F1E6}-\u{1F1FF}]{2}$/u.test(text);
   }
 
   function getHeaderLabels(headerRows) {
@@ -362,7 +508,8 @@
 
   function cloneTableRow(row, visuals, columnPlan, isHeader) {
     const clone = cloneElement(row, visuals, true);
-    if (isHeader) clone.classList.add("pb-repeated-header");
+    if (isHeader) clone.classList.add("pcr-repeated-header");
+
     Array.from(clone.cells).forEach((cell, index) => {
       if (cell.colSpan === 1 && columnPlan.hidden.has(index)) {
         cell.remove();
@@ -440,20 +587,30 @@
     Array.from(table.querySelectorAll("caption, colgroup, col, thead, tbody, tfoot, tr, th, td"))
       .concat(table)
       .forEach((element) => {
-        const computed = window.getComputedStyle(element);
+        const computed = getComputedStyleSafely(element);
+        if (!computed) return;
         const css = properties
           .map((property) => property + ":" + computed.getPropertyValue(property))
           .join(";");
         visuals.set(element, css);
       });
-    visuals.tableWidth = table.getBoundingClientRect().width;
+    visuals.tableWidth = table.getBoundingClientRect ? table.getBoundingClientRect().width : 0;
     return visuals;
+  }
+
+  function getComputedStyleSafely(element) {
+    try {
+      const view = element.ownerDocument.defaultView || window;
+      return view.getComputedStyle(element);
+    } catch (_error) {
+      return null;
+    }
   }
 
   function cloneElement(element, visuals, deep) {
     if (!element) return null;
 
-    const clone = element.cloneNode(Boolean(deep));
+    const clone = document.importNode(element, Boolean(deep));
     applyCapturedStyle(element, clone, visuals);
     stripIds(clone);
 
@@ -499,12 +656,15 @@
 
     const knownLabels = new Set([
       "BORD",
+      "BO.",
       "ELO",
       "KLUBB",
       "NAMN",
+      "NAME",
       "NR",
       "PL",
       "POANG",
+      "PTS.",
       "RANKING",
       "RESULTAT",
       "ROND",
@@ -534,7 +694,7 @@
     let start = 0;
 
     for (let column = 0; column < columns; column += 1) {
-      const count = base + (column < extra ? 1 : 0);
+      const count = base + (column >= columns - extra ? 1 : 0);
       result.push(rows.slice(start, start + count));
       start += count;
     }
@@ -546,7 +706,7 @@
     const style = document.createElement("style");
     style.id = STYLE_ID;
     style.textContent = `
-      body.pb-active > :not(#${APP_ID}) {
+      body.pcr-active > :not(#${APP_ID}) {
         display: none !important;
       }
 
@@ -562,7 +722,7 @@
         box-sizing: border-box;
       }
 
-      #${APP_ID} .pb-toolbar {
+      #${APP_ID} .pcr-toolbar {
         position: sticky;
         top: 0;
         z-index: 1;
@@ -577,7 +737,7 @@
         font: 13px/1.35 Arial, Helvetica, sans-serif;
       }
 
-      #${APP_ID} .pb-controls {
+      #${APP_ID} .pcr-controls {
         display: flex;
         align-items: center;
         gap: 6px;
@@ -596,7 +756,12 @@
         cursor: pointer;
       }
 
-      #pb-table-wrap {
+      #pcr-message {
+        margin: 16px 0;
+        font: 14px/1.4 Arial, Helvetica, sans-serif;
+      }
+
+      #pcr-table-wrap {
         display: grid;
         gap: 12px;
         align-items: start;
@@ -605,24 +770,24 @@
         overflow-x: auto;
       }
 
-      #${APP_ID} .pb-table {
+      #${APP_ID} .pcr-table {
         justify-self: center;
         height: auto !important;
         max-width: 100%;
       }
 
-      #${APP_ID} tr.pb-repeated-header,
-      #${APP_ID} .pb-repeated-header th,
-      #${APP_ID} .pb-repeated-header td {
+      #${APP_ID} tr.pcr-repeated-header,
+      #${APP_ID} .pcr-repeated-header th,
+      #${APP_ID} .pcr-repeated-header td {
         visibility: visible !important;
       }
 
-      #${APP_ID} tr.pb-repeated-header {
+      #${APP_ID} tr.pcr-repeated-header {
         display: table-row !important;
       }
 
-      #${APP_ID} .pb-repeated-header th,
-      #${APP_ID} .pb-repeated-header td {
+      #${APP_ID} .pcr-repeated-header th,
+      #${APP_ID} .pcr-repeated-header td {
         display: table-cell !important;
       }
 
@@ -632,14 +797,14 @@
           font-size: 12px;
         }
 
-        #${APP_ID} .pb-toolbar {
+        #${APP_ID} .pcr-toolbar {
           margin: -8px -8px 8px;
           padding: 8px;
           align-items: flex-start;
           flex-direction: column;
         }
 
-        #pb-table-wrap {
+        #pcr-table-wrap {
           gap: 8px;
         }
       }

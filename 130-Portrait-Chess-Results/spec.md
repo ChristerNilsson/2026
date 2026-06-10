@@ -8,13 +8,12 @@ Använd UTF-8 i alla filer.
 
 ### Input
 
-https://member.schack.se/ShowTournamentServlet?id=15056
+https://s2.chess-results.com/tnr1301930.aspx?lan=1&art=0&flag=30&SNode=S0
 
-Enbart en av tabellerna ska visas.
+Enbart en av två tabeller ska visas.
 
-Visa inte tabellens klassnamn i panelen. Det vara bara debug.
-
-Tabellen med klassnamnet tournamentbottom ska inte visas.
+Ställning: https://s3.chess-results.com/tnr1301930.aspx?lan=1&art=1&rd=9&turdet=YES&flag=30&SNode=S0
+Bordslista: https://s3.chess-results.com/tnr1301930.aspx?lan=1&art=2&rd=9&turdet=YES&flag=30&SNode=S0
 
 Vald tabell kan visas som en eller flera kolumner.
 
@@ -33,12 +32,6 @@ Gör inte tabellerna bredare. Centrera istället.
 Undvik att tabellraderna glesas ut på höjden.
 
 Om platsbrist råder skippa KLUBB-kolumnen
-
-Tag alltid bort kolumnen med flaggor
-
-Byt rubriker som inleds med RANKING till ELO.
-
-Byt POÄNG till P.
 
 Då flera tomma kolumner i bredd förekommer, byt dem mot en enda.
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Portrait Bookmarklet</title>
+  <title>Portrait Chess Results</title>
   <style>
     body {
       margin: 24px;
@@ -62,25 +62,27 @@
 </head>
 <body>
   <main>
-    <h1>Portrait Bookmarklet</h1>
+    <h1>Portrait Chess Results</h1>
     <div class="actions">
       <button type="button" id="run">Kör lokal demo</button>
-      <a href="https://member.schack.se/ShowTournamentServlet?id=15056">Öppna exempelsida</a>
+      <a href="https://s2.chess-results.com/tnr1301930.aspx?lan=1&amp;art=0&amp;flag=30&amp;SNode=S0">Öppna exempelsida</a>
     </div>
 
     <table class="link-list">
-      <caption>Länkar</caption>
+      <caption>Länkar på startsidan</caption>
       <tbody>
-        <tr><td><a href="#a">Start</a></td><td><a href="#b">Resultat</a></td><td><a href="#c">Tabell</a></td></tr>
-        <tr><td><a href="#d">Rond 1</a></td><td><a href="#e">Rond 2</a></td><td><a href="#f">Rond 3</a></td></tr>
-        <tr><td><a href="#g">Rond 4</a></td><td><a href="#h">Rond 5</a></td><td><a href="#i">Rond 6</a></td></tr>
+        <tr>
+          <td><a href="tnr1301930.aspx?lan=1&amp;art=1&amp;rd=9&amp;turdet=YES&amp;flag=30&amp;SNode=S0">Ställning rond 9</a></td>
+          <td><a href="tnr1301930.aspx?lan=1&amp;art=2&amp;rd=9&amp;turdet=YES&amp;flag=30&amp;SNode=S0">Bordslista rond 9</a></td>
+          <td><a href="#info">Info</a></td>
+        </tr>
       </tbody>
     </table>
 
     <table class="tournamentbottom">
       <caption>Ignorerad footer</caption>
       <thead>
-        <tr><th>Info</th><th>Varde</th></tr>
+        <tr><th>Info</th><th>Värde</th></tr>
       </thead>
       <tbody>
         <tr><td>Footer</td><td>Ska inte visas</td></tr>
@@ -88,44 +90,20 @@
       </tbody>
     </table>
 
-    <table class="js-sort-table greyproptable players-table">
-      <caption>Startlista</caption>
-      <thead>
-        <tr><th>Nr</th><th>Flagga</th><th>Namn</th><th>Klubb</th><th>RANKING/LOKAL</th><th></th><th></th></tr>
-      </thead>
-      <tbody id="players"></tbody>
-    </table>
-
-    <table class="js-sort-table greyproptable results-table">
-      <caption>Resultat</caption>
-      <thead>
-        <tr><th>Rond</th><th>Vit</th><th>Svart</th><th>Resultat</th></tr>
-      </thead>
-      <tbody id="results"></tbody>
-    </table>
-
     <table class="js-sort-table greyproptable standings-table">
-      <caption>Tabell</caption>
+      <caption>Ställning</caption>
       <thead>
-        <tr><th>Pl</th><th>Namn</th><th>Poäng</th><th>TB</th></tr>
+        <tr><th>Pl</th><th>Namn</th><th>Klubb</th><th>Poäng</th><th>TB</th><th></th><th></th></tr>
       </thead>
       <tbody id="standings"></tbody>
     </table>
 
-    <table class="greyproptable prizes-table">
-      <caption>Priser</caption>
+    <table class="js-sort-table greyproptable board-table">
+      <caption>Bordslista</caption>
       <thead>
-        <tr><th>Pris</th><th>Namn</th><th>Kommentar</th></tr>
+        <tr><th>Bord</th><th>Vit</th><th>Klubb</th><th>Resultat</th><th>Svart</th><th>Klubb</th><th></th><th></th></tr>
       </thead>
-      <tbody id="prizes"></tbody>
-    </table>
-
-    <table class="wide-table">
-      <caption>Bred lista</caption>
-      <thead>
-        <tr><th>Nr</th><th>Namn</th><th>Poäng</th><th>Nr</th><th>Namn</th><th>Poäng</th></tr>
-      </thead>
-      <tbody id="wide"></tbody>
+      <tbody id="boards"></tbody>
     </table>
   </main>
 
@@ -133,28 +111,14 @@
     const names = ["Andersson", "Berg", "Carlsson", "Dahl", "Ek", "Fors", "Gran", "Holm", "Isaksson", "Jansson"];
 
     for (let i = 1; i <= 100; i += 1) {
-      document.getElementById("players").insertAdjacentHTML(
-        "beforeend",
-        `<tr><td>${i}</td><td>${i % 2 ? "🇸🇪" : "🇳🇴"}</td><td>${names[i % names.length]} ${i}</td><td>Klubb ${1 + (i % 12)}</td><td>${1400 + i}</td><td></td><td></td></tr>`
-      );
-      document.getElementById("results").insertAdjacentHTML(
-        "beforeend",
-        `<tr><td>${1 + (i % 7)}</td><td>Spelare ${i}</td><td>Spelare ${101 - i}</td><td>${i % 3 === 0 ? "1-0" : i % 3 === 1 ? "0-1" : "remi"}</td></tr>`
-      );
       document.getElementById("standings").insertAdjacentHTML(
         "beforeend",
-        `<tr><td>${i}</td><td>${names[(i + 3) % names.length]} ${i}</td><td>${(50 - i / 2).toFixed(1)}</td><td>${200 - i}</td></tr>`
+        `<tr><td>${i}</td><td>${names[(i + 3) % names.length]} ${i}</td><td>Klubb ${1 + (i % 12)}</td><td>${(9 - i / 20).toFixed(1)}</td><td>${200 - i}</td><td></td><td></td></tr>`
       );
-      document.getElementById("prizes").insertAdjacentHTML(
+      document.getElementById("boards").insertAdjacentHTML(
         "beforeend",
-        `<tr><td>${i}</td><td>${names[(i + 6) % names.length]} ${i}</td><td>Prisgrupp ${1 + (i % 5)}</td></tr>`
+        `<tr><td>${i}</td><td>${names[i % names.length]} ${i}</td><td>Klubb ${1 + (i % 12)}</td><td>${i % 3 === 0 ? "1-0" : i % 3 === 1 ? "0-1" : "½-½"}</td><td>${names[(i + 5) % names.length]} ${i + 100}</td><td>Klubb ${1 + ((i + 5) % 12)}</td><td></td><td></td></tr>`
       );
-      if (i <= 50) {
-        document.getElementById("wide").insertAdjacentHTML(
-          "beforeend",
-          `<tr><td>${i}</td><td>${names[i % names.length]} ${i}</td><td>${(25 - i / 2).toFixed(1)}</td><td>${i + 50}</td><td>${names[(i + 5) % names.length]} ${i + 50}</td><td>${(50 - i / 2).toFixed(1)}</td></tr>`
-        );
-      }
     }
 
     document.getElementById("run").addEventListener("click", () => {
