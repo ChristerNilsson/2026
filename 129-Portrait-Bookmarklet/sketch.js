@@ -41,11 +41,17 @@
     return Array.from(document.querySelectorAll("table"))
       .filter((table) => !table.closest("#" + APP_ID))
       .filter((table) => !isLinkTable(table))
-      .map((table, index) => ({ table, index, rows: getDataRows(table).length }))
+      .map((table, index) => ({
+        table,
+        index,
+        rows: getDataRows(table).length,
+        visuals: captureTableVisuals(table),
+      }))
       .filter((item) => item.rows >= MIN_DATA_ROWS)
       .map((item, visibleIndex) => ({
         node: item.table,
         label: getTableLabel(item.table, visibleIndex),
+        visuals: item.visuals,
       }));
   }
 
@@ -89,9 +95,9 @@
       '  <div class="pb-controls">',
       '    <button type="button" data-action="prev">Up</button>',
       '    <button type="button" data-action="next">Down</button>',
-      '    <button type="button" data-action="minus">-</button>',
+      '    <button type="button" data-action="minus">L</button>',
       '    <span id="pb-columns"></span>',
-      '    <button type="button" data-action="plus">+</button>',
+      '    <button type="button" data-action="plus">M</button>',
       '    <button type="button" data-action="close">x</button>',
       '  </div>',
       '</div>',
@@ -121,12 +127,12 @@
     } else if (key === "ArrowDown" || key === "Down") {
       event.preventDefault();
       runAction("next");
-    } else if (key === "+" || key === "=") {
-      event.preventDefault();
-      runAction("plus");
-    } else if (key === "-") {
+    } else if (key.toLowerCase() === "l") {
       event.preventDefault();
       runAction("minus");
+    } else if (key.toLowerCase() === "m") {
+      event.preventDefault();
+      runAction("plus");
     } else if (key === "escape") {
       event.preventDefault();
       runAction("close");
@@ -183,20 +189,94 @@
     wrap.style.gridTemplateColumns = "repeat(" + state.columns + ", minmax(0, 1fr))";
 
     splitRows(dataRows, state.columns).forEach((rows) => {
-      const table = document.createElement("table");
-      table.className = "pb-table";
+      const table = cloneElement(original, item.visuals);
+      table.classList.add("pb-table");
+      table.textContent = "";
+      Array.from(original.children)
+        .filter((child) => child.tagName === "COLGROUP")
+        .forEach((child) => table.appendChild(cloneElement(child, item.visuals, true)));
 
       if (headers.length) {
-        const thead = document.createElement("thead");
-        headers.forEach((row) => thead.appendChild(row.cloneNode(true)));
+        const thead = cloneElement(original.tHead, item.visuals) || document.createElement("thead");
+        thead.textContent = "";
+        headers.forEach((row) => thead.appendChild(cloneElement(row, item.visuals, true)));
         table.appendChild(thead);
       }
 
-      const tbody = document.createElement("tbody");
-      rows.forEach((row) => tbody.appendChild(row.cloneNode(true)));
+      const sourceBody = rows[0] ? rows[0].parentElement : null;
+      const tbody = cloneElement(sourceBody, item.visuals) || document.createElement("tbody");
+      tbody.textContent = "";
+      rows.forEach((row) => tbody.appendChild(cloneElement(row, item.visuals, true)));
       table.appendChild(tbody);
       wrap.appendChild(table);
     });
+  }
+
+  function captureTableVisuals(table) {
+    const properties = [
+      "background-color",
+      "border",
+      "border-collapse",
+      "border-spacing",
+      "border-color",
+      "border-style",
+      "border-width",
+      "color",
+      "font",
+      "font-family",
+      "font-size",
+      "font-style",
+      "font-weight",
+      "height",
+      "line-height",
+      "margin",
+      "padding",
+      "text-align",
+      "text-decoration",
+      "vertical-align",
+      "white-space",
+    ];
+    const visuals = new WeakMap();
+    Array.from(table.querySelectorAll("caption, colgroup, col, thead, tbody, tfoot, tr, th, td"))
+      .concat(table)
+      .forEach((element) => {
+        const computed = window.getComputedStyle(element);
+        const css = properties
+          .map((property) => property + ":" + computed.getPropertyValue(property))
+          .join(";");
+        visuals.set(element, css);
+      });
+    return visuals;
+  }
+
+  function cloneElement(element, visuals, deep) {
+    if (!element) return null;
+
+    const clone = element.cloneNode(Boolean(deep));
+    applyCapturedStyle(element, clone, visuals);
+    stripIds(clone);
+
+    if (deep) {
+      const sources = element.querySelectorAll("*");
+      const targets = clone.querySelectorAll("*");
+      sources.forEach((source, index) => applyCapturedStyle(source, targets[index], visuals));
+    }
+
+    return clone;
+  }
+
+  function applyCapturedStyle(source, target, visuals) {
+    if (!source || !target) return;
+
+    const css = visuals.get(source);
+    if (css) target.setAttribute("style", css);
+  }
+
+  function stripIds(element) {
+    if (element.nodeType !== 1) return;
+
+    element.removeAttribute("id");
+    element.querySelectorAll("[id]").forEach((child) => child.removeAttribute("id"));
   }
 
   function getHeaderRows(table) {
@@ -242,7 +322,6 @@
         padding: 12px;
         color: #111;
         background: #fff;
-        font: 13px/1.35 Arial, Helvetica, sans-serif;
       }
 
       #${APP_ID} * {
@@ -261,6 +340,7 @@
         padding: 8px 12px;
         border-bottom: 1px solid #bbb;
         background: #f7f7f7;
+        font: 13px/1.35 Arial, Helvetica, sans-serif;
       }
 
       #${APP_ID} .pb-controls {
@@ -289,22 +369,7 @@
       }
 
       #${APP_ID} .pb-table {
-        width: 100%;
-        border-collapse: collapse;
-        table-layout: auto;
-        background: #fff;
-      }
-
-      #${APP_ID} .pb-table th,
-      #${APP_ID} .pb-table td {
-        padding: 2px 5px;
-        border: 1px solid #ccc;
-        vertical-align: top;
-      }
-
-      #${APP_ID} .pb-table th {
-        background: #eee;
-        font-weight: 700;
+        max-width: 100%;
       }
 
       @media (max-width: 700px) {
