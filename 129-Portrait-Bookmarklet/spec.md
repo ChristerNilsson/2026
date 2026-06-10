@@ -46,6 +46,8 @@ Kom ihåg antalet valda kolumner per tabell.
 
 ### Kommandon
 
-Välj tabell med tangenterna Up och Down. 
+Välj tabell med tangenterna Up och Down.
 
-Använd tangenterna l och m för att välja antal kolumner. (Less and More)
+Välj antal kolumner med tangentera Left och Right.
+
+Piltangenterna ska visas som pilar, inte som text.

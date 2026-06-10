@@ -80,11 +80,11 @@
       '    <span id="pb-count"></span>',
       '  </div>',
       '  <div class="pb-controls">',
-      '    <button type="button" data-action="prev">Up</button>',
-      '    <button type="button" data-action="next">Down</button>',
-      '    <button type="button" data-action="minus">L</button>',
+      '    <button type="button" data-action="prev">↑</button>',
+      '    <button type="button" data-action="next">↓</button>',
+      '    <button type="button" data-action="minus">←</button>',
       '    <span id="pb-columns"></span>',
-      '    <button type="button" data-action="plus">M</button>',
+      '    <button type="button" data-action="plus">→</button>',
       '    <button type="button" data-action="close">x</button>',
       '  </div>',
       '</div>',
@@ -114,10 +114,10 @@
     } else if (key === "ArrowDown" || key === "Down") {
       event.preventDefault();
       runAction("next");
-    } else if (key.toLowerCase() === "l") {
+    } else if (key === "ArrowLeft" || key === "Left") {
       event.preventDefault();
       runAction("minus");
-    } else if (key.toLowerCase() === "m") {
+    } else if (key === "ArrowRight" || key === "Right") {
       event.preventDefault();
       runAction("plus");
     } else if (key === "escape") {
