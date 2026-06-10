@@ -175,8 +175,12 @@
   function render() {
     const item = currentTable();
     const original = item.node;
-    const headers = getHeaderRows(original);
-    const dataRows = getDataRows(original);
+    const sourceHeaders = getHeaderRows(original);
+    const sourceDataRows = getDataRows(original);
+    const model = getDisplayModel(sourceHeaders, sourceDataRows, item.visuals);
+    const headers = model.headers;
+    const dataRows = model.dataRows;
+    const tableWidth = model.tableWidth || item.visuals.tableWidth;
     state.columns = Math.min(Math.max(1, state.columns), Math.max(1, dataRows.length));
 
     document.getElementById("pb-title").textContent = item.label;
@@ -187,7 +191,7 @@
     const wrap = document.getElementById("pb-table-wrap");
     wrap.textContent = "";
     wrap.style.gridTemplateColumns = "repeat(" + state.columns + ", max-content)";
-    const columnPlan = getColumnPlan(headers, dataRows, wrap, item.visuals.tableWidth);
+    const columnPlan = getColumnPlan(headers, dataRows, wrap, tableWidth);
 
     splitRows(dataRows, state.columns).forEach((rows) => {
       const table = cloneElement(original, item.visuals);
@@ -197,7 +201,7 @@
       table.removeAttribute("height");
       table.style.width = "auto";
       table.style.height = "auto";
-      table.style.maxWidth = Math.ceil(item.visuals.tableWidth) + "px";
+      table.style.maxWidth = Math.ceil(tableWidth) + "px";
       Array.from(original.children)
         .filter((child) => child.tagName === "COLGROUP")
         .forEach((child) => table.appendChild(cloneElement(child, item.visuals, true)));
@@ -229,12 +233,103 @@
       headerLabels.forEach((label, index) => {
         if (normalizeText(label) === "KLUBB") hidden.add(index);
       });
+      getFlagColumnIndexes(dataRows).forEach((index) => hidden.add(index));
     }
 
     return {
       hidden,
       narrow,
     };
+  }
+
+  function getDisplayModel(headerRows, dataRows, visuals) {
+    const groupSize = getRepeatedGroupSize(headerRows);
+    if (!groupSize) return { headers: headerRows, dataRows, tableWidth: visuals.tableWidth };
+
+    const headers = headerRows
+      .map((row) => cloneRowColumns(row, visuals, 0, groupSize))
+      .filter(Boolean);
+    const collapsedRows = [];
+    const groupCount = Math.max(1, Math.ceil(getHeaderLabels(headerRows).length / groupSize));
+
+    dataRows.forEach((row) => {
+      for (let start = 0; start < row.cells.length; start += groupSize) {
+        const clone = cloneRowColumns(row, visuals, start, groupSize);
+        if (clone && rowHasContent(clone)) collapsedRows.push(clone);
+      }
+    });
+
+    return {
+      headers,
+      dataRows: collapsedRows.length ? collapsedRows : dataRows,
+      tableWidth: visuals.tableWidth / groupCount,
+    };
+  }
+
+  function getRepeatedGroupSize(headerRows) {
+    const labels = getHeaderLabels(headerRows).map(normalizeText);
+    const count = labels.length;
+    if (count < 4) return 0;
+
+    for (let size = 1; size <= Math.floor(count / 2); size += 1) {
+      if (count % size !== 0) continue;
+
+      const pattern = labels.slice(0, size);
+      if (pattern.filter(Boolean).length < 2) continue;
+
+      let repeated = true;
+      for (let index = size; index < count; index += 1) {
+        if (labels[index] !== pattern[index % size]) {
+          repeated = false;
+          break;
+        }
+      }
+
+      if (repeated) return size;
+    }
+
+    return 0;
+  }
+
+  function cloneRowColumns(row, visuals, start, count) {
+    const clone = cloneElement(row, visuals, false);
+    if (!clone) return null;
+
+    clone.textContent = "";
+    Array.from(row.cells)
+      .slice(start, start + count)
+      .forEach((cell) => clone.appendChild(cloneElement(cell, visuals, true)));
+
+    return clone.cells.length ? clone : null;
+  }
+
+  function rowHasContent(row) {
+    return Array.from(row.cells).some((cell) => cell.textContent.trim() || cell.querySelector("img, svg"));
+  }
+
+  function getFlagColumnIndexes(dataRows) {
+    const maxColumns = dataRows.reduce((max, row) => Math.max(max, row.cells.length), 0);
+    const indexes = [];
+
+    for (let index = 0; index < maxColumns; index += 1) {
+      const cells = dataRows.map((row) => row.cells[index]).filter(Boolean);
+      if (cells.length === 0) continue;
+
+      const flagCells = cells.filter(isFlagCell).length;
+      if (flagCells / cells.length >= 0.5) indexes.push(index);
+    }
+
+    return indexes;
+  }
+
+  function isFlagCell(cell) {
+    const text = cell.textContent.trim();
+    const images = Array.from(cell.querySelectorAll("img"));
+    if (images.some((image) => /flag|flagg|nation|country/i.test(image.src + " " + image.alt + " " + image.title))) {
+      return true;
+    }
+
+    return /^[\u{1F1E6}-\u{1F1FF}]{2}$/u.test(text);
   }
 
   function getHeaderLabels(headerRows) {

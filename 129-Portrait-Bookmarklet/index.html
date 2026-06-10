@@ -80,7 +80,7 @@
     <table>
       <caption>Startlista</caption>
       <thead>
-        <tr><th>Nr</th><th>Namn</th><th>Klubb</th><th>RANKING/LOKAL</th><th></th></tr>
+        <tr><th>Nr</th><th>Flagga</th><th>Namn</th><th>Klubb</th><th>RANKING/LOKAL</th><th></th></tr>
       </thead>
       <tbody id="players"></tbody>
     </table>
@@ -108,6 +108,14 @@
       </thead>
       <tbody id="prizes"></tbody>
     </table>
+
+    <table>
+      <caption>Bred lista</caption>
+      <thead>
+        <tr><th>Nr</th><th>Namn</th><th>PoÃ¤ng</th><th>Nr</th><th>Namn</th><th>PoÃ¤ng</th></tr>
+      </thead>
+      <tbody id="wide"></tbody>
+    </table>
   </main>
 
   <script>
@@ -116,7 +124,7 @@
     for (let i = 1; i <= 100; i += 1) {
       document.getElementById("players").insertAdjacentHTML(
         "beforeend",
-        `<tr><td>${i}</td><td>${names[i % names.length]} ${i}</td><td>Klubb ${1 + (i % 12)}</td><td>${1400 + i}</td><td></td></tr>`
+        `<tr><td>${i}</td><td>${i % 2 ? "🇸🇪" : "🇳🇴"}</td><td>${names[i % names.length]} ${i}</td><td>Klubb ${1 + (i % 12)}</td><td>${1400 + i}</td><td></td></tr>`
       );
       document.getElementById("results").insertAdjacentHTML(
         "beforeend",
@@ -130,6 +138,12 @@
         "beforeend",
         `<tr><td>${i}</td><td>${names[(i + 6) % names.length]} ${i}</td><td>Prisgrupp ${1 + (i % 5)}</td></tr>`
       );
+      if (i <= 50) {
+        document.getElementById("wide").insertAdjacentHTML(
+          "beforeend",
+          `<tr><td>${i}</td><td>${names[i % names.length]} ${i}</td><td>${(25 - i / 2).toFixed(1)}</td><td>${i + 50}</td><td>${names[(i + 5) % names.length]} ${i + 50}</td><td>${(50 - i / 2).toFixed(1)}</td></tr>`
+        );
+      }
     }
 
     document.getElementById("run").addEventListener("click", () => {

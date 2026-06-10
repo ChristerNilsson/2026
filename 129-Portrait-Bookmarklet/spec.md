@@ -28,10 +28,14 @@ Gör inte tabellerna bredare. Centrera istället.
 
 Undvik att tabellraderna glesas ut på höjden.
 
-Om platsbrist råder, skippa KLUBB-kolumnen.
+Om platsbrist råder
+* skippa KLUBB-kolumnen
+* Tag bort kolumnen med flaggor
 
 Byt rubriker som inleds med RANKING till ELO.
 
 Byt POÄNG till P.
 
 Gör tomma kolumner 10 pixlar breda.
+
+Då flera tomma kolumner i bredd förekommer, byt dem mot en enda.
