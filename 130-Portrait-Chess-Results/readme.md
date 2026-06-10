@@ -20,12 +20,8 @@ Bokmärket visar Chess-Results-tabeller i ett porträttvänligt läge. Det växl
 
 Bokmärket hämtar turneringens ställning (`art=1`) och bordslista (`art=2`) för den senaste rond som hittas på sidan. Om du kör bokmärket från en sida som redan har en rond vald används den ronden.
 
-Antalet kolumner sparas separat för ställning och bordslista per turnering, så samma val finns kvar nästa gång bokmärket används.
-
 ## Beteende
 
-Endast en tabell visas åt gången. När en tabell delas i flera kolumner upprepas tabellrubrikerna i varje kolumn.
+Endast en tabell visas åt gången.
 
-Raderna fördelas så jämnt som möjligt. En tabell med 100 rader blir till exempel `50+50`, `33+33+34` eller `25+25+25+25` beroende på valt antal kolumner.
-
-Bokmärket försöker behålla Chess-Results-tabellens utseende. Tomma kolumner i bredd minskas till en enda fem pixlar bred kolumn. För ställningen döljs kolumnerna `sex`, `FED`, `Typ`, `SNo`, `Rp`, `n`, `w`, `we`, `w-we`, `K`, `TB3`, `TB2` och `TB1`. Om tabellerna ändå inte får plats tas fler onödiga kolumner bort i den visade kopian, till exempel klubb, land, id, titel, rating eller flagga.
+Bokmärket försöker behålla Chess-Results-tabellens utseende. Tomma kolumner i bredd minskas till en enda fem pixlar bred kolumn. För ställningen döljs kolumnerna `sex`, `FED`, `Typ`, `SNo`, `Rp`, `n`, `w`, `we`, `w-we`, `K`, `TB3`, `TB2` och `TB1`. 
