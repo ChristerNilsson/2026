@@ -16,6 +16,8 @@ F = 0
 
 Små bokstäver innebär termin istället för läsår.
 
+Skriv en readme.md
+
 Detta fält ska ha fokus.
 
 ## Output
