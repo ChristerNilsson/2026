@@ -24,6 +24,8 @@ Detta är användbart vid stora turneringar och när skärmar inte går att vrid
 - `↑` och `↓`: byter tabell.
 - `←` och `→`: minskar eller ökar antal kolumner.
 - `x`: stänger bokmärkets vy.
+- `ctrl -`: zoomar ut.
+- `ctrl +`: zoomar in.
 
 ## Visning
 
