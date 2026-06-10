@@ -23,6 +23,7 @@ function parseGrade(letter) {
     letter,
     value,
     weight: letter === upper ? 1 : 0.5,
+    term: letter === upper ? formatNumber(value) : `${formatNumber(value)}/2`,
   };
 }
 
@@ -44,12 +45,15 @@ function updateAverage() {
   const sum = weightedValues.reduce((total, value) => total + value, 0);
   const totalWeight = weights.reduce((total, weight) => total + weight, 0);
   const result = sum / totalWeight;
-  const terms = weightedValues.map(formatNumber).join(" + ");
-  const divisor = weights.map(formatNumber).join(" + ");
+  const terms = grades.map((grade) => grade.term).join(" + ");
+  const divisor = weights.every((weight) => weight === 1)
+    ? formatNumber(totalWeight)
+    : `(${weights.map(formatNumber).join(" + ")})`;
 
   average.textContent = formatNumber(result);
-  calculation.textContent = `(${terms}) / (${divisor}) = ${formatNumber(sum)} / ${formatNumber(totalWeight)}`;
+  calculation.textContent = `(${terms}) / ${divisor} = ${formatNumber(sum)} / ${formatNumber(totalWeight)}`;
 }
 
 input.addEventListener("input", updateAverage);
 updateAverage();
+input.focus();

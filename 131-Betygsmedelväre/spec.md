@@ -16,6 +16,11 @@ F = 0
 
 Små bokstäver innebär termin istället för läsår.
 
-Exempel: 
-AB => (20 + 17.5) / 2 = 37.5/2
-aBb => (20/2 + 17.5 + 17.5/2) / (0.5 + 1 + 0.5) 
+Detta fält ska ha fokus.
+
+## Output
+
+Exempel:  
+
+AB => (20 + 17.5) / 2 = 37.5/2  
+aBb => (20/2 + 17.5 + 17.5/2) / (0.5 + 1 + 0.5)  
