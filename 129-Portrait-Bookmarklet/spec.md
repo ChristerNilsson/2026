@@ -47,5 +47,3 @@ Kom ihåg antalet valda kolumner per tabell.
 Välj tabell med tangenterna Up och Down. 
 
 Använd tangenterna l och m för att välja antal kolumner. (Less and More)
-
-Tangenterna Left och Right ska byta visad rond för bordstabellen. 
