@@ -224,16 +224,19 @@
 
   function getColumnPlan(headerRows, dataRows, wrap, tableWidth) {
     const headerLabels = getHeaderLabels(headerRows);
-    const narrow = new Set(getEmptyColumnIndexes(headerLabels, dataRows));
+    const emptyColumns = getEmptyColumnIndexes(headerLabels, dataRows);
+    const narrow = new Set(getFirstIndexesInRuns(emptyColumns));
     const hidden = new Set();
     const projectedWidth = tableWidth * state.columns + Math.max(0, state.columns - 1) * 12;
     const availableWidth = wrap.clientWidth || document.documentElement.clientWidth || window.innerWidth;
+
+    getRemainingIndexesInRuns(emptyColumns).forEach((index) => hidden.add(index));
+    getFlagColumnIndexes(dataRows).forEach((index) => hidden.add(index));
 
     if (projectedWidth > availableWidth) {
       headerLabels.forEach((label, index) => {
         if (normalizeText(label) === "KLUBB") hidden.add(index);
       });
-      getFlagColumnIndexes(dataRows).forEach((index) => hidden.add(index));
     }
 
     return {
@@ -322,6 +325,14 @@
     return indexes;
   }
 
+  function getFirstIndexesInRuns(indexes) {
+    return indexes.filter((index, position) => position === 0 || indexes[position - 1] !== index - 1);
+  }
+
+  function getRemainingIndexesInRuns(indexes) {
+    return indexes.filter((index, position) => position > 0 && indexes[position - 1] === index - 1);
+  }
+
   function isFlagCell(cell) {
     const text = cell.textContent.trim();
     const images = Array.from(cell.querySelectorAll("img"));
@@ -378,9 +389,9 @@
   }
 
   function makeNarrowCell(cell) {
-    cell.style.width = "10px";
-    cell.style.minWidth = "10px";
-    cell.style.maxWidth = "10px";
+    cell.style.width = "5px";
+    cell.style.minWidth = "5px";
+    cell.style.maxWidth = "5px";
     cell.style.paddingLeft = "0";
     cell.style.paddingRight = "0";
   }
