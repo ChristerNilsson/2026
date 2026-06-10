@@ -39,8 +39,7 @@
   function findCandidateTables() {
     return Array.from(document.querySelectorAll("table"))
       .filter((table) => !table.closest("#" + APP_ID))
-      .filter((table) => !isLinkTable(table))
-      .filter((table) => getHeaderRows(table).length > 0)
+      .filter(isDisplayTable)
       .map((table, index) => ({
         table,
         index,
@@ -56,17 +55,8 @@
       }));
   }
 
-  function isLinkTable(table) {
-    const links = Array.from(table.querySelectorAll("a"));
-    if (links.length < 5) return false;
-
-    const textLength = table.textContent.replace(/\s+/g, "").length;
-    const linkTextLength = links
-      .map((link) => link.textContent)
-      .join("")
-      .replace(/\s+/g, "").length;
-
-    return linkTextLength > 0 && linkTextLength / Math.max(1, textLength) > 0.6;
+  function isDisplayTable(table) {
+    return table.classList.contains("js-sort-table") && table.classList.contains("greyproptable");
   }
 
   function getTableLabel(table, index) {
