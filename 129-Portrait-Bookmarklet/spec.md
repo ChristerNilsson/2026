@@ -27,3 +27,11 @@ Behåll tabellernas utseende så långt möjligt.
 Gör inte tabellerna bredare. Centrera istället.
 
 Undvik att tabellraderna glesas ut på höjden.
+
+Om platsbrist råder, skippa KLUBB-kolumnen.
+
+Byt rubriken RANKING till ELO
+
+Byt POÄNG till P
+
+Skippa tomma kolumner eller gör dem smalare.
