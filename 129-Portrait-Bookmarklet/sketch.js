@@ -39,7 +39,6 @@
   function findCandidateTables() {
     return Array.from(document.querySelectorAll("table"))
       .filter((table) => !table.closest("#" + APP_ID))
-      .filter(isDisplayTable)
       .map((table, index) => ({
         table,
         index,
@@ -53,10 +52,6 @@
         visuals: item.visuals,
         columns: 1,
       }));
-  }
-
-  function isDisplayTable(table) {
-    return table.classList.contains("js-sort-table") && table.classList.contains("greyproptable");
   }
 
   function getTableLabel(table, index) {

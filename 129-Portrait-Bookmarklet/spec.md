@@ -20,10 +20,6 @@ Använd tangenterna l och m för att välja antal kolumner. (Less and More)
 
 Om en tabell innehåller 100 rader ska den kunna visas som 50+50, 33+33+34, 25+25+25+25 osv
 
-De tre tabeller som kan visas har följande klasser
-* js-sort-table
-* greyproptable
-
 Behåll tabellernas utseende så långt möjligt.
 
 Gör inte tabellerna bredare. Centrera istället.
