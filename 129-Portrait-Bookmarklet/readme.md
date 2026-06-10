@@ -1,6 +1,7 @@
 # Portrait Bookmarklet
 
-Bookmarkleten visar turneringstabeller från `member.schack.se` i ett kolumnindelat läge som passar bättre när skärmen används i porträttläge.
+Bookmarkleten visar turneringstabeller från `member.schack.se` i ett kolumnindelat läge.  
+Detta är användbart när skärmar inte går att visa i porträttläge.  
 
 ## Installera
 
@@ -14,8 +15,9 @@ Bookmarkleten visar turneringstabeller från `member.schack.se` i ett kolumninde
 
 1. Öppna turneringssidan, till exempel:
    `https://member.schack.se/ShowTournamentServlet?id=15056`
-2. Klicka på bokmärket.
-3. Sidan ersätts av en panel och en tabellvy.
+2. Välj rond.
+3. Klicka på bokmärket.
+4. Sidan ersätts av en panel och en tabellvy.
 
 Endast en tabell visas i taget.
 
@@ -23,7 +25,7 @@ Endast en tabell visas i taget.
 
 - `↑` och `↓`: byt tabell.
 - `←` och `→`: minska eller öka antal kolumner för vald tabell.
-- `Escape`: stäng bookmarklet-vyn.
+- `x`: stäng bookmarklet-vyn.
 
 Antal valda kolumner sparas per tabell medan bookmarkleten är aktiv.
 
