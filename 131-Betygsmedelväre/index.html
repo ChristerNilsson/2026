@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Betygsmedelvärde</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f7f7f3;
+      color: #1f2522;
+    }
+
+    body {
+      margin: 0;
+    }
+
+    main {
+      width: min(720px, calc(100% - 32px));
+      margin: 48px auto;
+    }
+
+    h1 {
+      margin: 0 0 24px;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    input {
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 48px;
+      padding: 10px 12px;
+      border: 1px solid #aab0aa;
+      border-radius: 6px;
+      font: inherit;
+      font-size: 1.25rem;
+      background: #fff;
+      color: inherit;
+    }
+
+    article {
+      margin-top: 20px;
+      padding: 18px;
+      border: 1px solid #d6d9d3;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 2.5rem;
+      line-height: 1;
+    }
+
+    #calculation {
+      overflow-wrap: anywhere;
+      color: #485049;
+    }
+  </style>
+  <script src="sketch.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1>Betygsmedelvärde</h1>
+
+    <label for="grades">Betyg</label>
+    <input id="grades" type="text" autocomplete="off" spellcheck="false" placeholder="Exempel: aBb">
+
+    <article>
+      <strong id="average">0</strong>
+      <div id="calculation">Skriv betyg med bokstäverna A-F.</div>
+    </article>
+  </main>
+</body>
+</html>
