@@ -80,7 +80,7 @@
     <table>
       <caption>Startlista</caption>
       <thead>
-        <tr><th>Nr</th><th>Namn</th><th>Klubb</th><th>Rating</th></tr>
+        <tr><th>Nr</th><th>Namn</th><th>Klubb</th><th>RANKING</th><th></th></tr>
       </thead>
       <tbody id="players"></tbody>
     </table>
@@ -116,7 +116,7 @@
     for (let i = 1; i <= 100; i += 1) {
       document.getElementById("players").insertAdjacentHTML(
         "beforeend",
-        `<tr><td>${i}</td><td>${names[i % names.length]} ${i}</td><td>Klubb ${1 + (i % 12)}</td><td>${1400 + i}</td></tr>`
+        `<tr><td>${i}</td><td>${names[i % names.length]} ${i}</td><td>Klubb ${1 + (i % 12)}</td><td>${1400 + i}</td><td></td></tr>`
       );
       document.getElementById("results").insertAdjacentHTML(
         "beforeend",

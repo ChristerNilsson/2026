@@ -187,6 +187,7 @@
     const wrap = document.getElementById("pb-table-wrap");
     wrap.textContent = "";
     wrap.style.gridTemplateColumns = "repeat(" + state.columns + ", max-content)";
+    const columnPlan = getColumnPlan(headers, dataRows, wrap, item.visuals.tableWidth);
 
     splitRows(dataRows, state.columns).forEach((rows) => {
       const table = cloneElement(original, item.visuals);
@@ -204,17 +205,105 @@
       if (headers.length) {
         const thead = cloneElement(original.tHead, item.visuals) || document.createElement("thead");
         thead.textContent = "";
-        headers.forEach((row) => thead.appendChild(cloneElement(row, item.visuals, true)));
+        headers.forEach((row) => thead.appendChild(cloneTableRow(row, item.visuals, columnPlan, true)));
         table.appendChild(thead);
       }
 
       const sourceBody = rows[0] ? rows[0].parentElement : null;
       const tbody = cloneElement(sourceBody, item.visuals) || document.createElement("tbody");
       tbody.textContent = "";
-      rows.forEach((row) => tbody.appendChild(cloneElement(row, item.visuals, true)));
+      rows.forEach((row) => tbody.appendChild(cloneTableRow(row, item.visuals, columnPlan, false)));
       table.appendChild(tbody);
       wrap.appendChild(table);
     });
+  }
+
+  function getColumnPlan(headerRows, dataRows, wrap, tableWidth) {
+    const headerLabels = getHeaderLabels(headerRows);
+    const hidden = new Set(getEmptyColumnIndexes(headerLabels, dataRows));
+    const projectedWidth = tableWidth * state.columns + Math.max(0, state.columns - 1) * 12;
+    const availableWidth = wrap.clientWidth || document.documentElement.clientWidth || window.innerWidth;
+
+    if (projectedWidth > availableWidth) {
+      headerLabels.forEach((label, index) => {
+        if (normalizeText(label) === "KLUBB") hidden.add(index);
+      });
+    }
+
+    return {
+      hidden,
+      replacements: {
+        RANKING: "ELO",
+        POANG: "P",
+      },
+    };
+  }
+
+  function getHeaderLabels(headerRows) {
+    const labels = [];
+    headerRows.forEach((row) => {
+      Array.from(row.cells).forEach((cell) => {
+        const text = cell.textContent.trim();
+        if (text) labels[cell.cellIndex] = text;
+      });
+    });
+    return labels;
+  }
+
+  function getEmptyColumnIndexes(headerLabels, dataRows) {
+    const maxColumns = Math.max(
+      headerLabels.length,
+      dataRows.reduce((max, row) => Math.max(max, row.cells.length), 0)
+    );
+    const indexes = [];
+
+    for (let index = 0; index < maxColumns; index += 1) {
+      const hasData = dataRows.some((row) => {
+        const cell = row.cells[index];
+        return cell && cell.textContent.trim();
+      });
+
+      if (!hasData) indexes.push(index);
+    }
+
+    return indexes;
+  }
+
+  function cloneTableRow(row, visuals, columnPlan, isHeader) {
+    const clone = cloneElement(row, visuals, true);
+    Array.from(clone.cells).forEach((cell, index) => {
+      if (cell.colSpan === 1 && columnPlan.hidden.has(index)) {
+        cell.remove();
+        return;
+      }
+
+      if (isHeader) updateHeaderText(cell, columnPlan.replacements);
+    });
+    return clone;
+  }
+
+  function updateHeaderText(cell, replacements) {
+    const key = normalizeText(cell.textContent);
+    const replacement = replacements[key];
+    if (!replacement) return;
+
+    const textNode = Array.from(cell.childNodes).find(
+      (node) => node.nodeType === Node.TEXT_NODE && node.nodeValue.trim()
+    );
+    if (textNode) {
+      textNode.nodeValue = replacement;
+    } else {
+      cell.textContent = replacement;
+    }
+  }
+
+  function normalizeText(text) {
+    return text
+      .trim()
+      .toUpperCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, " ");
   }
 
   function captureTableVisuals(table) {
