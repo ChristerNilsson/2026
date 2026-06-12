@@ -36,6 +36,9 @@ const state = {
   roundFinished: false,
   nextReady: [false, false],
   distanceCache: new Map(),
+  touchLocks: new Set(),
+  commandQueue: [],
+  commandFlushScheduled: false,
   players: [],
   optimal: null
 };
@@ -451,19 +454,77 @@ function announce(message) {
   els.live.textContent = message;
 }
 
-els.players.addEventListener("click", (event) => {
+function queueButtonCommand(button) {
+  if (!button || button.disabled) {
+    return;
+  }
+
+  const playerIndex = Number.parseInt(button.dataset.player, 10);
+  queueCommand(playerIndex, button.dataset.command);
+}
+
+function queueCommand(playerIndex, command) {
+  state.commandQueue.push({ playerIndex, command });
+
+  if (!state.commandFlushScheduled) {
+    state.commandFlushScheduled = true;
+    window.setTimeout(flushCommandQueue, 0);
+  }
+}
+
+function flushCommandQueue() {
+  const queue = state.commandQueue;
+  state.commandQueue = [];
+  state.commandFlushScheduled = false;
+
+  for (const item of queue) {
+    if (item.command === "giveup") {
+      giveUp(item.playerIndex);
+    } else {
+      runCommand(item.playerIndex, item.command);
+    }
+  }
+}
+
+function lockTouchCommand(button, id) {
+  const key = `${button.dataset.player}:${button.dataset.command}:${id}`;
+  if (state.touchLocks.has(key)) {
+    return false;
+  }
+  state.touchLocks.add(key);
+  window.setTimeout(() => state.touchLocks.delete(key), 350);
+  return true;
+}
+
+function handleCommandPointer(event) {
+  if (event.pointerType === "touch") {
+    return;
+  }
+
   const button = event.target.closest("button[data-player][data-command]");
   if (!button) {
     return;
   }
 
-  const playerIndex = Number.parseInt(button.dataset.player, 10);
-  if (button.dataset.command === "giveup") {
-    giveUp(playerIndex);
-  } else {
-    runCommand(playerIndex, button.dataset.command);
+  event.preventDefault();
+  queueButtonCommand(button);
+}
+
+function handleCommandTouch(event) {
+  for (const touch of event.changedTouches) {
+    const target = document.elementFromPoint(touch.clientX, touch.clientY);
+    const button = target?.closest?.("button[data-player][data-command]");
+
+    if (button && lockTouchCommand(button, touch.identifier)) {
+      queueButtonCommand(button);
+    }
   }
-});
+
+  event.preventDefault();
+}
+
+els.players.addEventListener("pointerdown", handleCommandPointer);
+els.players.addEventListener("touchstart", handleCommandTouch, { passive: false });
 
 els.nextControls.addEventListener("click", (event) => {
   const button = event.target.closest("[data-next-player]");

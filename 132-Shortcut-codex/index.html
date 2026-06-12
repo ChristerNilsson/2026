@@ -39,9 +39,12 @@
       border: 1px solid transparent;
       border-radius: 8px;
       cursor: pointer;
+      touch-action: manipulation;
       background: #ebe3d8;
       color: var(--ink);
       font-weight: 900;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
 
     button:hover:not(:disabled),

@@ -5,7 +5,7 @@ Man ska lösa uppgiften med minimalt antal kommandon.
 * index.html
 * sketch.js
 
-Jag ser inte att totaltiderna färglagts för att indikera vinnaren.
+Då spelarna touchar samtidigt på en iPad händer ingenting. Båda kommandona måste utföras, inget får missas. Tangenbordshantering funkar perfekt.
 
 Språket ska vara engelska.
 
