@@ -5,6 +5,8 @@ Man ska lösa uppgiften med minimalt antal kommandon.
 * index.html
 * sketch.js
 
+Jag ser inte att totaltiderna färglagts för att indikera vinnaren.
+
 Språket ska vara engelska.
 
 Skriv en bra ReadMe.md som förklarar allt.

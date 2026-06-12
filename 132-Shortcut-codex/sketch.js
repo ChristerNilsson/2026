@@ -296,11 +296,12 @@ function showResults(solvedCount) {
   const optimal = state.optimal
     ? state.optimal
     : [];
+  const resultClasses = resultScoreClasses(state.players);
 
   els.resultGrid.innerHTML = resultGridHtml([
-    resultData(state.players[0]),
+    resultData(state.players[0], resultClasses[0]),
     { score: "", path: optimal },
-    resultData(state.players[1])
+    resultData(state.players[1], resultClasses[1])
   ]);
 
   els.gamePage.classList.add("hidden");
@@ -308,9 +309,33 @@ function showResults(solvedCount) {
   renderNextControls();
 }
 
-function resultData(player) {
+function resultScoreClasses(players) {
+  const [left, right] = players;
+
+  if (left.solved && right.solved) {
+    if (left.score < right.score) {
+      return ["winner", "loser"];
+    }
+    if (right.score < left.score) {
+      return ["loser", "winner"];
+    }
+    return ["", ""];
+  }
+
+  if (left.solved && !right.solved) {
+    return ["winner", "loser"];
+  }
+  if (right.solved && !left.solved) {
+    return ["loser", "winner"];
+  }
+
+  return ["", ""];
+}
+
+function resultData(player, scoreClass = "") {
   return {
     score: player.solved ? player.score.toFixed(1) : "Gave up",
+    scoreClass,
     path: player.path
   };
 }
@@ -318,7 +343,7 @@ function resultData(player) {
 function resultGridHtml(columns) {
   const maxRows = Math.max(...columns.map((column) => column.path.length));
   const scoreRow = columns
-    .map((column) => `<div class="resultCell resultScore">${column.score || "&nbsp;"}</div>`)
+    .map((column) => `<div class="resultCell resultScore ${column.scoreClass || ""}">${column.score || "&nbsp;"}</div>`)
     .join("");
   const valueRows = [];
 

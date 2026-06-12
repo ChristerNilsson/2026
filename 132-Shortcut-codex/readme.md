@@ -54,6 +54,8 @@ When both players are done, the result page shows three aligned columns:
 
 Rows are aligned so the start value, first intermediate value, second intermediate value, and so on share the same height across all three columns.
 
+The winner's total score is shown in green. The loser's total score is shown in red. If both solved with the same score, neither score is highlighted.
+
 Both players must agree to continue:
 
 - Player 1 presses `Tab` or touches `Next [Tab]`.
