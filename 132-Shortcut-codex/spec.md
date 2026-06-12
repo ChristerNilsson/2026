@@ -7,6 +7,9 @@ Man ska lösa uppgiften med minimalt antal kommandon.
 
 Språket ska vara engelska.
 
+Skriv en bra ReadMe.md som förklarar allt.
+Den ska även innehålla en länk till det körbara spelet på github, med namnet "Try it!"
+
 Spelet ska fungera både med tangentbord och touch.
 
 Spelet ska spelas mellan två spelare.
