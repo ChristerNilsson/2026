@@ -18,7 +18,9 @@ The available commands are:
 | Undo | `W` | `Up` | Removes the previous command. |
 | Give up | `Esc` | `Backspace` | Stops that player's attempt. |
 
-The small key diagrams show the keyboard layout for each player. The number to the right of `Undo` shows the shortest remaining number of commands from the current value to the target. It counts down to `0`.
+The small key diagrams show the keyboard layout for each player. The plain number to the right of `Undo` is not a button; it shows the shortest remaining number of commands from the current value to the target and counts down to `0`.
+
+Player 1 is marked with red on the left side, like port. Player 2 is marked with green on the right side, like starboard.
 
 ## Scoring
 

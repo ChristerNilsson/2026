@@ -77,6 +77,7 @@ Visa de tre lösningarna som tre kolumner med optimal lösning i mitten.
 Bryt ner knappen Nästa i två separata knappar. Båda spelarna ska vilja gå vidare.
 Alla tre lösningarna ska ha starttalen på samma höjd.
 Första delresultatet ska också ha samma höjd. osv.
+Markera vinnarens totaltid med grön text och förlorarens med röd.
 
 ### Exempel
 ```
