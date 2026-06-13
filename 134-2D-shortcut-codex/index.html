@@ -518,7 +518,8 @@
     };
     const playerNames = ["Red", "Blue"];
     const colors = ["#d84a4a", "#2671d9"];
-    const LIMIT = 16;
+    const VIEW_LIMIT = 16;
+    const SEARCH_LIMIT = 96;
     let state = {};
 
     function point(x, y) {
@@ -586,13 +587,13 @@
     }
 
     function randomPuzzle(level) {
-      const limit = LIMIT;
       for (let attempt = 0; attempt < 120; attempt += 1) {
         const start = point(randomInt(-4, 4), randomInt(-4, 4));
-        const { distances, points } = distancesFrom(start, limit, level);
+        const { distances, points } = distancesFrom(start, SEARCH_LIMIT, level);
         const candidates = [...distances.entries()]
           .filter(([, distance]) => distance === level)
-          .map(([pointKey]) => points.get(pointKey));
+          .map(([pointKey]) => points.get(pointKey))
+          .filter((candidate) => inside(candidate, VIEW_LIMIT));
         if (candidates.length > 0) {
           return {
             start,
@@ -671,14 +672,8 @@
     }
 
     function play(playerIndex, op) {
-      const limit = LIMIT;
       const player = state.players[playerIndex];
       const next = applyOp(player.pos, op);
-
-      if (!inside(next, limit)) {
-        setMessage(`${playerNames[playerIndex]}: ${actionNames[op]} leaves the board.`);
-        return;
-      }
 
       player.history.push({ ...player.pos });
       player.pos = next;
@@ -737,7 +732,7 @@
       els.target.textContent = `Go to ${label(state.target)} in ${state.level} ${state.level === 1 ? "step" : "steps"}`;
 
       state.players.forEach((player, index) => {
-        const distance = distanceBetween(player.pos, state.target, LIMIT);
+        const distance = distanceBetween(player.pos, state.target, SEARCH_LIMIT);
         els.coord[index].textContent = label(player.pos);
         els.needed[index].textContent = player.reached
           ? "Target"
@@ -812,8 +807,7 @@
     }
 
     function renderFeedback() {
-      const limit = LIMIT;
-      const best = shortestPath(state.start, state.target, limit);
+      const best = shortestPath(state.start, state.target, SEARCH_LIMIT);
       const paths = [
         state.players[0].path,
         best,
@@ -866,7 +860,7 @@
     }
 
     function renderBoard(canvas, ctx, playerPos, playerColor, playerLetter) {
-      const limit = LIMIT;
+      const limit = VIEW_LIMIT;
       const size = canvas.width;
       const center = size / 2;
       const unit = size / (limit * 2 + 2);

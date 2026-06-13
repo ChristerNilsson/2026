@@ -17,6 +17,7 @@ Skapa ett spel för två spelare.
 
 Spelarna ska spela samtidigt, med var sitt koordinatsystem, sida vid sida.
 
+Man ska kunna gå utanför visat koordinatsystem.
 
 ## Interaktion
 
