@@ -30,7 +30,7 @@ Swap Re and Im
 
 The level starts at 1. If both players reach the target, the next level is one
 step harder. If neither player reaches the target, the next level is one step
-easier.
+easier. The drawn coordinate limit is `4 + 2 * level`.
 
 After both players finish, the feedback view compares Red's path, the shortest
 path, and Blue's path. Each executed operation costs 10 seconds, including

@@ -44,6 +44,8 @@ J     K      L
 ## Levels
 
 - Start: Level 1
+- Gräns: 4 + 2 * Level
+- Gräns anger högsta talet i utritat koordinatsystem
 - Måluppnåelse av båda spelare → Level +1
 - Om ingen når målet → Level -1
 - Level = antal operationer som krävs för att lösa
