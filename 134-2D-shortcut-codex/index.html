@@ -113,8 +113,10 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 18px;
-      align-items: start;
+      align-items: stretch;
+      height: 100%;
       min-height: 0;
+      overflow: hidden;
     }
 
     .arena {
@@ -125,6 +127,7 @@
       box-shadow: var(--shadow);
       display: grid;
       grid-template-rows: minmax(0, 1fr) auto;
+      height: 100%;
       min-height: 0;
     }
 
@@ -887,11 +890,19 @@
 
     function updateAvailableArea() {
       const viewport = window.visualViewport;
-      const width = viewport ? viewport.width : window.innerWidth;
-      const height = viewport ? viewport.height : window.innerHeight;
+      const widthCandidates = [window.innerWidth, document.documentElement.clientWidth];
+      const heightCandidates = [window.innerHeight, document.documentElement.clientHeight];
+      if (viewport) {
+        widthCandidates.push(viewport.width);
+        heightCandidates.push(viewport.height);
+      }
+      const width = Math.min(...widthCandidates.filter((value) => value > 0));
+      const rawHeight = Math.min(...heightCandidates.filter((value) => value > 0));
+      const viewportOffset = viewport ? Math.max(0, viewport.offsetTop || 0) : 0;
+      const height = Math.max(1, rawHeight - viewportOffset - 8);
       rootStyle.setProperty("--app-width", `${Math.floor(width)}px`);
       rootStyle.setProperty("--app-height", `${Math.floor(height)}px`);
-      renderBoards();
+      requestAnimationFrame(renderBoards);
     }
 
     function renderBoard(canvas, ctx, playerPos, playerColor, playerLetter) {
