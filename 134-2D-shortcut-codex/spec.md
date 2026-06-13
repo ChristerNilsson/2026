@@ -1,0 +1,143 @@
+UTF-8
+index.html
+
+Man kan enkelt definiera ett 1D-spel genom operationerna /2, +2 och *2.  
+Exempel: 3 -> 4 kan lösas så här:  3 6 8 4
+
+Jag föreslår fyra operationer:
+
+Inkrement z = z + 1
+Dubbla    z = 2 * z
+Rotera    z = z * i
+Spegla    Re och Im byter plats
+
+## Uppgift
+
+Skapa ett spel för två spelare.
+
+Spelarna ska spela samtidigt, med var sitt koordinatsystem, sida vid sida.
+
+
+## Interaktion
+
+Man ska kunna använda tangentbordet och touch.
+
+```
+Swap Undo Give up
++1   *2   *i
+
+Q    W    E
+A    S    D
+
+U    I    O
+J    K    L
+```
+
+## Level
+
+Man börjar på Level 1.  
+Om båda spelarna når målet, inkrementera Level.  
+Om ingen når målet, dekrementera Level
+Level anger hur många operationer som är nödvändiga.
+
+## Utseende
+
+Centrera titeln "2D Shortcut"
+
+Ange målsättningen med grönt: "Go to 8 + 4i in 1 step"
+
+Ge de sex knapparna en annorlunda bakgrundsfärg.  
+Ge de sex miniknapparna samma bakgrundsfärg.  
+
+Punkter ska ej visas som (2,3). De ska visas som 2 + 3i  
+
+Koordinatsystemet ska ha rutstorlek 1.  
+Gör var femte linje något tjockare.  
+Visa antal operationer som behövs från nuvarande position.  
+Gör linjerna tydligare.  
+Positionen ska alltid hamna i skärningspunkten mellan två linjer.  
+Centrera knapparnas innehåll.
+Visa en liten översiktsbild med vilka tangenter som används.  
+Dessa minitangenters innehåll ska centreras även i höjdled.  
+Minska markören till en fylld cirkel med diameter = 0.75.  
+Målet ska vara en grön ofylld cirkel med diameter = 1.
+
+Översikts bilden ska visas i närheten av de aktiva tangenterna.
+Dessutom ska innehållet separeras:
+
+```
+Q  W  E 
+A  S  D
+
+SWap Undo Give up
++1   *2   *i
+```
+
+Förenkla 
+```
+Röd
+2i | 0 drag
+Behövs: 1
+```
+till
+```
+2i                  1
+```
+
+Tag bort texten "nödvändiga operationer"  
+Tag bort texten "Samtidigt spel med komplexa operationer."  
+
+Krymp tangentbordsöversikten till en knapps storlek och placera den ovanför Undo. Under de sex minitangenterna visas sex texter. Tag bort dessa texter.  
+Knapparnas tangenter behöver inte visas i knapparna, de framgår av översikten.  
+Fördubbla storleken av knapparnas texter.  
+
+Flytta ner aktuell punkt till vänster om minitangenterna,centrera samt dubblera teckenstorlek. Röd eller blå färg  
+Flytta ner "antal drag" till höger om minitangenterna, centrera samt dubblera teckenstorlek. Svart färg.  
+
+Tag bort panelen med "Level 1. Båda spelarna kan börja." + möjligheten att modifiera Gräns.
+
+Tag bort panelerna Level och Resultat.  
+Använd engelska konsekvent i GUI:t.  
+
+Knapparna "Ny Runda" och "Starta Om" behövs ej.  
+
+Förenkla "Level 1 · Target 8 - 4i" till "8 - 4i" och fördubbla teckenstorleken.
+
+## Feedback efter ett spel.
+
+När båda spelarna är klara, t ex genom att nå målet eller ge upp, ska feedback ges.  
+
+Visa båda spelarnas vägar tillsammans med den kortaste vägen.  
+Detta kräver en tabell med tre kolumner: Left, Best, Right  
+Visa en punkt t ex så här: 1, 2i, 1-3i  
+Centrera innehållet i dessa kolumner.  
+Left => Red  
+Best => Shortest  
+Right => Blue  
+Visa bara Värdet, inte separerat på tre olika tal.  
+Tag bort texten "Vägar"  
+
+Feedbacksidan ska visa två Next-knappar:  
+De nås med Tab respektive Enter.  
+När båda spelarna är nöjda visas nästa problem.  
+
+Feedback sidan ersätter den vanliga sidan, temporärt.  
+Där ska även visas ett värde = tiden + 10 * antal operationer.  
+Markera vem som vann med färg.
+
+Förenkla
+```
+Red
+Vinnare
+Värde: 52.4
+```
+till
+```
+52.4
+```
+
+Ersätt "Red" och "Blue" med värdena.
+
+Tag bort "Red" och "Blue" från knapparna.
+
+Om en spelare har gett upp ska det stå "Gave up" istället för tiden.

@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2D Shortcut</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f1ea;
+      --ink: #17202a;
+      --muted: #667085;
+      --line: #d8dee8;
+      --red: #d84a4a;
+      --blue: #2671d9;
+      --green: #16875b;
+      --shadow: 0 18px 44px rgba(31, 41, 55, 0.13);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background:
+        linear-gradient(135deg, rgba(216, 74, 74, 0.11), transparent 34%),
+        linear-gradient(315deg, rgba(38, 113, 217, 0.12), transparent 38%),
+        var(--bg);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .app {
+      width: min(1320px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 24px 0;
+    }
+
+    header {
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 4.3rem);
+      line-height: 0.95;
+      letter-spacing: 0;
+      text-align: center;
+    }
+
+    button {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 14px;
+      color: var(--ink);
+      background: #fff;
+      cursor: pointer;
+      transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+      touch-action: manipulation;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-1px);
+      border-color: #98a2b3;
+      background: #f8fafc;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      color: #98a2b3;
+      background: #eef1f5;
+    }
+
+    .primary {
+      border-color: transparent;
+      color: #fff;
+      background: #17202a;
+    }
+
+    .primary:hover:not(:disabled) {
+      background: #263443;
+    }
+
+    .bar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .target {
+      color: var(--green);
+      font-size: 2rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .boards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .arena {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: var(--shadow);
+    }
+
+    .arena.done {
+      outline: 4px solid rgba(22, 135, 91, 0.28);
+      outline-offset: -4px;
+    }
+
+    .arena.gave-up {
+      opacity: 0.68;
+    }
+
+    .coord,
+    .needed {
+      font-size: 2rem;
+      white-space: nowrap;
+      align-self: center;
+      text-align: center;
+    }
+
+    .coord {
+      grid-column: 1;
+      grid-row: 1;
+      justify-self: stretch;
+      font-weight: 700;
+    }
+
+    #coord0 {
+      color: var(--red);
+    }
+
+    #coord1 {
+      color: var(--blue);
+    }
+
+    .needed {
+      grid-column: 3;
+      grid-row: 1;
+      justify-self: stretch;
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .board-wrap {
+      aspect-ratio: 1 / 1;
+      min-height: 300px;
+      background: #fbfcfe;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .ops {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 12px;
+      border-top: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .mini-keys {
+      display: grid;
+      gap: 2px;
+      grid-column: 2;
+      grid-row: 1;
+      min-height: 58px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 5px;
+      background: #fff;
+      text-align: center;
+      font-size: 0.63rem;
+      line-height: 1.05;
+    }
+
+    .mini-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+
+    .mini-key {
+      display: grid;
+      place-items: center;
+      border: 1px solid #acbed4;
+      border-radius: 4px;
+      padding: 2px 1px;
+      background: #e3edf9;
+      font-weight: 700;
+    }
+
+    .op {
+      display: grid;
+      gap: 2px;
+      place-items: center;
+      min-height: 58px;
+      padding: 8px 10px;
+      text-align: center;
+      border-color: #b7c4d8;
+      background: #e3edf9;
+    }
+
+    .op:hover:not(:disabled) {
+      border-color: #829abd;
+      background: #d4e3f6;
+    }
+
+    .op[data-action="mirror"] {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .op[data-action="undo"] {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .op[data-action="giveup"] {
+      grid-column: 3;
+      grid-row: 2;
+    }
+
+    .op[data-action="inc"] {
+      grid-column: 1;
+      grid-row: 3;
+    }
+
+    .op[data-action="double"] {
+      grid-column: 2;
+      grid-row: 3;
+    }
+
+    .op[data-action="rotate"] {
+      grid-column: 3;
+      grid-row: 3;
+    }
+
+    .op strong {
+      font-size: 1.9rem;
+    }
+
+    .op span {
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .feedback {
+      margin-bottom: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 28px rgba(31, 41, 55, 0.08);
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 18px;
+      margin-bottom: 0;
+      overflow-x: auto;
+    }
+
+    .feedback.visible {
+      display: block;
+    }
+
+    body.feedback-mode .game-only {
+      display: none;
+    }
+
+    .winner-left {
+      border-color: rgba(216, 74, 74, 0.55);
+      background: rgba(216, 74, 74, 0.1);
+    }
+
+    .winner-right {
+      border-color: rgba(38, 113, 217, 0.55);
+      background: rgba(38, 113, 217, 0.1);
+    }
+
+    .feedback-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .feedback-actions button.ready {
+      border-color: rgba(22, 135, 91, 0.5);
+      background: rgba(22, 135, 91, 0.12);
+      color: #0f6846;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    th,
+    td {
+      border-top: 1px solid #e3e8ef;
+      padding: 8px 10px;
+      text-align: center;
+      vertical-align: top;
+      word-break: break-word;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .score-head {
+      color: var(--ink);
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px) {
+      header,
+      .bar,
+      .boards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .app {
+        width: min(100vw - 18px, 1320px);
+        padding: 10px 0;
+      }
+
+      .ops {
+        grid-template-columns: 1fr;
+      }
+
+      .coord,
+      .needed {
+        grid-column: auto;
+        grid-row: auto;
+        justify-self: stretch;
+        text-align: center;
+      }
+
+      .mini-keys {
+        grid-column: auto;
+        grid-row: auto;
+      }
+
+      .op[data-action] {
+        grid-column: auto;
+        grid-row: auto;
+      }
+
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>2D Shortcut</h1>
+    </header>
+
+    <section class="bar game-only">
+      <div class="target" id="target"></div>
+    </section>
+
+    <section class="boards game-only">
+      <article class="arena" id="arena0">
+        <div class="board-wrap" aria-label="Red coordinate system">
+          <canvas id="board0" width="760" height="760"></canvas>
+        </div>
+        <div class="ops">
+          <span class="coord" id="coord0"></span>
+          <div class="mini-keys" aria-label="Red keys">
+            <div class="mini-row">
+              <span class="mini-key">Q</span>
+              <span class="mini-key">W</span>
+              <span class="mini-key">E</span>
+            </div>
+            <div class="mini-row">
+              <span class="mini-key">A</span>
+              <span class="mini-key">S</span>
+              <span class="mini-key">D</span>
+            </div>
+          </div>
+          <span class="needed" id="needed0"></span>
+          <button class="op" type="button" data-player="0" data-action="mirror">
+            <strong>Swap</strong>
+          </button>
+          <button class="op" type="button" data-player="0" data-action="undo">
+            <strong>Undo</strong>
+          </button>
+          <button class="op" type="button" data-player="0" data-action="giveup">
+            <strong>Give up</strong>
+          </button>
+          <button class="op" type="button" data-player="0" data-action="inc">
+            <strong>+1</strong>
+          </button>
+          <button class="op" type="button" data-player="0" data-action="double">
+            <strong>*2</strong>
+          </button>
+          <button class="op" type="button" data-player="0" data-action="rotate">
+            <strong>*i</strong>
+          </button>
+        </div>
+      </article>
+
+      <article class="arena" id="arena1">
+        <div class="board-wrap" aria-label="Blue coordinate system">
+          <canvas id="board1" width="760" height="760"></canvas>
+        </div>
+        <div class="ops">
+          <span class="coord" id="coord1"></span>
+          <div class="mini-keys" aria-label="Blue keys">
+            <div class="mini-row">
+              <span class="mini-key">U</span>
+              <span class="mini-key">I</span>
+              <span class="mini-key">O</span>
+            </div>
+            <div class="mini-row">
+              <span class="mini-key">J</span>
+              <span class="mini-key">K</span>
+              <span class="mini-key">L</span>
+            </div>
+          </div>
+          <span class="needed" id="needed1"></span>
+          <button class="op" type="button" data-player="1" data-action="mirror">
+            <strong>Swap</strong>
+          </button>
+          <button class="op" type="button" data-player="1" data-action="undo">
+            <strong>Undo</strong>
+          </button>
+          <button class="op" type="button" data-player="1" data-action="giveup">
+            <strong>Give up</strong>
+          </button>
+          <button class="op" type="button" data-player="1" data-action="inc">
+            <strong>+1</strong>
+          </button>
+          <button class="op" type="button" data-player="1" data-action="double">
+            <strong>*2</strong>
+          </button>
+          <button class="op" type="button" data-player="1" data-action="rotate">
+            <strong>*i</strong>
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <section class="feedback" id="feedback" aria-label="Post-game feedback">
+      <table>
+        <thead>
+          <tr>
+            <th class="score-head" id="score0"></th>
+            <th>Shortest</th>
+            <th class="score-head" id="score1"></th>
+          </tr>
+        </thead>
+        <tbody id="feedbackBody"></tbody>
+      </table>
+      <div class="feedback-actions">
+        <button id="next0" type="button">Next (Tab)</button>
+        <button id="next1" type="button">Next (Enter)</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const controls = [...document.querySelectorAll("[data-action]")];
+    const boards = [
+      { canvas: document.querySelector("#board0"), arena: document.querySelector("#arena0") },
+      { canvas: document.querySelector("#board1"), arena: document.querySelector("#arena1") }
+    ];
+    boards.forEach((board) => {
+      board.ctx = board.canvas.getContext("2d");
+    });
+
+    const els = {
+      coord: [document.querySelector("#coord0"), document.querySelector("#coord1")],
+      needed: [document.querySelector("#needed0"), document.querySelector("#needed1")],
+      target: document.querySelector("#target"),
+      feedback: document.querySelector("#feedback"),
+      feedbackBody: document.querySelector("#feedbackBody"),
+      score: [document.querySelector("#score0"), document.querySelector("#score1")],
+      next: [document.querySelector("#next0"), document.querySelector("#next1")]
+    };
+
+    const actionNames = {
+      inc: "+1",
+      double: "*2",
+      rotate: "*i",
+      mirror: "Swap",
+      undo: "Undo",
+      giveup: "Give up"
+    };
+    const playerNames = ["Red", "Blue"];
+    const colors = ["#d84a4a", "#2671d9"];
+    const LIMIT = 16;
+    let state = {};
+
+    function point(x, y) {
+      return { x, y };
+    }
+
+    function key(p) {
+      return `${p.x},${p.y}`;
+    }
+
+    function same(a, b) {
+      return a.x === b.x && a.y === b.y;
+    }
+
+    function label(p) {
+      return complexLabel(p);
+    }
+
+    function applyOp(p, op) {
+      if (op === "inc") return point(p.x + 1, p.y);
+      if (op === "double") return point(p.x * 2, p.y * 2);
+      if (op === "rotate") return point(-p.y, p.x);
+      return point(p.y, p.x);
+    }
+
+    function forwardSteps(p) {
+      return ["inc", "double", "rotate", "mirror"].map((op) => applyOp(p, op));
+    }
+
+    function inside(p, limit) {
+      return Math.abs(p.x) <= limit && Math.abs(p.y) <= limit;
+    }
+
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function distancesFrom(start, limit, maxDepth = Infinity) {
+      const distances = new Map([[key(start), 0]]);
+      const points = new Map([[key(start), start]]);
+      const queue = [start];
+      let head = 0;
+
+      while (head < queue.length) {
+        const current = queue[head];
+        head += 1;
+        const depth = distances.get(key(current));
+        if (depth >= maxDepth) continue;
+
+        forwardSteps(current).forEach((next) => {
+          const nextKey = key(next);
+          if (!inside(next, limit) || distances.has(nextKey)) return;
+          distances.set(nextKey, depth + 1);
+          points.set(nextKey, next);
+          queue.push(next);
+        });
+      }
+
+      return { distances, points };
+    }
+
+    function distanceBetween(start, target, limit) {
+      const found = distancesFrom(start, limit).distances.get(key(target));
+      return found === undefined ? null : found;
+    }
+
+    function randomPuzzle(level) {
+      const limit = LIMIT;
+      for (let attempt = 0; attempt < 120; attempt += 1) {
+        const start = point(randomInt(-4, 4), randomInt(-4, 4));
+        const { distances, points } = distancesFrom(start, limit, level);
+        const candidates = [...distances.entries()]
+          .filter(([, distance]) => distance === level)
+          .map(([pointKey]) => points.get(pointKey));
+        if (candidates.length > 0) {
+          return {
+            start,
+            target: candidates[randomInt(0, candidates.length - 1)]
+          };
+        }
+      }
+
+      const fallbackStart = point(0, 0);
+      return { start: fallbackStart, target: point(level, 0) };
+    }
+
+    function resetRound(keepPuzzle) {
+      const level = keepPuzzle && state.level
+        ? state.level
+        : state.nextLevel || state.level || 1;
+      const puzzle = keepPuzzle && state.start && state.target
+        ? { start: state.start, target: state.target }
+        : randomPuzzle(level);
+
+      state = {
+        level,
+        nextLevel: level,
+        start: puzzle.start,
+        target: puzzle.target,
+        roundClosed: false,
+        nextReady: [false, false],
+        startTime: performance.now(),
+        players: [
+          { pos: { ...puzzle.start }, moves: 0, reached: false, gaveUp: false, finishMs: null, history: [], path: [{ ...puzzle.start }] },
+          { pos: { ...puzzle.start }, moves: 0, reached: false, gaveUp: false, finishMs: null, history: [], path: [{ ...puzzle.start }] }
+        ]
+      };
+      document.body.classList.remove("feedback-mode");
+      setMessage(`Level ${state.level}. Both players can start.`);
+      render();
+    }
+
+    function setMessage(text) {
+      document.body.dataset.message = text;
+    }
+
+    function playerDone(player) {
+      return player.reached || player.gaveUp;
+    }
+
+    function handleAction(playerIndex, action) {
+      if (state.roundClosed) return;
+      const player = state.players[playerIndex];
+      if (playerDone(player)) return;
+
+      if (action === "undo") {
+        undo(playerIndex);
+      } else if (action === "giveup") {
+        player.gaveUp = true;
+        player.finishMs = performance.now() - state.startTime;
+        setMessage(`${playerNames[playerIndex]} gives up.`);
+        closeRoundIfDone();
+      } else {
+        play(playerIndex, action);
+      }
+      render();
+    }
+
+    function undo(playerIndex) {
+      const player = state.players[playerIndex];
+      const previous = player.history.pop();
+      if (!previous) {
+        setMessage(`${playerNames[playerIndex]} has no move to undo.`);
+        return;
+      }
+      player.pos = previous;
+      player.moves = Math.max(0, player.moves - 1);
+      player.path.pop();
+      setMessage(`${playerNames[playerIndex]} undid the last move.`);
+    }
+
+    function play(playerIndex, op) {
+      const limit = LIMIT;
+      const player = state.players[playerIndex];
+      const next = applyOp(player.pos, op);
+
+      if (!inside(next, limit)) {
+        setMessage(`${playerNames[playerIndex]}: ${actionNames[op]} leaves the board.`);
+        return;
+      }
+
+      player.history.push({ ...player.pos });
+      player.pos = next;
+      player.path.push({ ...next });
+      player.moves += 1;
+
+      if (same(next, state.target)) {
+        player.reached = true;
+        player.finishMs = performance.now() - state.startTime;
+        setMessage(`${playerNames[playerIndex]} reached the target in ${player.moves} moves.`);
+        closeRoundIfDone();
+      } else {
+        setMessage(`${playerNames[playerIndex]}: ${actionNames[op]} to ${label(next)}.`);
+      }
+    }
+
+    function closeRoundIfDone() {
+      if (!state.players.every(playerDone)) return;
+
+      state.roundClosed = true;
+      const reachedCount = state.players.filter((player) => player.reached).length;
+      if (reachedCount === 2) {
+        state.nextLevel = state.level + 1;
+        setMessage(`Both reached the target. Next level is ${state.nextLevel}.`);
+      } else if (reachedCount === 0) {
+        state.nextLevel = Math.max(1, state.level - 1);
+        setMessage(`Neither reached the target. Next level is ${state.nextLevel}.`);
+      } else {
+        state.nextLevel = state.level;
+        setMessage(`One player reached the target. Level stays ${state.level}.`);
+      }
+      controls.forEach((button) => {
+        button.disabled = true;
+      });
+      document.body.classList.add("feedback-mode");
+      renderFeedback();
+    }
+
+    function confirmNext(playerIndex) {
+      if (!state.roundClosed || state.nextReady[playerIndex]) return;
+      state.nextReady[playerIndex] = true;
+      setMessage(`${playerNames[playerIndex]} is done with feedback.`);
+      if (state.nextReady.every(Boolean)) {
+        resetRound(false);
+      } else {
+        renderHud();
+      }
+    }
+
+    function render() {
+      renderHud();
+      renderBoards();
+    }
+
+    function renderHud() {
+      els.target.textContent = `Go to ${label(state.target)} in ${state.level} ${state.level === 1 ? "step" : "steps"}`;
+
+      state.players.forEach((player, index) => {
+        const distance = distanceBetween(player.pos, state.target, LIMIT);
+        els.coord[index].textContent = label(player.pos);
+        els.needed[index].textContent = player.reached
+          ? "Target"
+          : player.gaveUp
+            ? "Give up"
+            : distance === null
+              ? "-"
+              : String(distance);
+        boards[index].arena.classList.toggle("done", player.reached);
+        boards[index].arena.classList.toggle("gave-up", player.gaveUp);
+      });
+
+      controls.forEach((button) => {
+        const player = state.players[Number(button.dataset.player)];
+        button.disabled = state.roundClosed || playerDone(player);
+      });
+      els.feedback.classList.toggle("visible", state.roundClosed);
+      document.body.classList.toggle("feedback-mode", state.roundClosed);
+      els.next.forEach((button, index) => {
+        button.classList.toggle("ready", state.nextReady[index]);
+        button.textContent = state.nextReady[index]
+          ? "Ready"
+          : `Next (${index === 0 ? "Tab" : "Enter"})`;
+      });
+    }
+
+    function shortestPath(start, target, limit) {
+      const startKey = key(start);
+      const targetKey = key(target);
+      const previous = new Map([[startKey, null]]);
+      const points = new Map([[startKey, start]]);
+      const queue = [start];
+      let head = 0;
+
+      while (head < queue.length) {
+        const current = queue[head];
+        head += 1;
+        if (key(current) === targetKey) break;
+
+        forwardSteps(current).forEach((next) => {
+          const nextKey = key(next);
+          if (!inside(next, limit) || previous.has(nextKey)) return;
+          previous.set(nextKey, key(current));
+          points.set(nextKey, next);
+          queue.push(next);
+        });
+      }
+
+      if (!previous.has(targetKey)) return [];
+
+      const path = [];
+      let cursor = targetKey;
+      while (cursor !== null) {
+        path.push(points.get(cursor));
+        cursor = previous.get(cursor);
+      }
+      return path.reverse();
+    }
+
+    function complexLabel(p) {
+      if (p.x === 0 && p.y === 0) return "0";
+      if (p.y === 0) return String(p.x);
+      if (p.x === 0) return imaginaryLabel(p.y);
+      const sign = p.y > 0 ? "+" : "-";
+      return `${p.x} ${sign} ${imaginaryLabel(Math.abs(p.y))}`;
+    }
+
+    function imaginaryLabel(y) {
+      if (y === 1) return "i";
+      if (y === -1) return "-i";
+      return `${y}i`;
+    }
+
+    function renderFeedback() {
+      const limit = LIMIT;
+      const best = shortestPath(state.start, state.target, limit);
+      const paths = [
+        state.players[0].path,
+        best,
+        state.players[1].path
+      ];
+      const rows = Math.max(...paths.map((path) => path.length));
+      els.feedbackBody.innerHTML = "";
+      renderScoreSummary();
+
+      for (let i = 0; i < rows; i += 1) {
+        const tr = document.createElement("tr");
+        paths.forEach((path) => {
+          const td = document.createElement("td");
+          td.textContent = path[i] ? complexLabel(path[i]) : "";
+          tr.appendChild(td);
+        });
+        els.feedbackBody.appendChild(tr);
+      }
+    }
+
+    function renderScoreSummary() {
+      const scores = state.players.map((player) => {
+        const seconds = player.finishMs === null ? 0 : player.finishMs / 1000;
+        return {
+          seconds,
+          value: seconds + player.moves * 10,
+          eligible: player.reached,
+          gaveUp: player.gaveUp
+        };
+      });
+      const eligibleScores = scores
+        .map((score, index) => ({ ...score, index }))
+        .filter((score) => score.eligible);
+      const winnerIndex = eligibleScores.length === 0
+        ? null
+        : eligibleScores.reduce((best, score) => score.value < best.value ? score : best).index;
+
+      els.score.forEach((box, index) => {
+        const score = scores[index];
+        box.classList.toggle("winner-left", winnerIndex === 0 && index === 0);
+        box.classList.toggle("winner-right", winnerIndex === 1 && index === 1);
+        box.textContent = score.gaveUp ? "Gave up" : score.value.toFixed(1);
+      });
+    }
+
+    function renderBoards() {
+      boards.forEach((board, index) => {
+        renderBoard(board.canvas, board.ctx, state.players[index].pos, colors[index], playerNames[index][0]);
+      });
+    }
+
+    function renderBoard(canvas, ctx, playerPos, playerColor, playerLetter) {
+      const limit = LIMIT;
+      const size = canvas.width;
+      const center = size / 2;
+      const unit = size / (limit * 2 + 2);
+      const min = center - limit * unit;
+      const max = center + limit * unit;
+
+      ctx.clearRect(0, 0, size, size);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, size, size);
+
+      for (let i = -limit; i <= limit; i += 1) {
+        const screen = center + i * unit;
+        const isFifth = i % 5 === 0;
+        ctx.strokeStyle = isFifth ? "#95a1b1" : "#cbd3df";
+        ctx.lineWidth = isFifth ? 2.5 : 1.25;
+        ctx.beginPath();
+        ctx.moveTo(screen, min);
+        ctx.lineTo(screen, max);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(min, screen);
+        ctx.lineTo(max, screen);
+        ctx.stroke();
+      }
+
+      ctx.strokeStyle = "#4b5563";
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(min, center);
+      ctx.lineTo(max, center);
+      ctx.moveTo(center, min);
+      ctx.lineTo(center, max);
+      ctx.stroke();
+
+      drawTarget(canvas, ctx, state.target, unit);
+      drawPlayer(canvas, ctx, playerPos, unit, playerColor, playerLetter);
+    }
+
+    function toScreen(canvas, p, unit) {
+      const center = canvas.width / 2;
+      return {
+        x: center + p.x * unit,
+        y: center - p.y * unit
+      };
+    }
+
+    function drawTarget(canvas, ctx, p, unit) {
+      const s = toScreen(canvas, p, unit);
+      ctx.save();
+      ctx.translate(s.x, s.y);
+      ctx.beginPath();
+      ctx.arc(0, 0, unit / 2, 0, Math.PI * 2);
+      ctx.lineWidth = Math.max(3, unit * 0.12);
+      ctx.strokeStyle = "#16875b";
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawPlayer(canvas, ctx, p, unit, color, text) {
+      const s = toScreen(canvas, p, unit);
+      ctx.save();
+      ctx.translate(s.x, s.y);
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(0, 0, unit * 0.375, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    controls.forEach((button) => {
+      button.addEventListener("click", () => {
+        handleAction(Number(button.dataset.player), button.dataset.action);
+      });
+    });
+
+    els.next.forEach((button, index) => {
+      button.addEventListener("click", () => confirmNext(index));
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.repeat) return;
+      if (state.roundClosed) {
+        if (event.key === "Tab") {
+          event.preventDefault();
+          confirmNext(0);
+        } else if (event.key === "Enter") {
+          event.preventDefault();
+          confirmNext(1);
+        }
+        return;
+      }
+      const keyMap = {
+        q: [0, "mirror"],
+        w: [0, "undo"],
+        e: [0, "giveup"],
+        a: [0, "inc"],
+        s: [0, "double"],
+        d: [0, "rotate"],
+        u: [1, "mirror"],
+        i: [1, "undo"],
+        o: [1, "giveup"],
+        j: [1, "inc"],
+        k: [1, "double"],
+        l: [1, "rotate"]
+      };
+      const action = keyMap[event.key.toLowerCase()];
+      if (!action) return;
+      event.preventDefault();
+      handleAction(action[0], action[1]);
+    });
+
+    resetRound(false);
+  </script>
+</body>
+</html>
