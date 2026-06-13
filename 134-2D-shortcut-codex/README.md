@@ -33,8 +33,9 @@ step harder. If neither player reaches the target, the next level is one step
 easier.
 
 After both players finish, the feedback view compares Red's path, the shortest
-path, and Blue's path. The score is:
+path, and Blue's path. Each executed operation costs 10 seconds, including
+operations that are later undone, so the score is:
 
 ```text
-time + 10 * number of operations
+time in seconds + operation cost
 ```

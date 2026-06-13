@@ -548,6 +548,7 @@
     const colors = ["#d84a4a", "#2671d9"];
     const VIEW_LIMIT = 16;
     const SEARCH_LIMIT = 96;
+    const OPERATION_COST_SECONDS = 10;
     let state = {};
 
     function point(x, y) {
@@ -651,8 +652,8 @@
         nextReady: [false, false],
         startTime: performance.now(),
         players: [
-          { pos: { ...puzzle.start }, moves: 0, reached: false, gaveUp: false, finishMs: null, history: [], path: [{ ...puzzle.start }] },
-          { pos: { ...puzzle.start }, moves: 0, reached: false, gaveUp: false, finishMs: null, history: [], path: [{ ...puzzle.start }] }
+          { pos: { ...puzzle.start }, moves: 0, operations: 0, reached: false, gaveUp: false, finishMs: null, history: [], path: [{ ...puzzle.start }] },
+          { pos: { ...puzzle.start }, moves: 0, operations: 0, reached: false, gaveUp: false, finishMs: null, history: [], path: [{ ...puzzle.start }] }
         ]
       };
       document.body.classList.remove("feedback-mode");
@@ -707,6 +708,7 @@
       player.pos = next;
       player.path.push({ ...next });
       player.moves += 1;
+      player.operations += 1;
 
       if (same(next, state.target)) {
         player.reached = true;
@@ -858,10 +860,12 @@
 
     function renderScoreSummary() {
       const scores = state.players.map((player) => {
-        const seconds = player.finishMs === null ? 0 : player.finishMs / 1000;
+        const elapsedSeconds = player.finishMs === null ? 0 : player.finishMs / 1000;
+        const operationCost = player.operations * OPERATION_COST_SECONDS;
         return {
-          seconds,
-          value: seconds + player.moves * 10,
+          elapsedSeconds,
+          operationCost,
+          value: elapsedSeconds + operationCost,
           eligible: player.reached,
           gaveUp: player.gaveUp
         };
