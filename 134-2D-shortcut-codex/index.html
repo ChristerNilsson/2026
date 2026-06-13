@@ -15,6 +15,8 @@
       --blue: #2671d9;
       --green: #16875b;
       --shadow: 0 18px 44px rgba(31, 41, 55, 0.13);
+      --app-width: 100vw;
+      --app-height: 100dvh;
     }
 
     * {
@@ -23,7 +25,8 @@
 
     body {
       margin: 0;
-      height: 100vh;
+      width: var(--app-width);
+      height: var(--app-height);
       overflow: hidden;
       font-family: Arial, Helvetica, sans-serif;
       color: var(--ink);
@@ -39,8 +42,8 @@
     }
 
     .app {
-      width: min(1320px, calc(100vw - 32px));
-      height: 100vh;
+      width: min(1320px, calc(var(--app-width) - 32px));
+      height: var(--app-height);
       margin: 0 auto;
       padding: 10px 0;
       display: grid;
@@ -365,7 +368,7 @@
 
     @media (max-width: 560px) {
       .app {
-        width: min(100vw - 8px, 1320px);
+        width: min(calc(var(--app-width) - 8px), 1320px);
         padding: 6px 0;
       }
 
@@ -511,6 +514,7 @@
 
   <script>
     const controls = [...document.querySelectorAll("[data-action]")];
+    const rootStyle = document.documentElement.style;
     const boards = [
       { canvas: document.querySelector("#board0"), arena: document.querySelector("#arena0") },
       { canvas: document.querySelector("#board1"), arena: document.querySelector("#arena1") }
@@ -875,9 +879,19 @@
     }
 
     function renderBoards() {
+      if (!state.players) return;
       boards.forEach((board, index) => {
         renderBoard(board.canvas, board.ctx, state.players[index].pos, colors[index], playerNames[index][0]);
       });
+    }
+
+    function updateAvailableArea() {
+      const viewport = window.visualViewport;
+      const width = viewport ? viewport.width : window.innerWidth;
+      const height = viewport ? viewport.height : window.innerHeight;
+      rootStyle.setProperty("--app-width", `${Math.floor(width)}px`);
+      rootStyle.setProperty("--app-height", `${Math.floor(height)}px`);
+      renderBoards();
     }
 
     function renderBoard(canvas, ctx, playerPos, playerColor, playerLetter) {
@@ -989,7 +1003,11 @@
       });
     });
 
-    window.addEventListener("resize", renderBoards);
+    window.addEventListener("resize", updateAvailableArea);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", updateAvailableArea);
+      window.visualViewport.addEventListener("scroll", updateAvailableArea);
+    }
 
     document.addEventListener("keydown", (event) => {
       if (event.repeat) return;
@@ -1023,6 +1041,7 @@
       handleAction(action[0], action[1]);
     });
 
+    updateAvailableArea();
     resetRound(false);
   </script>
 </body>

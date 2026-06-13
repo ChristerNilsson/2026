@@ -3,6 +3,7 @@ UTF-8
 
 Se till att skala sidan så att den får plats på en skärm.  
 Se till att spelarna kan toucha sina knappar samtidigt utan förlust.  
+På min iPad visas inte hela fönstret. Avläs tillgänglig yta.
 
 ## Background
 
