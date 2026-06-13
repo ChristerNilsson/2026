@@ -334,8 +334,24 @@
 
     .score-head {
       color: var(--ink);
-      font-size: 1.25rem;
       font-weight: 700;
+    }
+
+    .column-label,
+    .score-value {
+      display: block;
+    }
+
+    .column-label {
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .score-value {
+      margin-top: 4px;
+      color: var(--ink);
+      font-size: 1.25rem;
     }
 
     @media (max-width: 900px) {
@@ -473,9 +489,17 @@
       <table>
         <thead>
           <tr>
-            <th class="score-head" id="score0"></th>
-            <th>Shortest</th>
-            <th class="score-head" id="score1"></th>
+            <th class="score-head">
+              <span class="column-label">Left</span>
+              <span class="score-value" id="score0"></span>
+            </th>
+            <th>
+              <span class="column-label">Best</span>
+            </th>
+            <th class="score-head">
+              <span class="column-label">Right</span>
+              <span class="score-value" id="score1"></span>
+            </th>
           </tr>
         </thead>
         <tbody id="feedbackBody"></tbody>
