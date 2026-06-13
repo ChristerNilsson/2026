@@ -1,6 +1,9 @@
 UTF-8
 # 2D Shortcut
 
+Se till att skala sidan så att den får plats på en skärm.  
+Se till att spelarna kan toucha sina knappar samtidigt utan förlust.  
+
 ## Background
 
 1D-spel kan definieras med operationerna /2, +2 och *2.  
