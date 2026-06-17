@@ -21,7 +21,7 @@
 
     body {
       margin: 0;
-      padding: 14px;
+      padding: 10px;
       background: var(--soft);
       color: var(--text);
       font-family: var(--pico-font-family);
@@ -35,7 +35,7 @@
 
     header,
     section {
-      margin-bottom: 28px;
+      margin-bottom: 22px;
     }
 
     h1,
@@ -106,24 +106,30 @@
     }
 
     .matrix {
-      font-size: 0.68rem;
+      font-size: 0.6rem;
       table-layout: fixed;
     }
 
     .matrix th,
     .matrix td {
-      min-width: 22px;
-      width: 22px;
-      height: 22px;
-      padding: 1px 2px;
+      min-width: 17px;
+      width: 17px;
+      height: 17px;
+      padding: 0 1px;
       text-align: center;
       white-space: nowrap;
+      line-height: 1;
     }
 
     .matrix th:first-child,
     .matrix th:last-child {
-      width: auto;
-      min-width: 42px;
+      width: 32px;
+      min-width: 32px;
+    }
+
+    .matrix th:last-child {
+      width: 38px;
+      min-width: 38px;
     }
 
     .matrix thead th {
@@ -199,9 +205,9 @@
       <p class="muted">TY5 Naantali Nopea, 29.6.2025</p>
       <h1>Tasaselo: lottningen i praktiken</h1>
       <p>
-        Analysen utgår från resultatfilen i specen och använder spelarnas elotal enbart.
-        Prisgrupperna visas som metadata men används inte som lottgränser.
-        De tre första borden i rond 1 låses till filens lottning för att minska specialfallets påverkan.
+        Analysen utgår från resultatfilen i specen och kör rond 2.
+        Rond 1 läses från filen med både resultat och färger. Rond 2 lottas med Blossom
+        och viktar poäng, grupp, eloskillnad och färgbalans.
       </p>
     </header>
 
@@ -221,8 +227,8 @@
       <h2>Prediktion mot utfall</h2>
       <p class="muted">
         "Faktiskt" kommer från txt-filen. "Algoritm" är parningar som genereras av modellen
-        innan rondens resultat matas in. De tre första borden i rond 1 är förifyllda från filen
-        för nästa rond-state men räknas inte som träffar.
+        med poäng, grupp, eloskillnad och färgbalans som kostnadstermer. Rond 1 visas från filen;
+        rond 2 visas i sin helhet med skillnader mot filen.
       </p>
       <div class="overflow-auto">
         <table>
@@ -231,9 +237,10 @@
               <th>Rond</th>
               <th>Faktiskt</th>
               <th>Algoritm</th>
-              <th>Träffar</th>
+              <th>Träffar/färg</th>
               <th>Elo²-kostnad</th>
               <th>Kommentar</th>
+              <th>Skillnader</th>
             </tr>
           </thead>
           <tbody id="rounds"></tbody>

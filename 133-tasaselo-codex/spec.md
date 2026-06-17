@@ -1,8 +1,18 @@
 Jag vill att du listar ut hur lottningen i Tasaselo går till.
 
-Utgå från spelarnas elotal enbart.
+Lotta rond 2.
 
-Ignorera de första tre borden i rond 1. Det sker något oregelbundet där, för att undvika för tidigt finalparti.
+Gå inte vidare förrän rond 2 lottas på samma sätt som i filen.
+
+Rond 1 behöver ej paras. Tag hänsyn till både resultat och färger i alla dessa partier.
+
+Rond 2 paras enligt den algoritm vi försöker återskapa.
+
+Visa hur du viktar.
+
+Inte bara paren ska stämma, de ska ha korrekta färger också. 
+
+Undvik `v1-m2`, låt första spelaren ange vit, andra svart. Dvs ersätt med `1-2`
 
 * UTF-8
 * index.html
@@ -12,23 +22,30 @@ Input:
 
 https://www.shakki.net/tasaselo/ty550629.txt
 
+Följande storheter påverkar parningen och viktas ihop på något sätt
+* Poäng
+* Grupp
+* Eloskillnad
+* Färgbalans
+
+Färgbalansen räknas som W minus B.
+När färgbalansen räknas för ett par adderas spelarnas färgbalanser. Man eftersträvar färgbalans 0 för paret.
+Celler med |färgbalans| > 2 kan ej paras.
+
+Variera vikterna tills rond 2 lottas enligt filen.
+
+Simulera aldrig resultaten.
+
 För varje rond
 	* Bilda alla möjliga par.
 	* Det innebär att spelare som redan mötts inte ingår.
-	* Färgväxlingskravet hindra en del möten.
-	* Initiera Blossom med den absoluta skillnaden mellan två par i cellerna.
-
-Vi ignorerar poäng och kan därmed räkna ut alla sju ronderna direkt.
-
-Läs lottningen för de tre första borden i rond 1. Detta för att minimera påverkan.
+	* Initiera Blossom med den absoluta skillanden mellan parens värdering
 
 Visa resultatet i form av en matris 42x42 där cellerna innehåller rondnummer.
 
 Jag behöver se båda matriserna. 
 
-Det ser ut som att du använder grupperna. Grupperna ska inte påverka lottningen.
-
-Din variant av Blossom är extremt långsam. Använd blossom.js
+Använd blossom.js
 
 Innan du skapar matriserna, sortera på elotalen och numrera om deltagarna.
 

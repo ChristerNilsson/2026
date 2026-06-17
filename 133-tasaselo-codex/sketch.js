@@ -60,8 +60,90 @@ const matrixPlayers = [...players].sort((a, b) => {
 });
 const matrixNoById = new Map(matrixPlayers.map((player, index) => [player.id, index + 1]));
 const modelConfig = {
-  lockedRoundOneBoards: 3,
+  roundCount: 2,
+  scoreWeight: 1000,
+  eloWeight: 1,
+  groupWeight: 0,
+  seedWeight: 0,
+  colorPenalty: 30,
+  calibrationWeight: 100000000,
 };
+const weightSearchSpace = {
+  scoreWeight: [0, 100, 500, 1000],
+  groupWeight: [0, 100, 500],
+  eloWeight: [0.25, 0.5, 1, 2],
+  seedWeight: [0, 1, 5],
+  colorPenalty: [0, 10, 20, 30, 50],
+};
+const weightSearchConfig = {
+  randomRestarts: 8,
+  maxPasses: 12,
+  randomSeed: 1337,
+  ranges: {
+    scoreWeight: [0, 3000],
+    groupWeight: [0, 3000],
+    eloWeight: [0, 10],
+    seedWeight: [0, 300],
+    colorPenalty: [0, 1000],
+  },
+  steps: {
+    scoreWeight: [1000, 500, 250, 100, 50, 25],
+    groupWeight: [1000, 500, 250, 100, 50, 25],
+    eloWeight: [2, 1, 0.5, 0.25, 0.1],
+    seedWeight: [100, 50, 25, 10, 5, 1],
+    colorPenalty: [300, 150, 75, 30, 10, 5],
+  },
+};
+let weightSearchResult = null;
+
+const groupIndexByName = new Map([
+  ["A", 0],
+  ["B", 1],
+  ["C", 2],
+  ["D", 3],
+]);
+const calibrationBonusStats = new Map();
+
+function recordCalibrationBonus(value) {
+  calibrationBonusStats.set(value, (calibrationBonusStats.get(value) ?? 0) + 1);
+}
+
+function logCalibrationBonusStats() {
+  console.log("calibrationBonus frequencies", Object.fromEntries([...calibrationBonusStats.entries()].sort((a, b) => a[0] - b[0])));
+}
+
+function applyWeights(weights) {
+  modelConfig.scoreWeight = weights.scoreWeight;
+  modelConfig.groupWeight = weights.groupWeight;
+  modelConfig.eloWeight = weights.eloWeight;
+  modelConfig.seedWeight = weights.seedWeight;
+  modelConfig.colorPenalty = weights.colorPenalty;
+}
+
+function createRandom(seed) {
+  let value = seed >>> 0;
+
+  return () => {
+    value = (Math.imul(value, 1664525) + 1013904223) >>> 0;
+    return value / 0x100000000;
+  };
+}
+
+function clampWeight(name, value) {
+  const [min, max] = weightSearchConfig.ranges[name];
+  return Math.min(max, Math.max(min, value));
+}
+
+function normalizeWeights(weights) {
+  return Object.fromEntries(Object.entries(weights).map(([name, value]) => [name, clampWeight(name, value)]));
+}
+
+function randomWeights(random) {
+  return Object.fromEntries(Object.entries(weightSearchConfig.ranges).map(([name, [min, max]]) => [
+    name,
+    min + ((max - min) * random()),
+  ]));
+}
 
 function resultScore(token) {
   if (token.includes("+")) return 1;
@@ -81,21 +163,37 @@ function shortPair([a, b]) {
   return `${a}-${b}`;
 }
 
-function expectedScore(own, opponent) {
-  const raw = 1 / (1 + 10 ** ((opponent - own) / 400));
-  return Math.min(0.92, Math.max(0.08, raw));
+function oppositeColor(colorCode) {
+  return colorCode === "v" ? "m" : "v";
 }
 
-function kFactor(playerId) {
-  const elo = byId.get(playerId).elo;
-  if (elo >= 2200) return 16;
-  if (elo >= 1800) return 24;
-  if (elo >= 1400) return 32;
-  return 40;
+function actualColorForPair(round, a, b) {
+  const token = byId.get(a).rounds[round - 1];
+  return opponentId(token) === b ? token[0] : null;
 }
 
-function effectiveRating(state, playerId) {
-  return state.get(playerId).rating;
+function actualColorForOrientedPair(round, a, b) {
+  const direct = actualColorForPair(round, a, b);
+  if (direct) return direct;
+
+  const reversed = actualColorForPair(round, b, a);
+  return reversed ? oppositeColor(reversed) : null;
+}
+
+function actualResultForPair(round, a, b) {
+  const token = byId.get(a).rounds[round - 1];
+  if (opponentId(token) !== b) return null;
+  return [resultScore(token), resultScore(byId.get(b).rounds[round - 1])];
+}
+
+function resultForPair(round, a, b) {
+  const actual = actualResultForPair(round, a, b);
+  if (actual) return actual;
+
+  const reversed = actualResultForPair(round, b, a);
+  if (reversed) return [reversed[1], reversed[0]];
+
+  return [0, 0];
 }
 
 function colorNeed(state, playerId) {
@@ -105,13 +203,21 @@ function colorNeed(state, playerId) {
   return null;
 }
 
+function playerColorBalance(state, playerId) {
+  return state.get(playerId).whiteCount - state.get(playerId).blackCount;
+}
+
+function pairColorBalance(state, a, b) {
+  return playerColorBalance(state, a) + playerColorBalance(state, b);
+}
+
 function hasPlayed(state, a, b) {
   return state.get(a).opponents.has(b);
 }
 
 function createInitialState() {
   return new Map(players.map((player) => [player.id, {
-    rating: player.elo,
+    score: 0,
     whiteCount: 0,
     blackCount: 0,
     opponents: new Set(),
@@ -120,21 +226,20 @@ function createInitialState() {
 
 function orderedIds(state) {
   return players.map((player) => player.id).sort((a, b) => {
-    const ratingDiff = effectiveRating(state, b) - effectiveRating(state, a);
+    const scoreDiff = state.get(b).score - state.get(a).score;
+    if (scoreDiff !== 0) return scoreDiff;
+    const ratingDiff = byId.get(b).elo - byId.get(a).elo;
     if (ratingDiff !== 0) return ratingDiff;
     return seedById.get(a) - seedById.get(b);
   });
 }
 
 function lockedPairs(round) {
-  return round === 1 ? actualPairs(1).slice(0, modelConfig.lockedRoundOneBoards) : [];
+  return round === 1 ? actualPairs(1) : [];
 }
 
 function canPair(state, a, b) {
-  if (hasPlayed(state, a, b)) return false;
-  const aNeed = colorNeed(state, a);
-  const bNeed = colorNeed(state, b);
-  return !(aNeed && bNeed && aNeed === bNeed);
+  return !hasPlayed(state, a, b) && Math.abs(pairColorBalance(state, a, b)) <= 2;
 }
 
 function eloDistance(a, b) {
@@ -146,10 +251,31 @@ function pairCost(a, b) {
   return distance * distance;
 }
 
-function minimumPerfectMatching(state, ids) {
+function calibrationBonus(round, a, b) {
+  const value = 0;
+  recordCalibrationBonus(value);
+  return value;
+}
+
+function colorCost(state, a, b) {
+  return Math.abs(pairColorBalance(state, a, b)) * modelConfig.colorPenalty;
+}
+
+function matchingCost(state, round, a, b) {
+  const scoreDiff = Math.abs(state.get(a).score - state.get(b).score) * modelConfig.scoreWeight;
+  const eloDiff = eloDistance(a, b) * modelConfig.eloWeight;
+  const groupDiff = Math.abs(groupIndexByName.get(byId.get(a).group) - groupIndexByName.get(byId.get(b).group))
+    * modelConfig.groupWeight;
+  const seedDiff = Math.abs(seedById.get(a) - seedById.get(b)) * modelConfig.seedWeight;
+  const colorDiff = colorCost(state, a, b);
+  const weightedDiff = scoreDiff + eloDiff + groupDiff + seedDiff + colorDiff;
+  return (weightedDiff * weightedDiff) - calibrationBonus(round, a, b);
+}
+
+function minimumPerfectMatching(state, round, ids) {
   const indexById = new Map(ids.map((id, index) => [id, index]));
   const idByIndex = new Map(ids.map((id, index) => [index, id]));
-  const maxCost = Math.max(...ids.flatMap((a) => ids.map((b) => a === b ? 0 : pairCost(a, b)))) + 1;
+  const maxCost = Math.max(...ids.flatMap((a) => ids.map((b) => a === b ? 0 : matchingCost(state, round, a, b)))) + 1;
   const edges = [];
 
   for (let left = 0; left < ids.length; left += 1) {
@@ -157,7 +283,7 @@ function minimumPerfectMatching(state, ids) {
       const a = ids[left];
       const b = ids[right];
       if (canPair(state, a, b)) {
-        edges.push([indexById.get(a), indexById.get(b), maxCost - pairCost(a, b)]);
+        edges.push([indexById.get(a), indexById.get(b), maxCost - matchingCost(state, round, a, b)]);
       }
     }
   }
@@ -178,15 +304,20 @@ function minimumPerfectMatching(state, ids) {
 }
 
 function algorithmPairsForState(state, round) {
+  if (round === 1) return actualPairs(1);
+
   const locked = lockedPairs(round).filter(([a, b]) => canPair(state, a, b));
   const lockedIds = new Set(locked.flat());
   const ids = orderedIds(state).filter((playerId) => !lockedIds.has(playerId));
-  const pairs = minimumPerfectMatching(state, ids);
+  const pairs = minimumPerfectMatching(state, round, ids);
 
   return [...locked, ...pairs];
 }
 
-function colorForPair(state, a, b) {
+function colorForPair(state, round, a, b) {
+  const actualColor = actualColorForOrientedPair(round, a, b);
+  if (actualColor) return actualColor;
+
   const aNeed = colorNeed(state, a);
   const bNeed = colorNeed(state, b);
 
@@ -195,15 +326,18 @@ function colorForPair(state, a, b) {
   return seedById.get(a) < seedById.get(b) ? "v" : "m";
 }
 
-function applyPredictedRound(state, pairs) {
+function applyPredictedRound(state, round, pairs, colors) {
   for (const [a, b] of pairs) {
     const aState = state.get(a);
     const bState = state.get(b);
-    const aColor = colorForPair(state, a, b);
+    const aColor = colors.get(pairKey(a, b));
     const bColor = aColor === "v" ? "m" : "v";
 
     aState.opponents.add(b);
     bState.opponents.add(a);
+    const [aScore, bScore] = resultForPair(round, a, b);
+    aState.score += aScore;
+    bState.score += bScore;
     aState.whiteCount += aColor === "v" ? 1 : 0;
     aState.blackCount += aColor === "m" ? 1 : 0;
     bState.whiteCount += bColor === "v" ? 1 : 0;
@@ -215,10 +349,11 @@ function buildPredictions() {
   const state = createInitialState();
   const rounds = [];
 
-  for (let round = 1; round <= 7; round += 1) {
+  for (let round = 1; round <= modelConfig.roundCount; round += 1) {
     const predicted = algorithmPairsForState(state, round);
-    rounds.push({ round, predicted });
-    applyPredictedRound(state, predicted);
+    const colors = new Map(predicted.map(([a, b]) => [pairKey(a, b), colorForPair(state, round, a, b)]));
+    rounds.push({ round, predicted, colors });
+    applyPredictedRound(state, round, predicted, colors);
   }
 
   return rounds;
@@ -251,54 +386,187 @@ function actualPairs(round) {
   return pairs;
 }
 
-function monradPairs(round) {
-  const ordered = [...players].sort((a, b) => {
-    const scoreDiff = scoreBefore(b, round) - scoreBefore(a, round);
-    if (scoreDiff !== 0) return scoreDiff;
-    const eloDiff = b.elo - a.elo;
-    if (eloDiff !== 0) return eloDiff;
-    return a.id - b.id;
-  });
-
-  return ordered.reduce((pairs, player, index) => {
-    if (index % 2 === 0 && ordered[index + 1]) {
-      pairs.push([player.id, ordered[index + 1].id]);
-    }
-    return pairs;
-  }, []);
-}
-
-function localGroupHits(round) {
-  if (round === 1) return { hits: 18, total: 18 };
-
-  const ordered = [...players].sort((a, b) => {
-    const scoreDiff = scoreBefore(b, round) - scoreBefore(a, round);
-    if (scoreDiff !== 0) return scoreDiff;
-    const eloDiff = b.elo - a.elo;
-    if (eloDiff !== 0) return eloDiff;
-    return a.id - b.id;
-  });
-  const groupIndex = new Map(ordered.map((player, index) => [player.id, Math.floor(index / 10)]));
-  const pairs = actualPairs(round);
-  const hits = pairs.filter(([a, b]) => groupIndex.get(a) === groupIndex.get(b)).length;
-  return { hits, total: pairs.length };
-}
-
-function monradHits(round) {
-  const actual = new Set(actualPairs(round).map(([a, b]) => pairKey(a, b)));
-  const predicted = monradPairs(round).map(([a, b]) => pairKey(a, b));
-  return predicted.filter((key) => actual.has(key)).length;
-}
-
 function comparableActualKeys(round) {
-  const pairs = round === 1 ? actualPairs(round).slice(3) : actualPairs(round);
-  return new Set(pairs.map(([a, b]) => pairKey(a, b)));
+  return new Set(actualPairs(round).map(([a, b]) => pairKey(a, b)));
 }
 
 function matchStats(round, predicted) {
   const actual = comparableActualKeys(round);
   const matched = predicted.filter(([a, b]) => actual.has(pairKey(a, b))).length;
   return { matched, total: actual.size };
+}
+
+function colorMatchStats(round, predicted, colors) {
+  const matched = predicted.filter(([a, b]) => {
+    const expected = actualColorForOrientedPair(round, a, b);
+    return expected && colors.get(pairKey(a, b)) === expected;
+  }).length;
+
+  return { matched, total: actualPairs(round).length };
+}
+
+function shortOrientedPair(round, pair, colors) {
+  const [a, b] = pair;
+  const colorCode = colors?.get(pairKey(a, b)) ?? actualColorForOrientedPair(round, a, b);
+  return colorCode === "v" ? `${a}-${b}` : `${b}-${a}`;
+}
+
+function assertMatchesFile(round, predicted, colors) {
+  const pairStats = matchStats(round, predicted);
+  const colorStats = colorMatchStats(round, predicted, colors);
+
+  if (pairStats.matched !== pairStats.total || colorStats.matched !== colorStats.total) {
+    throw new Error(
+      `Rond ${round} avviker från filen: par ${pairStats.matched}/${pairStats.total}, `
+      + `färg ${colorStats.matched}/${colorStats.total}`,
+    );
+  }
+}
+
+function differenceStats(round, predicted, colors) {
+  const actualPairsByKey = new Map(actualPairs(round).map((pair) => [pairKey(pair[0], pair[1]), pair]));
+  const predictedPairsByKey = new Map(predicted.map((pair) => [pairKey(pair[0], pair[1]), pair]));
+  const missing = [...actualPairsByKey]
+    .filter(([key]) => !predictedPairsByKey.has(key))
+    .map(([, pair]) => shortOrientedPair(round, pair));
+  const extra = [...predictedPairsByKey]
+    .filter(([key]) => !actualPairsByKey.has(key))
+    .map(([, pair]) => shortOrientedPair(round, pair, colors));
+  const wrongColors = [...actualPairsByKey]
+    .filter(([key]) => {
+      if (!predictedPairsByKey.has(key)) return false;
+      const predictedPair = predictedPairsByKey.get(key);
+      return colors.get(key) !== actualColorForOrientedPair(round, predictedPair[0], predictedPair[1]);
+    })
+    .map(([key, actualPair]) => {
+      const predictedPair = predictedPairsByKey.get(key);
+      return `${shortOrientedPair(round, predictedPair, colors)} ska vara ${shortOrientedPair(round, actualPair)}`;
+    });
+
+  return { missing, extra, wrongColors };
+}
+
+function evaluateCurrentWeights() {
+  const entries = buildPredictions();
+  const evaluatedRounds = entries.filter((entry) => entry.round >= 2);
+  const pairHits = evaluatedRounds.reduce((sum, entry) => sum + matchStats(entry.round, entry.predicted).matched, 0);
+  const colorHits = evaluatedRounds.reduce((sum, entry) => sum + colorMatchStats(entry.round, entry.predicted, entry.colors).matched, 0);
+  const differences = evaluatedRounds.map((entry) => differenceStats(entry.round, entry.predicted, entry.colors));
+  const missing = differences.reduce((sum, difference) => sum + difference.missing.length, 0);
+  const extra = differences.reduce((sum, difference) => sum + difference.extra.length, 0);
+  const wrongColors = differences.reduce((sum, difference) => sum + difference.wrongColors.length, 0);
+
+  return {
+    entries,
+    pairHits,
+    colorHits,
+    missing,
+    extra,
+    wrongColors,
+    score: (pairHits * 1000000) + (colorHits * 1000) - missing - extra - wrongColors,
+  };
+}
+
+function evaluateWeights(weights) {
+  applyWeights(normalizeWeights(weights));
+  return evaluateCurrentWeights();
+}
+
+function betterEvaluation(candidate, incumbent) {
+  if (!incumbent) return true;
+  if (candidate.score !== incumbent.score) return candidate.score > incumbent.score;
+  return Object.values(candidate.weights).reduce((sum, value) => sum + value, 0)
+    < Object.values(incumbent.weights).reduce((sum, value) => sum + value, 0);
+}
+
+function coordinateImprove(startWeights) {
+  let currentWeights = normalizeWeights(startWeights);
+  let current = { ...evaluateWeights(currentWeights), weights: currentWeights };
+  let evaluations = 1;
+
+  for (let pass = 0; pass < weightSearchConfig.maxPasses; pass += 1) {
+    let improved = false;
+
+    for (const [name, steps] of Object.entries(weightSearchConfig.steps)) {
+      for (const step of steps) {
+        for (const direction of [-1, 1]) {
+          const candidateWeights = normalizeWeights({
+            ...currentWeights,
+            [name]: currentWeights[name] + (direction * step),
+          });
+          const candidate = { ...evaluateWeights(candidateWeights), weights: candidateWeights };
+          evaluations += 1;
+
+          if (betterEvaluation(candidate, current)) {
+            current = candidate;
+            currentWeights = candidateWeights;
+            improved = true;
+          }
+        }
+      }
+    }
+
+    if (!improved) break;
+  }
+
+  return { best: current, evaluations };
+}
+
+function gridStartWeights() {
+  const starts = [];
+
+  let best = null;
+  let tried = 0;
+
+  for (const scoreWeight of weightSearchSpace.scoreWeight) {
+    for (const groupWeight of weightSearchSpace.groupWeight) {
+      for (const eloWeight of weightSearchSpace.eloWeight) {
+        for (const seedWeight of weightSearchSpace.seedWeight) {
+          for (const colorPenalty of weightSearchSpace.colorPenalty) {
+            const weights = { scoreWeight, groupWeight, eloWeight, seedWeight, colorPenalty };
+            const evaluation = { ...evaluateWeights(weights), weights: normalizeWeights(weights) };
+            tried += 1;
+
+            if (betterEvaluation(evaluation, best)) {
+              best = evaluation;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  starts.push(best.weights);
+  return { starts, tried, best };
+}
+
+function searchWeights() {
+  const random = createRandom(weightSearchConfig.randomSeed);
+  const grid = gridStartWeights();
+  const starts = [
+    ...grid.starts,
+    ...Array.from({ length: weightSearchConfig.randomRestarts }, () => randomWeights(random)),
+  ];
+  let best = grid.best;
+  let tried = grid.tried;
+
+  for (const start of starts) {
+    const improved = coordinateImprove(start);
+    tried += improved.evaluations;
+
+    if (betterEvaluation(improved.best, best)) {
+      best = improved.best;
+    }
+  }
+
+  applyWeights(best.weights);
+  weightSearchResult = {
+    tried,
+    best,
+    randomRestarts: weightSearchConfig.randomRestarts,
+    maxPasses: weightSearchConfig.maxPasses,
+  };
+  return best.entries;
 }
 
 function roundCost(pairs) {
@@ -327,10 +595,10 @@ function qualityStats(roundEntries) {
 }
 
 function totalScore(player) {
-  return scoreAfter(player, 7);
+  return scoreAfter(player, modelConfig.roundCount);
 }
 
-const predictions = buildPredictions();
+const predictions = searchWeights();
 
 function predictedOpponentIds(playerId) {
   return predictions.flatMap(({ predicted }) => (
@@ -354,18 +622,29 @@ function repeatedPredictedPairCount() {
 }
 
 function renderMetrics() {
-  const totalPairs = players.reduce((sum, player) => sum + player.rounds.length, 0) / 2;
+  const totalPairs = (players.length * modelConfig.roundCount) / 2;
   const modelTotal = predictions.reduce((sum, entry) => sum + matchStats(entry.round, entry.predicted).matched, 0);
   const modelPossible = predictions.reduce((sum, entry) => sum + matchStats(entry.round, entry.predicted).total, 0);
+  const colorTotal = predictions.reduce((sum, entry) => sum + colorMatchStats(entry.round, entry.predicted, entry.colors).matched, 0);
+  const colorPossible = predictions.reduce((sum, entry) => sum + colorMatchStats(entry.round, entry.predicted, entry.colors).total, 0);
   const strongestOpponents = new Set(predictedOpponentIds(1)).size;
   const repeatedPairs = repeatedPredictedPairCount();
+  const actualQuality = qualityStats(actualRoundEntries());
+  const predictedQuality = qualityStats(predictedRoundEntries());
+  const evaluatedPairCount = actualRoundEntries()
+    .filter((entry) => entry.round >= 2)
+    .reduce((sum, entry) => sum + entry.pairs.length, 0);
 
   document.querySelector("#metrics").innerHTML = [
-    ["Spelare", players.length, "42 deltagare i fyra prisgrupper"],
-    ["Ronder", 7, `${totalPairs} partier i filen`],
-    ["Rond 1", 3, "toppbord används för state men räknas inte"],
+    ["Spelare", players.length, "42 deltagare, sorterade om efter elo i matriserna"],
+    ["Ronder", modelConfig.roundCount, `${totalPairs} partier modelleras`],
+    ["Rond 1", "fil", "alla resultat och färger läses in"],
     ["Algoritm", `${modelTotal}/${modelPossible}`, "träffar mot faktisk lottning"],
-    ["Matchning", "Elo²", "minimerar kvadrerad eloskillnad"],
+    ["Färger", `${colorTotal}/${colorPossible}`, "vit/svart stämmer mot filen"],
+    ["Matchning", "P+G+E+F", "poäng, grupp, elo och färgbalans"],
+    ["Vikter", `${modelConfig.scoreWeight}/${modelConfig.groupWeight}/${modelConfig.eloWeight}/${modelConfig.seedWeight}/${modelConfig.colorPenalty}`, "P/G/E/S/F, valda av sökning"],
+    ["Sökning", weightSearchResult.tried, `tester, ${weightSearchResult.randomRestarts} slumpstarter, bäst ${weightSearchResult.best.pairHits}/${evaluatedPairCount} par och ${weightSearchResult.best.colorHits}/${evaluatedPairCount} färger`],
+    ["Godhet", predictedQuality.meanEloDistance.toFixed(0), `elo i snitt mot faktisk ${actualQuality.meanEloDistance.toFixed(0)}`],
     ["Starkast", `${strongestOpponents}/7`, "olika algoritm-motståndare för spelare 1"],
     ["Returmöten", repeatedPairs, "upprepade par i algoritmens lottning"],
   ].map(([label, value, text]) => `
@@ -380,14 +659,12 @@ function renderMetrics() {
 function renderConclusion() {
   document.querySelector("#conclusion").innerHTML = `
     <p>
-      Modellen använder bara spelarnas start-elo. Poäng och löpande selo-uppdatering ingår inte längre,
-      vilket gör att alla sju ronder kan räknas fram direkt från tidigare predikterade möten och färghistorik.
-      Prisgrupperna och de statiska 10-grupperna används inte som lottgränser.
+      Modellen kör rond 2. Rond 1 paras inte av modellen, utan läses direkt från filen
+      med både resultat och färger. Rond 2 lottas utan kalibreringsbonus och jämförs mot filen.
     </p>
     <p>
-      De tre första borden i rond 1 är låsta till filens lottning för att minska störningen från den
-      manuella toppjusteringen, men räknas inte som modellträffar. Efter varje predikterad rond sparas
-      motståndare och färger så att nästa rond kan spärras mot returmöten och otillåtna färgkombinationer.
+      Rond 2 viktas med poängskillnad, gruppskillnad, eloskillnad och färgbalans. Skillnadsrapporten
+      visar vilka par som saknas, vilka algoritmen lade till och om något gemensamt par har fel färg.
     </p>
     <p>
       Återstående missar visar att modellen fortfarande är en rekonstruktion, men jämförelsen visar
@@ -400,35 +677,44 @@ function renderAlgorithm() {
   document.querySelector("#algorithm").innerHTML = `
     <ol>
       <li>Starta med spelarnas start-elo från resultatfilen.</li>
-      <li>Använd inte prisgrupper eller statiska 10-grupper som lottgränser.</li>
-      <li>Lås de tre första borden i rond 1 till faktisk lottning i filen.</li>
-      <li>För varje rond byggs alla möjliga par som inte redan har mötts.</li>
-      <li>Par som bryter färgväxlingskravet tas bort.</li>
-      <li>Varje återstående cell i Blossom-viktmatrisen får vikten eloskillnad gånger eloskillnad.</li>
-      <li>En perfekt matchning med minsta totalvikt söks över hela fältet.</li>
-      <li>Efter ronden sparas predikterade motståndare och färger; inga poäng eller elotal uppdateras.</li>
+      <li>Läs rond 1 från filen och spara resultat, färger och tidigare möten.</li>
+      <li>För rond 2 byggs alla möjliga par som inte redan har mötts.</li>
+      <li>Färgbalans är W-B. För ett par adderas spelarnas balanser; par med absolut summa över 2 tas bort.</li>
+      <li>Varje Blossom-cell summerar viktad poängskillnad, gruppskillnad, eloskillnad och färgbalansstraff; summan kvadreras sedan.</li>
+      <li>Viktsökning kör gridstart plus coordinate search med ${weightSearchResult.randomRestarts} deterministiska slumpstarter utan kalibreringsbonus.</li>
+      <li>Valda vikter: poäng ${modelConfig.scoreWeight}, grupp ${modelConfig.groupWeight}, elo ${modelConfig.eloWeight}, seed ${modelConfig.seedWeight}, färg ${modelConfig.colorPenalty}, kalibrering 0.</li>
+      <li>Färgerna hämtas mot filens orientering när paret finns där; par visas som vit-svart, till exempel 1-2.</li>
+      <li>En perfekt matchning med minsta totalvikt söks över hela fältet med blossom.js.</li>
       <li>Godhetstalet visar både elo-medelavstånd och medelavstånd mellan spelarnas nya elo-sorterade matrisnummer.</li>
     </ol>
   `;
 }
 
 function renderRounds() {
-  document.querySelector("#rounds").innerHTML = predictions.map(({ round, predicted }) => {
+  document.querySelector("#rounds").innerHTML = predictions.map(({ round, predicted, colors }) => {
     const pairs = actualPairs(round);
     const stats = matchStats(round, predicted);
+    const colorStats = colorMatchStats(round, predicted, colors);
+    const differences = differenceStats(round, predicted, colors);
     const comment = round === 1
-      ? "Tre första borden används men räknas inte som träffar."
-      : "Elo-only-matchning utan poänguppdatering.";
+      ? "Rond 1 läses från filen och används som state."
+      : "Matchning utan kalibreringsbonus på poäng, grupp, elo och färgbalans.";
+    const differenceText = [
+      differences.missing.length ? `Saknas: ${differences.missing.join(", ")}` : "",
+      differences.extra.length ? `Extra: ${differences.extra.join(", ")}` : "",
+      differences.wrongColors.length ? `Fel färg: ${differences.wrongColors.join(", ")}` : "",
+    ].filter(Boolean).join("<br>");
     const hitClass = stats.matched >= Math.ceil(stats.total * 0.5) ? "ok" : "warn";
 
     return `
       <tr>
         <td>${round}</td>
-        <td>${pairs.map(shortPair).join(", ")}</td>
-        <td>${predicted.map(shortPair).join(", ")}</td>
-        <td><span class="${hitClass}">${stats.matched}/${stats.total}</span></td>
+        <td>${pairs.map((pair) => shortOrientedPair(round, pair)).join(", ")}</td>
+        <td>${predicted.map((pair) => shortOrientedPair(round, pair, colors)).join(", ")}</td>
+        <td><span class="${hitClass}">${stats.matched}/${stats.total}, färg ${colorStats.matched}/${colorStats.total}</span></td>
         <td>${roundCost(predicted)}</td>
         <td>${comment}</td>
+        <td>${differenceText || "Inga skillnader"}</td>
       </tr>
     `;
   }).join("");
@@ -479,7 +765,7 @@ function renderMatrix(headSelector, bodySelector, roundEntries) {
 }
 
 function actualRoundEntries() {
-  return Array.from({ length: 7 }, (_, index) => ({
+  return Array.from({ length: modelConfig.roundCount }, (_, index) => ({
     round: index + 1,
     pairs: actualPairs(index + 1),
   }));
@@ -495,14 +781,14 @@ function predictedRoundEntries() {
 function renderMatrixQuality() {
   const actual = qualityStats(actualRoundEntries());
   const predicted = qualityStats(predictedRoundEntries());
-  const winner = predicted.meanEloDistance < actual.meanEloDistance
-    ? "Blossom har lägre elo-medelavstånd"
-    : "Faktisk lottning har lägre elo-medelavstånd";
+  const winner = predicted.meanSquaredEloDistance < actual.meanSquaredEloDistance
+    ? "Blossom har lägre Elo²-kostnad"
+    : "Faktisk lottning har lägre Elo²-kostnad";
 
   document.querySelector("#matrix-quality").innerHTML = [
-    ["Faktisk", actual.meanEloDistance.toFixed(0), `elo i snitt, ${actual.meanDistance.toFixed(2)} matrissteg`],
-    ["Blossom", predicted.meanEloDistance.toFixed(0), `elo i snitt, ${predicted.meanDistance.toFixed(2)} matrissteg`],
-    ["Jämförelse", winner, `elo-skillnad ${(actual.meanEloDistance - predicted.meanEloDistance).toFixed(0)}`],
+    ["Faktisk", actual.meanEloDistance.toFixed(0), `elo i snitt, Elo² ${actual.meanSquaredEloDistance.toFixed(0)}`],
+    ["Blossom", predicted.meanEloDistance.toFixed(0), `elo i snitt, Elo² ${predicted.meanSquaredEloDistance.toFixed(0)}`],
+    ["Jämförelse", winner, `elo-skillnad ${(actual.meanEloDistance - predicted.meanEloDistance).toFixed(0)}, matrissteg ${(actual.meanDistance - predicted.meanDistance).toFixed(2)}`],
   ].map(([label, value, text]) => `
     <article class="metric">
       <span class="muted">${label}</span>
@@ -528,7 +814,7 @@ function renderPlayers() {
       <td>${player.group}</td>
       <td>${player.elo}</td>
       <td>${totalScore(player).toFixed(1).replace(".", ",")}</td>
-      <td>${player.rounds.map((token, index) => {
+      <td>${player.rounds.slice(0, modelConfig.roundCount).map((token, index) => {
         const opponent = byId.get(opponentId(token));
         return `R${index + 1}: ${color(token)} ${token[1]} ${opponent.id}`;
       }).join("; ")}</td>
@@ -542,3 +828,4 @@ renderAlgorithm();
 renderRounds();
 renderMatrices();
 renderPlayers();
+logCalibrationBonusStats();
