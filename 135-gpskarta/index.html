@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#10271f">
   <title>Kompass — hitta koordinaten</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="layout.css">
 </head>
 <body>
   <main>
@@ -53,16 +54,8 @@
       </div>
 
       <div class="route-card">
-        <svg id="routeView" viewBox="0 0 600 230" role="img" aria-label="Översikt mellan din position och målet">
-          <defs><pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="currentColor" stroke-width="1"/></pattern></defs>
-          <rect width="600" height="230" fill="url(#grid)"/>
-          <path id="routeLine" d="M90 165 Q300 35 510 70" />
-          <circle cx="90" cy="165" r="11" class="you-dot"/><circle cx="510" cy="70" r="12" class="target-dot"/>
-          <text x="70" y="198">DU</text><text x="480" y="45">MÅL</text>
-        </svg>
         <div class="coordinates">
           <div><span>Din position</span><strong id="currentCoordinates">Söker GPS …</strong></div>
-          <div><span>Mål · WGS84</span><strong id="targetCoordinates">—</strong></div>
           <div><span>Mål · SWEREF 99 TM</span><strong id="swerefCoordinates">—</strong></div>
         </div>
       </div>

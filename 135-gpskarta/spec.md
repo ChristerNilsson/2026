@@ -22,3 +22,8 @@ Jag använder iPhone. Byt ut knappen "Ljud av/på" mot 'test'. Test ska läsa up
 Eventuellt måste man använda inspelade ljudfiler för att höra något. iPhone kan ha problem med att skapa ljud från text.
 
 Koordinatsystemet med DU och MÅL behövs inte.
+Mål WGS84 behöver inte upprepas.
+Bäring och Avstånd ska stå på samma rad.
+Google Maps och Min karta ska stå på samma rad.
+
+Acceptera även kommatecken mellan latitud och longitud.

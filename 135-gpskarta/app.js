@@ -8,7 +8,8 @@
   const audioPlayer = new Audio();
 
   function parseCoordinate(value) {
-    const parts = value.trim().replace(/,/g, ".").split(/[;\s]+/).filter(Boolean).map(Number);
+    const matches = value.trim().match(/[+-]?\d+(?:[.,]\d+)?/g) || [];
+    const parts = matches.map((part) => Number(part.replace(",", ".")));
     if (parts.length !== 2 || parts.some((n) => !Number.isFinite(n))) return null;
     const [lat, lon] = parts;
     return lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180 ? { lat, lon } : null;
@@ -132,7 +133,6 @@
     state.target = target; state.lastBearingBand = null; state.lastDistance = null;
     $("coordinate").classList.remove("invalid"); $("inputHelp").classList.remove("error");
     $("navigation").hidden = false; $("targetLabel").textContent = `${target.lat.toFixed(5)}, ${target.lon.toFixed(5)}`;
-    $("targetCoordinates").textContent = `${target.lat.toFixed(5)} ${target.lon.toFixed(5)}`;
     const sweref = toSweref99TM(target.lat, target.lon);
     const swerefText = `${sweref.northing} ${sweref.easting}`;
     $("swerefCoordinates").textContent = swerefText;
