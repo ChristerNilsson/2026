@@ -8,6 +8,8 @@
   const audioPlayer = new Audio();
 
   function parseCoordinate(value) {
+    const sweref = parseMinKartaLink(value);
+    if (sweref) return { ...toWgs84(sweref.northing, sweref.easting), source: "sweref" };
     const matches = value.trim().match(/[+-]?\d+(?:[.,]\d+)?/g) || [];
     const parts = matches.map((part) => Number(part.replace(",", ".")));
     if (parts.length !== 2 || parts.some((n) => !Number.isFinite(n))) return null;
@@ -44,6 +46,49 @@
     const x = scale * aRoof * (xiPrime + beta1 * Math.sin(2 * xiPrime) * Math.cosh(2 * etaPrime) + beta2 * Math.sin(4 * xiPrime) * Math.cosh(4 * etaPrime) + beta3 * Math.sin(6 * xiPrime) * Math.cosh(6 * etaPrime) + beta4 * Math.sin(8 * xiPrime) * Math.cosh(8 * etaPrime)) + falseNorthing;
     const y = scale * aRoof * (etaPrime + beta1 * Math.cos(2 * xiPrime) * Math.sinh(2 * etaPrime) + beta2 * Math.cos(4 * xiPrime) * Math.sinh(4 * etaPrime) + beta3 * Math.cos(6 * xiPrime) * Math.sinh(6 * etaPrime) + beta4 * Math.cos(8 * xiPrime) * Math.sinh(8 * etaPrime)) + falseEasting;
     return { northing: Math.round(x), easting: Math.round(y) };
+  }
+
+  function parseMinKartaLink(value) {
+    if (!/minkarta\.lantmateriet\.se/i.test(value)) return null;
+    const eastMatch = value.match(/[?&]e=(-?\d+(?:\.\d+)?)/i);
+    const northMatch = value.match(/[?&]n=(-?\d+(?:\.\d+)?)/i);
+    if (!eastMatch || !northMatch) return null;
+    const easting = Number(eastMatch[1]), northing = Number(northMatch[1]);
+    if (!Number.isFinite(easting) || !Number.isFinite(northing)) return null;
+    if (easting < 213000 || easting > 861000 || northing < 6105000 || northing > 7794100) return null;
+    return { easting, northing };
+  }
+
+  function toWgs84(northing, easting) {
+    const axis = 6378137.0, flattening = 1 / 298.257222101, centralMeridian = 15.0;
+    const scale = 0.9996, falseNorthing = 0, falseEasting = 500000;
+    const e2 = flattening * (2 - flattening), n = flattening / (2 - flattening);
+    const aRoof = axis / (1 + n) * (1 + n ** 2 / 4 + n ** 4 / 64);
+    const delta1 = n / 2 - 2 * n ** 2 / 3 + 37 * n ** 3 / 96 - n ** 4 / 360;
+    const delta2 = n ** 2 / 48 + n ** 3 / 15 - 437 * n ** 4 / 1440;
+    const delta3 = 17 * n ** 3 / 480 - 37 * n ** 4 / 840;
+    const delta4 = 4397 * n ** 4 / 161280;
+    const A = e2 + e2 ** 2 + e2 ** 3 + e2 ** 4;
+    const B = -(7 * e2 ** 2 + 17 * e2 ** 3 + 30 * e2 ** 4) / 6;
+    const C = (224 * e2 ** 3 + 889 * e2 ** 4) / 120;
+    const D = -(4279 * e2 ** 4) / 1260;
+    const xi = (northing - falseNorthing) / (scale * aRoof);
+    const eta = (easting - falseEasting) / (scale * aRoof);
+    const xiPrime = xi
+      - delta1 * Math.sin(2 * xi) * Math.cosh(2 * eta)
+      - delta2 * Math.sin(4 * xi) * Math.cosh(4 * eta)
+      - delta3 * Math.sin(6 * xi) * Math.cosh(6 * eta)
+      - delta4 * Math.sin(8 * xi) * Math.cosh(8 * eta);
+    const etaPrime = eta
+      - delta1 * Math.cos(2 * xi) * Math.sinh(2 * eta)
+      - delta2 * Math.cos(4 * xi) * Math.sinh(4 * eta)
+      - delta3 * Math.cos(6 * xi) * Math.sinh(6 * eta)
+      - delta4 * Math.cos(8 * xi) * Math.sinh(8 * eta);
+    const phiStar = Math.asin(Math.sin(xiPrime) / Math.cosh(etaPrime));
+    const deltaLambda = Math.atan(Math.sinh(etaPrime) / Math.cos(xiPrime));
+    const lat = phiStar + Math.sin(phiStar) * Math.cos(phiStar)
+      * (A + B * Math.sin(phiStar) ** 2 + C * Math.sin(phiStar) ** 4 + D * Math.sin(phiStar) ** 6);
+    return { lat: toDeg(lat), lon: centralMeridian + toDeg(deltaLambda) };
   }
 
   function playNextClip() {
@@ -143,6 +188,12 @@
     }
     state.target = target; state.lastBearingBand = null; state.lastDistance = null;
     $("coordinate").classList.remove("invalid"); $("inputHelp").classList.remove("error");
+    if (target.source === "sweref") {
+      $("coordinate").value = `${target.lat.toFixed(5)}, ${target.lon.toFixed(5)}`;
+      $("inputHelp").textContent = "Min karta-länken är omvandlad från SWEREF 99 TM till WGS84.";
+    } else {
+      $("inputHelp").textContent = "Exempel: 59.2701, 18.1503 eller en delningslänk från Min karta";
+    }
     $("navigation").hidden = false; $("targetLabel").textContent = `${target.lat.toFixed(5)}, ${target.lon.toFixed(5)}`;
     const sweref = toSweref99TM(target.lat, target.lon);
     const swerefText = `${sweref.northing} ${sweref.easting}`;
@@ -171,5 +222,5 @@
     $("navigation").hidden = true;
   });
   $("testVoiceButton").addEventListener("click", testTargetVoice);
-  window.gpsKarta = { parseCoordinate, navigationData, toSweref99TM, minKartaUrl };
+  window.gpsKarta = { parseCoordinate, navigationData, toSweref99TM, toWgs84, parseMinKartaLink, minKartaUrl };
 })();

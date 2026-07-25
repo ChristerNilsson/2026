@@ -20,12 +20,12 @@
       <h1>Vart vill du?</h1>
       <p class="intro">Ange målet i WGS84. Du får bäring, avstånd och diskreta röstmeddelanden längs vägen.</p>
       <form id="targetForm">
-        <label for="coordinate">Koordinat <span>Latitud, longitud</span></label>
+        <label for="coordinate">Koordinat <span>WGS84 eller Min karta-länk</span></label>
         <div class="input-row">
           <input id="coordinate" inputmode="decimal" autocomplete="off" placeholder="59.2701, 18.1503" required>
           <button class="locate" type="button" id="usePosition" title="Använd min position" aria-label="Använd min position">⌖</button>
         </div>
-        <p id="inputHelp" class="help">Exempel: 59.2701, 18.1503</p>
+        <p id="inputHelp" class="help">Exempel: 59.2701, 18.1503 eller en delningslänk från Min karta</p>
         <button class="primary" type="submit"><span>Starta navigering</span><span aria-hidden="true">→</span></button>
       </form>
     </section>
