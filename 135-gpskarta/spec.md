@@ -10,22 +10,14 @@ Då bäringen ändrats tio grader ska en manlig röst informera om den nya bäri
 Alla ljud ligger i katalogen sounds.
 
 Avstånd rapporteras med en kvinnlig röst vid följande gränser, i meter:
-10, 20, 50, 100, 200, 500 osv.
+10,20,30,40,50,60,70,80,90, 100,200,300,400,500,600,700,800,900, 1000,2000 osv.
 
-Det behövs ett textfält som tar emot WGS84. T ex ”63.12345 19.12345”
+Det behövs ett textfält som tar emot WGS84. T ex ”59.2701, 18.1503”
 Navigering startas med en knapp. Vore bra om kartan visas hela tiden eller mha en knapp. Kartan ska visa var man är samt var målet är.
 
-Observera att minkarta kräver SWEREF, såvitt jag vet.
-I urlen anges dessa som n= och e=
+Observera att minkarta kräver SWEREF. I urlen anges dessa som n= och e=
 
-Jag använder iPhone. Byt ut knappen "Ljud av/på" mot 'test'. Test ska läsa upp talen 2,4,6,8 och 10.
-Eventuellt måste man använda inspelade ljudfiler för att höra något. iPhone kan ha problem med att skapa ljud från text.
-
-Koordinatsystemet med DU och MÅL behövs inte.
-Mål WGS84 behöver inte upprepas.
-Bäring och Avstånd ska stå på samma rad.
-Google Maps och Min karta ska stå på samma rad.
+Jag använder iPhone. Testknappen ska läsa upp talet 4711.
+Använd inspelade ljudfiler.
 
 Acceptera även kommatecken mellan latitud och longitud.
-
-Jag ser inte några gps-koordinater för min position på iPhone.

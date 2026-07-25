@@ -9,6 +9,6 @@ Min karta öppnas direkt vid målet med SWEREF 99 TM-värden i URL-parametrarna
 
 Appens automatiska vägledning använder de förinspelade MP3-filerna i `sounds`:
 manlig röst för bäring och kvinnlig röst för avstånd. På iPhone används knappen
-**Test** efter att navigeringen startats. Den spelar de inspelade talen 2, 4, 6,
-8 och 10 med kvinnlig röst och låser samtidigt upp MP3-spelaren för den
-fortsatta vägledningen. Appen använder inte webbläsarens talsyntes.
+**Test** efter att navigeringen startats. Den spelar talet 4711 genom att köa
+inspelade ljudklipp och låser samtidigt upp MP3-spelaren för den fortsatta
+vägledningen. Appen använder inte webbläsarens talsyntes.

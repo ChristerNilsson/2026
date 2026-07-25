@@ -69,8 +69,11 @@
     if (!state.audioPlaying) playNextClip();
   }
   function testTargetVoice() {
-    const testValues = [2, 4, 6, 8, 10];
-    queueClips(testValues.map((value) => `sounds/distance/female/${value}.mp3`), true);
+    queueClips([
+      "sounds/distance/female/4000.mp3",
+      "sounds/distance/female/700.mp3",
+      "sounds/bearing/female/11.mp3"
+    ], true);
   }
   function speakBearing(bearing) {
     const rounded = Math.round(bearing / 10);
@@ -83,7 +86,9 @@
   }
   function thresholds(max) {
     const result = [];
-    for (let p = 1; p <= max * 10; p *= 10) for (const n of [1, 2, 5]) result.push(n * p);
+    for (let p = 10; p <= max * 10; p *= 10) {
+      for (let multiplier = 1; multiplier <= 9; multiplier += 1) result.push(multiplier * p);
+    }
     return result;
   }
   function speakDistance(distance) {
@@ -134,7 +139,7 @@
     const target = parseCoordinate($("coordinate").value);
     if (!target) {
       $("coordinate").classList.add("invalid"); $("inputHelp").classList.add("error");
-      $("inputHelp").textContent = "Ange latitud och longitud, till exempel 63.12345 19.12345."; return;
+      $("inputHelp").textContent = "Ange latitud och longitud, till exempel 59.2701, 18.1503."; return;
     }
     state.target = target; state.lastBearingBand = null; state.lastDistance = null;
     $("coordinate").classList.remove("invalid"); $("inputHelp").classList.remove("error");
