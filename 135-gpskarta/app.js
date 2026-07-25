@@ -1,7 +1,11 @@
 (() => {
   "use strict";
   const $ = (id) => document.getElementById(id);
-  const state = { target: null, current: null, watchId: null, lastBearingBand: null, lastDistance: null };
+  const state = {
+    target: null, current: null, watchId: null, lastBearingBand: null, lastDistance: null,
+    audioQueue: [], audioPlaying: false
+  };
+  const audioPlayer = new Audio();
 
   function parseCoordinate(value) {
     const parts = value.trim().replace(/,/g, ".").split(/[;\s]+/).filter(Boolean).map(Number);
@@ -41,40 +45,39 @@
     return { northing: Math.round(x), easting: Math.round(y) };
   }
 
-  function voices() {
-    const sv = window.speechSynthesis.getVoices().filter((v) => v.lang.toLowerCase().startsWith("sv"));
-    const female = sv.find((v) => /alva|sara|female|kvinna/i.test(v.name)) || sv[0];
-    const male = sv.find((v) => /mattias|ove|male|man/i.test(v.name)) || sv[1] || sv[0];
-    return { female, male };
+  function playNextClip() {
+    const source = state.audioQueue.shift();
+    if (!source) { state.audioPlaying = false; return; }
+    state.audioPlaying = true;
+    audioPlayer.src = source;
+    audioPlayer.currentTime = 0;
+    audioPlayer.play().catch(() => {
+      state.audioPlaying = false;
+      state.audioQueue.length = 0;
+    });
   }
-  function speak(text, voice) {
-    if (!("speechSynthesis" in window)) return;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "sv-SE"; utterance.voice = voice || null; utterance.rate = .92;
-    window.speechSynthesis.speak(utterance);
-  }
-  function speakableCoordinate(value) {
-    const words = ["noll", "ett", "två", "tre", "fyra", "fem", "sex", "sju", "åtta", "nio"];
-    return value.toFixed(5).split("").map((character) => {
-      if (character === ".") return "komma";
-      if (character === "-") return "minus";
-      return words[Number(character)];
-    }).join(" ");
+  audioPlayer.addEventListener("ended", playNextClip);
+  audioPlayer.addEventListener("error", playNextClip);
+  function queueClips(sources, replace = false) {
+    if (replace) {
+      audioPlayer.pause();
+      state.audioQueue.length = 0;
+      state.audioPlaying = false;
+    }
+    state.audioQueue.push(...sources);
+    if (!state.audioPlaying) playNextClip();
   }
   function testTargetVoice() {
-    if (!state.target || !("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.resume();
-    const text = `Målets koordinater är latitud ${speakableCoordinate(state.target.lat)}, longitud ${speakableCoordinate(state.target.lon)}`;
-    speak(text, voices().female);
+    const testValues = [2, 4, 6, 8, 10];
+    queueClips(testValues.map((value) => `sounds/distance/female/${value}.mp3`), true);
   }
   function speakBearing(bearing) {
-    const band = Math.round(bearing / 10) % 36;
+    const rounded = Math.round(bearing / 10);
+    const band = rounded === 0 ? 36 : rounded;
     if (state.lastBearingBand === null) state.lastBearingBand = band;
     else if (band !== state.lastBearingBand) {
       state.lastBearingBand = band;
-      const digits = String(band).padStart(2, "0").split("").map((d) => ["noll","ett","två","tre","fyra","fem","sex","sju","åtta","nio"][+d]).join(" ");
-      speak(digits, voices().female);
+      queueClips([`sounds/bearing/male/${String(band).padStart(2, "0")}.mp3`]);
     }
   }
   function thresholds(max) {
@@ -85,7 +88,7 @@
   function speakDistance(distance) {
     if (state.lastDistance !== null && distance < state.lastDistance) {
       const crossed = thresholds(state.lastDistance).filter((t) => state.lastDistance > t && distance <= t).sort((a,b) => b-a)[0];
-      if (crossed) speak(crossed >= 1000 ? `${crossed / 1000} kilometer` : `${crossed} meter`, voices().male);
+      if (crossed && crossed <= 10000) queueClips([`sounds/distance/female/${crossed}.mp3`]);
     }
     state.lastDistance = distance;
   }
@@ -148,8 +151,10 @@
   }, gpsError, { enableHighAccuracy: true }));
   $("stopButton").addEventListener("click", () => {
     if (state.watchId !== null) navigator.geolocation.clearWatch(state.watchId);
-    state.watchId = null; window.speechSynthesis?.cancel(); $("navigation").hidden = true;
+    state.watchId = null;
+    audioPlayer.pause(); state.audioQueue.length = 0; state.audioPlaying = false;
+    $("navigation").hidden = true;
   });
   $("testVoiceButton").addEventListener("click", testTargetVoice);
-  window.gpsKarta = { parseCoordinate, navigationData, toSweref99TM, minKartaUrl, speakableCoordinate };
+  window.gpsKarta = { parseCoordinate, navigationData, toSweref99TM, minKartaUrl };
 })();
