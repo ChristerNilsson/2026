@@ -21,7 +21,7 @@ body {
   font-family: ui-rounded, "Arial Rounded MT Bold", system-ui, sans-serif;
 }
 
-button, input { font: inherit; }
+button, input, select { font: inherit; }
 
 .shell {
   width: min(100% - 28px, 620px);
@@ -118,6 +118,27 @@ button:disabled { opacity: .5; cursor: wait; }
 .list-heading { display: flex; justify-content: space-between; align-items: baseline; }
 .list-heading h2 { margin: 0; font-size: 1.1rem; }
 #word-count { color: var(--muted); font-size: .85rem; }
+.list-tools { display: flex; align-items: center; gap: 8px; }
+.sort-label {
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+select {
+  max-width: 128px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 6px 25px 6px 8px;
+  color: var(--ink);
+  background: white;
+  font-size: .78rem;
+  font-weight: 750;
+}
 ol { margin: 14px 0 0; padding: 0; list-style: none; }
 li { display: flex; justify-content: space-between; padding: 11px 2px; border-top: 1px solid var(--line); font-weight: 750; }
 li .points.good { color: var(--good); }
@@ -127,6 +148,18 @@ li .points.bad { color: var(--bad); }
 #final-score { display: block; margin-top: 12px; font-size: 5rem; line-height: 1; }
 .result > span { color: var(--muted); font-weight: 800; }
 .result button { margin-top: 12px; }
+.result-sort {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 22px;
+  padding: 12px 14px;
+  border-radius: 13px;
+  background: #eef4f0;
+  text-align: left;
+}
+.result-sort label { margin: 0; font-size: .86rem; }
 .result-words, .answer-key { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line); text-align: left; }
 .result-words h2, .answer-key h2 { margin: 0; font-size: 1.1rem; }
 #result-word-count, #answer-count { color: var(--muted); font-size: .85rem; }

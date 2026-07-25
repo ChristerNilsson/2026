@@ -22,8 +22,10 @@ const elements = {
   list: document.querySelector("#word-list"),
   empty: document.querySelector("#empty-list"),
   count: document.querySelector("#word-count"),
+  gameSort: document.querySelector("#game-sort"),
   finalScore: document.querySelector("#final-score"),
   summary: document.querySelector("#result-summary"),
+  resultSort: document.querySelector("#result-sort"),
   resultWordList: document.querySelector("#result-word-list"),
   resultWordCount: document.querySelector("#result-word-count"),
   answerList: document.querySelector("#answer-list"),
@@ -39,13 +41,18 @@ let total = 0;
 let endsAt = 0;
 let timerId = null;
 let selectedTiles = [];
+let sortMode = "alphabetic";
+let answers = [];
 
 function normalize(value) {
   return value.trim().toLocaleLowerCase("sv-SE");
 }
 
-function alphabetic(words) {
-  return [...words].sort((a, b) => a.localeCompare(b, "sv-SE"));
+function sortedWords(words) {
+  return [...words].sort((a, b) => {
+    if (sortMode === "length" && a.length !== b.length) return b.length - a.length;
+    return a.localeCompare(b, "sv-SE");
+  });
 }
 
 function letterCounts(word) {
@@ -152,6 +159,7 @@ function startGame() {
 
   sourceCounts = letterCounts(source);
   entries = [];
+  answers = [];
   total = 0;
   endsAt = Date.now() + GAME_SECONDS * 1000;
   renderWords();
@@ -223,7 +231,12 @@ function renderWords() {
   elements.score.textContent = total;
   elements.count.textContent = `${entries.length} ${entries.length === 1 ? "ord" : "ord"}`;
   elements.empty.classList.toggle("hidden", entries.length > 0);
-  const sortedEntries = [...entries].sort((a, b) => a.word.localeCompare(b.word, "sv-SE"));
+  const sortedEntries = [...entries].sort((a, b) => {
+    if (sortMode === "length" && a.word.length !== b.word.length) {
+      return b.word.length - a.word.length;
+    }
+    return a.word.localeCompare(b.word, "sv-SE");
+  });
   elements.list.replaceChildren(...sortedEntries.map(entry => {
     const item = document.createElement("li");
     const word = document.createElement("span");
@@ -237,10 +250,10 @@ function renderWords() {
 }
 
 function findAllAnswers() {
-  return alphabetic([...dictionary].filter(word =>
+  return [...dictionary].filter(word =>
     word.length >= 2 &&
     canBuild(word)
-  ));
+  );
 }
 
 function makeResultItem(word, points, className = "") {
@@ -264,8 +277,15 @@ function finishGame() {
   const validCount = entries.filter(entry => entry.valid).length;
   elements.summary.textContent = `${validCount} godkända av ${entries.length} skrivna ord med ${source.toLocaleUpperCase("sv-SE")}.`;
   elements.resultWordCount.textContent = `${entries.length} ord`;
+  answers = findAllAnswers();
+  elements.answerCount.textContent = `${answers.length} ord`;
+  elements.answerScore.textContent = answers.reduce((sum, word) => sum + word.length ** 2, 0);
+  renderResultLists();
+}
+
+function renderResultLists() {
   const byWord = new Map(entries.map(entry => [entry.word, entry]));
-  elements.resultWordList.replaceChildren(...alphabetic(entries.map(entry => entry.word)).map(word => {
+  elements.resultWordList.replaceChildren(...sortedWords(entries.map(entry => entry.word)).map(word => {
     const entry = byWord.get(word);
     const item = makeResultItem(word, Math.abs(entry.points));
     const points = item.querySelector(".points");
@@ -274,13 +294,18 @@ function finishGame() {
     return item;
   }));
 
-  const answers = findAllAnswers();
   const found = new Set(entries.filter(entry => entry.valid).map(entry => entry.word));
-  elements.answerCount.textContent = `${answers.length} ord`;
-  elements.answerScore.textContent = answers.reduce((sum, word) => sum + word.length ** 2, 0);
-  elements.answerList.replaceChildren(...answers.map(word =>
+  elements.answerList.replaceChildren(...sortedWords(answers).map(word =>
     makeResultItem(word, word.length ** 2, found.has(word) ? "found-word" : "")
   ));
+}
+
+function changeSort(event) {
+  sortMode = event.target.value;
+  elements.gameSort.value = sortMode;
+  elements.resultSort.value = sortMode;
+  renderWords();
+  if (!elements.result.classList.contains("hidden")) renderResultLists();
 }
 
 function resetGame() {
@@ -299,5 +324,7 @@ elements.form.addEventListener("submit", addWord);
 elements.deleteLetter.addEventListener("click", deleteLetter);
 elements.clearWord.addEventListener("click", resetBuiltWord);
 elements.newGame.addEventListener("click", resetGame);
+elements.gameSort.addEventListener("change", changeSort);
+elements.resultSort.addEventListener("change", changeSort);
 document.addEventListener("keydown", handleGameKeyboard);
 loadDictionary();

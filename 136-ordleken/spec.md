@@ -23,3 +23,4 @@ Man ska kunna använda tangentbordet om man använder en dator.
 
 När tiden gått ut får man se facit. Skriv även ut poängen som facit motsvarar.
 
+Man ska kunna välja att sortera alfabetiskt eller på ordlängden

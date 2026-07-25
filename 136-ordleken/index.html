@@ -59,7 +59,14 @@
       <section class="card list-card">
         <div class="list-heading">
           <h2>Mina ord</h2>
-          <span id="word-count">0 ord</span>
+          <div class="list-tools">
+            <span id="word-count">0 ord</span>
+            <label class="sort-label" for="game-sort">Sortera</label>
+            <select id="game-sort">
+              <option value="alphabetic">Alfabetiskt</option>
+              <option value="length">Längst först</option>
+            </select>
+          </div>
         </div>
         <ol id="word-list"></ol>
         <p id="empty-list" class="empty">Dina ord dyker upp här.</p>
@@ -71,6 +78,13 @@
       <strong id="final-score">0</strong>
       <span>poäng</span>
       <p id="result-summary"></p>
+      <div class="result-sort">
+        <label for="result-sort">Sortera ordlistorna</label>
+        <select id="result-sort">
+          <option value="alphabetic">Alfabetiskt</option>
+          <option value="length">Längst först</option>
+        </select>
+      </div>
       <div class="result-words">
         <div class="list-heading">
           <h2>Mina ord</h2>
