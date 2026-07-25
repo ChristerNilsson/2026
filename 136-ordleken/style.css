@@ -67,6 +67,7 @@ button {
   cursor: pointer;
 }
 button:active { transform: translateY(1px); }
+button:disabled { opacity: .5; cursor: wait; }
 
 .help, .message { margin: 11px 2px 0; color: var(--muted); font-size: .88rem; line-height: 1.45; }
 .message { min-height: 1.3em; font-weight: 700; }

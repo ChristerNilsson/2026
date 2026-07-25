@@ -1,13 +1,8 @@
 "use strict";
 
 const GAME_SECONDS = 10 * 60;
-const dictionary = new Set(
-  (typeof ordlista === "string" ? ordlista : "")
-    .replace(/^\uFEFF|\uFEFF/g, "")
-    .toLocaleLowerCase("sv-SE")
-    .split(/\s+/)
-    .filter(Boolean)
-);
+const dictionary = new Set();
+let dictionaryReady = false;
 
 const elements = {
   setup: document.querySelector("#setup"),
@@ -71,6 +66,28 @@ function showMessage(element, text, kind = "") {
   element.className = `message ${kind}`.trim();
 }
 
+async function loadDictionary() {
+  elements.start.disabled = true;
+  showMessage(elements.setupMessage, "Läser in SAOL…");
+
+  try {
+    const response = await fetch("./saol-ord.txt");
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const words = (await response.text()).split(/\r?\n/);
+    for (const word of words) {
+      if (/^[a-zåäö]+$/.test(word)) dictionary.add(word);
+    }
+    if (dictionary.size === 0) throw new Error("Ordlistan är tom");
+
+    dictionaryReady = true;
+    elements.start.disabled = false;
+    showMessage(elements.setupMessage, `${dictionary.size.toLocaleString("sv-SE")} godkända ord är klara.`, "success");
+  } catch (error) {
+    console.error("Kunde inte läsa saol-ord.txt:", error);
+    showMessage(elements.setupMessage, "Kunde inte läsa saol-ord.txt. Ladda sidan via en webbserver.", "error");
+  }
+}
+
 function resetBuiltWord() {
   selectedTiles = [];
   elements.wordInput.value = "";
@@ -104,7 +121,7 @@ function handleGameKeyboard(event) {
   if (elements.game.classList.contains("hidden") || event.target === elements.sourceWord) return;
   if (event.ctrlKey || event.metaKey || event.altKey) return;
 
-  if (/^[a-zåäöéü]$/i.test(event.key)) {
+  if (/^[a-zåäö]$/i.test(event.key)) {
     event.preventDefault();
     selectLetterFromKeyboard(event.key);
   } else if (event.key === "Backspace") {
@@ -121,20 +138,25 @@ function handleGameKeyboard(event) {
 }
 
 function startGame() {
+  if (!dictionaryReady) {
+    showMessage(elements.setupMessage, "Vänta tills ordlistan har lästs in.", "error");
+    return;
+  }
+
   source = normalize(elements.sourceWord.value);
-  if (!/^[a-zåäöéü-]+$/i.test(source) || source.replace(/-/g, "").length < 2) {
+  if (!/^[a-zåäö]+$/i.test(source) || source.length < 2) {
     showMessage(elements.setupMessage, "Skriv ett ord med minst två bokstäver.", "error");
     elements.sourceWord.focus();
     return;
   }
 
-  sourceCounts = letterCounts(source.replace(/-/g, ""));
+  sourceCounts = letterCounts(source);
   entries = [];
   total = 0;
   endsAt = Date.now() + GAME_SECONDS * 1000;
   renderWords();
   elements.letters.replaceChildren(
-    ...[...source.replace(/-/g, "").toLocaleUpperCase("sv-SE")].map(letter => {
+    ...[...source.toLocaleUpperCase("sv-SE")].map(letter => {
       const tile = document.createElement("button");
       tile.type = "button";
       tile.className = "letter";
@@ -166,16 +188,16 @@ function updateTimer() {
 function addWord(event) {
   event.preventDefault();
   const word = normalize(elements.wordInput.value);
-  const letterLength = word.replace(/-/g, "").length;
-  if (letterLength < 4) {
-    showMessage(elements.gameMessage, "Ordet måste ha minst fyra bokstäver.", "error");
+  const letterLength = word.length;
+  if (letterLength < 2) {
+    showMessage(elements.gameMessage, "Ordet måste ha minst två bokstäver.", "error");
     return;
   }
-  if (!/^[a-zåäöéü-]+$/i.test(word)) {
+  if (!/^[a-zåäö]+$/i.test(word)) {
     showMessage(elements.gameMessage, "Använd bara bokstäver.", "error");
     return;
   }
-  if (!canBuild(word.replace(/-/g, ""))) {
+  if (!canBuild(word)) {
     showMessage(elements.gameMessage, "De bokstäverna finns inte i startordet.", "error");
     return;
   }
@@ -216,8 +238,7 @@ function renderWords() {
 
 function findAllAnswers() {
   return alphabetic([...dictionary].filter(word =>
-    word.length >= 4 &&
-    /^[a-zåäöéü]+$/i.test(word) &&
+    word.length >= 2 &&
     canBuild(word)
   ));
 }
@@ -279,3 +300,4 @@ elements.deleteLetter.addEventListener("click", deleteLetter);
 elements.clearWord.addEventListener("click", resetBuiltWord);
 elements.newGame.addEventListener("click", resetGame);
 document.addEventListener("keydown", handleGameKeyboard);
+loadDictionary();
