@@ -1,7 +1,7 @@
 (() => {
   "use strict";
   const $ = (id) => document.getElementById(id);
-  const state = { target: null, current: null, watchId: null, muted: false, lastBearingBand: null, lastDistance: null };
+  const state = { target: null, current: null, watchId: null, lastBearingBand: null, lastDistance: null };
 
   function parseCoordinate(value) {
     const parts = value.trim().replace(/,/g, ".").split(/[;\s]+/).filter(Boolean).map(Number);
@@ -48,10 +48,25 @@
     return { female, male };
   }
   function speak(text, voice) {
-    if (state.muted || !("speechSynthesis" in window)) return;
+    if (!("speechSynthesis" in window)) return;
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "sv-SE"; utterance.voice = voice || null; utterance.rate = .92;
     window.speechSynthesis.speak(utterance);
+  }
+  function speakableCoordinate(value) {
+    const words = ["noll", "ett", "två", "tre", "fyra", "fem", "sex", "sju", "åtta", "nio"];
+    return value.toFixed(5).split("").map((character) => {
+      if (character === ".") return "komma";
+      if (character === "-") return "minus";
+      return words[Number(character)];
+    }).join(" ");
+  }
+  function testTargetVoice() {
+    if (!state.target || !("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.resume();
+    const text = `Målets koordinater är latitud ${speakableCoordinate(state.target.lat)}, longitud ${speakableCoordinate(state.target.lon)}`;
+    speak(text, voices().female);
   }
   function speakBearing(bearing) {
     const band = Math.round(bearing / 10) % 36;
@@ -135,9 +150,6 @@
     if (state.watchId !== null) navigator.geolocation.clearWatch(state.watchId);
     state.watchId = null; window.speechSynthesis?.cancel(); $("navigation").hidden = true;
   });
-  $("muteButton").addEventListener("click", () => {
-    state.muted = !state.muted; $("muteButton").textContent = state.muted ? "Ljud av" : "Ljud på";
-    $("muteButton").setAttribute("aria-pressed", state.muted); if (state.muted) window.speechSynthesis?.cancel();
-  });
-  window.gpsKarta = { parseCoordinate, navigationData, toSweref99TM, minKartaUrl };
+  $("testVoiceButton").addEventListener("click", testTargetVoice);
+  window.gpsKarta = { parseCoordinate, navigationData, toSweref99TM, minKartaUrl, speakableCoordinate };
 })();

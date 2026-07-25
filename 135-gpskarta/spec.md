@@ -16,3 +16,6 @@ Navigering startas med en knapp. Vore bra om kartan visas hela tiden eller mha e
 
 Observera att minkarta kräver SWEREF, såvitt jag vet.
 I urlen anges dessa som n= och e=
+
+Jag använder iPhone. Byt ut knappen "Ljud av/på" mot 'test'. Test ska läsa upp målets koordinater.
+Eventuellt måste man använda inspelade ljudfiler för att höra något. iPhone kan ha problem med att skapa ljud från text.
