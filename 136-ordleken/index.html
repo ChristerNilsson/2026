@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173f35">
+  <title>Ordleken</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <p class="eyebrow">Tio minuter · så många ord du kan</p>
+      <h1>Ordleken</h1>
+    </header>
+
+    <section id="setup" class="card">
+      <label for="source-word">Vilket ord spelar ni med?</label>
+      <div class="setup-row">
+        <input id="source-word" type="text" inputmode="text" autocomplete="off"
+               autocapitalize="characters" maxlength="40" placeholder="FJÄLLMARATON">
+        <button id="start-button" type="button">Starta</button>
+      </div>
+      <p id="setup-message" class="message" aria-live="polite"></p>
+      <p class="help">Skriv samma startord på allas mobiler. Tryck på Starta samtidigt.</p>
+    </section>
+
+    <section id="game" class="hidden" aria-label="Pågående spel">
+      <div class="status card">
+        <div>
+          <span class="status-label">Tid kvar</span>
+          <strong id="timer">10:00</strong>
+        </div>
+        <div class="score-box">
+          <span class="status-label">Poäng</span>
+          <strong id="score">0</strong>
+        </div>
+      </div>
+
+      <div class="source card">
+        <span class="status-label">Tryck på bokstäverna</span>
+        <div id="letters" class="letters" aria-label="Startordets bokstäver"></div>
+      </div>
+
+      <form id="word-form" class="card word-form">
+        <label for="word-input">Ditt ord</label>
+        <input id="word-input" class="built-word" type="text" readonly
+               tabindex="-1" placeholder="Välj bokstäver ovan" aria-live="polite">
+        <p class="keyboard-hint">På dator: skriv med tangentbordet · Enter lägger till · Backspace raderar</p>
+        <div class="word-actions">
+          <button id="delete-letter-button" class="secondary-button" type="button"
+                  aria-label="Radera senaste bokstaven">⌫ Radera</button>
+          <button id="clear-word-button" class="secondary-button" type="button">Rensa</button>
+          <button type="submit">Lägg till</button>
+        </div>
+        <p id="game-message" class="message" aria-live="polite"></p>
+      </form>
+
+      <section class="card list-card">
+        <div class="list-heading">
+          <h2>Mina ord</h2>
+          <span id="word-count">0 ord</span>
+        </div>
+        <ol id="word-list"></ol>
+        <p id="empty-list" class="empty">Dina ord dyker upp här.</p>
+      </section>
+    </section>
+
+    <section id="result" class="card result hidden">
+      <p class="eyebrow">Slutresultat</p>
+      <strong id="final-score">0</strong>
+      <span>poäng</span>
+      <p id="result-summary"></p>
+      <div class="result-words">
+        <div class="list-heading">
+          <h2>Mina ord</h2>
+          <span id="result-word-count">0 ord</span>
+        </div>
+        <p class="compare-hint">Lägg mobilerna bredvid varandra och jämför de alfabetiska listorna.</p>
+        <ol id="result-word-list" class="result-list"></ol>
+      </div>
+      <div class="answer-key">
+        <div class="list-heading">
+          <h2>Facit</h2>
+          <span id="answer-count">0 ord</span>
+        </div>
+        <p class="compare-hint">Alla godkända ord som kan bildas av bokstäverna.</p>
+        <p class="answer-score">
+          Facit motsvarar <strong id="answer-score">0</strong> poäng
+        </p>
+        <ol id="answer-list" class="result-list answer-list"></ol>
+      </div>
+      <button id="new-game-button" type="button">Spela igen</button>
+    </section>
+  </main>
+  <script src="swe.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
