@@ -122,7 +122,13 @@
   function gpsError(error) {
     $("gpsBadge").classList.remove("live");
     $("gpsBadge").innerHTML = "<i></i> GPS saknas";
-    $("currentCoordinates").textContent = error.code === 1 ? "Platsåtkomst nekad" : "Position kunde inte hämtas";
+    const messages = {
+      1: "Platsåtkomst nekad – tillåt Plats i Safaris webbplatsinställningar",
+      2: "GPS-positionen är inte tillgänglig",
+      3: "GPS-sökningen tog för lång tid – försök igen"
+    };
+    $("currentCoordinates").textContent = messages[error.code] || "Position kunde inte hämtas";
+    $("accuracy").textContent = "—";
   }
   function start() {
     const target = parseCoordinate($("coordinate").value);
@@ -138,6 +144,10 @@
     $("swerefCoordinates").textContent = swerefText;
     $("minKartaLink").href = minKartaUrl(sweref);
     $("googleLink").href = `https://www.google.com/maps/search/?api=1&query=${target.lat},${target.lon}`;
+    $("currentCoordinates").textContent = "Söker GPS …";
+    $("accuracy").textContent = "—";
+    $("gpsBadge").classList.remove("live");
+    $("gpsBadge").innerHTML = "<i></i> GPS söker";
     if (state.watchId !== null) navigator.geolocation.clearWatch(state.watchId);
     if ("geolocation" in navigator) state.watchId = navigator.geolocation.watchPosition(update, gpsError, { enableHighAccuracy: true, maximumAge: 1000, timeout: 15000 });
     else gpsError({ code: 0 });

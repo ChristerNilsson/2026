@@ -1,5 +1,30 @@
 .coordinates {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
+}
+
+.gps-coordinates {
+  width: 100%;
+  margin-top: 14px;
+  border-top: 1px solid var(--line);
+  padding-top: 13px;
+}
+
+.gps-coordinates span,
+.gps-coordinates strong {
+  display: block;
+}
+
+.gps-coordinates span {
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.gps-coordinates strong {
+  overflow-wrap: anywhere;
+  font: 600 13px/1.4 monospace;
 }
 
 @media (max-width: 700px) {
@@ -72,15 +97,23 @@
   }
 
   .coordinates {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 10px;
     padding: 16px;
   }
 
   .coordinates div + div {
-    border-top: 0;
-    border-left: 1px solid var(--line);
-    padding: 0 0 0 10px;
+    border: 0;
+    padding: 0;
+  }
+
+  .gps-coordinates {
+    margin-top: 9px;
+    padding-top: 9px;
+  }
+
+  .gps-coordinates strong {
+    font-size: 11px;
   }
 
   .map-button {

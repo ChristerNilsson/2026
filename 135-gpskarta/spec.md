@@ -27,3 +27,5 @@ Bäring och Avstånd ska stå på samma rad.
 Google Maps och Min karta ska stå på samma rad.
 
 Acceptera även kommatecken mellan latitud och longitud.
+
+Jag ser inte några gps-koordinater för min position på iPhone.
