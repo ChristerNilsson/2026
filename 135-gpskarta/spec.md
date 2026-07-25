@@ -27,3 +27,5 @@ Denna tänker jag klistra in i textrutan.
 Se till att omvandla den till vårt interna WGS84-format.
 (Troligen kan du ignorera `plats/3006/v2.0/?` och fokusera på e= och n=)
 `https://minkarta.lantmateriet.se/plats/3006/v2.0/?e=679501&n=6574356&z=14&mapprofile=karta&layers=%5B%5B%223%22%5D%2C%5B%221%22%5D%5D`
+
+Om avståndet är mindre än tio meter ska inte bäringen läsas upp.

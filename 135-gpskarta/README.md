@@ -15,4 +15,5 @@ Appens automatiska vägledning använder de förinspelade MP3-filerna i `sounds`
 manlig röst för bäring och kvinnlig röst för avstånd. På iPhone används knappen
 **Test** efter att navigeringen startats. Den spelar talet 4711 genom att köa
 inspelade ljudklipp och låser samtidigt upp MP3-spelaren för den fortsatta
-vägledningen. Appen använder inte webbläsarens talsyntes.
+vägledningen. Bäringen läses inte upp när mindre än 10 meter återstår. Appen
+använder inte webbläsarens talsyntes.

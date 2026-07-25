@@ -167,7 +167,8 @@
     $("currentCoordinates").textContent = `${lat.toFixed(5)} ${lon.toFixed(5)}`;
     $("gpsBadge").classList.add("live"); $("gpsBadge").innerHTML = "<i></i> GPS aktiv";
     $("googleLink").href = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lon}&destination=${state.target.lat},${state.target.lon}&travelmode=walking`;
-    speakBearing(nav.bearing); speakDistance(nav.distance);
+    if (nav.distance >= 10) speakBearing(nav.bearing);
+    speakDistance(nav.distance);
   }
   function gpsError(error) {
     $("gpsBadge").classList.remove("live");
