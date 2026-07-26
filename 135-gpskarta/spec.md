@@ -32,8 +32,8 @@ Om avståndet är mindre än tio meter ska inte bäringen läsas upp.
 
 Givet att man håller mobilen rakt fram, visa riktningen till målet. Denna ska ändras när man roterar eller går i fel riktning. Mobilen har en inbyggd kompass.
 
-Kompassrosen bör visa den absoluta bäringen.
+Kompassrosen ska visa den absoluta bäringen.
 
-Ovanför den kan den relativa riktningen läggas in. Den består av ett gradtal, helst noll, samt två pilar.
-Den vänstra indikerar att man bör svänga något till vänster, den högra något till höger.
+Just nu står texten "Mobilen pekar...". Den ska bort. Visa istället en relativ riktning samt en pil som pekar uppåt när man närmar sig målet. Pekar den vänsterut motsvarar det att man rör sig 90 grader fel och bör svänga vänster 90 grader.
+
 Då telefonen lutar bör varken talet eller pilarna visas.

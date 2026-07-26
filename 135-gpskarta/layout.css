@@ -65,16 +65,12 @@
   font: 700 34px/1 Georgia, serif;
 }
 
-.turn-arrow {
-  color: #c7ccc8;
-  font-size: 35px;
-  line-height: 1;
-  transition: color .15s, transform .15s;
-}
-
-.turn-arrow.active {
+.direction-arrow {
+  display: inline-block;
   color: var(--orange);
-  transform: scale(1.15);
+  font-size: 42px;
+  line-height: 1;
+  transition: transform .25s ease;
 }
 
 @media (max-width: 700px) {
@@ -108,8 +104,8 @@
     font-size: 24px;
   }
 
-  .turn-arrow {
-    font-size: 27px;
+  .direction-arrow {
+    font-size: 32px;
   }
 
   .compass {

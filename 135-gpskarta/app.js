@@ -170,11 +170,15 @@
       return;
     }
     const direction = relativeDirection(state.targetBearing, state.heading);
-    const deadZone = 2;
     guide.hidden = false;
-    $("relativeDegrees").textContent = `${Math.round(Math.abs(direction))}°`;
-    $("turnLeft").classList.toggle("active", direction < -deadZone);
-    $("turnRight").classList.toggle("active", direction > deadZone);
+    const rounded = Math.round(direction);
+    $("relativeDegrees").textContent = `${rounded < 0 ? "−" : ""}${Math.abs(rounded)}°`;
+    $("directionArrow").style.transform = `rotate(${direction}deg)`;
+    guide.setAttribute("aria-label", rounded < 0
+      ? `Sväng vänster ${Math.abs(rounded)} grader`
+      : rounded > 0
+        ? `Sväng höger ${rounded} grader`
+        : "Fortsätt rakt fram");
   }
   function deviceHeading(event) {
     if (typeof event.webkitCompassHeading === "number") return event.webkitCompassHeading;
@@ -186,10 +190,11 @@
     if (heading === null) return;
     state.heading = heading;
     state.tilted = typeof event.gamma === "number" && Math.abs(event.gamma) > 30;
-    $("compassStatus").textContent = `Mobilen pekar ${Math.round(heading).toString().padStart(3, "0")}°`;
+    $("compassStatus").hidden = true;
     updateRelativeGuide();
   }
   async function enableCompass() {
+    $("compassStatus").hidden = false;
     if (!("DeviceOrientationEvent" in window)) {
       $("compassStatus").textContent = "Mobilkompass saknas";
       return;
