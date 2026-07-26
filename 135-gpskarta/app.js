@@ -196,32 +196,21 @@
     if (heading === null) return;
     state.heading = heading;
     state.tilted = isPhoneTilted(event);
-    $("compassStatus").hidden = true;
     updateRelativeGuide();
   }
   async function enableCompass() {
-    $("compassStatus").hidden = false;
-    if (!("DeviceOrientationEvent" in window)) {
-      $("compassStatus").textContent = "Mobilkompass saknas";
-      return;
-    }
+    if (!("DeviceOrientationEvent" in window)) return;
     try {
       if (typeof DeviceOrientationEvent.requestPermission === "function") {
         const permission = await DeviceOrientationEvent.requestPermission();
-        if (permission !== "granted") {
-          $("compassStatus").textContent = "Kompassåtkomst nekad";
-          return;
-        }
+        if (permission !== "granted") return;
       }
       if (!state.orientationListening) {
         window.addEventListener("deviceorientationabsolute", onOrientation, true);
         window.addEventListener("deviceorientation", onOrientation, true);
         state.orientationListening = true;
       }
-      $("compassStatus").textContent = "Söker mobilens kompass …";
-    } catch {
-      $("compassStatus").textContent = "Kompass kunde inte startas";
-    }
+    } catch {}
   }
   function minKartaUrl(sweref) {
     const params = new URLSearchParams({

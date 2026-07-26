@@ -17,7 +17,7 @@ MP3-spelaren upp när navigeringen startas. Bäringen läses inte upp när mindr
 10 meter återstår. Appen använder inte webbläsarens talsyntes.
 
 När navigeringen startas begär appen även åtkomst till mobilens kompass.
-Kompassrosens nål och gradangivelsen visar den absoluta bäringen mot målet.
+Kompassrosens nål och gradtalet bredvid visar den absoluta bäringen mot målet.
 Ovanför visas avvikelsen från telefonens riktning och en pil som pekar mot målet:
 uppåt betyder rakt fram, vänster betyder att användaren ska svänga vänster och
 höger betyder att användaren ska svänga höger. Den relativa vägledningen döljs

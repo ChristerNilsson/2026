@@ -27,24 +27,21 @@
   font: 600 13px/1.4 monospace;
 }
 
-.compass-status {
-  display: block;
-  max-width: 145px;
-  margin-top: 8px;
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.35;
-}
-
 .compass-card {
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .compass-content {
   display: flex;
   width: 100%;
   align-items: center;
+  justify-content: center;
   gap: 38px;
+}
+
+.absolute-bearing {
+  white-space: nowrap;
 }
 
 .relative-guide {
@@ -142,11 +139,6 @@
   .unit {
     margin-left: 1px;
     font-size: 13px;
-  }
-
-  .compass-status {
-    max-width: 95px;
-    font-size: 9px;
   }
 
   .distance-card {
