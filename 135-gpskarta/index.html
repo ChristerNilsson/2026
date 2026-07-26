@@ -11,14 +11,12 @@
 <body>
   <main>
     <header>
-      <div class="brand"><span class="brand-mark">K</span><span>Kompass</span></div>
+      <div class="brand"><span class="brand-mark">K</span></div>
       <span id="gpsBadge" class="badge"><i></i> GPS väntar</span>
     </header>
 
     <section class="hero">
       <p class="eyebrow">Navigera till en koordinat</p>
-      <h1>Vart vill du?</h1>
-      <p class="intro">Ange målet i WGS84. Du får bäring, avstånd och diskreta röstmeddelanden längs vägen.</p>
       <form id="targetForm">
         <label for="coordinate">Koordinat <span>WGS84 eller Min karta-länk</span></label>
         <div class="input-row">
@@ -61,20 +59,9 @@
         </div>
       </div>
 
-      <div class="route-card">
-        <div class="coordinates">
-          <div><span>Mål · SWEREF 99 TM</span><strong id="swerefCoordinates">—</strong></div>
-        </div>
-      </div>
-
       <div class="map-actions">
         <a id="googleLink" class="map-button google" target="_blank" rel="noopener"><span class="map-icon">G</span><span><strong>Google Maps</strong><small>Visa rutt och båda positionerna</small></span><b>↗</b></a>
         <a id="minKartaLink" class="map-button lant" target="_blank" rel="noopener"><span class="map-icon">L</span><span><strong>Min karta</strong><small>Visa målet direkt hos Lantmäteriet</small></span><b>↗</b></a>
-      </div>
-
-      <div class="voice-status">
-        <span>◖))</span><p><strong>Röstvägledning</strong><small>Test spelar det inspelade talet 4711</small></p>
-        <button id="testVoiceButton" type="button">Test</button>
       </div>
     </section>
   </main>

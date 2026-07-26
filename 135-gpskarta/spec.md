@@ -31,3 +31,11 @@ Se till att omvandla den till vårt interna WGS84-format.
 Om avståndet är mindre än tio meter ska inte bäringen läsas upp.
 
 Givet att man håller mobilen rakt fram, visa riktningen till målet. Denna ska ändras när man roterar eller går i fel riktning. Mobilen har en inbyggd kompass.
+
+### Följande kan tas bort
+
+* MÅL SWEREF
+* Vart vill du?
+* Ange målet ...
+* Kompass
+* Test

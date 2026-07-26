@@ -114,12 +114,20 @@
     state.audioQueue.push(...sources);
     if (!state.audioPlaying) playNextClip();
   }
-  function testTargetVoice() {
-    queueClips([
-      "sounds/distance/female/4000.mp3",
-      "sounds/distance/female/700.mp3",
-      "sounds/bearing/female/11.mp3"
-    ], true);
+  function unlockAudio() {
+    if (audioPlayer.dataset.unlocked) return;
+    audioPlayer.dataset.unlocked = "true";
+    audioPlayer.src = "sounds/bearing/male/01.mp3";
+    audioPlayer.volume = 0;
+    const playing = audioPlayer.play();
+    if (playing) playing.then(() => {
+      audioPlayer.pause();
+      audioPlayer.currentTime = 0;
+      audioPlayer.volume = 1;
+    }).catch(() => {
+      audioPlayer.volume = 1;
+      delete audioPlayer.dataset.unlocked;
+    });
   }
   function speakBearing(bearing) {
     const rounded = Math.round(bearing / 10);
@@ -234,6 +242,7 @@
       $("coordinate").classList.add("invalid"); $("inputHelp").classList.add("error");
       $("inputHelp").textContent = "Ange latitud och longitud, till exempel 59.2701, 18.1503."; return;
     }
+    unlockAudio();
     state.target = target; state.lastBearingBand = null; state.lastDistance = null;
     state.targetBearing = null;
     $("coordinate").classList.remove("invalid"); $("inputHelp").classList.remove("error");
@@ -245,8 +254,6 @@
     }
     $("navigation").hidden = false; $("targetLabel").textContent = `${target.lat.toFixed(5)}, ${target.lon.toFixed(5)}`;
     const sweref = toSweref99TM(target.lat, target.lon);
-    const swerefText = `${sweref.northing} ${sweref.easting}`;
-    $("swerefCoordinates").textContent = swerefText;
     $("minKartaLink").href = minKartaUrl(sweref);
     $("googleLink").href = `https://www.google.com/maps/search/?api=1&query=${target.lat},${target.lon}`;
     $("currentCoordinates").textContent = "Söker GPS …";
@@ -271,6 +278,5 @@
     audioPlayer.pause(); state.audioQueue.length = 0; state.audioPlaying = false;
     $("navigation").hidden = true;
   });
-  $("testVoiceButton").addEventListener("click", testTargetVoice);
   window.gpsKarta = { parseCoordinate, navigationData, toSweref99TM, toWgs84, parseMinKartaLink, minKartaUrl, relativeDirection };
 })();
