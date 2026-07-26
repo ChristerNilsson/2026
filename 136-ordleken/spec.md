@@ -14,8 +14,6 @@ Användaren har skrivit in: mjäll, tralla och jäll. Poängen blir 25 + 36 - 16
 
 Godkända ord finns i filen saol-ord.txt. Filtrera bort rader som innehåller `-`, ` `, versal eller innehåller någon bokstav som saknas i `abcdefghijklmnopqrstuvwxyzåäö`.
 
-Sortera orden i bokstavsordning
-
 Man ska kunna jämföra orden med varandra efter att tiden gått ut
 
 Man ska även kunna klicka på bokstäverna.
@@ -24,3 +22,5 @@ Man ska kunna använda tangentbordet om man använder en dator.
 När tiden gått ut får man se facit. Skriv även ut poängen som facit motsvarar.
 
 Man ska kunna välja att sortera alfabetiskt eller på ordlängden
+
+Se till att fönstret ej går att zooma eller förflytta i sidled.
