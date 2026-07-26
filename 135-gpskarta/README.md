@@ -16,7 +16,8 @@ manlig röst för bäring och kvinnlig röst för avstånd. På iPhone låses
 MP3-spelaren upp när navigeringen startas. Bäringen läses inte upp när mindre än
 10 meter återstår. Appen använder inte webbläsarens talsyntes.
 
-När navigeringen startas begär appen även åtkomst till mobilens kompass. Pilen
-visar målets riktning relativt telefonens ovankant och ändras därför både när
-telefonen roteras och när GPS-positionen förändras. Gradangivelsen visar fortsatt
-den absoluta bäringen mot målet.
+När navigeringen startas begär appen även åtkomst till mobilens kompass.
+Kompassrosens nål och gradangivelsen visar den absoluta bäringen mot målet.
+Ovanför visas avvikelsen från telefonens riktning och en markerad vänster- eller
+högerpil som hjälper användaren att styra avvikelsen mot noll. Den relativa
+vägledningen döljs när telefonen lutar tydligt åt sidan.

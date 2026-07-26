@@ -32,10 +32,8 @@ Om avståndet är mindre än tio meter ska inte bäringen läsas upp.
 
 Givet att man håller mobilen rakt fram, visa riktningen till målet. Denna ska ändras när man roterar eller går i fel riktning. Mobilen har en inbyggd kompass.
 
-### Följande kan tas bort
+Kompassrosen bör visa den absoluta bäringen.
 
-* MÅL SWEREF
-* Vart vill du?
-* Ange målet ...
-* Kompass
-* Test
+Ovanför den kan den relativa riktningen läggas in. Den består av ett gradtal, helst noll, samt två pilar.
+Den vänstra indikerar att man bör svänga något till vänster, den högra något till höger.
+Då telefonen lutar bör varken talet eller pilarna visas.

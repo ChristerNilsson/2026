@@ -36,6 +36,47 @@
   line-height: 1.35;
 }
 
+.compass-card {
+  flex-wrap: wrap;
+}
+
+.compass-content {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 38px;
+}
+
+.relative-guide {
+  width: 100%;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.relative-guide:not([hidden]) {
+  display: flex;
+}
+
+.relative-guide strong {
+  min-width: 74px;
+  text-align: center;
+  font: 700 34px/1 Georgia, serif;
+}
+
+.turn-arrow {
+  color: #c7ccc8;
+  font-size: 35px;
+  line-height: 1;
+  transition: color .15s, transform .15s;
+}
+
+.turn-arrow.active {
+  color: var(--orange);
+  transform: scale(1.15);
+}
+
 @media (max-width: 700px) {
   main {
     padding-inline: 12px;
@@ -49,8 +90,26 @@
 
   .compass-card {
     min-width: 0;
-    gap: 7px;
+    gap: 5px;
     padding: 11px;
+  }
+
+  .compass-content {
+    gap: 7px;
+  }
+
+  .relative-guide {
+    min-height: 36px;
+    gap: 11px;
+  }
+
+  .relative-guide strong {
+    min-width: 50px;
+    font-size: 24px;
+  }
+
+  .turn-arrow {
+    font-size: 27px;
   }
 
   .compass {

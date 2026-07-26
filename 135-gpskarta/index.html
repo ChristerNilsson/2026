@@ -36,16 +36,23 @@
 
       <div class="instruments">
         <div class="compass-card">
-          <div class="compass" aria-label="Kompass">
-            <span class="north">N</span>
-            <div class="ticks"></div>
-            <div id="needle" class="needle"><span></span></div>
-            <div class="compass-center"></div>
+          <div id="relativeGuide" class="relative-guide" aria-live="polite" hidden>
+            <span id="turnLeft" class="turn-arrow" aria-label="Sväng vänster">←</span>
+            <strong id="relativeDegrees">0°</strong>
+            <span id="turnRight" class="turn-arrow" aria-label="Sväng höger">→</span>
           </div>
-          <div>
-            <span id="bearing" class="big">—</span><span class="unit">°</span>
-            <p>Bäring</p>
-            <small id="compassStatus" class="compass-status">Väntar på mobilens kompass</small>
+          <div class="compass-content">
+            <div class="compass" aria-label="Kompass">
+              <span class="north">N</span>
+              <div class="ticks"></div>
+              <div id="needle" class="needle"><span></span></div>
+              <div class="compass-center"></div>
+            </div>
+            <div>
+              <span id="bearing" class="big">—</span><span class="unit">°</span>
+              <p>Bäring</p>
+              <small id="compassStatus" class="compass-status">Väntar på mobilens kompass</small>
+            </div>
           </div>
         </div>
         <div class="distance-card">

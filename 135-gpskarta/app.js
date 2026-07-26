@@ -3,7 +3,7 @@
   const $ = (id) => document.getElementById(id);
   const state = {
     target: null, current: null, watchId: null, lastBearingBand: null, lastDistance: null,
-    targetBearing: null, heading: null, orientationListening: false,
+    targetBearing: null, heading: null, tilted: false, orientationListening: false,
     audioQueue: [], audioPlaying: false
   };
   const audioPlayer = new Audio();
@@ -160,10 +160,21 @@
   }
   function updateNeedle() {
     if (state.targetBearing === null) return;
-    const rotation = state.heading === null
-      ? state.targetBearing
-      : relativeDirection(state.targetBearing, state.heading);
-    $("needle").style.transform = `rotate(${rotation}deg)`;
+    $("needle").style.transform = `rotate(${state.targetBearing}deg)`;
+    updateRelativeGuide();
+  }
+  function updateRelativeGuide() {
+    const guide = $("relativeGuide");
+    if (state.targetBearing === null || state.heading === null || state.tilted) {
+      guide.hidden = true;
+      return;
+    }
+    const direction = relativeDirection(state.targetBearing, state.heading);
+    const deadZone = 2;
+    guide.hidden = false;
+    $("relativeDegrees").textContent = `${Math.round(Math.abs(direction))}°`;
+    $("turnLeft").classList.toggle("active", direction < -deadZone);
+    $("turnRight").classList.toggle("active", direction > deadZone);
   }
   function deviceHeading(event) {
     if (typeof event.webkitCompassHeading === "number") return event.webkitCompassHeading;
@@ -174,8 +185,9 @@
     const heading = deviceHeading(event);
     if (heading === null) return;
     state.heading = heading;
+    state.tilted = typeof event.gamma === "number" && Math.abs(event.gamma) > 30;
     $("compassStatus").textContent = `Mobilen pekar ${Math.round(heading).toString().padStart(3, "0")}°`;
-    updateNeedle();
+    updateRelativeGuide();
   }
   async function enableCompass() {
     if (!("DeviceOrientationEvent" in window)) {
@@ -244,7 +256,8 @@
     }
     unlockAudio();
     state.target = target; state.lastBearingBand = null; state.lastDistance = null;
-    state.targetBearing = null;
+    state.targetBearing = null; state.heading = null; state.tilted = false;
+    $("relativeGuide").hidden = true;
     $("coordinate").classList.remove("invalid"); $("inputHelp").classList.remove("error");
     if (target.source === "sweref") {
       $("coordinate").value = `${target.lat.toFixed(5)}, ${target.lon.toFixed(5)}`;
