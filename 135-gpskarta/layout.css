@@ -27,6 +27,15 @@
   font: 600 13px/1.4 monospace;
 }
 
+.compass-status {
+  display: block;
+  max-width: 145px;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
 @media (max-width: 700px) {
   main {
     padding-inline: 12px;
@@ -78,6 +87,11 @@
   .unit {
     margin-left: 1px;
     font-size: 13px;
+  }
+
+  .compass-status {
+    max-width: 95px;
+    font-size: 9px;
   }
 
   .distance-card {

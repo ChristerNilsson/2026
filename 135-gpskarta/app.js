@@ -3,6 +3,7 @@
   const $ = (id) => document.getElementById(id);
   const state = {
     target: null, current: null, watchId: null, lastBearingBand: null, lastDistance: null,
+    targetBearing: null, heading: null, orientationListening: false,
     audioQueue: [], audioPlaying: false
   };
   const audioPlayer = new Audio();
@@ -146,6 +147,51 @@
   function formatDistance(m) {
     return m >= 1000 ? { value: (m / 1000).toFixed(m >= 10000 ? 0 : 1).replace(".", ","), unit: "km" } : { value: Math.round(m), unit: "m" };
   }
+  function relativeDirection(bearing, heading) {
+    return ((bearing - heading + 540) % 360) - 180;
+  }
+  function updateNeedle() {
+    if (state.targetBearing === null) return;
+    const rotation = state.heading === null
+      ? state.targetBearing
+      : relativeDirection(state.targetBearing, state.heading);
+    $("needle").style.transform = `rotate(${rotation}deg)`;
+  }
+  function deviceHeading(event) {
+    if (typeof event.webkitCompassHeading === "number") return event.webkitCompassHeading;
+    if (event.absolute === true && typeof event.alpha === "number") return (360 - event.alpha) % 360;
+    return null;
+  }
+  function onOrientation(event) {
+    const heading = deviceHeading(event);
+    if (heading === null) return;
+    state.heading = heading;
+    $("compassStatus").textContent = `Mobilen pekar ${Math.round(heading).toString().padStart(3, "0")}°`;
+    updateNeedle();
+  }
+  async function enableCompass() {
+    if (!("DeviceOrientationEvent" in window)) {
+      $("compassStatus").textContent = "Mobilkompass saknas";
+      return;
+    }
+    try {
+      if (typeof DeviceOrientationEvent.requestPermission === "function") {
+        const permission = await DeviceOrientationEvent.requestPermission();
+        if (permission !== "granted") {
+          $("compassStatus").textContent = "Kompassåtkomst nekad";
+          return;
+        }
+      }
+      if (!state.orientationListening) {
+        window.addEventListener("deviceorientationabsolute", onOrientation, true);
+        window.addEventListener("deviceorientation", onOrientation, true);
+        state.orientationListening = true;
+      }
+      $("compassStatus").textContent = "Söker mobilens kompass …";
+    } catch {
+      $("compassStatus").textContent = "Kompass kunde inte startas";
+    }
+  }
   function minKartaUrl(sweref) {
     const params = new URLSearchParams({
       e: sweref.easting,
@@ -160,8 +206,9 @@
     const { latitude: lat, longitude: lon, accuracy } = position.coords;
     state.current = { lat, lon };
     const nav = navigationData(state.current, state.target), dist = formatDistance(nav.distance);
+    state.targetBearing = nav.bearing;
     $("bearing").textContent = Math.round(nav.bearing).toString().padStart(3, "0");
-    $("needle").style.transform = `rotate(${nav.bearing}deg)`;
+    updateNeedle();
     $("distance").textContent = dist.value; $("distanceUnit").textContent = dist.unit;
     $("accuracy").textContent = `± ${Math.round(accuracy)} m`;
     $("currentCoordinates").textContent = `${lat.toFixed(5)} ${lon.toFixed(5)}`;
@@ -181,13 +228,14 @@
     $("currentCoordinates").textContent = messages[error.code] || "Position kunde inte hämtas";
     $("accuracy").textContent = "—";
   }
-  function start() {
+  async function start() {
     const target = parseCoordinate($("coordinate").value);
     if (!target) {
       $("coordinate").classList.add("invalid"); $("inputHelp").classList.add("error");
       $("inputHelp").textContent = "Ange latitud och longitud, till exempel 59.2701, 18.1503."; return;
     }
     state.target = target; state.lastBearingBand = null; state.lastDistance = null;
+    state.targetBearing = null;
     $("coordinate").classList.remove("invalid"); $("inputHelp").classList.remove("error");
     if (target.source === "sweref") {
       $("coordinate").value = `${target.lat.toFixed(5)}, ${target.lon.toFixed(5)}`;
@@ -205,6 +253,7 @@
     $("accuracy").textContent = "—";
     $("gpsBadge").classList.remove("live");
     $("gpsBadge").innerHTML = "<i></i> GPS söker";
+    await enableCompass();
     if (state.watchId !== null) navigator.geolocation.clearWatch(state.watchId);
     if ("geolocation" in navigator) state.watchId = navigator.geolocation.watchPosition(update, gpsError, { enableHighAccuracy: true, maximumAge: 1000, timeout: 15000 });
     else gpsError({ code: 0 });
@@ -223,5 +272,5 @@
     $("navigation").hidden = true;
   });
   $("testVoiceButton").addEventListener("click", testTargetVoice);
-  window.gpsKarta = { parseCoordinate, navigationData, toSweref99TM, toWgs84, parseMinKartaLink, minKartaUrl };
+  window.gpsKarta = { parseCoordinate, navigationData, toSweref99TM, toWgs84, parseMinKartaLink, minKartaUrl, relativeDirection };
 })();

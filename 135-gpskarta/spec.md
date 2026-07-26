@@ -29,3 +29,5 @@ Se till att omvandla den till vårt interna WGS84-format.
 `https://minkarta.lantmateriet.se/plats/3006/v2.0/?e=679501&n=6574356&z=14&mapprofile=karta&layers=%5B%5B%223%22%5D%2C%5B%221%22%5D%5D`
 
 Om avståndet är mindre än tio meter ska inte bäringen läsas upp.
+
+Givet att man håller mobilen rakt fram, visa riktningen till målet. Denna ska ändras när man roterar eller går i fel riktning. Mobilen har en inbyggd kompass.
