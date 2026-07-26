@@ -2,6 +2,7 @@
 
 const GAME_SECONDS = 10 * 60;
 const dictionary = new Set();
+const nineLetterWords = [];
 let dictionaryReady = false;
 
 const elements = {
@@ -10,6 +11,7 @@ const elements = {
   result: document.querySelector("#result"),
   sourceWord: document.querySelector("#source-word"),
   start: document.querySelector("#start-button"),
+  randomWord: document.querySelector("#random-word-button"),
   setupMessage: document.querySelector("#setup-message"),
   timer: document.querySelector("#timer"),
   score: document.querySelector("#score"),
@@ -75,6 +77,7 @@ function showMessage(element, text, kind = "") {
 
 async function loadDictionary() {
   elements.start.disabled = true;
+  elements.randomWord.disabled = true;
   showMessage(elements.setupMessage, "Läser in SAOL…");
 
   try {
@@ -82,17 +85,33 @@ async function loadDictionary() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const words = (await response.text()).split(/\r?\n/);
     for (const word of words) {
-      if (/^[a-zåäö]+$/.test(word)) dictionary.add(word);
+      if (/^[a-zåäö]+$/.test(word)) {
+        dictionary.add(word);
+        if (word.length === 9) nineLetterWords.push(word);
+      }
     }
     if (dictionary.size === 0) throw new Error("Ordlistan är tom");
+    if (nineLetterWords.length === 0) throw new Error("Ordlistan saknar ord med nio bokstäver");
 
     dictionaryReady = true;
     elements.start.disabled = false;
+    elements.randomWord.disabled = false;
     showMessage(elements.setupMessage, `${dictionary.size.toLocaleString("sv-SE")} godkända ord är klara.`, "success");
   } catch (error) {
     console.error("Kunde inte läsa saol-ord.txt:", error);
     showMessage(elements.setupMessage, "Kunde inte läsa saol-ord.txt. Ladda sidan via en webbserver.", "error");
   }
+}
+
+function randomizeSourceWord() {
+  if (!dictionaryReady) return;
+  const word = nineLetterWords[Math.floor(Math.random() * nineLetterWords.length)];
+  elements.sourceWord.value = [...word]
+    .sort((a, b) => a.localeCompare(b, "sv-SE"))
+    .join("")
+    .toLocaleUpperCase("sv-SE");
+  showMessage(elements.setupMessage, "Bokstäverna kommer från ett slumpat SAOL-ord.", "success");
+  elements.sourceWord.focus();
 }
 
 function resetBuiltWord() {
@@ -256,12 +275,16 @@ function findAllAnswers() {
   );
 }
 
-function makeResultItem(word, points, className = "") {
+function makeResultItem(word, points, className = "", linkToSaol = false) {
   const item = document.createElement("li");
-  const name = document.createElement("span");
+  const name = document.createElement(linkToSaol ? "a" : "span");
   const score = document.createElement("span");
   name.className = `result-name ${className}`.trim();
   name.textContent = word;
+  if (linkToSaol) {
+    name.href = `https://svenska.se/?activeTab=saol&q=${encodeURIComponent(word)}&exactMatch=true`;
+    name.title = `Slå upp ${word} i SAOL`;
+  }
   score.className = "points good";
   score.textContent = `+${points}`;
   item.append(name, score);
@@ -296,7 +319,7 @@ function renderResultLists() {
 
   const found = new Set(entries.filter(entry => entry.valid).map(entry => entry.word));
   elements.answerList.replaceChildren(...sortedWords(answers).map(word =>
-    makeResultItem(word, word.length ** 2, found.has(word) ? "found-word" : "")
+    makeResultItem(word, word.length ** 2, found.has(word) ? "found-word" : "", true)
   ));
 }
 
@@ -317,6 +340,7 @@ function resetGame() {
 }
 
 elements.start.addEventListener("click", startGame);
+elements.randomWord.addEventListener("click", randomizeSourceWord);
 elements.sourceWord.addEventListener("keydown", event => {
   if (event.key === "Enter") startGame();
 });

@@ -23,4 +23,7 @@ När tiden gått ut får man se facit. Skriv även ut poängen som facit motsvar
 
 Man ska kunna välja att sortera alfabetiskt eller på ordlängden
 
-Se till att fönstret ej går att zooma eller förflytta i sidled.
+Inför en knapp som slumpar fram ett ord på nio bokstäver från SAOL. Sortera bokstäverna.
+
+Gör orden i facit klickbara till följande länk: https://svenska.se/?activeTab=saol&q=mutta&exactMatch=true. Byta mutta mot ordet ifråga
+Man ska kunna komma tillbaka med Vänsterpilen uppe till vänster.
