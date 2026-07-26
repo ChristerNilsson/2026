@@ -156,7 +156,8 @@
     return m >= 1000 ? { value: (m / 1000).toFixed(m >= 10000 ? 0 : 1).replace(".", ","), unit: "km" } : { value: Math.round(m), unit: "m" };
   }
   function relativeDirection(bearing, heading) {
-    return ((bearing - heading + 540) % 360) - 180;
+    const direction = ((bearing - heading + 540) % 360) - 180;
+    return direction === -180 ? 180 : direction;
   }
   function updateNeedle() {
     if (state.targetBearing === null) return;
@@ -185,11 +186,16 @@
     if (event.absolute === true && typeof event.alpha === "number") return (360 - event.alpha) % 360;
     return null;
   }
+  function isPhoneTilted(event) {
+    const beta = typeof event.beta === "number" ? Math.abs(event.beta) : 0;
+    const gamma = typeof event.gamma === "number" ? Math.abs(event.gamma) : 0;
+    return beta > 30 || gamma > 30;
+  }
   function onOrientation(event) {
     const heading = deviceHeading(event);
     if (heading === null) return;
     state.heading = heading;
-    state.tilted = typeof event.gamma === "number" && Math.abs(event.gamma) > 30;
+    state.tilted = isPhoneTilted(event);
     $("compassStatus").hidden = true;
     updateRelativeGuide();
   }
@@ -296,5 +302,5 @@
     audioPlayer.pause(); state.audioQueue.length = 0; state.audioPlaying = false;
     $("navigation").hidden = true;
   });
-  window.gpsKarta = { parseCoordinate, navigationData, toSweref99TM, toWgs84, parseMinKartaLink, minKartaUrl, relativeDirection };
+  window.gpsKarta = { parseCoordinate, navigationData, toSweref99TM, toWgs84, parseMinKartaLink, minKartaUrl, relativeDirection, isPhoneTilted };
 })();

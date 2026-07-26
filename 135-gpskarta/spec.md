@@ -34,6 +34,7 @@ Givet att man håller mobilen rakt fram, visa riktningen till målet. Denna ska 
 
 Kompassrosen ska visa den absoluta bäringen.
 
-Just nu står texten "Mobilen pekar...". Den ska bort. Visa istället en relativ riktning samt en pil som pekar uppåt när man närmar sig målet. Pekar den vänsterut motsvarar det att man rör sig 90 grader fel och bör svänga vänster 90 grader.
+Just nu står texten "Mobilen pekar...". Den ska bort. Visa istället en relativ riktning samt en pil som pekar uppåt (0) när man håller perfekt kurs. Pilen ska kunna visa alla riktningar.
 
-Då telefonen lutar bör varken talet eller pilarna visas.
+Då telefonen lutar bör varken talet eller pilen visas.
+Positivt tal innebär att man bör svänga åt ena hållet, negativt åt andra. Noll innebär perfekt kurs. 180 innebär sämsta möjliga kurs.

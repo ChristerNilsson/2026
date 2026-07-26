@@ -21,4 +21,6 @@ Kompassrosens nål och gradangivelsen visar den absoluta bäringen mot målet.
 Ovanför visas avvikelsen från telefonens riktning och en pil som pekar mot målet:
 uppåt betyder rakt fram, vänster betyder att användaren ska svänga vänster och
 höger betyder att användaren ska svänga höger. Den relativa vägledningen döljs
-när telefonen lutar tydligt åt sidan.
+när telefonen lutar mer än 30 grader framåt, bakåt eller åt sidan. Relativa
+riktningar visas från −179° till 180°, där 0° är perfekt kurs och 180° är rakt
+från målet.
