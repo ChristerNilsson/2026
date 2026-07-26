@@ -143,6 +143,12 @@ function selectLetterFromKeyboard(letter) {
   if (tile) selectLetter(tile);
 }
 
+function restoreBuiltWord(word) {
+  resetBuiltWord();
+  for (const letter of word) selectLetterFromKeyboard(letter);
+  showMessage(elements.gameMessage, `${word.toLocaleUpperCase("sv-SE")} ligger i textrutan igen.`);
+}
+
 function handleGameKeyboard(event) {
   if (elements.game.classList.contains("hidden") || event.target === elements.sourceWord) return;
   if (event.ctrlKey || event.metaKey || event.altKey) return;
@@ -180,6 +186,9 @@ function startGame() {
   entries = [];
   answers = [];
   total = 0;
+  sortMode = "alphabetic";
+  elements.gameSort.value = sortMode;
+  elements.resultSort.value = sortMode;
   endsAt = Date.now() + GAME_SECONDS * 1000;
   renderWords();
   elements.letters.replaceChildren(
@@ -258,9 +267,13 @@ function renderWords() {
   });
   elements.list.replaceChildren(...sortedEntries.map(entry => {
     const item = document.createElement("li");
-    const word = document.createElement("span");
+    const word = document.createElement("button");
     const points = document.createElement("span");
+    word.type = "button";
+    word.className = "entered-word";
     word.textContent = entry.word;
+    word.title = `Lägg tillbaka ${entry.word} i textrutan`;
+    word.addEventListener("click", () => restoreBuiltWord(entry.word));
     points.className = `points ${entry.valid ? "good" : "bad"}`;
     points.textContent = entry.points > 0 ? `+${entry.points}` : String(entry.points);
     item.append(word, points);
@@ -294,6 +307,9 @@ function makeResultItem(word, points, className = "", linkToSaol = false) {
 function finishGame() {
   clearInterval(timerId);
   timerId = null;
+  sortMode = "length";
+  elements.gameSort.value = sortMode;
+  elements.resultSort.value = sortMode;
   elements.game.classList.add("hidden");
   elements.result.classList.remove("hidden");
   elements.finalScore.textContent = total;

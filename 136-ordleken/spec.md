@@ -27,3 +27,11 @@ Inför en knapp som slumpar fram ett ord på nio bokstäver från SAOL. Sortera 
 
 Gör orden i facit klickbara till följande länk: https://svenska.se/?activeTab=saol&q=mutta&exactMatch=true. Byta mutta mot ordet ifråga
 Man ska kunna komma tillbaka med Vänsterpilen uppe till vänster.
+
+När användaren klickar på ett ord som användaren tidigare matat in, ska det läggas tillbaks till textrutan.
+
+Fönstret i mobilen ska ej gå att zooma.
+
+När man startar tävlingen ska orden sorteras alfabetiskt.
+
+När tiden är ute ska de sorteras på längd.

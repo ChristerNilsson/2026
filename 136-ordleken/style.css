@@ -169,6 +169,21 @@ li > span:first-child { min-width: 0; overflow-wrap: anywhere; }
 li .points { flex: 0 0 auto; }
 li .points.good { color: var(--good); }
 li .points.bad { color: var(--bad); }
+.entered-word {
+  min-width: 0;
+  margin: -7px 0;
+  padding: 7px 0;
+  color: var(--ink);
+  background: transparent;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+.entered-word:hover,
+.entered-word:focus-visible {
+  color: var(--good);
+  text-decoration: underline;
+  text-underline-offset: .18em;
+}
 .empty { margin: 18px 0 2px; color: var(--muted); text-align: center; }
 .result { padding: 36px 20px; text-align: center; }
 #final-score { display: block; margin-top: 12px; font-size: 5rem; line-height: 1; }
