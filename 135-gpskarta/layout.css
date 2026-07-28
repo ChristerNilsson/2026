@@ -2,6 +2,23 @@
   grid-template-columns: 1fr;
 }
 
+.form-actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+.test-audio {
+  min-height: 57px;
+  padding: 0 18px;
+  border: 1px solid var(--ink);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--ink);
+  font-weight: 750;
+  cursor: pointer;
+}
+
 .gps-coordinates {
   width: 100%;
   margin-top: 14px;
@@ -79,6 +96,10 @@
   .map-actions {
     grid-template-columns: 1fr 1fr;
     gap: 8px;
+  }
+
+  .form-actions {
+    grid-template-columns: 1fr;
   }
 
   .compass-card {

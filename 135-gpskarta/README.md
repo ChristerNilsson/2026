@@ -11,10 +11,14 @@ Koordinatfältet accepterar även en komplett delningslänk från Min karta. App
 läser länkvärdena `n` och `e`, omvandlar dem från SWEREF 99 TM till WGS84 och
 använder resultatet som navigeringsmål.
 
+Om sidan öppnas med `n` och `e` i sin egen URL tolkas de som WGS84-latitud
+respektive longitud och fylls automatiskt i koordinatfältet.
+
 Appens automatiska vägledning använder de förinspelade MP3-filerna i `sounds`:
 manlig röst för bäring och kvinnlig röst för avstånd. På iPhone låses
 MP3-spelaren upp när navigeringen startas. Bäringen läses inte upp när mindre än
 10 meter återstår. Appen använder inte webbläsarens talsyntes.
+Knappen **Testa ljud: 4711** spelar upp talet med samma inspelade manliga röst.
 
 När navigeringen startas begär appen även åtkomst till mobilens kompass.
 Kompassrosens nål och gradtalet bredvid visar den absoluta bäringen mot målet.

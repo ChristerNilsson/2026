@@ -2,7 +2,7 @@
   "use strict";
   const $ = (id) => document.getElementById(id);
   const state = {
-    target: null, current: null, watchId: null, lastBearingBand: null, lastDistance: null,
+    target: null, current: null, watchId: null, lastSpokenBearing: null, lastDistance: null,
     targetBearing: null, heading: null, tilted: false, orientationListening: false,
     audioQueue: [], audioPlaying: false
   };
@@ -130,13 +130,17 @@
     });
   }
   function speakBearing(bearing) {
-    const rounded = Math.round(bearing / 10);
-    const band = rounded === 0 ? 36 : rounded;
-    if (state.lastBearingBand === null) state.lastBearingBand = band;
-    else if (band !== state.lastBearingBand) {
-      state.lastBearingBand = band;
-      queueClips([`sounds/bearing/male/${String(band).padStart(2, "0")}.mp3`]);
+    const roundedBearing = (Math.round(bearing / 10) * 10) % 360;
+    if (state.lastSpokenBearing === null) {
+      state.lastSpokenBearing = roundedBearing;
+      return;
     }
+    // A spoken value is the centre of its 10-degree band (180 covers 175–185).
+    const change = Math.abs(relativeDirection(bearing, state.lastSpokenBearing));
+    if (change <= 5) return;
+    state.lastSpokenBearing = roundedBearing;
+    const clip = roundedBearing === 0 ? 36 : roundedBearing / 10;
+    queueClips([`sounds/bearing/male/${String(clip).padStart(2, "0")}.mp3`]);
   }
   function thresholds(max) {
     const result = [];
@@ -187,9 +191,9 @@
     return null;
   }
   function isPhoneTilted(event) {
-    const beta = typeof event.beta === "number" ? Math.abs(event.beta) : 0;
-    const gamma = typeof event.gamma === "number" ? Math.abs(event.gamma) : 0;
-    return beta > 30 || gamma > 30;
+    if (typeof event.beta !== "number" || typeof event.gamma !== "number") return false;
+    const pitchFromUpright = Math.abs(Math.abs(event.beta) - 90);
+    return pitchFromUpright > 30 || Math.abs(event.gamma) > 30;
   }
   function onOrientation(event) {
     const heading = deviceHeading(event);
@@ -255,7 +259,7 @@
       $("inputHelp").textContent = "Ange latitud och longitud, till exempel 59.2701, 18.1503."; return;
     }
     unlockAudio();
-    state.target = target; state.lastBearingBand = null; state.lastDistance = null;
+    state.target = target; state.lastSpokenBearing = null; state.lastDistance = null;
     state.targetBearing = null; state.heading = null; state.tilted = false;
     $("relativeGuide").hidden = true;
     $("coordinate").classList.remove("invalid"); $("inputHelp").classList.remove("error");
@@ -281,6 +285,10 @@
   }
 
   $("targetForm").addEventListener("submit", (e) => { e.preventDefault(); start(); });
+  $("testAudio").addEventListener("click", () => {
+    unlockAudio();
+    queueClips(["04", "07", "01", "01"].map((digit) => `sounds/bearing/male/${digit}.mp3`), true);
+  });
   $("coordinate").addEventListener("input", () => $("coordinate").classList.remove("invalid"));
   $("usePosition").addEventListener("click", () => navigator.geolocation?.getCurrentPosition((p) => {
     $("coordinate").value = `${p.coords.latitude.toFixed(5)} ${p.coords.longitude.toFixed(5)}`;
@@ -291,5 +299,17 @@
     audioPlayer.pause(); state.audioQueue.length = 0; state.audioPlaying = false;
     $("navigation").hidden = true;
   });
+
+  function loadTargetFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const north = params.get("n"), east = params.get("e");
+    if (north === null || east === null) return;
+    const lat = Number(north.replace(",", "."));
+    const lon = Number(east.replace(",", "."));
+    if (lat >= -90 && lat <= 90 && lon >= -180 && lon <= 180) {
+      $("coordinate").value = `${lat}, ${lon}`;
+    }
+  }
+  loadTargetFromUrl();
   window.gpsKarta = { parseCoordinate, navigationData, toSweref99TM, toWgs84, parseMinKartaLink, minKartaUrl, relativeDirection, isPhoneTilted };
 })();

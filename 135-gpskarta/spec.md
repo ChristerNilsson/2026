@@ -39,7 +39,11 @@ Just nu står texten "Mobilen pekar...". Den ska bort. Visa istället en relativ
 Då telefonen lutar bör varken talet eller pilen visas.
 Positivt tal innebär att man bör svänga åt ena hållet, negativt åt andra. Noll innebär perfekt kurs. 180 innebär sämsta möjliga kurs.
 
+Se till att två url-parametrar läses in om de existerar till textrutan. n= och e=. De är på formatet WGS84.
+
 # Tag bort
 * Till höger om kompassrosen:
   * Bäring
   * Söker mobilens kompass ...
+
+
