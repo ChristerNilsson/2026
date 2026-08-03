@@ -124,6 +124,7 @@ button:disabled { opacity: .5; cursor: wait; }
   display: grid;
   width: 34px;
   height: 39px;
+  touch-action: manipulation;
   padding: 0;
   place-items: center;
   border: 0;

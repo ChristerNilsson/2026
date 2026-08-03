@@ -227,6 +227,12 @@ function startGame() {
       tile.textContent = letter;
       tile.dataset.letter = letter.toLocaleLowerCase("sv-SE");
       tile.setAttribute("aria-label", `Lägg till ${letter}`);
+      tile.addEventListener("pointerdown", event => {
+        if (event.pointerType !== "mouse") {
+          event.preventDefault();
+          selectLetter(tile);
+        }
+      });
       tile.addEventListener("click", () => selectLetter(tile));
       return tile;
     })
