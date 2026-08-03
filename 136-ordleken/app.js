@@ -56,6 +56,7 @@ function preventAccidentalZoom() {
   document.addEventListener("touchmove", event => {
     if (event.touches.length > 1) stopZoom(event);
   }, { passive: false });
+  document.addEventListener("dblclick", stopZoom, { passive: false });
 
   // Also prevent accidental trackpad/keyboard zoom on computers.
   document.addEventListener("wheel", event => {
