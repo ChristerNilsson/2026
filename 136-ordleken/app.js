@@ -1,6 +1,5 @@
 "use strict";
 
-const GAME_SECONDS = 10 * 60;
 const dictionary = new Set();
 const nineLetterWords = [];
 let dictionaryReady = false;
@@ -10,6 +9,7 @@ const elements = {
   game: document.querySelector("#game"),
   result: document.querySelector("#result"),
   sourceWord: document.querySelector("#source-word"),
+  gameMinutes: document.querySelector("#game-minutes"),
   start: document.querySelector("#start-button"),
   randomWord: document.querySelector("#random-word-button"),
   setupMessage: document.querySelector("#setup-message"),
@@ -212,7 +212,8 @@ function startGame() {
   sortMode = "alphabetic";
   elements.gameSort.value = sortMode;
   elements.resultSort.value = sortMode;
-  endsAt = Date.now() + GAME_SECONDS * 1000;
+  const gameMinutes = Math.min(15, Math.max(1, Number.parseInt(elements.gameMinutes.value, 10) || 10));
+  endsAt = Date.now() + gameMinutes * 60 * 1000;
   renderWords();
   elements.letters.replaceChildren(
     ...[...source.toLocaleUpperCase("sv-SE")].map(letter => {

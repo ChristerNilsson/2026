@@ -55,6 +55,18 @@ h1 { margin: 2px 0 0; font-size: clamp(2.8rem, 13vw, 5rem); letter-spacing: -.06
 
 label { display: block; margin-bottom: 9px; font-weight: 800; }
 .setup-row { display: flex; gap: 9px; }
+.time-setting {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 9px;
+  padding: 10px 12px;
+  border-radius: 13px;
+  background: #eef4f0;
+}
+.time-setting label { margin: 0; }
+.time-setting select { max-width: none; }
 .random-word-button {
   width: 100%;
   margin-top: 9px;

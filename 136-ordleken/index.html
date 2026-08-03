@@ -11,7 +11,7 @@
 <body>
   <main class="shell">
     <header>
-      <p class="eyebrow">Tio minuter · så många ord du kan</p>
+      <p class="eyebrow">Så många ord du kan</p>
       <h1>Ordleken</h1>
     </header>
 
@@ -21,6 +21,26 @@
         <input id="source-word" type="text" inputmode="text" autocomplete="off"
                autocapitalize="characters" maxlength="40" placeholder="FJÄLLMARATON">
         <button id="start-button" type="button" disabled>Starta</button>
+      </div>
+      <div class="time-setting">
+        <label for="game-minutes">Betänketid</label>
+        <select id="game-minutes">
+          <option value="1">1 minut</option>
+          <option value="2">2 minuter</option>
+          <option value="3">3 minuter</option>
+          <option value="4">4 minuter</option>
+          <option value="5">5 minuter</option>
+          <option value="6">6 minuter</option>
+          <option value="7">7 minuter</option>
+          <option value="8">8 minuter</option>
+          <option value="9">9 minuter</option>
+          <option value="10" selected>10 minuter</option>
+          <option value="11">11 minuter</option>
+          <option value="12">12 minuter</option>
+          <option value="13">13 minuter</option>
+          <option value="14">14 minuter</option>
+          <option value="15">15 minuter</option>
+        </select>
       </div>
       <button id="random-word-button" class="random-word-button secondary-button"
               type="button" disabled>Slumpa nio bokstäver</button>
