@@ -16,12 +16,14 @@ html, body {
   max-width: 100%;
   overflow-x: hidden;
   overscroll-behavior-x: none;
-  overscroll-behavior-y: none;
 }
+
+html { overflow-y: auto; }
 
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-y: visible;
   touch-action: pan-y;
   color: var(--ink);
   background:

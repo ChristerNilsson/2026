@@ -59,10 +59,7 @@ function preventAccidentalZoom() {
   }, { passive: false });
   document.addEventListener("dblclick", stopZoom, { passive: false });
 
-  // Also prevent accidental trackpad/keyboard zoom on computers.
-  document.addEventListener("wheel", event => {
-    if (event.ctrlKey) stopZoom(event);
-  }, { passive: false });
+  // Prevent accidental keyboard zoom on computers without intercepting scrolling.
   document.addEventListener("keydown", event => {
     if ((event.ctrlKey || event.metaKey) && ["+", "-", "=", "0"].includes(event.key)) {
       stopZoom(event);
