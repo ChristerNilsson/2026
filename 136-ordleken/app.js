@@ -5,6 +5,7 @@ const nineLetterWords = [];
 let dictionaryReady = false;
 
 const elements = {
+  gameTagline: document.querySelector("#game-tagline"),
   setup: document.querySelector("#setup"),
   game: document.querySelector("#game"),
   result: document.querySelector("#result"),
@@ -71,6 +72,12 @@ function preventAccidentalZoom() {
 
 function normalize(value) {
   return value.trim().toLocaleLowerCase("sv-SE");
+}
+
+function updateGameTagline() {
+  const minutes = Number.parseInt(elements.gameMinutes.value, 10) || 10;
+  const unit = minutes === 1 ? "minut" : "minuter";
+  elements.gameTagline.textContent = `Så många ord du kan på ${minutes} ${unit}.`;
 }
 
 function sortedWords(words) {
@@ -380,6 +387,7 @@ function resetGame() {
 }
 
 elements.start.addEventListener("click", startGame);
+elements.gameMinutes.addEventListener("change", updateGameTagline);
 elements.randomWord.addEventListener("click", randomizeSourceWord);
 elements.sourceWord.addEventListener("keydown", event => {
   if (event.key === "Enter") startGame();
