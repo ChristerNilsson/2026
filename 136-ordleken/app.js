@@ -46,6 +46,28 @@ let selectedTiles = [];
 let sortMode = "alphabetic";
 let answers = [];
 
+function preventAccidentalZoom() {
+  const stopZoom = event => event.preventDefault();
+
+  // Safari can still emit these events even when the viewport is locked.
+  document.addEventListener("gesturestart", stopZoom, { passive: false });
+  document.addEventListener("gesturechange", stopZoom, { passive: false });
+  document.addEventListener("gestureend", stopZoom, { passive: false });
+  document.addEventListener("touchmove", event => {
+    if (event.touches.length > 1) stopZoom(event);
+  }, { passive: false });
+
+  // Also prevent accidental trackpad/keyboard zoom on computers.
+  document.addEventListener("wheel", event => {
+    if (event.ctrlKey) stopZoom(event);
+  }, { passive: false });
+  document.addEventListener("keydown", event => {
+    if ((event.ctrlKey || event.metaKey) && ["+", "-", "=", "0"].includes(event.key)) {
+      stopZoom(event);
+    }
+  });
+}
+
 function normalize(value) {
   return value.trim().toLocaleLowerCase("sv-SE");
 }
@@ -367,4 +389,5 @@ elements.newGame.addEventListener("click", resetGame);
 elements.gameSort.addEventListener("change", changeSort);
 elements.resultSort.addEventListener("change", changeSort);
 document.addEventListener("keydown", handleGameKeyboard);
+preventAccidentalZoom();
 loadDictionary();
