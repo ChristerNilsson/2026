@@ -11,7 +11,7 @@ mirror = node 'mirror', (state) ->
 	{...state, re: state.im, im: state.re}
 add2mul2 = node 'add2mul2', [add2, mul2]
 
-script = test {re:3, im:4},
+script = test {re:3, im:4}, 
 	add2 {re:5, im:4},
 		mul2 {re:10, im:8},
 			mirror {re:8, im:10}
