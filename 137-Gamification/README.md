@@ -2,7 +2,7 @@
 
 Ett litet webbläsarspel där du navigerar från `START` till `TARGET`. Hela banan visas som en graf och endast de noder som är giltiga nästa drag går att klicka på. Din aktuella position är markerad.
 
-## [Try it!](https://christerNilsson.github.io/2026/137-Gamification/)
+[Try it!](https://christerNilsson.github.io/2026/137-Gamification/)
 
 ## Så fungerar det
 
@@ -25,4 +25,3 @@ Indenteringen bestämmer nodernas placering och vilka förflyttningar som är ti
 
 Ändringar i textfältet påverkar bara den aktuella visningen och sparas inte tillbaka till txt-filen.
 
-Du kan öppna rombbanan direkt med [Try the diamond!](https://christerNilsson.github.io/2026/137-Gamification/?bana=romb.txt).
