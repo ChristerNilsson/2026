@@ -501,8 +501,14 @@ function nextQuestion() {
 
   if (questionType === "imageToName") {
     title.textContent = "Vem är detta?";
+    // Dölj föregående bild tills den nya bilden har laddats.
+    photo.hidden = true;
+    photo.onload = () => {
+      if (questionType === "imageToName") {
+        photo.hidden = false;
+      }
+    };
     photo.src = currentPerson.image;
-    photo.hidden = false;
     imageGrid.hidden = true;
     inputArea.hidden = false;
     answer.value = "";
