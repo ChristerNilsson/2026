@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Namnträning</title>
+
+  <style>
+    [hidden] {
+      display: none !important;
+    }
+
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 0 20px;
+      text-align: center;
+      background: #f5f5f5;
+    }
+
+    .card {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px #0002;
+    }
+
+    img {
+      max-width: 100%;
+      max-height: 500px;
+      border-radius: 8px;
+      object-fit: contain;
+    }
+
+    #questionTitle {
+      font-size: 28px;
+      margin: 0 0 18px;
+    }
+
+    #imageGrid {
+      display: grid;
+      gap: 10px;
+    }
+
+    #imageGrid.grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    #imageGrid.grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .imageChoice {
+      aspect-ratio: 4 / 3;
+      padding: 3px;
+      margin: 0;
+      border: 3px solid transparent;
+      border-radius: 10px;
+      background: #222;
+      overflow: hidden;
+    }
+
+    .imageChoice img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      image-rendering: auto;
+    }
+
+    .imageChoice:disabled {
+      opacity: 1;
+      cursor: default;
+    }
+
+    .imageChoice.correctChoice {
+      border-color: green;
+    }
+
+    .imageChoice.wrongChoice {
+      border-color: crimson;
+    }
+
+    input {
+      font-size: 24px;
+      padding: 10px;
+      width: 80%;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 10px 20px;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    #feedback {
+      font-size: 24px;
+      min-height: 40px;
+      margin-top: 15px;
+    }
+
+    #stats {
+      margin-top: 20px;
+      color: #555;
+    }
+
+    .correct {
+      color: green;
+    }
+
+    .wrong {
+      color: crimson;
+    }
+
+    #nameList {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 6px;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .nameButton {
+      width: 100%;
+      padding: 8px 10px;
+      margin: 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fafafa;
+      font-size: 16px;
+    }
+
+    .nameButton:hover,
+    .nameButton:focus {
+      background: #e8f1ff;
+    }
+
+    #previewPhoto {
+      max-height: 400px;
+    }
+
+    #previewName {
+      min-height: 1.5em;
+      font-size: 22px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Namnträning</h1>
+
+  <div class="card">
+
+    <section id="introSection">
+      <div id="listView">
+        <h2>Personer</h2>
+        <p>Klicka på ett namn för att se bilden.</p>
+        <div id="nameList"></div>
+        <div>
+          <button id="startButton" disabled>Börja träna</button>
+        </div>
+      </div>
+
+      <div id="previewView" hidden>
+        <div id="previewName"></div>
+        <img id="previewPhoto" alt="">
+        <div>
+          <button id="backButton">Bakåt</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="trainingSection" hidden>
+
+    <div id="questionTitle"></div>
+
+    <img id="photo" alt="Vem är detta?">
+
+    <div id="imageGrid" hidden></div>
+
+    <div id="inputArea">
+      <input
+        id="answer"
+        type="text"
+        autocomplete="off"
+        placeholder="Skriv namnet"
+      >
+    </div>
+
+    <div id="actionArea">
+      <button id="checkButton">Kontrollera</button>
+      <button id="showButton">Visa svar</button>
+    </div>
+
+    <div id="feedback"></div>
+
+    <div id="stats"></div>
+
+    </section>
+
+  </div>
+
+
+<script>
+
+// ========================================================
+// 1. LÄS IN PERSONER FRÅN faces.json
+// ========================================================
+
+let people = [];
+
+async function loadPeople() {
+
+  const response = await fetch("faces.json");
+
+  if (!response.ok) {
+    throw new Error("Kunde inte läsa faces.json");
+  }
+
+  const data = await response.json();
+
+  if (
+    !Array.isArray(data) ||
+    data.length === 0 ||
+    !data.every(person =>
+      typeof person.name === "string" &&
+      person.name.trim() &&
+      typeof person.image === "string" &&
+      person.image.trim()
+    )
+  ) {
+    throw new Error("faces.json har ett ogiltigt format");
+  }
+
+  people = data;
+
+}
+
+
+// ========================================================
+// 2. INSTÄLLNINGAR
+// ========================================================
+
+// true = bara förnamnet behöver anges
+// false = hela namnet måste anges
+
+const firstNameOnly = false;
+
+
+// ========================================================
+// 3. PROGRAMDATA
+// ========================================================
+
+let currentPerson = null;
+let answered = false;
+let questionType = "imageToName";
+let trainingStarted = false;
+
+let totalCorrect = 0;
+let totalWrong = 0;
+
+
+// Läs tidigare statistik
+
+let memory = {};
+
+function loadMemory() {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem("nameTrainerMemory") || "{}"
+    );
+
+    if (saved.people && saved.totals) {
+      memory = saved.people;
+      totalCorrect = Number(saved.totals.correct) || 0;
+      totalWrong = Number(saved.totals.wrong) || 0;
+    }
+    else {
+      // Migrera det äldre formatet med personerna direkt i objektet.
+      memory = saved;
+      totalCorrect = Object.values(memory).reduce(
+        (sum, data) => sum + (Number(data.correct) || 0), 0
+      );
+      totalWrong = Object.values(memory).reduce(
+        (sum, data) => sum + (Number(data.wrong) || 0), 0
+      );
+    }
+  }
+  catch {
+    memory = {};
+    totalCorrect = 0;
+    totalWrong = 0;
+  }
+}
+
+loadMemory();
+
+
+// Skapa statistik för nya personer
+
+function initializeMemory() {
+
+  const currentMemory = {};
+
+  for (const person of people) {
+
+    currentMemory[person.name] = memory[person.name] || {
+      correct: 0,
+      wrong: 0,
+      streak: 0,
+      score: 0
+    };
+  }
+
+  memory = currentMemory;
+  saveMemory();
+
+}
+
+
+function showPersonList() {
+  const nameList = document.getElementById("nameList");
+
+  for (const person of people) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "nameButton";
+    button.textContent = person.name;
+    button.addEventListener("click", () => {
+      const previewPhoto = document.getElementById("previewPhoto");
+      document.getElementById("previewName").textContent = person.name;
+      previewPhoto.src = person.image;
+      previewPhoto.alt = person.name;
+      document.getElementById("listView").hidden = true;
+      document.getElementById("previewView").hidden = false;
+      document.getElementById("introSection").scrollIntoView();
+    });
+    nameList.appendChild(button);
+  }
+
+  document.getElementById("startButton").disabled = false;
+}
+
+
+function showNameList() {
+  document.getElementById("previewView").hidden = true;
+  document.getElementById("listView").hidden = false;
+  document.getElementById("introSection").scrollIntoView();
+}
+
+
+function startTraining() {
+  trainingStarted = true;
+  document.getElementById("introSection").hidden = true;
+  document.getElementById("trainingSection").hidden = false;
+  nextQuestion();
+}
+
+
+// ========================================================
+// 4. NORMALISERA SVAR
+// ========================================================
+
+function normalize(text) {
+
+  return text
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+
+}
+
+
+// ========================================================
+// 5. KONTROLLERA NAMN
+// ========================================================
+
+function expectedAnswer(person) {
+
+  if (firstNameOnly) {
+    return person.name.split(" ")[0];
+  }
+
+  return person.name;
+
+}
+
+
+function isCorrect(answer, person) {
+
+  return normalize(answer) ===
+         normalize(expectedAnswer(person));
+
+}
+
+
+// ========================================================
+// 6. VÄLJ NÄSTA PERSON
+// ========================================================
+//
+// Svåra personer får större chans att visas.
+//
+// score:
+//   negativ = svårt
+//   positiv = lätt
+//
+// ========================================================
+
+function choosePerson() {
+
+  let candidates = [];
+
+  for (const person of people) {
+
+    const data = memory[person.name];
+
+    // Grundvikt
+
+    let weight = 10;
+
+    // Fler fel → visas oftare
+
+    weight += data.wrong * 5;
+
+    // Fler rätt i rad → visas mer sällan
+
+    weight -= data.streak * 2;
+
+    // Minsta vikt
+
+    weight = Math.max(1, weight);
+
+
+    for (let i = 0; i < weight; i++) {
+      candidates.push(person);
+    }
+
+  }
+
+
+  let person;
+
+  do {
+
+    person =
+      candidates[
+        Math.floor(Math.random() * candidates.length)
+      ];
+
+  }
+  while (
+    people.length > 1 &&
+    person === currentPerson
+  );
+
+
+  return person;
+
+}
+
+
+// ========================================================
+// 7. VISA NY FRÅGA
+// ========================================================
+
+function shuffle(items) {
+  const result = [...items];
+
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+
+  return result;
+}
+
+
+function nextQuestion() {
+  answered = false;
+  currentPerson = choosePerson();
+  questionType = Math.random() < 0.5 ? "imageToName" : "nameToImage";
+
+  const title = document.getElementById("questionTitle");
+  const photo = document.getElementById("photo");
+  const imageGrid = document.getElementById("imageGrid");
+  const inputArea = document.getElementById("inputArea");
+  const answer = document.getElementById("answer");
+  const checkButton = document.getElementById("checkButton");
+  const showButton = document.getElementById("showButton");
+
+  checkButton.textContent = "Kontrollera";
+  checkButton.hidden = false;
+  showButton.hidden = false;
+  imageGrid.replaceChildren();
+
+  if (questionType === "imageToName") {
+    title.textContent = "Vem är detta?";
+    photo.src = currentPerson.image;
+    photo.hidden = false;
+    imageGrid.hidden = true;
+    inputArea.hidden = false;
+    answer.value = "";
+    answer.focus();
+  }
+  else {
+    title.textContent = "Hitta " + currentPerson.name;
+    photo.hidden = true;
+    inputArea.hidden = true;
+    checkButton.hidden = true;
+
+    const gridSize = Math.random() < 0.5 ? 4 : 9;
+    const others = shuffle(
+      people.filter(person => person !== currentPerson)
+    ).slice(0, gridSize - 1);
+    const choices = shuffle([currentPerson, ...others]);
+
+    imageGrid.className = choices.length <= 4 ? "grid-2" : "grid-3";
+    imageGrid.hidden = false;
+
+    for (const person of choices) {
+      const button = document.createElement("button");
+      const image = document.createElement("img");
+
+      button.className = "imageChoice";
+      button.type = "button";
+      button.dataset.name = person.name;
+      button.setAttribute("aria-label", "Välj denna bild");
+      image.src = person.image;
+      image.alt = "Svarsalternativ";
+      button.appendChild(image);
+      button.addEventListener("click", () => chooseImage(person, button));
+      imageGrid.appendChild(button);
+    }
+  }
+
+  document.getElementById("feedback").textContent = "";
+  document.getElementById("feedback").className = "";
+  updateStats();
+}
+
+
+function chooseImage(person, button) {
+  if (answered) {
+    return;
+  }
+
+  answered = true;
+  const feedback = document.getElementById("feedback");
+
+  if (person === currentPerson) {
+    registerCorrect();
+    nextQuestion();
+    return;
+  }
+  else {
+    feedback.textContent = "✗ " + currentPerson.name;
+    feedback.className = "wrong";
+    button.classList.add("wrongChoice");
+    registerWrong();
+  }
+
+  for (const choice of document.querySelectorAll(".imageChoice")) {
+    choice.disabled = true;
+
+    if (choice.dataset.name === currentPerson.name) {
+      choice.classList.add("correctChoice");
+    }
+  }
+
+  const checkButton = document.getElementById("checkButton");
+  checkButton.textContent = "Nästa";
+  checkButton.hidden = false;
+  document.getElementById("showButton").hidden = true;
+  updateStats();
+}
+
+
+// ========================================================
+// 8. RÄTT SVAR
+// ========================================================
+
+function registerCorrect() {
+
+  const data = memory[currentPerson.name];
+
+  data.correct++;
+  data.streak++;
+  data.score++;
+
+  totalCorrect++;
+
+  saveMemory();
+
+}
+
+
+// ========================================================
+// 9. FEL SVAR
+// ========================================================
+
+function registerWrong() {
+
+  const data = memory[currentPerson.name];
+
+  data.wrong++;
+  data.streak = 0;
+  data.score--;
+
+  totalWrong++;
+
+  saveMemory();
+
+}
+
+
+// ========================================================
+// 10. KONTROLLERA SVARET
+// ========================================================
+
+function checkAnswer() {
+
+  if (answered) {
+    nextQuestion();
+    return;
+  }
+
+
+  const input =
+    document.getElementById("answer").value;
+
+
+  const feedback =
+    document.getElementById("feedback");
+
+
+  if (isCorrect(input, currentPerson)) {
+    registerCorrect();
+    nextQuestion();
+    return;
+  }
+
+  else {
+
+    feedback.textContent =
+      "✗ " + currentPerson.name;
+
+    feedback.className = "wrong";
+
+    registerWrong();
+
+  }
+
+
+  answered = true;
+
+  document.getElementById("checkButton").textContent = "Nästa";
+  document.getElementById("showButton").hidden = true;
+
+  updateStats();
+
+}
+
+
+// ========================================================
+// 11. VISA SVARET
+// ========================================================
+
+function showAnswer() {
+
+  if (answered) {
+    return;
+  }
+
+  const feedback =
+    document.getElementById("feedback");
+
+  feedback.textContent =
+    currentPerson.name;
+
+  feedback.className = "wrong";
+
+  registerWrong();
+
+  answered = true;
+
+  if (questionType === "nameToImage") {
+    for (const choice of document.querySelectorAll(".imageChoice")) {
+      choice.disabled = true;
+
+      if (choice.dataset.name === currentPerson.name) {
+        choice.classList.add("correctChoice");
+      }
+    }
+  }
+
+  const checkButton = document.getElementById("checkButton");
+  checkButton.textContent = "Nästa";
+  checkButton.hidden = false;
+  document.getElementById("showButton").hidden = true;
+
+  updateStats();
+
+}
+
+
+// ========================================================
+// 12. SPARA
+// ========================================================
+
+function saveMemory() {
+
+  localStorage.setItem(
+    "nameTrainerMemory",
+    JSON.stringify({
+      version: 2,
+      people: memory,
+      totals: {
+        correct: totalCorrect,
+        wrong: totalWrong
+      }
+    })
+  );
+
+}
+
+
+// ========================================================
+// 13. STATISTIK
+// ========================================================
+
+function updateStats() {
+
+  const total =
+    totalCorrect + totalWrong;
+
+  document.getElementById("stats").textContent =
+    "Rätt: " + totalCorrect +
+    "   Fel: " + totalWrong +
+    "   Totalt: " + total;
+
+}
+
+
+// ========================================================
+// 14. KNAPPAR OCH ENTER
+// ========================================================
+
+document
+  .getElementById("checkButton")
+  .addEventListener("click", checkAnswer);
+
+
+document
+  .getElementById("showButton")
+  .addEventListener("click", showAnswer);
+
+
+document
+  .getElementById("startButton")
+  .addEventListener("click", startTraining);
+
+
+document
+  .getElementById("backButton")
+  .addEventListener("click", showNameList);
+
+
+document.addEventListener("keydown", function(event) {
+
+  if (event.key !== "Enter" || event.repeat) {
+    return;
+  }
+
+  if (!trainingStarted) {
+    return;
+  }
+
+  event.preventDefault();
+
+  if (answered) {
+    nextQuestion();
+  }
+  else if (questionType === "imageToName") {
+    checkAnswer();
+  }
+  else if (event.target.classList.contains("imageChoice")) {
+    event.target.click();
+  }
+
+});
+
+
+// ========================================================
+// START
+// ========================================================
+
+async function start() {
+
+  try {
+    await loadPeople();
+    initializeMemory();
+    showPersonList();
+  }
+  catch (error) {
+    const previewName = document.getElementById("previewName");
+    previewName.textContent = error.message;
+    previewName.className = "wrong";
+    document.getElementById("startButton").disabled = true;
+  }
+
+}
+
+start();
+
+</script>
+
+</body>
+</html>
