@@ -2,7 +2,7 @@
 
 Träna på att känna igen namn och ansikten. Uppgifterna blandas mellan att skriva namnet till en bild och att välja rätt bild till ett namn.
 
-## [Try it!](https://christernilsson.github.io/138-FaceRecognition/)
+## [Try it!](https://christernilsson.github.io/2026/138-FaceRecognition/)
 
 Statistiken sparas lokalt i webbläsaren. Personer som du ofta svarar fel på visas oftare.
 
