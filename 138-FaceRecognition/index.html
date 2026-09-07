@@ -263,6 +263,7 @@ let questionType = "nameToImage";
 let trainingStarted = false;
 let questionQueue = [];
 let waitingQueue = [];
+let roundRemaining = 0;
 const maxActivePeople = 10;
 const masterySequence = ["nameToImage", "imageToName", "nameToImage", "imageToName"];
 
@@ -285,6 +286,8 @@ function loadMemory() {
       if (saved.version === 3 && Array.isArray(saved.queue)) {
         questionQueue = saved.queue;
         waitingQueue = Array.isArray(saved.waitingQueue) ? saved.waitingQueue : [];
+        roundRemaining = Number.isInteger(saved.roundRemaining) && saved.roundRemaining >= 0
+          ? Math.min(saved.roundRemaining, questionQueue.length) : questionQueue.length;
       }
       if (saved.version !== 3) {
         for (const data of Object.values(memory)) delete data.masteryStep;
@@ -309,6 +312,7 @@ function loadMemory() {
     totalWrong = 0;
     questionQueue = [];
     waitingQueue = [];
+    roundRemaining = 0;
   }
 }
 
@@ -341,12 +345,15 @@ function initializeMemory() {
     .filter(person => memory[person.name].masteryStep < masterySequence.length)
     .map(person => person.name);
   const pending = new Set(pendingNames);
-  questionQueue = [...new Set([...questionQueue, ...waitingQueue]
-    .filter(name => pending.has(name)))];
-  const queued = new Set(questionQueue);
-  questionQueue.push(...pendingNames.filter(name => !queued.has(name)));
-  waitingQueue = questionQueue.slice(maxActivePeople);
+  const remainingNames = new Set(questionQueue.slice(0, roundRemaining));
+  questionQueue = [...new Set(questionQueue.filter(name => pending.has(name)))];
+  waitingQueue = [...questionQueue.slice(maxActivePeople), ...waitingQueue];
   questionQueue = questionQueue.slice(0, maxActivePeople);
+  const queued = new Set(questionQueue);
+  waitingQueue = [...new Set([...waitingQueue, ...pendingNames]
+    .filter(name => pending.has(name) && !queued.has(name)))];
+  roundRemaining = questionQueue.filter(name => remainingNames.has(name)).length;
+  if (roundRemaining === 0) startRound();
   saveMemory();
 
 }
@@ -437,6 +444,19 @@ function choosePerson() {
   return people.find(person => person.name === questionQueue[0]) || null;
 }
 
+function fillActiveQueue() {
+  while (questionQueue.length < maxActivePeople && waitingQueue.length > 0) {
+    const index = Math.floor(Math.random() * waitingQueue.length);
+    questionQueue.push(waitingQueue.splice(index, 1)[0]);
+  }
+}
+
+function startRound() {
+  fillActiveQueue();
+  questionQueue = shuffle(questionQueue);
+  roundRemaining = questionQueue.length;
+}
+
 function advanceQueue(correct) {
   const data = memory[currentPerson.name];
   data.masteryStep = correct ? data.masteryStep + 1 : 0;
@@ -444,9 +464,8 @@ function advanceQueue(correct) {
   if (data.masteryStep < masterySequence.length) {
     questionQueue.push(currentPerson.name);
   }
-  else if (waitingQueue.length > 0) {
-    questionQueue.push(waitingQueue.shift());
-  }
+  roundRemaining--;
+  if (roundRemaining === 0) startRound();
 }
 
 
@@ -733,6 +752,7 @@ function saveMemory() {
       version: 3,
       queue: questionQueue,
       waitingQueue,
+      roundRemaining,
       people: memory,
       totals: {
         correct: totalCorrect,
