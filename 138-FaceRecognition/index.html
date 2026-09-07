@@ -262,6 +262,8 @@ let answered = false;
 let questionType = "nameToImage";
 let trainingStarted = false;
 let questionQueue = [];
+let waitingQueue = [];
+const maxActivePeople = 10;
 const masterySequence = ["nameToImage", "imageToName", "nameToImage", "imageToName"];
 
 let totalCorrect = 0;
@@ -282,6 +284,7 @@ function loadMemory() {
       memory = saved.people;
       if (saved.version === 3 && Array.isArray(saved.queue)) {
         questionQueue = saved.queue;
+        waitingQueue = Array.isArray(saved.waitingQueue) ? saved.waitingQueue : [];
       }
       if (saved.version !== 3) {
         for (const data of Object.values(memory)) delete data.masteryStep;
@@ -305,6 +308,7 @@ function loadMemory() {
     totalCorrect = 0;
     totalWrong = 0;
     questionQueue = [];
+    waitingQueue = [];
   }
 }
 
@@ -337,9 +341,12 @@ function initializeMemory() {
     .filter(person => memory[person.name].masteryStep < masterySequence.length)
     .map(person => person.name);
   const pending = new Set(pendingNames);
-  questionQueue = [...new Set(questionQueue.filter(name => pending.has(name)))];
+  questionQueue = [...new Set([...questionQueue, ...waitingQueue]
+    .filter(name => pending.has(name)))];
   const queued = new Set(questionQueue);
   questionQueue.push(...pendingNames.filter(name => !queued.has(name)));
+  waitingQueue = questionQueue.slice(maxActivePeople);
+  questionQueue = questionQueue.slice(0, maxActivePeople);
   saveMemory();
 
 }
@@ -436,6 +443,9 @@ function advanceQueue(correct) {
   questionQueue.shift();
   if (data.masteryStep < masterySequence.length) {
     questionQueue.push(currentPerson.name);
+  }
+  else if (waitingQueue.length > 0) {
+    questionQueue.push(waitingQueue.shift());
   }
 }
 
@@ -722,6 +732,7 @@ function saveMemory() {
     JSON.stringify({
       version: 3,
       queue: questionQueue,
+      waitingQueue,
       people: memory,
       totals: {
         correct: totalCorrect,

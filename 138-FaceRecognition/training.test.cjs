@@ -6,6 +6,7 @@ const vm = require('node:vm');
 const script = fs.readFileSync(`${__dirname}/index.html`, 'utf8')
   .match(/<script>([\s\S]*?)<\/script>/)[1].replace(/start\(\);\s*$/, '');
 const people = ['Anna', 'Bo'].map(name => ({ name, image: `${name}.jpg` }));
+const largeRoster = Array.from({ length: 12 }, (_, i) => ({ name: `Person${i}`, image: `${i}.jpg` }));
 
 async function app(saved, roster = people) {
   const elements = new Map();
@@ -117,4 +118,41 @@ test('changed roster removes obsolete entries and appends new people', async () 
   const b = await app(a.saved(), [people[0], { name: 'Cia', image: 'Cia.jpg' }]);
   assert.equal(b.run('JSON.stringify(questionQueue)'), '["Anna","Cia"]');
   assert.equal(b.run('questionType'), 'imageToName');
+});
+
+test('ten active people stay in rotation until mastery admits one waiting person', async () => {
+  const a = await app(undefined, largeRoster);
+  assert.equal(a.run('questionQueue.length'), 10);
+  assert.equal(a.run('JSON.stringify(waitingQueue)'), '["Person10","Person11"]');
+  a.run('showAnswer(); checkAnswer();');
+  assert.equal(a.run('questionQueue.length'), 10);
+  assert.equal(a.run('waitingQueue.length'), 2);
+  for (let i = 0; i < 30; i++) a.correct();
+  assert.equal(a.run('waitingQueue.length'), 2);
+  assert.equal(a.run('currentPerson.name'), 'Person1');
+  a.correct();
+  assert.equal(a.run('memory.Person1.masteryStep'), 4);
+  assert.equal(a.run('questionQueue.length'), 10);
+  assert.equal(a.run('questionQueue[9]'), 'Person10');
+  assert.equal(a.run('JSON.stringify(waitingQueue)'), '["Person11"]');
+  const b = await app(a.saved(), largeRoster);
+  assert.equal(b.run('JSON.stringify(questionQueue)'), a.run('JSON.stringify(questionQueue)'));
+  assert.equal(b.run('JSON.stringify(waitingQueue)'), a.run('JSON.stringify(waitingQueue)'));
+  for (let i = 0; i < 30 && b.run('trainingStarted'); i++) b.correct();
+  assert.equal(b.run('trainingStarted'), false);
+  assert.equal(b.run('questionQueue.length + waitingQueue.length'), 0);
+  assert.equal(b.run('Object.values(memory).every(data => data.masteryStep === 4)'), true);
+});
+
+test('existing long queue is split without losing order or progress', async () => {
+  const a = await app(undefined, largeRoster);
+  const saved = JSON.parse(a.saved());
+  saved.queue = largeRoster.map(person => person.name).reverse();
+  delete saved.waitingQueue;
+  saved.people.Person11.masteryStep = 3;
+  const b = await app(JSON.stringify(saved), largeRoster);
+  assert.equal(b.run('questionQueue.length'), 10);
+  assert.equal(b.run('currentPerson.name'), 'Person11');
+  assert.equal(b.run('questionType'), 'imageToName');
+  assert.equal(b.run('JSON.stringify(waitingQueue)'), '["Person1","Person0"]');
 });
