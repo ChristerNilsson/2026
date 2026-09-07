@@ -8,6 +8,8 @@ Personerna tränas i omgångar med högst tio personer. De första personerna v�
 
 Kön, framstegen och statistiken sparas lokalt i webbläsaren så att du kan fortsätta efter omladdning. Äldre statistik behålls, men den nya fyrastegsföljden börjar från noll. När kön är tom visas att alla personer är avklarade.
 
+På slutskärmen finns knappen **Rensa och börja om**. Den rensar träningens sparade data i localStorage och startar direkt med nollställd statistik och en ny slumpmässig kö med högst tio personer.
+
 ## Uppdatera personerna
 
 Lägg bilderna i katalogen `faces`. Filnamnet används som personens namn, där understreck ersätts med mellanslag:

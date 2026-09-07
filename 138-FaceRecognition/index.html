@@ -196,6 +196,7 @@
     <div id="actionArea">
       <button id="checkButton">Kontrollera</button>
       <button id="showButton">Visa svar</button>
+      <button id="restartButton" hidden>Rensa och börja om</button>
     </div>
 
     <div id="feedback"></div>
@@ -398,6 +399,21 @@ function startTraining() {
   nextQuestion();
 }
 
+function restartTraining() {
+  if (trainingStarted || questionQueue.length || waitingQueue.length) return;
+
+  localStorage.removeItem("nameTrainerMemory");
+  memory = {};
+  totalCorrect = 0;
+  totalWrong = 0;
+  currentPerson = null;
+  questionQueue = [];
+  waitingQueue = [];
+  roundRemaining = 0;
+  initializeMemory();
+  startTraining();
+}
+
 
 // ========================================================
 // 4. NORMALISERA SVAR
@@ -501,6 +517,7 @@ function nextQuestion() {
   checkButton.textContent = "Kontrollera";
   checkButton.hidden = false;
   showButton.hidden = false;
+  document.getElementById("restartButton").hidden = true;
   imageGrid.replaceChildren();
   document.getElementById("feedback").textContent = "";
   document.getElementById("feedback").className = "";
@@ -509,6 +526,7 @@ function nextQuestion() {
     answered = true;
     trainingStarted = false;
     title.textContent = "Alla personer är avklarade!";
+    document.getElementById("restartButton").hidden = false;
     photo.hidden = true;
     imageGrid.hidden = true;
     inputArea.hidden = true;
@@ -801,6 +819,10 @@ document
 document
   .getElementById("startButton")
   .addEventListener("click", startTraining);
+
+document
+  .getElementById("restartButton")
+  .addEventListener("click", restartTraining);
 
 
 document

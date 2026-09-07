@@ -17,7 +17,10 @@ async function app(saved, roster = people, random = () => 0) {
       replaceChildren() { this.children = []; },
       appendChild(child) { this.children.push(child); },
       contains(child) { return this.children.includes(child); },
-      addEventListener() {}, setAttribute() {}, focus() {}, scrollIntoView() {}
+      listeners: {},
+      addEventListener(type, listener) { this.listeners[type] = listener; },
+      click() { this.listeners.click?.(); },
+      setAttribute() {}, focus() {}, scrollIntoView() {}
     };
   }
   const document = {
@@ -31,7 +34,11 @@ async function app(saved, roster = people, random = () => 0) {
   let storage = saved;
   const context = vm.createContext({ document,
     Math: Object.assign(Object.create(Math), { random }),
-    localStorage: { getItem: () => storage, setItem: (_, value) => { storage = value; } },
+    localStorage: {
+      getItem: () => storage,
+      setItem: (_, value) => { storage = value; },
+      removeItem(key) { assert.equal(key, 'nameTrainerMemory'); storage = null; }
+    },
     fetch: async () => ({ ok: true, json: async () => roster })
   });
   const run = code => vm.runInContext(code, context);
@@ -181,6 +188,28 @@ test('refill randomly selects from an existing alphabetical waiting list', async
   assert.equal(b.run('questionQueue[9]'), 'Person11');
   assert.equal(b.run('JSON.stringify(waitingQueue)'), '["Person10"]');
   assert.equal(b.run('new Set([...questionQueue, ...waitingQueue]).size'), 11);
+});
+
+test('completion button clears progress and starts a fresh ten-person round', async () => {
+  const a = await app(undefined, largeRoster);
+  assert.equal(a.document.getElementById('restartButton').hidden, true);
+  a.run('showAnswer(); checkAnswer();');
+  while (a.run('trainingStarted')) a.correct();
+  const b = await app(a.saved(), largeRoster);
+  const restart = b.document.getElementById('restartButton');
+  assert.equal(restart.hidden, false);
+  restart.click();
+  assert.equal(restart.hidden, true);
+  assert.equal(b.run('trainingStarted'), true);
+  assert.equal(b.run('totalCorrect + totalWrong'), 0);
+  assert.equal(b.run('Object.values(memory).every(data => data.masteryStep === 0 && data.correct === 0 && data.wrong === 0)'), true);
+  assert.equal(b.run('questionQueue.length'), 10);
+  assert.equal(b.run('waitingQueue.length'), 2);
+  assert.equal(b.run('roundRemaining'), 10);
+  assert.equal(b.run('questionType'), 'nameToImage');
+  const c = await app(b.saved(), largeRoster);
+  assert.equal(c.run('trainingStarted'), true);
+  assert.equal(c.run('totalCorrect + totalWrong'), 0);
 });
 
 test('round finishes before refill and shuffle, including across reload', async () => {
