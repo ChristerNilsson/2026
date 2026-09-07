@@ -1,10 +1,12 @@
 # Face Recognition
 
-Träna på att känna igen namn och ansikten. Uppgifterna blandas mellan att skriva namnet till en bild och att välja rätt bild till ett namn.
+Träna på att känna igen namn och ansikten. För varje person är ordningen Text → Bild (välj bilden), Bild → Text (skriv namnet), Text → Bild, Bild → Text.
 
 ## [Try it!](https://christernilsson.github.io/2026/138-FaceRecognition/)
 
-Statistiken sparas lokalt i webbläsaren. Personer som du ofta svarar fel på visas oftare.
+Personerna tränas i en kö. Efter varje svar flyttas personen sist i kön. Fyra rätt i följd (TB → BT → TB → BT) gör personen avklarad och tar bort personen från träningskön. Fel svar eller ”Visa svar” nollställer personens följd till Text → Bild. Avklarade personer kan fortfarande visas som bildalternativ.
+
+Kön, framstegen och statistiken sparas lokalt i webbläsaren så att du kan fortsätta efter omladdning. Äldre statistik behålls, men den nya fyrastegsföljden börjar från noll. När kön är tom visas att alla personer är avklarade.
 
 ## Uppdatera personerna
 
@@ -29,3 +31,7 @@ python -m http.server 8000
 ```
 
 Öppna därefter <http://localhost:8000>.
+
+## Testa träningslogiken
+
+Kör `node --test training.test.cjs`.

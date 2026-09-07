@@ -259,8 +259,10 @@ const firstNameOnly = false;
 
 let currentPerson = null;
 let answered = false;
-let questionType = "imageToName";
+let questionType = "nameToImage";
 let trainingStarted = false;
+let questionQueue = [];
+const masterySequence = ["nameToImage", "imageToName", "nameToImage", "imageToName"];
 
 let totalCorrect = 0;
 let totalWrong = 0;
@@ -278,6 +280,12 @@ function loadMemory() {
 
     if (saved.people && saved.totals) {
       memory = saved.people;
+      if (saved.version === 3 && Array.isArray(saved.queue)) {
+        questionQueue = saved.queue;
+      }
+      if (saved.version !== 3) {
+        for (const data of Object.values(memory)) delete data.masteryStep;
+      }
       totalCorrect = Number(saved.totals.correct) || 0;
       totalWrong = Number(saved.totals.wrong) || 0;
     }
@@ -296,6 +304,7 @@ function loadMemory() {
     memory = {};
     totalCorrect = 0;
     totalWrong = 0;
+    questionQueue = [];
   }
 }
 
@@ -316,9 +325,21 @@ function initializeMemory() {
       streak: 0,
       score: 0
     };
+    const data = currentMemory[person.name];
+    if (!Number.isInteger(data.masteryStep) || data.masteryStep < 0 ||
+        data.masteryStep > masterySequence.length) {
+      data.masteryStep = 0;
+    }
   }
 
   memory = currentMemory;
+  const pendingNames = people
+    .filter(person => memory[person.name].masteryStep < masterySequence.length)
+    .map(person => person.name);
+  const pending = new Set(pendingNames);
+  questionQueue = [...new Set(questionQueue.filter(name => pending.has(name)))];
+  const queued = new Set(questionQueue);
+  questionQueue.push(...pendingNames.filter(name => !queued.has(name)));
   saveMemory();
 
 }
@@ -356,6 +377,7 @@ function showNameList() {
 
 
 function startTraining() {
+  if (trainingStarted) return;
   trainingStarted = true;
   document.getElementById("introSection").hidden = true;
   document.getElementById("trainingSection").hidden = false;
@@ -401,67 +423,20 @@ function isCorrect(answer, person) {
 
 
 // ========================================================
-// 6. VÄLJ NÄSTA PERSON
+// 6. KÖ: TB, BT, TB, BT PER PERSON
 // ========================================================
-//
-// Svåra personer får större chans att visas.
-//
-// score:
-//   negativ = svårt
-//   positiv = lätt
-//
-// ========================================================
-
+// Efter varje svar flyttas personen sist i kön, tills alla steg är rätt.
 function choosePerson() {
+  return people.find(person => person.name === questionQueue[0]) || null;
+}
 
-  let candidates = [];
-
-  for (const person of people) {
-
-    const data = memory[person.name];
-
-    // Grundvikt
-
-    let weight = 10;
-
-    // Fler fel → visas oftare
-
-    weight += data.wrong * 5;
-
-    // Fler rätt i rad → visas mer sällan
-
-    weight -= data.streak * 2;
-
-    // Minsta vikt
-
-    weight = Math.max(1, weight);
-
-
-    for (let i = 0; i < weight; i++) {
-      candidates.push(person);
-    }
-
+function advanceQueue(correct) {
+  const data = memory[currentPerson.name];
+  data.masteryStep = correct ? data.masteryStep + 1 : 0;
+  questionQueue.shift();
+  if (data.masteryStep < masterySequence.length) {
+    questionQueue.push(currentPerson.name);
   }
-
-
-  let person;
-
-  do {
-
-    person =
-      candidates[
-        Math.floor(Math.random() * candidates.length)
-      ];
-
-  }
-  while (
-    people.length > 1 &&
-    person === currentPerson
-  );
-
-
-  return person;
-
 }
 
 
@@ -484,7 +459,7 @@ function shuffle(items) {
 function nextQuestion() {
   answered = false;
   currentPerson = choosePerson();
-  questionType = Math.random() < 0.5 ? "imageToName" : "nameToImage";
+  questionType = currentPerson ? masterySequence[memory[currentPerson.name].masteryStep] : null;
 
   const title = document.getElementById("questionTitle");
   const photo = document.getElementById("photo");
@@ -498,6 +473,22 @@ function nextQuestion() {
   checkButton.hidden = false;
   showButton.hidden = false;
   imageGrid.replaceChildren();
+  document.getElementById("feedback").textContent = "";
+  document.getElementById("feedback").className = "";
+
+  if (!currentPerson) {
+    answered = true;
+    trainingStarted = false;
+    title.textContent = "Alla personer är avklarade!";
+    photo.hidden = true;
+    imageGrid.hidden = true;
+    inputArea.hidden = true;
+    checkButton.hidden = true;
+    showButton.hidden = true;
+    document.getElementById("feedback").textContent = "Du har klarat TB → BT → TB → BT utan fel för varje person.";
+    updateStats();
+    return;
+  }
 
   if (questionType === "imageToName") {
     title.textContent = "Vem är detta?";
@@ -545,14 +536,13 @@ function nextQuestion() {
     }
   }
 
-  document.getElementById("feedback").textContent = "";
-  document.getElementById("feedback").className = "";
   updateStats();
 }
 
 
 function chooseImage(person, button) {
-  if (answered) {
+  if (!trainingStarted || answered || questionType !== "nameToImage" ||
+      !document.getElementById("imageGrid").contains(button)) {
     return;
   }
 
@@ -601,6 +591,7 @@ function registerCorrect() {
 
   totalCorrect++;
 
+  advanceQueue(true);
   saveMemory();
 
 }
@@ -620,6 +611,7 @@ function registerWrong() {
 
   totalWrong++;
 
+  advanceQueue(false);
   saveMemory();
 
 }
@@ -630,12 +622,15 @@ function registerWrong() {
 // ========================================================
 
 function checkAnswer() {
+  if (!trainingStarted || !currentPerson) return;
 
   if (answered) {
     nextQuestion();
     return;
   }
 
+
+  if (questionType !== "imageToName") return;
 
   const input =
     document.getElementById("answer").value;
@@ -678,6 +673,7 @@ function checkAnswer() {
 // ========================================================
 
 function showAnswer() {
+  if (!trainingStarted || !currentPerson) return;
 
   if (answered) {
     return;
@@ -724,7 +720,8 @@ function saveMemory() {
   localStorage.setItem(
     "nameTrainerMemory",
     JSON.stringify({
-      version: 2,
+      version: 3,
+      queue: questionQueue,
       people: memory,
       totals: {
         correct: totalCorrect,
@@ -748,7 +745,10 @@ function updateStats() {
   document.getElementById("stats").textContent =
     "Rätt: " + totalCorrect +
     "   Fel: " + totalWrong +
-    "   Totalt: " + total;
+    "   Totalt: " + total +
+    "   Avklarade: " + people.filter(person =>
+      memory[person.name].masteryStep === masterySequence.length
+    ).length + " / " + people.length;
 
 }
 
