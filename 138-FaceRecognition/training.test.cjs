@@ -59,9 +59,9 @@ async function app(saved, roster = people, random = () => 0) {
   };
 }
 
-test('FIFO gives every person TB BT TB BT and finishes after eight answers', async () => {
+test('FIFO gives every person TB BT and finishes after four answers', async () => {
   const a = await app();
-  for (const type of ['nameToImage', 'imageToName', 'nameToImage', 'imageToName']) {
+  for (const type of ['nameToImage', 'imageToName']) {
     for (const person of people) {
       assert.equal(a.run('currentPerson.name'), person.name);
       assert.equal(a.run('questionType'), type);
@@ -69,7 +69,7 @@ test('FIFO gives every person TB BT TB BT and finishes after eight answers', asy
     }
   }
   assert.equal(a.run('questionQueue.length'), 0);
-  assert.equal(a.run('totalCorrect'), 8);
+  assert.equal(a.run('totalCorrect'), 4);
   assert.equal(a.run('trainingStarted'), false);
   assert.equal(a.document.getElementById('photo').hidden, true);
   a.run('checkAnswer(); showAnswer();');
@@ -94,7 +94,7 @@ test('wrong image, wrong text and reveal reset progress without duplicate queue 
   assert.equal(a.run('totalWrong'), 3);
   assert.equal(a.run('questionQueue.length'), 1);
   a.run('checkAnswer()');
-  for (let i = 0; i < 4; i++) a.correct();
+  for (let i = 0; i < 2; i++) a.correct();
   assert.equal(a.run('currentPerson'), null);
 });
 
@@ -137,11 +137,11 @@ test('ten active people stay in rotation until mastery admits one waiting person
   a.run('showAnswer(); checkAnswer();');
   assert.equal(a.run('questionQueue.length'), 10);
   assert.equal(a.run('waitingQueue.length'), 2);
-  for (let i = 0; i < 30; i++) a.correct();
+  for (let i = 0; i < 10; i++) a.correct();
   assert.equal(a.run('waitingQueue.length'), 2);
   assert.equal(a.run('currentPerson.name'), 'Person1');
   a.correct();
-  assert.equal(a.run('memory.Person1.masteryStep'), 4);
+  assert.equal(a.run('memory.Person1.masteryStep'), 2);
   assert.equal(a.run('questionQueue.length'), 9);
   assert.equal(a.run('waitingQueue.length'), 2);
   const b = await app(a.saved(), largeRoster);
@@ -150,7 +150,7 @@ test('ten active people stay in rotation until mastery admits one waiting person
   for (let i = 0; i < 30 && b.run('trainingStarted'); i++) b.correct();
   assert.equal(b.run('trainingStarted'), false);
   assert.equal(b.run('questionQueue.length + waitingQueue.length'), 0);
-  assert.equal(b.run('Object.values(memory).every(data => data.masteryStep === 4)'), true);
+  assert.equal(b.run('Object.values(memory).every(data => data.masteryStep === 2)'), true);
 });
 
 test('existing long queue is split without losing order or progress', async () => {
@@ -158,7 +158,7 @@ test('existing long queue is split without losing order or progress', async () =
   const saved = JSON.parse(a.saved());
   saved.queue = largeRoster.map(person => person.name).reverse();
   delete saved.waitingQueue;
-  saved.people.Person11.masteryStep = 3;
+  saved.people.Person11.masteryStep = 1;
   const b = await app(JSON.stringify(saved), largeRoster);
   assert.equal(b.run('questionQueue.length'), 10);
   assert.equal(b.run('currentPerson.name'), 'Person11');
@@ -178,7 +178,7 @@ test('initial admission draws randomly without duplicates and reload preserves a
 test('refill randomly selects from an existing alphabetical waiting list', async () => {
   const a = await app(undefined, largeRoster);
   const saved = JSON.parse(a.saved());
-  saved.people.Person0.masteryStep = 3;
+  saved.people.Person0.masteryStep = 1;
   const b = await app(JSON.stringify(saved), largeRoster, () => 0.999);
   b.correct();
   assert.equal(b.run('questionQueue.length'), 9);
@@ -215,7 +215,7 @@ test('completion button clears progress and starts a fresh ten-person round', as
 test('round finishes before refill and shuffle, including across reload', async () => {
   const a = await app(undefined, largeRoster);
   const saved = JSON.parse(a.saved());
-  saved.people.Person0.masteryStep = 3;
+  saved.people.Person0.masteryStep = 1;
   const random = Object.assign(() => 0, { stableShuffle: false });
   const b = await app(JSON.stringify(saved), largeRoster, random);
   b.correct();
@@ -247,4 +247,22 @@ test('round also shuffles when nobody is mastered without admitting new people',
   assert.equal(b.run('roundRemaining'), 10);
   assert.deepEqual(JSON.parse(b.run('JSON.stringify(questionQueue)')),
     [...largeRoster.slice(1, 10).map(person => person.name), 'Person0']);
+});
+
+
+test('four-step progress is preserved and two or more correct answers count as complete', async () => {
+  const roster = largeRoster.slice(0, 5);
+  const a = await app(undefined, roster);
+  const saved = JSON.parse(a.saved());
+  roster.forEach((person, step) => { saved.people[person.name].masteryStep = step; });
+  const b = await app(JSON.stringify(saved), roster);
+  assert.equal(b.run('JSON.stringify(questionQueue)'), '["Person0","Person1"]');
+  assert.equal(b.run('JSON.stringify(Object.values(memory).map(data => data.masteryStep))'), '[0,1,2,2,2]');
+  b.correct();
+  assert.equal(b.run('questionType'), 'imageToName');
+  b.correct();
+  b.correct();
+  assert.equal(b.run('trainingStarted'), false);
+  const c = await app(b.saved(), roster);
+  assert.equal(c.run('currentPerson'), null);
 });

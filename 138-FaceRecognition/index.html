@@ -116,11 +116,20 @@
       color: crimson;
     }
 
+    #personBrowser {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      gap: 20px;
+      margin: 20px 0;
+      align-items: start;
+    }
+
     #nameList {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: minmax(0, 1fr);
       gap: 6px;
-      margin: 20px 0;
+      max-height: 60vh;
+      overflow-y: auto;
       text-align: left;
     }
 
@@ -132,6 +141,8 @@
       border-radius: 6px;
       background: #fafafa;
       font-size: 16px;
+      text-align: left;
+      overflow-wrap: anywhere;
     }
 
     .nameButton:hover,
@@ -139,7 +150,14 @@
       background: #e8f1ff;
     }
 
+    .nameButton[aria-pressed="true"] {
+      background: #e8f1ff;
+      border-color: #3574b9;
+    }
+
     #previewPhoto {
+      display: block;
+      margin: 12px auto 0;
       max-height: 400px;
     }
 
@@ -147,6 +165,7 @@
       min-height: 1.5em;
       font-size: 22px;
       font-weight: 600;
+      overflow-wrap: anywhere;
     }
   </style>
 </head>
@@ -161,19 +180,18 @@
       <div id="listView">
         <h2>Personer</h2>
         <p>Klicka på ett namn för att se bilden.</p>
-        <div id="nameList"></div>
+        <div id="personBrowser">
+          <div id="nameList"></div>
+          <div id="previewView" aria-live="polite">
+            <div id="previewName">Välj en person i listan.</div>
+            <img id="previewPhoto" alt="" hidden>
+          </div>
+        </div>
         <div>
           <button id="startButton" disabled>Börja träna</button>
         </div>
       </div>
 
-      <div id="previewView" hidden>
-        <div id="previewName"></div>
-        <img id="previewPhoto" alt="">
-        <div>
-          <button id="backButton">Bakåt</button>
-        </div>
-      </div>
     </section>
 
     <section id="trainingSection" hidden>
@@ -266,7 +284,7 @@ let questionQueue = [];
 let waitingQueue = [];
 let roundRemaining = 0;
 const maxActivePeople = 10;
-const masterySequence = ["nameToImage", "imageToName", "nameToImage", "imageToName"];
+const masterySequence = ["nameToImage", "imageToName"];
 
 let totalCorrect = 0;
 let totalWrong = 0;
@@ -336,9 +354,11 @@ function initializeMemory() {
     };
     const data = currentMemory[person.name];
     if (!Number.isInteger(data.masteryStep) || data.masteryStep < 0 ||
-        data.masteryStep > masterySequence.length) {
+        data.masteryStep > 4) {
       data.masteryStep = 0;
     }
+    // Behåll framsteg från den tidigare fyrastegsföljden.
+    data.masteryStep = Math.min(data.masteryStep, masterySequence.length);
   }
 
   memory = currentMemory;
@@ -368,26 +388,33 @@ function showPersonList() {
     button.type = "button";
     button.className = "nameButton";
     button.textContent = person.name;
+    button.setAttribute("aria-pressed", "false");
     button.addEventListener("click", () => {
       const previewPhoto = document.getElementById("previewPhoto");
       document.getElementById("previewName").textContent = person.name;
       previewPhoto.src = person.image;
       previewPhoto.alt = person.name;
-      document.getElementById("listView").hidden = true;
-      document.getElementById("previewView").hidden = false;
-      document.getElementById("introSection").scrollIntoView();
+      previewPhoto.hidden = false;
+      for (const nameButton of nameList.children) {
+        nameButton.setAttribute("aria-pressed", String(nameButton === button));
+      }
+    });
+    button.addEventListener("keydown", event => {
+      if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
+      event.preventDefault();
+      const buttons = Array.from(nameList.children);
+      const direction = event.key === "ArrowDown" ? 1 : -1;
+      const index = Math.max(0, Math.min(buttons.length - 1,
+        buttons.indexOf(button) + direction));
+      const nextButton = buttons[index];
+      nextButton.focus({ preventScroll: true });
+      nextButton.click();
+      nextButton.scrollIntoView({ block: "nearest" });
     });
     nameList.appendChild(button);
   }
 
   document.getElementById("startButton").disabled = false;
-}
-
-
-function showNameList() {
-  document.getElementById("previewView").hidden = true;
-  document.getElementById("listView").hidden = false;
-  document.getElementById("introSection").scrollIntoView();
 }
 
 
@@ -453,7 +480,7 @@ function isCorrect(answer, person) {
 
 
 // ========================================================
-// 6. KÖ: TB, BT, TB, BT PER PERSON
+// 6. KÖ: TB, BT PER PERSON
 // ========================================================
 // Efter varje svar flyttas personen sist i kön, tills alla steg är rätt.
 function choosePerson() {
@@ -532,7 +559,7 @@ function nextQuestion() {
     inputArea.hidden = true;
     checkButton.hidden = true;
     showButton.hidden = true;
-    document.getElementById("feedback").textContent = "Du har klarat TB → BT → TB → BT utan fel för varje person.";
+    document.getElementById("feedback").textContent = "Du har klarat TB → BT utan fel för varje person.";
     updateStats();
     return;
   }
@@ -823,11 +850,6 @@ document
 document
   .getElementById("restartButton")
   .addEventListener("click", restartTraining);
-
-
-document
-  .getElementById("backButton")
-  .addEventListener("click", showNameList);
 
 
 document.addEventListener("keydown", function(event) {
