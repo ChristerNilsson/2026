@@ -1,0 +1,12 @@
+Super+Space   Menu
+Super+Enter   Terminal
+Super+Escape  System Menu
+Super+W       Close Window
+Super+T       Toggle Tiling/Floating
+Super+F       Go Full Screen
+Super+1       Jump to Workspace 1
+Super+Shift+2 Move Window to Workspace 2
+Super+Arrow   Move focus to Window
+Super+Shift+A Chat GPT
+Super+L       Toggle grid/scroll
+

@@ -4,8 +4,16 @@
     "image": "faces/Abbas_Razavi.jpg"
   },
   {
+    "name": "Ali Koc",
+    "image": "faces/Ali_Koc.jpg"
+  },
+  {
     "name": "Anders Hillbur",
     "image": "faces/Anders_Hillbur.jpg"
+  },
+  {
+    "name": "Andreas Segeljakt",
+    "image": "faces/Andreas_Segeljakt.jpg"
   },
   {
     "name": "Arne Jansson",
@@ -34,6 +42,14 @@
   {
     "name": "Bo Ländin",
     "image": "faces/Bo_Ländin.jpg"
+  },
+  {
+    "name": "Camilo Garcia Giraldo",
+    "image": "faces/Camilo_Garcia_Giraldo.jpg"
+  },
+  {
+    "name": "Christer Johansson",
+    "image": "faces/Christer_Johansson.jpg"
   },
   {
     "name": "Christer Nilsson",
@@ -66,6 +82,10 @@
   {
     "name": "Ivan Franchuk",
     "image": "faces/Ivan_Franchuk.jpg"
+  },
+  {
+    "name": "Jan Karlsson",
+    "image": "faces/Jan_Karlsson.jpg"
   },
   {
     "name": "Jockum Wahlberg",
@@ -114,6 +134,10 @@
   {
     "name": "Leonid Stolov",
     "image": "faces/Leonid_Stolov.jpg"
+  },
+  {
+    "name": "Magnus Karlsson",
+    "image": "faces/Magnus_Karlsson.jpg"
   },
   {
     "name": "Mikael Helin",
