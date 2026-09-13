@@ -44,6 +44,7 @@
   button.secondary:hover { background: #475569; }
   button.danger { background: #dc2626; }
   button.danger:hover { background: #b91c1c; }
+  select:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
   table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 14px; }
   th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; }
   th { background: #f1f5f9; font-weight: 600; }
@@ -77,6 +78,11 @@
 
 <div class="container">
   <h1>Schweiziskt turneringssystem</h1>
+  <nav class="btn-bar no-print" aria-label="Turneringsvyer" style="margin-bottom:16px;">
+    <button type="button" id="view-pairings" aria-pressed="true" onclick="showView('pairings')">Lottning</button>
+    <button type="button" id="view-byes" aria-pressed="false" onclick="showView('byes')">Frironder</button>
+    <button type="button" id="view-standings" aria-pressed="false" onclick="showView('standings')" disabled>Ställning</button>
+  </nav>
 
   <!-- Settings -->
   <div id="setup-section" class="settings-section">
@@ -88,23 +94,21 @@
       </div>
       <div>
         <label for="round-count">Antal ronder</label>
-        <input type="number" id="round-count" value="5" min="1" max="15">
+        <input type="number" id="round-count" value="11" min="1" max="15">
       </div>
     </div>
 
     <div>
       <label>Färgfördelning rond 1</label>
       <div class="radio-group">
-        <label><input type="radio" name="r1-color" value="higherWhite" checked> Högre seedad har alltid vit (Seed #1 vit)</label>
-        <label><input type="radio" name="r1-color" value="alternate"> Varannan färg (Bord 1 vit, Bord 2 svart...)</label>
+        <span>Högre seedad får svart på bord 1, vit på bord 2, svart på bord 3 och så vidare.</span>
       </div>
     </div>
 
     <div class="rules-box">
       <h3>Lottningssystem: schweizisk lottning</h3>
       <ul>
-        <li><strong>Rond 1:</strong> Spelarna sorteras efter ranking och delas i två halvor. Den högst seedade i övre halvan möter den högst seedade i undre halvan, och så vidare. Vid udda deltagarantal får den lägst seedade spelaren frirond. Färgerna följer den valda inställningen för rond 1.</li>
-        <li><strong>Rond 2+:</strong> Spelarna sorteras efter poäng, buchholz och ursprunglig seedning. Schweizisk lottning sker uppifrån och ned.</li>
+        <li><strong>Alla ronder:</strong> Samma schweiziska lottning utan acceleration. Spelarna sorteras efter poäng och sedan Elo (högst först) och delas in i poänggrupper. Inom varje grupp möter övre halvan undre halvan. Vid behov flyttas spelare till nästa poänggrupp. Tidigare motståndare undviks så långt det går. Vid udda deltagarantal ges frirond från botten av listan.</li>
         <li><strong>Färgfördelning:</strong> Spelaren med färre vita partier får vit. Vid lika får den lägre seedade spelaren vit. Absolut färgbalans garanteras (färgskillnaden kan aldrig bli 3). Vid krock mellan färgbalans och 2-i-rad-regeln tillåts tre partier med samma färg i rad.</li>
       </ul>
     </div>
@@ -126,12 +130,11 @@
   <!-- Pairings Section -->
   <div id="pairings-section" style="display:none;">
     <h2 id="round-title">Lottning</h2>
-    <p class="no-print">Mata in resultat och gå vidare till nästa rond.</p>
+    <p class="no-print" id="result-keyboard-help">Resultat: 1 = vit vinst, r = remi, 0 = svart vinst. Mellanslag rensar aktuellt resultat. Efter inmatning eller rensning flyttas fokus till nästa bord. Använd ↑ och ↓ för att byta bord. Från sista bordet: Tab och Enter för nästa rond.</p>
 
     <div class="btn-bar no-print">
       <button type="button" class="secondary" onclick="printPairings()">Skriv ut lottning</button>
       <button type="button" class="secondary" onclick="saveTournament()">Spara turnering</button>
-      <button type="button" class="secondary" onclick="openStandingsModal()">Aktuell ställning</button>
       <button type="button" class="danger" onclick="openWithdrawModal()">Avanmäl spelare</button>
     </div>
 
@@ -163,8 +166,6 @@
           <th>Spelare</th>
           <th>Ranking</th>
           <th>Poäng</th>
-          <th>Buchholz</th>
-          <th>S-B</th>
         </tr>
       </thead>
       <tbody id="final-table-body"></tbody>
@@ -176,10 +177,17 @@
   </div>
 </div>
 
-<!-- Modal: Current Standings -->
-<div id="standings-modal" class="modal-overlay">
-  <div class="modal-box">
-    <button class="close-btn" onclick="closeStandingsModal()">&times;</button>
+<div class="container no-print" id="personal-byes-section" style="display:none; margin-top:20px;">
+  <h2>Personliga frironder</h2>
+  <p>Välj högst två per spelare. Varje personlig frirond ger ½ poäng. Bara kommande ronder kan ändras; pågående och avslutade ronder är låsta. De två sista ronderna kan inte väljas.</p>
+  <div style="overflow-x:auto;">
+    <table id="personal-byes-table"></table>
+  </div>
+</div>
+
+<!-- Current Standings -->
+<div id="standings-modal" class="container" style="display:none; margin-top:20px;">
+  <div>
     <h2>Aktuell ställning</h2>
     <table>
       <thead>
@@ -189,15 +197,12 @@
           <th>Spelare</th>
           <th>Ranking</th>
           <th>Poäng</th>
-          <th>Buchholz</th>
-          <th>S-B</th>
         </tr>
       </thead>
       <tbody id="modal-standings-body"></tbody>
     </table>
     <div class="btn-bar" style="margin-top:14px;">
       <button type="button" class="secondary" onclick="printStandings()">Skriv ut ställning</button>
-      <button type="button" onclick="closeStandingsModal()">Stäng</button>
     </div>
   </div>
 </div>
@@ -221,15 +226,109 @@
 <script>
 let state = {
   name: '',
-  totalRounds: 5,
+  totalRounds: 11,
   currentRound: 0,
-  r1ColorOption: 'higherWhite',
   players: [],
   rounds: []
 };
 
 let defaultDocTitle = document.title;
 let customPrintTitle = '';
+const personalByeSelections = new Map();
+
+function showView(view) {
+  const started = state.currentRound > 0;
+  const finished = state.currentRound > state.totalRounds;
+  if (view === 'standings' && !started) return;
+  if (view === 'pairings' && finished) return;
+  document.getElementById('setup-section').style.display = view === 'pairings' && !started ? 'block' : 'none';
+  document.getElementById('pairings-section').style.display = view === 'pairings' && started ? 'block' : 'none';
+  document.getElementById('personal-byes-section').style.display = view === 'byes' ? 'block' : 'none';
+  document.getElementById('standings-modal').style.display = view === 'standings' && !finished ? 'block' : 'none';
+  document.getElementById('final-section').style.display = view === 'standings' && finished ? 'block' : 'none';
+  for (const name of ['pairings', 'byes', 'standings']) {
+    const button = document.getElementById(`view-${name}`);
+    button.setAttribute('aria-pressed', String(name === view));
+    button.className = name === view ? '' : 'secondary';
+  }
+  document.getElementById('view-standings').disabled = !started;
+  document.getElementById('view-pairings').disabled = finished;
+  if (view === 'byes') renderPersonalByes();
+  if (view === 'standings' && !finished) renderStandings();
+}
+
+function personalByeKey(player, players) {
+  const occurrence = players.filter(p => p.seed <= player.seed && p.name === player.name && p.rating === player.rating).length;
+  return JSON.stringify([player.name, player.rating, occurrence]);
+}
+
+function renderPersonalByes() {
+  const started = state.currentRound > 0;
+  const players = started ? state.players : parsePlayers();
+  const totalRounds = started ? state.totalRounds : (parseInt(document.getElementById('round-count').value, 10) || 11);
+  const eligibleRounds = Math.max(0, totalRounds - 2);
+  const table = document.getElementById('personal-byes-table');
+  table.innerHTML = '';
+  const header = document.createElement('tr');
+  const nameHeader = document.createElement('th');
+  nameHeader.textContent = 'Spelare';
+  header.appendChild(nameHeader);
+  for (let round = 1; round <= eligibleRounds; round++) {
+    const th = document.createElement('th');
+    th.textContent = `Rond ${round}`;
+    header.appendChild(th);
+  }
+  table.appendChild(header);
+  players.forEach(player => {
+    const key = personalByeKey(player, players);
+    const selected = started ? (player.personalByes || []) : (personalByeSelections.get(key) || []).filter(round => round <= eligibleRounds);
+    if (started) player.personalByes = selected;
+    else personalByeSelections.set(key, selected);
+    const row = document.createElement('tr');
+    const name = document.createElement('td');
+    name.textContent = `${player.seed}. ${player.name}`;
+    row.appendChild(name);
+    const inputs = [];
+    const updateLimits = () => inputs.forEach((input, index) => {
+      input.disabled = (started && index + 1 <= state.currentRound) || (selected.length >= 2 && !input.checked);
+    });
+    for (let round = 1; round <= eligibleRounds; round++) {
+      const td = document.createElement('td');
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.checked = selected.includes(round);
+      input.setAttribute('aria-label', `${player.name}, personlig frirond rond ${round}`);
+      input.onchange = () => {
+        if (started && round <= state.currentRound) {
+          input.checked = selected.includes(round);
+          return;
+        }
+        if (input.checked && selected.length < 2) selected.push(round);
+        else if (!input.checked && selected.includes(round)) selected.splice(selected.indexOf(round), 1);
+        input.checked = selected.includes(round);
+        updateLimits();
+      };
+      inputs.push(input);
+      td.appendChild(input);
+      row.appendChild(td);
+    }
+    updateLimits();
+    table.appendChild(row);
+  });
+}
+
+document.getElementById('player-input').addEventListener('input', renderPersonalByes);
+document.getElementById('round-count').addEventListener('input', renderPersonalByes);
+
+function hasPersonalBye(player) {
+  return (player.personalByes || []).includes(state.currentRound);
+}
+
+function addPersonalByes(pairings) {
+  state.players.filter(p => !p.withdrawn && hasPersonalBye(p)).forEach(player => {
+    pairings.push({ board: pairings.length + 1, white: player, black: null, personalBye: true, result: '0.5-0.5 (Personlig frirond)' });
+  });
+}
 
 window.addEventListener('beforeprint', () => {
   if (customPrintTitle) {
@@ -259,9 +358,7 @@ function printStandings() {
   const tName = (state.name || 'Turnering').trim();
   const rd = state.currentRound > 1 ? state.currentRound - 1 : 1;
   customPrintTitle = `${tName} - Ställning efter rond ${rd}`;
-  document.body.classList.add('printing-modal');
   window.print();
-  document.body.classList.remove('printing-modal');
 }
 
 function printFinalStandings() {
@@ -282,17 +379,20 @@ function load32ClubPlayers() {
     "Filip Malm 1670", "Anton Lind 1650", "Karin Nyberg 1620", "Sara Månsson 1590"
   ];
   document.getElementById('player-input').value = sample.join('\n');
+  renderPersonalByes();
 }
 
 function clearPlayerList() {
   document.getElementById('player-input').value = '';
+  personalByeSelections.clear();
+  renderPersonalByes();
 }
 
 document.getElementById('txt-file-input').addEventListener('change', function(e) {
   const file = e.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = ev => { document.getElementById('player-input').value = ev.target.result; };
+  reader.onload = ev => { document.getElementById('player-input').value = ev.target.result; renderPersonalByes(); };
   reader.readAsText(file);
   e.target.value = '';
 });
@@ -375,46 +475,25 @@ function startTournament() {
   }
 
   state.name = document.getElementById('tournament-name').value || 'Schweizisk turnering';
-  state.totalRounds = parseInt(document.getElementById('round-count').value, 10) || 5;
-  state.r1ColorOption = document.querySelector('input[name="r1-color"]:checked').value;
+  state.totalRounds = parseInt(document.getElementById('round-count').value, 10) || 11;
   state.players = parsed;
+  parsed.forEach(player => {
+    player.personalByes = (personalByeSelections.get(personalByeKey(player, parsed)) || [])
+      .filter(round => round >= 1 && round <= state.totalRounds - 2).slice(0, 2);
+  });
   state.rounds = [];
   state.currentRound = 1;
 
   document.getElementById('setup-section').style.display = 'none';
-  generateRound1();
+  generateRound();
   renderPairings();
 }
 
-function generateRound1() {
-  const activePlayers = state.players.filter(p => !p.withdrawn);
-  const n = activePlayers.length;
-  let byePlayer = null;
-  let playersToPair = [...activePlayers];
-
-  // If odd, lowest-ranked player receives a bye
-  if (n % 2 !== 0) {
-    byePlayer = playersToPair.pop();
-  }
-
-  const half = playersToPair.length / 2;
-  const pairings = [];
-  let board = 1;
-
-  for (let i = 0; i < half; i++) {
-    const higher = playersToPair[i];
-    const lower = playersToPair[i + half];
-    const higherWhite = state.r1ColorOption === 'higherWhite' || board % 2 === 1;
-    const white = higherWhite ? higher : lower;
-    const black = higherWhite ? lower : higher;
-    pairings.push({ board: board++, white, black, result: '' });
-  }
-
-  if (byePlayer) {
-    pairings.push({ board: board++, white: byePlayer, black: null, result: '1-0 (Frirond)' });
-  }
-
-  state.rounds.push({ roundNum: 1, pairings });
+function generateRound() {
+  const active = state.players.filter(p => !p.withdrawn && !hasPersonalBye(p));
+  const pairings = pairSwissRound(active);
+  addPersonalByes(pairings);
+  state.rounds.push({ roundNum: state.currentRound, pairings });
 }
 
 // ============================================================================
@@ -541,7 +620,7 @@ function pairSwissRound(players) {
     .filter(p => !p.withdrawn)
     .sort((a, b) => {
       if (b.score !== a.score) return b.score - a.score;
-      if (b.buchholz !== a.buchholz) return b.buchholz - a.buchholz;
+      if (b.rating !== a.rating) return b.rating - a.rating;
       return a.seed - b.seed;
     });
 
@@ -552,7 +631,7 @@ function pairSwissRound(players) {
   if (toPair.length % 2 !== 0) {
     let byeIdx = -1;
     for (let i = toPair.length - 1; i >= 0; i--) {
-      const hadBye = (toPair[i].history || []).some(h => h.opponent === null);
+      const hadBye = (toPair[i].history || []).some(h => h.opponent === null && !h.personalBye);
       if (!hadBye) {
         byeIdx = i;
         break;
@@ -563,26 +642,77 @@ function pairSwissRound(players) {
     byePairing = { white: byePlayer, black: null, result: '1-0 (Frirond)' };
   }
 
+  // Pair each score group across its two halves. Try exchanges within
+  // the group before floating players down to the next score group.
   function solve(remaining, maxStreakAllowed) {
     if (remaining.length === 0) return [];
+    const topScore = remaining[0].score;
+    const group = remaining.filter(p => p.score === topScore);
+    const rest = remaining.filter(p => p.score !== topScore);
 
-    const p1 = remaining[0];
-
-    for (let j = 1; j < remaining.length; j++) {
-      const p2 = remaining[j];
-      if ((p1.opponents || []).includes(p2.id)) continue;
-
-      const assignment = getValidColorAssignment(p1, p2, maxStreakAllowed);
-      if (!assignment) continue;
-
-      const nextRemaining = remaining.filter(p => p.id !== p1.id && p.id !== p2.id);
-      const sub = solve(nextRemaining, maxStreakAllowed);
-      if (sub !== null) {
-        return [{ white: assignment.white, black: assignment.black, result: '' }, ...sub];
+    function pairGroup(members, nextGroup) {
+      const half = members.length / 2;
+      function match(upper, lower) {
+        if (upper.length === 0) return solve(nextGroup, maxStreakAllowed);
+        const p1 = upper[0];
+        for (let i = 0; i < lower.length; i++) {
+          const p2 = lower[i];
+          if ((p1.opponents || []).includes(p2.id)) continue;
+          const assignment = getValidColorAssignment(p1, p2, maxStreakAllowed);
+          if (!assignment) continue;
+          const sub = match(upper.slice(1), lower.filter(p => p.id !== p2.id));
+          if (sub !== null) return [{ ...assignment, result: '' }, ...sub];
+        }
+        return null;
       }
+      const upper = members.slice(0, half);
+      const lower = members.slice(half);
+      let result = match(upper, lower);
+      if (result !== null) return result;
+      // Exchange players across the split if permutations alone cannot work.
+      for (let i = upper.length - 1; i >= 0; i--) {
+        for (let j = 0; j < lower.length; j++) {
+          const exchangedUpper = [...upper];
+          const exchangedLower = [...lower];
+          [exchangedUpper[i], exchangedLower[j]] = [exchangedLower[j], exchangedUpper[i]];
+          result = match(exchangedUpper, exchangedLower);
+          if (result !== null) return result;
+        }
+      }
+      return null;
     }
 
-    return null;
+    if (group.length % 2 === 0) {
+      const result = pairGroup(group, rest);
+      if (result !== null) return result;
+    }
+    if (rest.length === 0) return null;
+
+    // Lowest-ranked players are considered for downfloating first.
+    const floatCount = group.length % 2 === 0 ? 2 : 1;
+    function tryFloats(start, floated) {
+      if (floated.length === floatCount) {
+        const members = group.filter(p => !floated.includes(p));
+        const next = [...group.filter(p => floated.includes(p)), ...rest];
+        // Merge floaters with the next score group for pairing purposes.
+        const nextScore = rest[0].score;
+        const nextMembers = next.filter(p => floated.includes(p) || p.score === nextScore);
+        const later = rest.filter(p => p.score !== nextScore);
+        // Carry a temporary pairing score without changing tournament scores.
+        const originals = new Map(nextMembers.map(p => [p.id, p]));
+        const merged = nextMembers.map(p => ({ ...p, score: nextScore }));
+        const result = pairGroup(members, [...merged, ...later]);
+        return result && result.map(pair => ({ ...pair,
+          white: originals.get(pair.white.id) || pair.white,
+          black: originals.get(pair.black.id) || pair.black }));
+      }
+      for (let i = start; i >= 0; i--) {
+        const result = tryFloats(i - 1, [...floated, group[i]]);
+        if (result !== null) return result;
+      }
+      return null;
+    }
+    return tryFloats(group.length - 1, []);
   }
 
   // 1. Primär lottning: strikt max 2 i rad med samma färg och |diff| < 3
@@ -620,10 +750,34 @@ function pairSwissRound(players) {
     solution.push(byePairing);
   }
 
-  return solution.map((p, idx) => ({ board: idx + 1, ...p }));
+  return solution.map((p, idx) => {
+    if (state.currentRound === 1 && p.black) {
+      const higher = p.white.seed < p.black.seed ? p.white : p.black;
+      const lower = higher === p.white ? p.black : p.white;
+      p = { ...p, white: idx % 2 === 0 ? lower : higher, black: idx % 2 === 0 ? higher : lower };
+    }
+    return { board: idx + 1, ...p };
+  });
+}
+
+function appendPlayerHistory(cell, player) {
+  const history = (player?.history || []).slice().sort((a, b) => a.round - b.round);
+  if (history.length === 0) return;
+  const text = history.map(h => {
+    if (h.opponent === null) return h.personalBye ? '½F' : 'F';
+    const opponent = state.players.find(p => p.id === h.opponent);
+    return `${h.color.toLowerCase()}${opponent ? opponent.seed : h.opponent}`;
+  }).join(' ');
+  const line = document.createElement('div');
+  line.style.fontSize = '12px';
+  line.textContent = text;
+  line.title = 'Historik i rondordning: b = svart, w = vit, numret = motståndarens seed. F = frirond, ½F = personlig frirond.';
+  cell.appendChild(line);
 }
 
 function renderPairings() {
+  renderPersonalByes();
+  showView('pairings');
   document.getElementById('pairings-section').style.display = 'block';
   document.getElementById('round-title').textContent = `${state.name} – Rond ${state.currentRound} Lottning`;
 
@@ -635,6 +789,7 @@ function renderPairings() {
   const curRound = state.rounds[state.currentRound - 1];
   const tbody = document.getElementById('pairings-table-body');
   tbody.innerHTML = '';
+  const resultInputs = [];
 
   curRound.pairings.forEach(pair => {
     const tr = document.createElement('tr');
@@ -644,7 +799,8 @@ function renderPairings() {
     tr.appendChild(boardTd);
 
     const whiteTd = document.createElement('td');
-    whiteTd.textContent = pair.white ? `${pair.white.name} (${pair.white.seed} / ${pair.white.rating})` : 'FRIROND';
+    whiteTd.textContent = pair.white ? `${pair.white.name} (${pair.white.seed} / ${pair.white.rating}) – ${pair.white.score} p` : 'FRIROND';
+    appendPlayerHistory(whiteTd, pair.white);
     tr.appendChild(whiteTd);
 
     const resultTd = document.createElement('td');
@@ -655,6 +811,8 @@ function renderPairings() {
       screenSpan.textContent = pair.result || '1-0 (Frirond)';
     } else {
       const select = document.createElement('select');
+      select.setAttribute('aria-label', `Resultat för bord ${pair.board}`);
+      select.setAttribute('aria-describedby', 'result-keyboard-help');
       select.innerHTML = `
         <option value="">Väntar</option>
         <option value="1-0" ${pair.result === '1-0' ? 'selected' : ''}>1-0</option>
@@ -662,6 +820,28 @@ function renderPairings() {
         <option value="0-1" ${pair.result === '0-1' ? 'selected' : ''}>0-1</option>
       `;
       select.onchange = e => { pair.result = e.target.value; };
+      select.onkeydown = e => {
+        if (e.ctrlKey || e.altKey || e.metaKey) return;
+        const results = { '1': '1-0', r: '0.5-0.5', '0': '0-1' };
+        const result = results[e.key.toLowerCase()];
+        if (result) {
+          e.preventDefault();
+          select.value = result;
+          pair.result = result;
+          resultInputs[(resultInputs.indexOf(select) + 1) % resultInputs.length]?.focus();
+        } else if (e.key === ' ') {
+          e.preventDefault();
+          select.value = '';
+          pair.result = '';
+          resultInputs[(resultInputs.indexOf(select) + 1) % resultInputs.length]?.focus();
+        } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          const index = resultInputs.indexOf(select);
+          const nextIndex = (index + (e.key === 'ArrowUp' ? -1 : 1) + resultInputs.length) % resultInputs.length;
+          resultInputs[nextIndex]?.focus();
+        }
+      };
+      resultInputs.push(select);
       screenSpan.appendChild(select);
     }
 
@@ -674,11 +854,13 @@ function renderPairings() {
     tr.appendChild(resultTd);
 
     const blackTd = document.createElement('td');
-    blackTd.textContent = pair.black ? `${pair.black.name} (${pair.black.seed} / ${pair.black.rating})` : 'FRIROND';
+    blackTd.textContent = pair.black ? `${pair.black.name} (${pair.black.seed} / ${pair.black.rating}) – ${pair.black.score} p` : 'FRIROND';
+    appendPlayerHistory(blackTd, pair.black);
     tr.appendChild(blackTd);
 
     tbody.appendChild(tr);
   });
+  (resultInputs[0] || nextBtn)?.focus();
 }
 
 function submitRound() {
@@ -696,8 +878,8 @@ function submitRound() {
     const res = pair.result;
 
     if (!b) {
-      w.score += 1;
-      w.history.push({ round: state.currentRound, opponent: null, color: '-', result: '1-0' });
+      w.score += pair.personalBye ? 0.5 : 1;
+      w.history.push({ round: state.currentRound, opponent: null, color: '-', result: pair.personalBye ? '0.5-0.5' : '1-0', personalBye: !!pair.personalBye });
       return;
     }
 
@@ -723,13 +905,12 @@ function submitRound() {
   recalculateTiebreaks();
 
   if (state.currentRound >= state.totalRounds) {
+    state.currentRound = state.totalRounds + 1;
     document.getElementById('pairings-section').style.display = 'none';
     showFinalStandings();
   } else {
     state.currentRound++;
-    const active = state.players.filter(p => !p.withdrawn);
-    const pairings = pairSwissRound(active);
-    state.rounds.push({ roundNum: state.currentRound, pairings });
+    generateRound();
     renderPairings();
   }
 }
@@ -759,15 +940,15 @@ function recalculateTiebreaks() {
 function getSortedStandings() {
   return [...state.players].sort((a, b) => {
     if (b.score !== a.score) return b.score - a.score;
-    if (b.buchholz !== a.buchholz) return b.buchholz - a.buchholz;
-    if (b.sonneborn !== a.sonneborn) return b.sonneborn - a.sonneborn;
+    if (b.rating !== a.rating) return b.rating - a.rating;
     return a.seed - b.seed;
   });
 }
 
 function showFinalStandings() {
+  renderPersonalByes();
   recalculateTiebreaks();
-  document.getElementById('final-section').style.display = 'block';
+  showView('standings');
   const tbody = document.getElementById('final-table-body');
   tbody.innerHTML = '';
 
@@ -780,14 +961,12 @@ function showFinalStandings() {
       <td>${p.name} ${p.withdrawn ? '(Utgått)' : ''}</td>
       <td>${p.rating}</td>
       <td><strong>${p.score}</strong></td>
-      <td>${p.buchholz}</td>
-      <td>${p.sonneborn}</td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-function openStandingsModal() {
+function renderStandings() {
   recalculateTiebreaks();
   const standings = getSortedStandings();
   const tbody = document.getElementById('modal-standings-body');
@@ -801,17 +980,10 @@ function openStandingsModal() {
       <td>${p.name} ${p.withdrawn ? '(Utgått)' : ''}</td>
       <td>${p.rating}</td>
       <td><strong>${p.score}</strong></td>
-      <td>${p.buchholz}</td>
-      <td>${p.sonneborn}</td>
     `;
     tbody.appendChild(tr);
   });
 
-  document.getElementById('standings-modal').style.display = 'flex';
-}
-
-function closeStandingsModal() {
-  document.getElementById('standings-modal').style.display = 'none';
 }
 
 function openWithdrawModal() {
