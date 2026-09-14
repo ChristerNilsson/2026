@@ -14,9 +14,17 @@ W.O. får ingen poäng. Upprepade klick uppdaterar poängen utan dubbletter.
 Lägg innehållet i `names-bookmarklet.txt` i ett separat bokmärkes URL.
 Öppna turneringens bordslista för önskad rond och klicka på bokmärket.
 
-En ruta visar kolumnerna **Namn**, **Bord** och **Färg** (Vit eller Svart).
+En vy som fyller webbläsarfönstret visar **Namn**, **Bord** och **Färg** (Vit eller Svart).
+Listan delas automatiskt i flera spalter och textstorleken anpassas så att alla
+spelare syns utan skrollning. Varje spalt har egna rubriker. Läs uppifrån och ned,
+sedan vidare till nästa spalt åt höger. Layouten anpassas när fönstret ändrar storlek.
+Använd gärna webbläsarens helskärmsläge (F11) på den stora skärmen.
 Listan sorteras alfabetiskt på hela det visade namnet, alltså förnamnet först,
 med svensk sortering (Å, Ä, Ö). W.O. tas inte med som spelare.
 Stäng rutan med **Stäng** eller Escape. Fungerar även efter score-bookmarkleten.
 
 Källkoden finns i `names.js`.
+
+Båda `.txt`-filerna är små laddare som hämtar respektive JS-fil från GitHub Pages.
+Vid ändringar uppdateras JS-filen; generera inte in hela källkoden i `.txt`-filerna.
+När JS-filen publicerats används ändringen via det befintliga bokmärket.
