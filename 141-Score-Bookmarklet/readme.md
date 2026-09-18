@@ -31,6 +31,18 @@ Stäng rutan med **Stäng** eller Escape. Fungerar även efter score-bookmarklet
 
 Källkoden finns i `names.js`.
 
-Båda `.txt`-filerna är små laddare som hämtar respektive JS-fil från GitHub Pages.
+## Namn och Elo som textfil
+
+Använd `elos-bookmarklet.txt` på turneringens deltagarlista eller ställningslista.
+`elos.js` öppnar en textfil i en ny flik med **Elo** och **Namn**, separerade med
+ett mellanslag, en spelare per rad i sidans ordning. Om nya flikar blockeras laddas filen
+ned i stället. Svenska tecken bevaras med UTF-8.
+
+Värdena hämtas från kolumnen ELO, eller RANKING om ELO saknas. Eventuella
+bokstavssuffix tas bort, exempelvis blir `1881S` till `1881`. Det är sidans
+visade rating som exporteras; RANKING kan avse snabb- eller annan rating.
+Spelare utan rating får ett tomt Elo-fält. W.O. tas inte med.
+
+`.txt`-filerna är små laddare som hämtar respektive JS-fil från GitHub Pages.
 Vid ändringar uppdateras JS-filen; generera inte in hela källkoden i `.txt`-filerna.
 När JS-filen publicerats används ändringen via det befintliga bokmärket.
