@@ -189,9 +189,20 @@
         </div>
         <div>
           <button id="startButton" disabled>Börja träna</button>
+          <button id="slideshowButton" disabled>Visa bildspel</button>
         </div>
       </div>
 
+    </section>
+
+    <section id="slideshowSection" hidden>
+      <h2 id="slideshowName"></h2>
+      <img id="slideshowPhoto" alt="">
+      <p id="slideshowProgress" aria-live="polite"></p>
+      <p id="slideshowCountdown"></p>
+      <div>
+        <button id="closeSlideshowButton" type="button">Tillbaka</button>
+      </div>
     </section>
 
     <section id="trainingSection" hidden>
@@ -233,6 +244,9 @@
 // ========================================================
 
 let people = [];
+let slideshowPeople = [];
+let slideshowIndex = 0;
+let slideshowTimer = null;
 
 async function loadPeople() {
 
@@ -415,8 +429,51 @@ function showPersonList() {
   }
 
   document.getElementById("startButton").disabled = false;
+  document.getElementById("slideshowButton").disabled = false;
 }
 
+
+function showSlide() {
+  const person = slideshowPeople[slideshowIndex];
+  const photo = document.getElementById("slideshowPhoto");
+  document.getElementById("slideshowName").textContent = person.name;
+  photo.hidden = true;
+  photo.onload = () => { photo.hidden = false; };
+  photo.src = person.image;
+  photo.alt = person.name;
+  document.getElementById("slideshowProgress").textContent =
+    "Bild " + (slideshowIndex + 1) + " av " + slideshowPeople.length;
+  clearInterval(slideshowTimer);
+  const nextSlideAt = Date.now() + 10000;
+  document.getElementById("slideshowCountdown").textContent = "Nästa bild om 10 sekunder";
+  slideshowTimer = setInterval(() => {
+    const secondsLeft = Math.max(0, Math.ceil((nextSlideAt - Date.now()) / 1000));
+    if (secondsLeft === 0) {
+      slideshowIndex = (slideshowIndex + 1) % slideshowPeople.length;
+      showSlide();
+      return;
+    }
+    document.getElementById("slideshowCountdown").textContent =
+      "Nästa bild om " + secondsLeft + (secondsLeft === 1 ? " sekund" : " sekunder");
+  }, 1000);
+}
+
+function startSlideshow() {
+  if (!people.length) return;
+  if (!slideshowPeople.length) slideshowPeople = shuffle(people);
+  document.getElementById("introSection").hidden = true;
+  document.getElementById("slideshowSection").hidden = false;
+  showSlide();
+  document.getElementById("closeSlideshowButton").focus();
+}
+
+function closeSlideshow() {
+  clearInterval(slideshowTimer);
+  slideshowTimer = null;
+  document.getElementById("slideshowSection").hidden = true;
+  document.getElementById("introSection").hidden = false;
+  document.getElementById("slideshowButton").focus();
+}
 
 function startTraining() {
   if (trainingStarted) return;
@@ -832,6 +889,11 @@ function updateStats() {
 // ========================================================
 // 14. KNAPPAR OCH ENTER
 // ========================================================
+
+document.getElementById("slideshowButton")
+  .addEventListener("click", startSlideshow);
+document.getElementById("closeSlideshowButton")
+  .addEventListener("click", closeSlideshow);
 
 document
   .getElementById("checkButton")

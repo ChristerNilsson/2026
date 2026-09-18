@@ -32,7 +32,17 @@ async function app(saved, roster = people, random = () => 0) {
     querySelectorAll() { return this.getElementById('imageGrid').children; }
   };
   let storage = saved;
+  const timers = new Map();
+  let timerId = 0;
+  let now = 0;
   const context = vm.createContext({ document,
+    Date: { now: () => now },
+    setInterval(callback, delay) {
+      const id = ++timerId;
+      timers.set(id, { callback, delay });
+      return id;
+    },
+    clearInterval(id) { timers.delete(id); },
     Math: Object.assign(Object.create(Math), { random }),
     localStorage: {
       getItem: () => storage,
@@ -47,7 +57,7 @@ async function app(saved, roster = people, random = () => 0) {
   if (random.stableShuffle !== false) run('shuffle = items => [...items]');
   await run('start()');
   run('startTraining()');
-  return { run, document, saved: () => storage,
+  return { run, document, timers, advanceTime(ms) { now += ms; }, saved: () => storage,
     correct() {
       run(`if (questionType === 'nameToImage') {
         chooseImage(currentPerson, document.getElementById('imageGrid').children.find(b => b.dataset.name === currentPerson.name));
@@ -58,6 +68,65 @@ async function app(saved, roster = people, random = () => 0) {
     }
   };
 }
+
+test('slideshow shuffles once and keeps its order and position when reopened', async () => {
+  const random = () => 0;
+  random.stableShuffle = false;
+  const a = await app(undefined, largeRoster, random);
+  a.run('trainingStarted = false; startSlideshow()');
+  const order = a.run('JSON.stringify(slideshowPeople)');
+  const names = a.run('slideshowPeople.map(person => person.name)');
+  assert.equal(new Set(names).size, largeRoster.length);
+  assert.notEqual(order, JSON.stringify(largeRoster));
+  assert.equal(a.document.getElementById('introSection').hidden, true);
+  for (let i = 0; i < largeRoster.length; i++) {
+    assert.equal(a.document.getElementById('slideshowName').textContent, names[i]);
+    if (i < largeRoster.length - 1) {
+      a.advanceTime(10000);
+      [...a.timers.values()][0].callback();
+    }
+  }
+  assert.equal(a.run('slideshowIndex'), largeRoster.length - 1);
+  a.run('closeSlideshow()');
+  assert.equal(a.document.getElementById('introSection').hidden, false);
+  a.run('startSlideshow()');
+  assert.equal(a.run('JSON.stringify(slideshowPeople)'), order);
+  assert.equal(a.run('slideshowIndex'), largeRoster.length - 1);
+});
+
+test('slideshow advances every ten seconds, loops in the same order and stops on close', async () => {
+  const a = await app();
+  a.run('trainingStarted = false; startSlideshow()');
+  const order = a.run('JSON.stringify(slideshowPeople)');
+  function tick() {
+    assert.equal(a.timers.size, 1);
+    const timer = [...a.timers.values()][0];
+    assert.equal(timer.delay, 1000);
+    a.advanceTime(1000);
+    timer.callback();
+  }
+  assert.equal(a.document.getElementById('slideshowCountdown').textContent, 'Nästa bild om 10 sekunder');
+  for (let seconds = 9; seconds >= 1; seconds--) {
+    tick();
+    assert.equal(a.run('slideshowIndex'), 0);
+    assert.equal(a.document.getElementById('slideshowCountdown').textContent,
+      `Nästa bild om ${seconds} ${seconds === 1 ? 'sekund' : 'sekunder'}`);
+  }
+  tick();
+  assert.equal(a.run('slideshowIndex'), 1);
+  assert.equal(a.document.getElementById('slideshowCountdown').textContent, 'Nästa bild om 10 sekunder');
+  for (let i = 0; i < 10; i++) tick();
+  assert.equal(a.run('slideshowIndex'), 0);
+  assert.equal(a.run('JSON.stringify(slideshowPeople)'), order);
+  for (let i = 0; i < 10; i++) tick();
+  assert.equal(a.document.getElementById('slideshowCountdown').textContent, 'Nästa bild om 10 sekunder');
+  assert.equal(a.timers.size, 1);
+  a.run('closeSlideshow()');
+  assert.equal(a.timers.size, 0);
+  a.run('startSlideshow()');
+  assert.equal(a.timers.size, 1);
+  assert.equal(a.run('slideshowIndex'), 1);
+});
 
 test('FIFO gives every person TB BT and finishes after four answers', async () => {
   const a = await app();
