@@ -1,0 +1,2 @@
+Indata: example.json
+Fel: rounds ska vara en lista med färre ronder än total_rounds.

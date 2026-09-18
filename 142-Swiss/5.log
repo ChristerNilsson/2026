@@ -1,0 +1,31 @@
+Indata: example.json
+Lottar rond 5 av 5. Sökgräns: 200000.
+Prioritet: poängskillnad, färgkostnad, gruppdelning, listordning. Lägre värden prövas först.
+Spelare 1 (Anna): 3 poäng, Elo 2100, färger VSVS, tidigare frirond: nej.
+Spelare 2 (Bo): 2.5 poäng, Elo 2000, färger SVSV, tidigare frirond: nej.
+Spelare 4 (David): 2 poäng, Elo 1800, färger SVSS, tidigare frirond: nej.
+Spelare 3 (Cecilia): 1.5 poäng, Elo 1900, färger VSVV, tidigare frirond: nej.
+Spelare 5 (Eva): 1.5 poäng, Elo 1700, färger VSSV, tidigare frirond: nej.
+Spelare 6 (Fredrik): 1.5 poäng, Elo 1600, färger SVVS, tidigare frirond: nej.
+Söktillstånd 1: kvar [1, 2, 4, 3, 5, 6].
+  Avvisa 1 (Anna) mot 2 (Bo): har redan mötts.
+  Avvisa 1 (Anna) mot 4 (David): har redan mötts.
+  Avvisa 1 (Anna) mot 3 (Cecilia): har redan mötts.
+  Avvisa 1 (Anna) mot 6 (Fredrik): har redan mötts.
+Prova vit 1 (Anna), svart 5 (Eva): poängskillnad 1.5, färgkostnad 0, avstånd från gruppdelning 3.
+Söktillstånd 2: kvar [2, 4, 3, 6].
+  Avvisa 2 (Bo) mot 4 (David): har redan mötts.
+  Avvisa 2 (Bo) mot 3 (Cecilia): har redan mötts.
+Prova vit 6 (Fredrik), svart 2 (Bo): poängskillnad 1, färgkostnad 0, avstånd från gruppdelning 2.
+Söktillstånd 3: kvar [4, 3].
+  Avvisa färgval vit 3, svart 4: 3 skulle få färgbalans +3.
+Prova vit 4 (David), svart 3 (Cecilia): poängskillnad 0.5, färgkostnad 0, avstånd från gruppdelning 0.
+Alla spelare har fått motståndare.
+Behåll vit 4, svart 3.
+Behåll vit 6, svart 2.
+Behåll vit 1, svart 5.
+Klar efter 4 söktillstånd. Slutlig lottning:
+  Vit 1 (Anna) – svart 5 (Eva)
+  Vit 6 (Fredrik) – svart 2 (Bo)
+  Vit 4 (David) – svart 3 (Cecilia)
+Frirond: ingen.

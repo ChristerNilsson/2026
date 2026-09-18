@@ -1,0 +1,36 @@
+Indata: example.json
+Lottar rond 4 av 5. Sökgräns: 200000.
+Prioritet: poängskillnad, färgkostnad, gruppdelning, listordning. Lägre värden prövas först.
+Spelare 1 (Anna): 2 poäng, Elo 2100, färger VSV, tidigare frirond: nej.
+Spelare 2 (Bo): 2 poäng, Elo 2000, färger SVS, tidigare frirond: nej.
+Spelare 3 (Cecilia): 1.5 poäng, Elo 1900, färger VSV, tidigare frirond: nej.
+Spelare 4 (David): 1.5 poäng, Elo 1800, färger SVS, tidigare frirond: nej.
+Spelare 6 (Fredrik): 1.5 poäng, Elo 1600, färger SVV, tidigare frirond: nej.
+Spelare 5 (Eva): 0.5 poäng, Elo 1700, färger VSS, tidigare frirond: nej.
+Söktillstånd 1: kvar [1, 2, 3, 4, 6, 5].
+  Avvisa 1 (Anna) mot 2 (Bo): har redan mötts.
+  Avvisa 1 (Anna) mot 4 (David): har redan mötts.
+  Avvisa 1 (Anna) mot 6 (Fredrik): har redan mötts.
+  Avvisa färgval vit 1, svart 5: 5 skulle få tre lika färger i rad.
+Prova vit 3 (Cecilia), svart 1 (Anna): poängskillnad 0.5, färgkostnad 2, avstånd från gruppdelning 1.
+Söktillstånd 2: kvar [2, 4, 6, 5].
+  Avvisa färgval vit 6, svart 2: 6 skulle få tre lika färger i rad.
+  Avvisa 2 (Bo) mot 5 (Eva): har redan mötts.
+Prova vit 2 (Bo), svart 6 (Fredrik): poängskillnad 0.5, färgkostnad 0, avstånd från gruppdelning 1.
+Söktillstånd 3: kvar [4, 5].
+  Avvisa 4 (David) mot 5 (Eva): har redan mötts.
+Återvändsgränd: ingen motståndare för 4 (David) ger en komplett lottning.
+Backa från 2 (Bo) mot 6 (Fredrik): resten kan inte lottas.
+Prova vit 2 (Bo), svart 4 (David): poängskillnad 0.5, färgkostnad 2, avstånd från gruppdelning 0.
+Söktillstånd 4: kvar [6, 5].
+  Avvisa färgval vit 6, svart 5: 6 skulle få tre lika färger i rad.
+Prova vit 5 (Eva), svart 6 (Fredrik): poängskillnad 1, färgkostnad 0, avstånd från gruppdelning 0.
+Alla spelare har fått motståndare.
+Behåll vit 5, svart 6.
+Behåll vit 2, svart 4.
+Behåll vit 3, svart 1.
+Klar efter 5 söktillstånd. Slutlig lottning:
+  Vit 3 (Cecilia) – svart 1 (Anna)
+  Vit 2 (Bo) – svart 4 (David)
+  Vit 5 (Eva) – svart 6 (Fredrik)
+Frirond: ingen.

@@ -1,0 +1,199 @@
+Indata: C:\github\2026\142-Swiss\example.json
+Utdata: C:\github\2026\142-Swiss\3.json
+Lottar rond 3 av 11. Sökgräns: 200000.
+Exkluderade spelare denna rond: inga. Antal deltagande: 54.
+Prioritet: poängskillnad, färgkostnad, gruppdelning, listordning. Lägre värden prövas först.
+Spelare 7 (Stefan Bäcklin): 2 poäng, Elo 1975, färger SV, tidigare frirond: nej.
+Spelare 12 (Bo Ländin): 2 poäng, Elo 1922, färger VS, tidigare frirond: nej.
+Spelare 31 (Lars Ring): 2 poäng, Elo 1738, färger VS, tidigare frirond: nej.
+Spelare 45 (Christer Nilsson): 2 poäng, Elo 1599, färger SV, tidigare frirond: nej.
+Spelare 51 (Ali Koc): 2 poäng, Elo 1459, färger VS, tidigare frirond: nej.
+Spelare 6 (Tomas Lindblad): 1.5 poäng, Elo 1997, färger VS, tidigare frirond: nej.
+Spelare 11 (Svante Wedin): 1.5 poäng, Elo 1937, färger SV, tidigare frirond: nej.
+Spelare 14 (Peter Carlsten): 1.5 poäng, Elo 1913, färger SV, tidigare frirond: nej.
+Spelare 15 (Rune Evertsson): 1.5 poäng, Elo 1879, färger VS, tidigare frirond: nej.
+Spelare 21 (Bele Ullmark): 1.5 poäng, Elo 1823, färger VS, tidigare frirond: nej.
+Spelare 24 (Camilo Garcia Giraldo): 1.5 poäng, Elo 1793, färger SV, tidigare frirond: nej.
+Spelare 25 (Lars Cederfeldt): 1.5 poäng, Elo 1785, färger VS, tidigare frirond: nej.
+Spelare 32 (Magnus Karlsson): 1.5 poäng, Elo 1737, färger SV, tidigare frirond: nej.
+Spelare 42 (Anders Hillbur): 1.5 poäng, Elo 1643, färger SV, tidigare frirond: nej.
+Spelare 44 (Leif Hållstedt): 1.5 poäng, Elo 1626, färger VS, tidigare frirond: nej.
+Spelare 52 (Vida Radon): 1.5 poäng, Elo 1403, färger SV, tidigare frirond: nej.
+Spelare 53 (Jan Karlsson): 1.5 poäng, Elo 1400, färger VS, tidigare frirond: nej.
+Spelare 1 (FM Mikael Näslund): 1 poäng, Elo 2124, färger SV, tidigare frirond: nej.
+Spelare 8 (Olle Ålgars): 1 poäng, Elo 1949, färger VS, tidigare frirond: nej.
+Spelare 16 (Peter Silins): 1 poäng, Elo 1862, färger SV, tidigare frirond: nej.
+Spelare 18 (Leif Lundquist): 1 poäng, Elo 1856, färger SV, tidigare frirond: nej.
+Spelare 19 (Sven-Åke Karlsson): 1 poäng, Elo 1828, färger VS, tidigare frirond: nej.
+Spelare 20 (Bo Franzén): 1 poäng, Elo 1824, färger SV, tidigare frirond: nej.
+Spelare 23 (Björn Löwgren): 1 poäng, Elo 1795, färger VS, tidigare frirond: nej.
+Spelare 27 (Jockum Wahlberg): 1 poäng, Elo 1774, färger V, tidigare frirond: nej.
+Spelare 28 (Johan Sterner): 1 poäng, Elo 1771, färger VS, tidigare frirond: nej.
+Spelare 29 (Lars-Åke Pettersson): 1 poäng, Elo 1765, färger SV, tidigare frirond: nej.
+Spelare 34 (Leonid Stolov): 1 poäng, Elo 1718, färger SV, tidigare frirond: nej.
+Spelare 35 (Stefan Lindh): 1 poäng, Elo 1703, färger VS, tidigare frirond: nej.
+Spelare 37 (Thomas Axelsson): 1 poäng, Elo 1688, färger VS, tidigare frirond: nej.
+Spelare 38 (Bengt Eriksson): 1 poäng, Elo 1687, färger SV, tidigare frirond: nej.
+Spelare 39 (Kent Sahlin): 1 poäng, Elo 1674, färger VS, tidigare frirond: nej.
+Spelare 54 (Andreas Segeljakt): 1 poäng, Elo 1400, färger S, tidigare frirond: ja.
+Spelare 2 (Ivan Franchuk): 0.5 poäng, Elo 2071, färger VS, tidigare frirond: nej.
+Spelare 3 (Nils Carlsson): 0.5 poäng, Elo 2066, färger SV, tidigare frirond: nej.
+Spelare 5 (Henrik Strömbäck): 0.5 poäng, Elo 2003, färger SV, tidigare frirond: nej.
+Spelare 13 (WFM Susanna Berg): 0.5 poäng, Elo 1917, färger S, tidigare frirond: nej.
+Spelare 26 (Dick Viklund): 0.5 poäng, Elo 1781, färger S, tidigare frirond: nej.
+Spelare 30 (Göran Adamsson): 0.5 poäng, Elo 1745, färger S, tidigare frirond: nej.
+Spelare 33 (Christer Johansson): 0.5 poäng, Elo 1726, färger VS, tidigare frirond: nej.
+Spelare 36 (Abbas Razavi): 0.5 poäng, Elo 1691, färger SV, tidigare frirond: nej.
+Spelare 40 (Friedemann Stumpf): 0.5 poäng, Elo 1673, färger SV, tidigare frirond: nej.
+Spelare 46 (Miroljub Zivic): 0.5 poäng, Elo 1594, färger VS, tidigare frirond: nej.
+Spelare 47 (Lars-Ivar Juntti): 0.5 poäng, Elo 1553, färger SV, tidigare frirond: nej.
+Spelare 49 (Arne Jansson): 0.5 poäng, Elo 1496, färger SV, tidigare frirond: nej.
+Spelare 4 (Bo E Eriksson): 0 poäng, Elo 2019, färger VS, tidigare frirond: nej.
+Spelare 9 (CM Mikael Helin): 0 poäng, Elo 1942, färger SV, tidigare frirond: nej.
+Spelare 10 (Lennart B. Johansson): 0 poäng, Elo 1941, färger V, tidigare frirond: nej.
+Spelare 17 (Ove Hartzell): 0 poäng, Elo 1861, färger V, tidigare frirond: nej.
+Spelare 22 (Hans Weström): 0 poäng, Elo 1796, färger S, tidigare frirond: nej.
+Spelare 41 (Mikael Lundberg): 0 poäng, Elo 1660, färger VS, tidigare frirond: nej.
+Spelare 43 (Valeri Ivanyuhin): 0 poäng, Elo 1640, färger V, tidigare frirond: nej.
+Spelare 48 (Helge Bergström): 0 poäng, Elo 1545, färger VS, tidigare frirond: nej.
+Spelare 50 (Jovan Nikander): 0 poäng, Elo 1492, färger V, tidigare frirond: nej.
+Söktillstånd 1: kvar [7, 12, 31, 45, 51, 6, 11, 14, 15, 21, 24, 25, 32, 42, 44, 52, 53, 1, 8, 16, 18, 19, 20, 23, 27, 28, 29, 34, 35, 37, 38, 39, 54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 7 (Stefan Bäcklin) mot 35 (Stefan Lindh): har redan mötts.
+  Avvisa 7 (Stefan Bäcklin) mot 37 (Thomas Axelsson): har redan mötts.
+Prova vit 31 (Lars Ring), svart 7 (Stefan Bäcklin): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 0.
+Söktillstånd 2: kvar [12, 45, 51, 6, 11, 14, 15, 21, 24, 25, 32, 42, 44, 52, 53, 1, 8, 16, 18, 19, 20, 23, 27, 28, 29, 34, 35, 37, 38, 39, 54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 12 (Bo Ländin) mot 38 (Bengt Eriksson): har redan mötts.
+  Avvisa 12 (Bo Ländin) mot 40 (Friedemann Stumpf): har redan mötts.
+Prova vit 12 (Bo Ländin), svart 45 (Christer Nilsson): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 0.
+Söktillstånd 3: kvar [51, 6, 11, 14, 15, 21, 24, 25, 32, 42, 44, 52, 53, 1, 8, 16, 18, 19, 20, 23, 27, 28, 29, 34, 35, 37, 38, 39, 54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 51 (Ali Koc) mot 20 (Bo Franzén): har redan mötts.
+  Avvisa 51 (Ali Koc) mot 22 (Hans Weström): har redan mötts.
+Prova vit 51 (Ali Koc), svart 11 (Svante Wedin): poängskillnad 0.5, färgkostnad 0, avstånd från gruppdelning 1.
+Söktillstånd 4: kvar [6, 14, 15, 21, 24, 25, 32, 42, 44, 52, 53, 1, 8, 16, 18, 19, 20, 23, 27, 28, 29, 34, 35, 37, 38, 39, 54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 6 (Tomas Lindblad) mot 32 (Magnus Karlsson): har redan mötts.
+  Avvisa 6 (Tomas Lindblad) mot 34 (Leonid Stolov): har redan mötts.
+Prova vit 6 (Tomas Lindblad), svart 24 (Camilo Garcia Giraldo): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 1.
+Söktillstånd 5: kvar [14, 15, 21, 25, 32, 42, 44, 52, 53, 1, 8, 16, 18, 19, 20, 23, 27, 28, 29, 34, 35, 37, 38, 39, 54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 14 (Peter Carlsten) mot 44 (Leif Hållstedt): har redan mötts.
+  Avvisa 14 (Peter Carlsten) mot 41 (Mikael Lundberg): har redan mötts.
+Prova vit 25 (Lars Cederfeldt), svart 14 (Peter Carlsten): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 1.
+Söktillstånd 6: kvar [15, 21, 32, 42, 44, 52, 53, 1, 8, 16, 18, 19, 20, 23, 27, 28, 29, 34, 35, 37, 38, 39, 54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 15 (Rune Evertsson) mot 42 (Anders Hillbur): har redan mötts.
+  Avvisa 15 (Rune Evertsson) mot 36 (Abbas Razavi): har redan mötts.
+Prova vit 15 (Rune Evertsson), svart 32 (Magnus Karlsson): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 1.
+Söktillstånd 7: kvar [21, 42, 44, 52, 53, 1, 8, 16, 18, 19, 20, 23, 27, 28, 29, 34, 35, 37, 38, 39, 54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 21 (Bele Ullmark) mot 5 (Henrik Strömbäck): har redan mötts.
+  Avvisa 21 (Bele Ullmark) mot 49 (Arne Jansson): har redan mötts.
+Prova vit 21 (Bele Ullmark), svart 42 (Anders Hillbur): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 1.
+Söktillstånd 8: kvar [44, 52, 53, 1, 8, 16, 18, 19, 20, 23, 27, 28, 29, 34, 35, 37, 38, 39, 54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 44 (Leif Hållstedt) mot 16 (Peter Silins): har redan mötts.
+Prova vit 44 (Leif Hållstedt), svart 52 (Vida Radon): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 0.
+Söktillstånd 9: kvar [53, 1, 8, 16, 18, 19, 20, 23, 27, 28, 29, 34, 35, 37, 38, 39, 54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 53 (Jan Karlsson) mot 49 (Arne Jansson): har redan mötts.
+Prova vit 53 (Jan Karlsson), svart 1 (FM Mikael Näslund): poängskillnad 0.5, färgkostnad 0, avstånd från gruppdelning 0.
+Söktillstånd 10: kvar [8, 16, 18, 19, 20, 23, 27, 28, 29, 34, 35, 37, 38, 39, 54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 8 (Olle Ålgars) mot 29 (Lars-Åke Pettersson): har redan mötts.
+  Avvisa 8 (Olle Ålgars) mot 36 (Abbas Razavi): har redan mötts.
+Prova vit 8 (Olle Ålgars), svart 27 (Jockum Wahlberg): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 1.
+Söktillstånd 11: kvar [16, 18, 19, 20, 23, 28, 29, 34, 35, 37, 38, 39, 54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 16 (Peter Silins) mot 41 (Mikael Lundberg): har redan mötts.
+Prova vit 28 (Johan Sterner), svart 16 (Peter Silins): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 1.
+Söktillstånd 12: kvar [18, 19, 20, 23, 29, 34, 35, 37, 38, 39, 54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 18 (Leif Lundquist) mot 39 (Kent Sahlin): har redan mötts.
+  Avvisa 18 (Leif Lundquist) mot 46 (Miroljub Zivic): har redan mötts.
+Prova vit 35 (Stefan Lindh), svart 18 (Leif Lundquist): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 1.
+Söktillstånd 13: kvar [19, 20, 23, 29, 34, 37, 38, 39, 54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 19 (Sven-Åke Karlsson) mot 47 (Lars-Ivar Juntti): har redan mötts.
+Prova vit 19 (Sven-Åke Karlsson), svart 34 (Leonid Stolov): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 0.
+Söktillstånd 14: kvar [20, 23, 29, 37, 38, 39, 54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 20 (Bo Franzén) mot 48 (Helge Bergström): har redan mötts.
+Prova vit 37 (Thomas Axelsson), svart 20 (Bo Franzén): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 0.
+Söktillstånd 15: kvar [23, 29, 38, 39, 54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 23 (Björn Löwgren) mot 43 (Valeri Ivanyuhin): har redan mötts.
+Prova vit 23 (Björn Löwgren), svart 38 (Bengt Eriksson): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 0.
+Söktillstånd 16: kvar [29, 39, 54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 29 (Lars-Åke Pettersson) mot 2 (Ivan Franchuk): har redan mötts.
+Prova vit 39 (Kent Sahlin), svart 29 (Lars-Åke Pettersson): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 0.
+Söktillstånd 17: kvar [54, 2, 3, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+Prova vit 54 (Andreas Segeljakt), svart 3 (Nils Carlsson): poängskillnad 0.5, färgkostnad 0, avstånd från gruppdelning 1.
+Söktillstånd 18: kvar [2, 5, 13, 26, 30, 33, 36, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+Prova vit 2 (Ivan Franchuk), svart 36 (Abbas Razavi): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 1.
+Söktillstånd 19: kvar [5, 13, 26, 30, 33, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 5 (Henrik Strömbäck) mot 33 (Christer Johansson): har redan mötts.
+Prova vit 30 (Göran Adamsson), svart 5 (Henrik Strömbäck): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 1.
+Söktillstånd 20: kvar [13, 26, 33, 40, 46, 47, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+  Avvisa 13 (WFM Susanna Berg) mot 40 (Friedemann Stumpf): har redan mötts.
+Prova vit 13 (WFM Susanna Berg), svart 47 (Lars-Ivar Juntti): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 2.
+Söktillstånd 21: kvar [26, 33, 40, 46, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+Prova vit 26 (Dick Viklund), svart 40 (Friedemann Stumpf): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 0.
+Söktillstånd 22: kvar [33, 46, 49, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+Prova vit 33 (Christer Johansson), svart 49 (Arne Jansson): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 1.
+Söktillstånd 23: kvar [46, 4, 9, 10, 17, 22, 41, 43, 48, 50].
+Prova vit 46 (Miroljub Zivic), svart 9 (CM Mikael Helin): poängskillnad 0.5, färgkostnad 0, avstånd från gruppdelning 1.
+Söktillstånd 24: kvar [4, 10, 17, 22, 41, 43, 48, 50].
+Prova vit 4 (Bo E Eriksson), svart 43 (Valeri Ivanyuhin): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 1.
+Söktillstånd 25: kvar [10, 17, 22, 41, 48, 50].
+Prova vit 41 (Mikael Lundberg), svart 10 (Lennart B. Johansson): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 0.
+Söktillstånd 26: kvar [17, 22, 48, 50].
+Prova vit 48 (Helge Bergström), svart 17 (Ove Hartzell): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 0.
+Söktillstånd 27: kvar [22, 50].
+Prova vit 22 (Hans Weström), svart 50 (Jovan Nikander): poängskillnad 0, färgkostnad 0, avstånd från gruppdelning 0.
+Alla spelare har fått motståndare.
+Behåll vit 22, svart 50.
+Behåll vit 48, svart 17.
+Behåll vit 41, svart 10.
+Behåll vit 4, svart 43.
+Behåll vit 46, svart 9.
+Behåll vit 33, svart 49.
+Behåll vit 26, svart 40.
+Behåll vit 13, svart 47.
+Behåll vit 30, svart 5.
+Behåll vit 2, svart 36.
+Behåll vit 54, svart 3.
+Behåll vit 39, svart 29.
+Behåll vit 23, svart 38.
+Behåll vit 37, svart 20.
+Behåll vit 19, svart 34.
+Behåll vit 35, svart 18.
+Behåll vit 28, svart 16.
+Behåll vit 8, svart 27.
+Behåll vit 53, svart 1.
+Behåll vit 44, svart 52.
+Behåll vit 21, svart 42.
+Behåll vit 15, svart 32.
+Behåll vit 25, svart 14.
+Behåll vit 6, svart 24.
+Behåll vit 51, svart 11.
+Behåll vit 12, svart 45.
+Behåll vit 31, svart 7.
+Klar efter 28 söktillstånd. Slutlig lottning:
+  Vit 31 (Lars Ring) – svart 7 (Stefan Bäcklin)
+  Vit 12 (Bo Ländin) – svart 45 (Christer Nilsson)
+  Vit 51 (Ali Koc) – svart 11 (Svante Wedin)
+  Vit 6 (Tomas Lindblad) – svart 24 (Camilo Garcia Giraldo)
+  Vit 25 (Lars Cederfeldt) – svart 14 (Peter Carlsten)
+  Vit 15 (Rune Evertsson) – svart 32 (Magnus Karlsson)
+  Vit 21 (Bele Ullmark) – svart 42 (Anders Hillbur)
+  Vit 44 (Leif Hållstedt) – svart 52 (Vida Radon)
+  Vit 53 (Jan Karlsson) – svart 1 (FM Mikael Näslund)
+  Vit 8 (Olle Ålgars) – svart 27 (Jockum Wahlberg)
+  Vit 28 (Johan Sterner) – svart 16 (Peter Silins)
+  Vit 35 (Stefan Lindh) – svart 18 (Leif Lundquist)
+  Vit 19 (Sven-Åke Karlsson) – svart 34 (Leonid Stolov)
+  Vit 37 (Thomas Axelsson) – svart 20 (Bo Franzén)
+  Vit 23 (Björn Löwgren) – svart 38 (Bengt Eriksson)
+  Vit 39 (Kent Sahlin) – svart 29 (Lars-Åke Pettersson)
+  Vit 54 (Andreas Segeljakt) – svart 3 (Nils Carlsson)
+  Vit 2 (Ivan Franchuk) – svart 36 (Abbas Razavi)
+  Vit 30 (Göran Adamsson) – svart 5 (Henrik Strömbäck)
+  Vit 13 (WFM Susanna Berg) – svart 47 (Lars-Ivar Juntti)
+  Vit 26 (Dick Viklund) – svart 40 (Friedemann Stumpf)
+  Vit 33 (Christer Johansson) – svart 49 (Arne Jansson)
+  Vit 46 (Miroljub Zivic) – svart 9 (CM Mikael Helin)
+  Vit 4 (Bo E Eriksson) – svart 43 (Valeri Ivanyuhin)
+  Vit 41 (Mikael Lundberg) – svart 10 (Lennart B. Johansson)
+  Vit 48 (Helge Bergström) – svart 17 (Ove Hartzell)
+  Vit 22 (Hans Weström) – svart 50 (Jovan Nikander)
+Frirond: ingen.
+Lottning att kopiera:
+[[31,7],[12,45],[51,11],[6,24],[25,14],[15,32],[21,42],[44,52],[53,1],[8,27],[28,16],[35,18],[19,34],[37,20],[23,38],[39,29],[54,3],[2,36],[30,5],[13,47],[26,40],[33,49],[46,9],[4,43],[41,10],[48,17],[22,50]]
