@@ -9,6 +9,12 @@ efter vit respektive svart spelares namn i bordslistan. Spelarna matchas med ID.
 W.O. får ingen poäng. Upprepade klick uppdaterar poängen utan dubbletter.
 Ändringen visas bara i din webbläsare. Kör bokmärket igen efter omladdning eller rondbyte.
 
+Samma bokmärke lägger till **FIDE-ID** efter namnet i ställningslistan, även när
+ingen bordslista visas. Id hämtas från spelarens resultatsida och länkar till
+FIDE-profilen. Under hämtningen visas `…`; spelare utan FIDE-id får en tom cell.
+Misslyckade hämtningar visas med `?` och kan försökas igen genom ett nytt klick.
+Upprepade klick ger inga dubbla kolumner och återanvänder redan hämtade id.
+
 ## Alfabetisk namnlista med bord och färg
 
 Lägg innehållet i `names-bookmarklet.txt` i ett separat bokmärkes URL.
