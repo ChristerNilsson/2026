@@ -40,7 +40,7 @@
           return [prefix, get(index)].filter(Boolean).join(' ');
         };
         return {
-          board,
+          board: `${group}${board}`,
           white: name(whiteIndex),
           whiteElo: get(whiteEloIndex).match(/^\d+/)?.[0] || '',
           result: get(resultIndex) || '-',
@@ -58,13 +58,19 @@
       white: Math.max(3, ...entries.map(game => game.white.length)),
       whiteElo: Math.max(3, ...entries.map(game => game.whiteElo.length)),
       result: Math.max(8, ...entries.map(game => game.result.length)),
-      blackElo: Math.max(3, ...entries.map(game => game.blackElo.length))
+      blackElo: Math.max(3, ...entries.map(game => game.blackElo.length)),
+      black: Math.max(5, ...entries.map(game => game.black.length))
     };
-    const line = (board, white, whiteElo, result, blackElo, black) =>
-      `${board.padEnd(widths.board)} ${white.padEnd(widths.white)} ${whiteElo.padStart(widths.whiteElo)} ${result.padStart(widths.result)} ${blackElo.padStart(widths.blackElo)} ${black}`.trimEnd();
+    const center = (value, width) => {
+      const space = Math.max(0, width - value.length);
+      const left = Math.floor(space / 2);
+      return ' '.repeat(left) + value + ' '.repeat(space - left);
+    };
+    const line = (board, white, whiteElo, result, blackElo, black, round = '') =>
+      `${center(board, widths.board)} ${white.padEnd(widths.white)} ${whiteElo.padStart(widths.whiteElo)} ${center(result, widths.result)} ${blackElo.padStart(widths.blackElo)} ${black.padEnd(widths.black)}${round ? `  ${round}` : ''}`.trimEnd();
     return [tournament, ...(group ? [`Grupp ${group}`] : []), ...data.flatMap(round => [
-      '', `Rond ${round.number}`,
-      line('Bord', 'Vit', 'Elo', 'Resultat', 'Elo', 'Svart'),
+      '',
+      line('Bord', 'Vit', 'Elo', 'Resultat', 'Elo', 'Svart', `Rond ${round.number}`),
       ...round.games.map(game => line(game.board, game.white, game.whiteElo, game.result, game.blackElo, game.black))
     ])].join('\r\n') + '\r\n';
   };
