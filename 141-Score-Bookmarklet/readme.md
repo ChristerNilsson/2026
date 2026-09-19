@@ -43,6 +43,15 @@ bokstavssuffix tas bort, exempelvis blir `1881S` till `1881`. Det är sidans
 visade rating som exporteras; RANKING kan avse snabb- eller annan rating.
 Spelare utan rating får ett tomt Elo-fält. W.O. tas inte med.
 
+## Berger table för alla ronder
+
+Lägg innehållet i `berger-table-bookmarklet.txt` i ett bokmärke och kör det på
+en turneringssida som visar rondlänkar, exempelvis `ShowTournamentServlet?id=19387`.
+`berger-table.js` hämtar varje rond och öppnar en textfil med turnering, grupp
+och en lottningstabell per rond. Kolumnerna är **Bord, Vit, Elo, Resultat, Elo,
+Svart**. Ratingens bokstavssuffix tas bort; ospelade partier visas med `-`.
+Om webbläsaren blockerar den nya fliken laddas textfilen ned i stället.
+
 `.txt`-filerna är små laddare som hämtar respektive JS-fil från GitHub Pages.
 Vid ändringar uppdateras JS-filen; generera inte in hela källkoden i `.txt`-filerna.
 När JS-filen publicerats används ändringen via det befintliga bokmärket.
