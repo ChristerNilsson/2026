@@ -17,6 +17,8 @@ lösning; då visas `–`. **PR*** och **DIFF** visas som heltal. Den tidigare
 **KV.P**-kolumnen tas bort helt. **DIFF**
 innehåller **PR* minus spelarens rating** (positivt värde betyder högre
 predikterad performance än aktuell rating).
+Klicka på **PRED**, **PR*** eller **DIFF** för att sortera numeriskt. Första klicket
+visar högsta värdet överst; nästa klick vänder ordningen. Värden som saknas visas sist.
 
 Vid 100 poängs Elo-skillnad ger Elo-formeln ungefär 0,64 poäng till den högre
 rankade och 0,36 till den lägre. Partier utan känd rating eller lottning lämnas

@@ -88,11 +88,12 @@
     const makeHeading = label => {
       const cell = document.createElement(scoreHeading.tagName.toLowerCase());
       cell.textContent = label;
-      cell.className = scoreHeading.className;
+      cell.className = scoreHeading.className.replace(/\bjs-sort-[\w-]+\b/g, '').trim();
       cell.style.cssText = scoreHeading.style.cssText;
       cell.style.verticalAlign = getComputedStyle(scoreHeading).verticalAlign;
       cell.style.paddingLeft = '0.6em';
       cell.style.paddingRight = '0.6em';
+      cell.style.cursor = 'pointer';
       if (cell.tagName === 'TH') cell.scope = 'col';
       cell.dataset.predictionColumn = '';
       return cell;
@@ -104,8 +105,10 @@
     heading.after(performanceHeading);
     const diffHeading = makeHeading('DIFF');
     performanceHeading.after(diffHeading);
+    const sortValues = new Map();
     for (const player of players.values()) {
       const actual = Number(clean(player.scoreCell).replace(',', '.'));
+      const predictedTotal = actual + player.predicted;
       const makeValueCell = value => {
         const target = document.createElement(player.scoreCell.tagName.toLowerCase());
         target.className = player.scoreCell.className;
@@ -125,7 +128,7 @@
         } else target.textContent = value;
         return target;
       };
-      const cell = makeValueCell(format(actual + player.predicted));
+      const cell = makeValueCell(format(predictedTotal));
       player.scoreCell.after(cell);
       const opponents = [];
       let ratedScore = 0;
@@ -146,6 +149,50 @@
       cell.after(performanceCell);
       const diffCell = makeValueCell(value === null || player.elo === null ? '–' : String(Math.round(value - player.elo)));
       performanceCell.after(diffCell);
+      sortValues.set(player.row, {
+        pred: predictedTotal,
+        performance: value,
+        diff: value === null || player.elo === null ? null : value - player.elo
+      });
+    }
+    let sortedBy = null;
+    let descending = false;
+    for (const [sortHeading, key] of [[heading, 'pred'], [performanceHeading, 'performance'], [diffHeading, 'diff']]) {
+      sortHeading.title = `${sortHeading.textContent}: klicka för att sortera`;
+      sortHeading.addEventListener('click', event => {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        descending = sortedBy === key ? !descending : true;
+        sortedBy = key;
+        for (const candidate of [heading, performanceHeading, diffHeading]) {
+          candidate.removeAttribute('aria-sort');
+        }
+        sortHeading.setAttribute('aria-sort', descending ? 'descending' : 'ascending');
+        const groups = new Map();
+        for (const player of players.values()) {
+          const parent = player.row.parentElement;
+          if (!groups.has(parent)) groups.set(parent, []);
+          groups.get(parent).push(player.row);
+        }
+        for (const parent of groups.keys()) {
+          const rows = Array.from(parent.children).filter(row => sortValues.has(row));
+          const order = new Map(rows.map((row, index) => [row, index]));
+          const sorted = [...rows].sort((a, b) => {
+            const left = sortValues.get(a)?.[key];
+            const right = sortValues.get(b)?.[key];
+            if (left === null || left === undefined) return right === null || right === undefined ? order.get(a) - order.get(b) : 1;
+            if (right === null || right === undefined) return -1;
+            return (descending ? right - left : left - right) || order.get(a) - order.get(b);
+          });
+          const slots = rows.map(row => {
+            const marker = document.createComment('prediction-sort');
+            row.before(marker);
+            return marker;
+          });
+          rows.forEach(row => row.remove());
+          slots.forEach((slot, index) => slot.replaceWith(sorted[index]));
+        }
+      }, true);
     }
   }
   if (!tables) alert('Kunde inte hitta ställningslistan med rondceller.');
