@@ -6,13 +6,13 @@ Lägg innehållet i `prediction-bookmarklet.txt` i ett separat bokmärke och öp
 ställningslistan med spelare i rader och ronder i kolumner (till exempel
 `ShowTournamentServlet?id=19143&listingtype=2`). Bokmärket använder motståndarnumren
 i rondcellerna, beräknar förväntad poäng från spelarnas rating och fyller endast ospelade
-rondceller utan att ta bort motståndarnumren. Dessa värden visas kursivt. En ny kolumn, **PRED POÄNG**, visar
+rondceller utan att ta bort motståndarnumren. Dessa värden visas kursivt. En ny kolumn, **PRED**, visar
 aktuell poäng plus summan av de predikterade rondcellerna.
 Kolumnen **PR*** använder resultatet mot varje motståndare med känd rating,
 inklusive de predikterade resultaten. Ratingtalet löses iterativt ur summan av
 Elo-formelns förväntade poäng mot just dessa motståndare. Frirond och walkover
 utan ratad motståndare räknas inte. Vid noll eller full poäng finns ingen ändlig
-lösning; då visas `–`. Den tidigare **KV.P**-kolumnen visas som **DIFF** och
+lösning; då visas `–`. Den tidigare **KV.P**-kolumnen tas bort. **DIFF**
 innehåller **PR* minus spelarens rating** (positivt värde betyder högre
 predikterad performance än aktuell rating).
 

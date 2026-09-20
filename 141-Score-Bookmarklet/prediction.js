@@ -19,7 +19,7 @@
       if (expected < score) low = mid;
       else high = mid;
     }
-    return Math.round((low + high) / 2);
+    return (low + high) / 2;
   };
 
   // Restore values from an earlier click before calculating from the current page.
@@ -79,37 +79,42 @@
     }
 
     const scoreHeading = Array.from(header.cells).find(cell => clean(cell).toUpperCase() === 'POÄNG');
-    let diffHeading = Array.from(header.cells).find(cell => /^(?:KV\.?P\.?|DIFF)$/.test(clean(cell).toUpperCase()));
+    const oldKvpHeading = Array.from(header.cells).find(cell => /^(?:KV\.?P\.?|DIFF)$/.test(clean(cell).toUpperCase()));
+    if (oldKvpHeading) {
+      for (const player of players.values()) player.scoreCell.nextElementSibling?.remove();
+      oldKvpHeading.remove();
+    }
     const heading = document.createElement('th');
-    heading.textContent = 'PRED POÄNG';
+    heading.textContent = 'PRED';
+    heading.title = 'Predikterad poäng';
     heading.className = 'listheader js-sort-number';
     heading.scope = 'col';
     heading.dataset.predictionColumn = '';
+    heading.style.padding = '0 0.6em';
     scoreHeading.after(heading);
     const performanceHeading = document.createElement('th');
     performanceHeading.textContent = 'PR*';
     performanceHeading.className = 'listheader js-sort-number';
     performanceHeading.scope = 'col';
     performanceHeading.dataset.predictionColumn = '';
+    performanceHeading.style.padding = '0 0.6em';
     heading.after(performanceHeading);
-    if (diffHeading) {
-      diffHeading.textContent = 'DIFF';
-      diffHeading.dataset.predictionDiff = '';
-    } else {
-      diffHeading = document.createElement('th');
-      diffHeading.textContent = 'DIFF';
-      diffHeading.className = 'listheader js-sort-number';
-      diffHeading.scope = 'col';
-      diffHeading.dataset.predictionColumn = '';
-      performanceHeading.after(diffHeading);
-    }
+    const diffHeading = document.createElement('th');
+    diffHeading.textContent = 'DIFF';
+    diffHeading.className = 'listheader js-sort-number';
+    diffHeading.scope = 'col';
+    diffHeading.dataset.predictionColumn = '';
+    diffHeading.style.padding = '0 0.6em';
+    performanceHeading.after(diffHeading);
     for (const player of players.values()) {
       const actual = Number(clean(player.scoreCell).replace(',', '.'));
-      const existingDiffCell = player.scoreCell.nextElementSibling;
       const cell = document.createElement('td');
       cell.className = 'listrighttext';
       cell.dataset.predictionColumn = '';
       cell.style.textAlign = 'right';
+      cell.style.padding = '0 0.6em';
+      cell.style.whiteSpace = 'nowrap';
+      cell.style.fontVariantNumeric = 'tabular-nums';
       cell.textContent = format(actual + player.predicted);
       player.scoreCell.after(cell);
       const opponents = [];
@@ -130,18 +135,21 @@
       performanceCell.className = 'listrighttext';
       performanceCell.dataset.predictionColumn = '';
       performanceCell.style.textAlign = 'right';
-      performanceCell.textContent = value === null ? '–' : String(value);
+      performanceCell.style.padding = '0 0.6em';
+      performanceCell.style.whiteSpace = 'nowrap';
+      performanceCell.style.fontVariantNumeric = 'tabular-nums';
+      performanceCell.textContent = value === null ? '–' : format(value);
       if (value === null) performanceCell.title = 'Ingen ändlig performance rating vid noll eller full poäng.';
       cell.after(performanceCell);
-      const diffCell = diffHeading.dataset.predictionDiff !== undefined && existingDiffCell
-        ? existingDiffCell : document.createElement('td');
+      const diffCell = document.createElement('td');
       diffCell.className = 'listrighttext';
+      diffCell.dataset.predictionColumn = '';
       diffCell.style.textAlign = 'right';
-      diffCell.textContent = value === null || player.elo === null ? '–' : String(value - player.elo);
-      if (!existingDiffCell || diffHeading.dataset.predictionDiff === undefined) {
-        diffCell.dataset.predictionColumn = '';
-        performanceCell.after(diffCell);
-      }
+      diffCell.style.padding = '0 0.6em';
+      diffCell.style.whiteSpace = 'nowrap';
+      diffCell.style.fontVariantNumeric = 'tabular-nums';
+      diffCell.textContent = value === null || player.elo === null ? '–' : format(value - player.elo);
+      performanceCell.after(diffCell);
     }
   }
   if (!tables) alert('Kunde inte hitta ställningslistan med rondceller.');
