@@ -85,38 +85,47 @@
     for (const player of players.values()) {
       while (player.scoreCell.nextElementSibling) player.scoreCell.nextElementSibling.remove();
     }
-    const heading = document.createElement('th');
-    heading.textContent = 'PRED';
+    const makeHeading = label => {
+      const cell = document.createElement(scoreHeading.tagName.toLowerCase());
+      cell.textContent = label;
+      cell.className = scoreHeading.className;
+      cell.style.cssText = scoreHeading.style.cssText;
+      cell.style.verticalAlign = getComputedStyle(scoreHeading).verticalAlign;
+      cell.style.paddingLeft = '0.6em';
+      cell.style.paddingRight = '0.6em';
+      if (cell.tagName === 'TH') cell.scope = 'col';
+      cell.dataset.predictionColumn = '';
+      return cell;
+    };
+    const heading = makeHeading('PRED');
     heading.title = 'Predikterad poäng';
-    heading.className = 'listheader js-sort-number';
-    heading.scope = 'col';
-    heading.dataset.predictionColumn = '';
-    heading.style.padding = '0 0.6em';
     scoreHeading.after(heading);
-    const performanceHeading = document.createElement('th');
-    performanceHeading.textContent = 'PR*';
-    performanceHeading.className = 'listheader js-sort-number';
-    performanceHeading.scope = 'col';
-    performanceHeading.dataset.predictionColumn = '';
-    performanceHeading.style.padding = '0 0.6em';
+    const performanceHeading = makeHeading('PR*');
     heading.after(performanceHeading);
-    const diffHeading = document.createElement('th');
-    diffHeading.textContent = 'DIFF';
-    diffHeading.className = 'listheader js-sort-number';
-    diffHeading.scope = 'col';
-    diffHeading.dataset.predictionColumn = '';
-    diffHeading.style.padding = '0 0.6em';
+    const diffHeading = makeHeading('DIFF');
     performanceHeading.after(diffHeading);
     for (const player of players.values()) {
       const actual = Number(clean(player.scoreCell).replace(',', '.'));
-      const cell = document.createElement('td');
-      cell.className = 'listrighttext';
-      cell.dataset.predictionColumn = '';
-      cell.style.textAlign = 'right';
-      cell.style.padding = '0 0.6em';
-      cell.style.whiteSpace = 'nowrap';
-      cell.style.fontVariantNumeric = 'tabular-nums';
-      cell.textContent = format(actual + player.predicted);
+      const makeValueCell = value => {
+        const target = document.createElement(player.scoreCell.tagName.toLowerCase());
+        target.className = player.scoreCell.className;
+        target.style.cssText = player.scoreCell.style.cssText;
+        target.style.verticalAlign = getComputedStyle(player.scoreCell).verticalAlign;
+        target.style.textAlign = 'right';
+        target.style.paddingLeft = '0.6em';
+        target.style.paddingRight = '0.6em';
+        target.style.whiteSpace = 'nowrap';
+        target.style.fontVariantNumeric = 'tabular-nums';
+        target.dataset.predictionColumn = '';
+        const sourceSpan = player.scoreCell.querySelector(':scope > span');
+        if (sourceSpan) {
+          const span = sourceSpan.cloneNode(false);
+          span.textContent = value;
+          target.append(span);
+        } else target.textContent = value;
+        return target;
+      };
+      const cell = makeValueCell(format(actual + player.predicted));
       player.scoreCell.after(cell);
       const opponents = [];
       let ratedScore = 0;
@@ -132,24 +141,10 @@
         ratedScore += score;
       }
       const value = performance(opponents, ratedScore);
-      const performanceCell = document.createElement('td');
-      performanceCell.className = 'listrighttext';
-      performanceCell.dataset.predictionColumn = '';
-      performanceCell.style.textAlign = 'right';
-      performanceCell.style.padding = '0 0.6em';
-      performanceCell.style.whiteSpace = 'nowrap';
-      performanceCell.style.fontVariantNumeric = 'tabular-nums';
-      performanceCell.textContent = value === null ? '–' : String(Math.round(value));
+      const performanceCell = makeValueCell(value === null ? '–' : String(Math.round(value)));
       if (value === null) performanceCell.title = 'Ingen ändlig performance rating vid noll eller full poäng.';
       cell.after(performanceCell);
-      const diffCell = document.createElement('td');
-      diffCell.className = 'listrighttext';
-      diffCell.dataset.predictionColumn = '';
-      diffCell.style.textAlign = 'right';
-      diffCell.style.padding = '0 0.6em';
-      diffCell.style.whiteSpace = 'nowrap';
-      diffCell.style.fontVariantNumeric = 'tabular-nums';
-      diffCell.textContent = value === null || player.elo === null ? '–' : String(Math.round(value - player.elo));
+      const diffCell = makeValueCell(value === null || player.elo === null ? '–' : String(Math.round(value - player.elo)));
       performanceCell.after(diffCell);
     }
   }
