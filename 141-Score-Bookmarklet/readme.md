@@ -1,5 +1,18 @@
 https://member.schack.se/ShowTournamentServlet?id=19069
 
+## Prediktera ospelade ronder
+
+Lägg innehållet i `prediction-bookmarklet.txt` i ett separat bokmärke och öppna
+ställningslistan med spelare i rader och ronder i kolumner (till exempel
+`ShowTournamentServlet?id=19143&listingtype=2`). Bokmärket hämtar lottningen för
+varje rond, beräknar förväntad poäng från spelarnas Elo och fyller endast ospelade
+rondceller. Dessa värden visas kursivt. En ny kolumn, **PRED POÄNG**, visar
+aktuell poäng plus summan av de predikterade rondcellerna.
+
+Vid 100 poängs Elo-skillnad ger Elo-formeln ungefär 0,64 poäng till den högre
+rankade och 0,36 till den lägre. Partier utan känd Elo eller lottning lämnas
+orörda. Klicka igen för att räkna om; inga extra kolumner läggs till.
+
 ## Visa spelarnas score i bordslistan
 
 Lägg innehållet i bookmarklet.txt i ett bokmärke
