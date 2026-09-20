@@ -79,6 +79,7 @@
     }
 
     const scoreHeading = Array.from(header.cells).find(cell => clean(cell).toUpperCase() === 'POÄNG');
+    let diffHeading = Array.from(header.cells).find(cell => /^(?:KV\.?P\.?|DIFF)$/.test(clean(cell).toUpperCase()));
     const heading = document.createElement('th');
     heading.textContent = 'PRED POÄNG';
     heading.className = 'listheader js-sort-number';
@@ -86,13 +87,25 @@
     heading.dataset.predictionColumn = '';
     scoreHeading.after(heading);
     const performanceHeading = document.createElement('th');
-    performanceHeading.textContent = 'PERFORMANCE';
+    performanceHeading.textContent = 'PR*';
     performanceHeading.className = 'listheader js-sort-number';
     performanceHeading.scope = 'col';
     performanceHeading.dataset.predictionColumn = '';
     heading.after(performanceHeading);
+    if (diffHeading) {
+      diffHeading.textContent = 'DIFF';
+      diffHeading.dataset.predictionDiff = '';
+    } else {
+      diffHeading = document.createElement('th');
+      diffHeading.textContent = 'DIFF';
+      diffHeading.className = 'listheader js-sort-number';
+      diffHeading.scope = 'col';
+      diffHeading.dataset.predictionColumn = '';
+      performanceHeading.after(diffHeading);
+    }
     for (const player of players.values()) {
       const actual = Number(clean(player.scoreCell).replace(',', '.'));
+      const existingDiffCell = player.scoreCell.nextElementSibling;
       const cell = document.createElement('td');
       cell.className = 'listrighttext';
       cell.dataset.predictionColumn = '';
@@ -120,6 +133,15 @@
       performanceCell.textContent = value === null ? '–' : String(value);
       if (value === null) performanceCell.title = 'Ingen ändlig performance rating vid noll eller full poäng.';
       cell.after(performanceCell);
+      const diffCell = diffHeading.dataset.predictionDiff !== undefined && existingDiffCell
+        ? existingDiffCell : document.createElement('td');
+      diffCell.className = 'listrighttext';
+      diffCell.style.textAlign = 'right';
+      diffCell.textContent = value === null || player.elo === null ? '–' : String(value - player.elo);
+      if (!existingDiffCell || diffHeading.dataset.predictionDiff === undefined) {
+        diffCell.dataset.predictionColumn = '';
+        performanceCell.after(diffCell);
+      }
     }
   }
   if (!tables) alert('Kunde inte hitta ställningslistan med rondceller.');
