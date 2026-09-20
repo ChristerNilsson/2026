@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const clean = cell => cell?.textContent.replace(/\s+/g, ' ').trim() || '';
-  const format = score => score.toFixed(2).replace('.', ',');
+  const format = score => score.toFixed(2);
   const formatPrediction = score => score.toFixed(2).replace(/^0/, '');
   const parseScore = value => {
     if (value === '½' || value === '1/2') return 0.5;
@@ -79,10 +79,11 @@
     }
 
     const scoreHeading = Array.from(header.cells).find(cell => clean(cell).toUpperCase() === 'POÄNG');
-    const oldKvpHeading = Array.from(header.cells).find(cell => /^(?:KV\.?P\.?|DIFF)$/.test(clean(cell).toUpperCase()));
-    if (oldKvpHeading) {
-      for (const player of players.values()) player.scoreCell.nextElementSibling?.remove();
-      oldKvpHeading.remove();
+    // The site's KV.P column follows POÄNG. Remove every original trailing
+    // column, including one previously renamed DIFF, before adding ours.
+    while (scoreHeading.nextElementSibling) scoreHeading.nextElementSibling.remove();
+    for (const player of players.values()) {
+      while (player.scoreCell.nextElementSibling) player.scoreCell.nextElementSibling.remove();
     }
     const heading = document.createElement('th');
     heading.textContent = 'PRED';
@@ -138,7 +139,7 @@
       performanceCell.style.padding = '0 0.6em';
       performanceCell.style.whiteSpace = 'nowrap';
       performanceCell.style.fontVariantNumeric = 'tabular-nums';
-      performanceCell.textContent = value === null ? '–' : format(value);
+      performanceCell.textContent = value === null ? '–' : String(Math.round(value));
       if (value === null) performanceCell.title = 'Ingen ändlig performance rating vid noll eller full poäng.';
       cell.after(performanceCell);
       const diffCell = document.createElement('td');
@@ -148,7 +149,7 @@
       diffCell.style.padding = '0 0.6em';
       diffCell.style.whiteSpace = 'nowrap';
       diffCell.style.fontVariantNumeric = 'tabular-nums';
-      diffCell.textContent = value === null || player.elo === null ? '–' : format(value - player.elo);
+      diffCell.textContent = value === null || player.elo === null ? '–' : String(Math.round(value - player.elo));
       performanceCell.after(diffCell);
     }
   }

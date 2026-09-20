@@ -8,11 +8,13 @@ ställningslistan med spelare i rader och ronder i kolumner (till exempel
 i rondcellerna, beräknar förväntad poäng från spelarnas rating och fyller endast ospelade
 rondceller utan att ta bort motståndarnumren. Dessa värden visas kursivt. En ny kolumn, **PRED**, visar
 aktuell poäng plus summan av de predikterade rondcellerna.
+Rondprediktioner och **PRED** visas med decimalpunkt och två decimaler.
 Kolumnen **PR*** använder resultatet mot varje motståndare med känd rating,
 inklusive de predikterade resultaten. Ratingtalet löses iterativt ur summan av
 Elo-formelns förväntade poäng mot just dessa motståndare. Frirond och walkover
 utan ratad motståndare räknas inte. Vid noll eller full poäng finns ingen ändlig
-lösning; då visas `–`. Den tidigare **KV.P**-kolumnen tas bort. **DIFF**
+lösning; då visas `–`. **PR*** och **DIFF** visas som heltal. Den tidigare
+**KV.P**-kolumnen tas bort helt. **DIFF**
 innehåller **PR* minus spelarens rating** (positivt värde betyder högre
 predikterad performance än aktuell rating).
 
