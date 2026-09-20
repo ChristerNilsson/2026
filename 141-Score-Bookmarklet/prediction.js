@@ -2,6 +2,25 @@
   'use strict';
   const clean = cell => cell?.textContent.replace(/\s+/g, ' ').trim() || '';
   const format = score => score.toFixed(2).replace('.', ',');
+  const formatPrediction = score => score.toFixed(2).replace(/^0/, '');
+  const parseScore = value => {
+    if (value === '½' || value === '1/2') return 0.5;
+    if (/^(?:0|1|0[.,]5)$/.test(value)) return Number(value.replace(',', '.'));
+    return null;
+  };
+  const performance = (opponents, score) => {
+    if (!opponents.length || score <= 0 || score >= opponents.length) return null;
+    let low = Math.min(...opponents) - 4000;
+    let high = Math.max(...opponents) + 4000;
+    for (let i = 0; i < 60; i++) {
+      const mid = (low + high) / 2;
+      const expected = opponents.reduce((sum, rating) =>
+        sum + 1 / (1 + 10 ** ((rating - mid) / 400)), 0);
+      if (expected < score) low = mid;
+      else high = mid;
+    }
+    return Math.round((low + high) / 2);
+  };
 
   // Restore values from an earlier click before calculating from the current page.
   document.querySelectorAll('[data-prediction-value], [data-prediction-column]')
@@ -49,7 +68,8 @@
         for (const [target, resultCell, score] of [[player, result, expected], [other, otherResult, 1 - expected]]) {
           const value = document.createElement('span');
           value.dataset.predictionValue = '';
-          value.textContent = format(score);
+          value.dataset.predictionRaw = String(score);
+          value.textContent = formatPrediction(score);
           value.style.fontStyle = 'italic';
           resultCell.append(value);
           target.predicted += score;
@@ -65,6 +85,12 @@
     heading.scope = 'col';
     heading.dataset.predictionColumn = '';
     scoreHeading.after(heading);
+    const performanceHeading = document.createElement('th');
+    performanceHeading.textContent = 'PERFORMANCE';
+    performanceHeading.className = 'listheader js-sort-number';
+    performanceHeading.scope = 'col';
+    performanceHeading.dataset.predictionColumn = '';
+    heading.after(performanceHeading);
     for (const player of players.values()) {
       const actual = Number(clean(player.scoreCell).replace(',', '.'));
       const cell = document.createElement('td');
@@ -73,6 +99,27 @@
       cell.style.textAlign = 'right';
       cell.textContent = format(actual + player.predicted);
       player.scoreCell.after(cell);
+      const opponents = [];
+      let ratedScore = 0;
+      for (const roundCell of player.rounds) {
+        const opponentText = clean(roundCell.querySelector('.CP_White, .CP_Black'));
+        const opponent = /^\d+$/.test(opponentText) ? players.get(Number(opponentText)) : null;
+        const result = roundCell.querySelector('.rfrresult');
+        if (!opponent || opponent.elo === null || !result) continue;
+        const predicted = result.querySelector('[data-prediction-value]');
+        const score = predicted ? Number(predicted.dataset.predictionRaw) : parseScore(clean(result));
+        if (score === null) continue;
+        opponents.push(opponent.elo);
+        ratedScore += score;
+      }
+      const value = performance(opponents, ratedScore);
+      const performanceCell = document.createElement('td');
+      performanceCell.className = 'listrighttext';
+      performanceCell.dataset.predictionColumn = '';
+      performanceCell.style.textAlign = 'right';
+      performanceCell.textContent = value === null ? '–' : String(value);
+      if (value === null) performanceCell.title = 'Ingen ändlig performance rating vid noll eller full poäng.';
+      cell.after(performanceCell);
     }
   }
   if (!tables) alert('Kunde inte hitta ställningslistan med rondceller.');
