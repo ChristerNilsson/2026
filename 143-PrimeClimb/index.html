@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>RPN Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="hero">
+      <div class="eyebrow">ETT SPEL FÖR TVÅ</div>
+      <h1>RPN Game</h1>
+      <p>Klicka på ett av de två nedersta talen för att lägga det på stacken. Räkna med stackens två nedersta värden.</p>
+      <div class="level-picker">Level <span id="level-display">3</span></div>
+      <button id="show-results" class="results-button" type="button" disabled>Visa vägar</button>
+      <div id="target-display" class="target-display" aria-live="polite"></div>
+    </header>
+
+    <div id="player-tabs" class="player-tabs" aria-label="Välj spelare">
+      <button type="button" data-tab="0">Spelare 1</button><button type="button" data-tab="1">Spelare 2</button>
+    </div>
+    <div id="players" class="players"></div>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
