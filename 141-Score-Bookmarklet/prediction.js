@@ -38,26 +38,21 @@
         total: 0 });
     }
 
-    const opponentNumber = cell => {
-      const match = clean(cell).match(/\d+/);
-      return match ? Number(match[0]) : null;
+    const cellParts = cell => {
+      if (!cell) return [];
+      const parts = [];
+      const walker = document.createTreeWalker(cell, NodeFilter.SHOW_TEXT);
+      while (walker.nextNode()) parts.push(...walker.currentNode.textContent.trim().match(/\d+|½|[A-Za-z]+/g) || []);
+      return parts;
     };
-    // Result digits use the cell's normal font; the opponent and colour labels
-    // are printed in smaller text above them.
+    const opponentNumber = cell => Number(cellParts(cell).find(part => /^\d+$/.test(part))) || null;
+    // A round cell begins with two small numbers (opponent and pairing data).
+    // A played result adds a third number, or a half-point/forfeit marker.
     const hasResult = cell => {
       if (!cell) return true;
-      const baseSize = parseFloat(getComputedStyle(cell).fontSize) || 14;
-      const walker = document.createTreeWalker(cell, NodeFilter.SHOW_TEXT);
-      while (walker.nextNode()) {
-        const node = walker.currentNode;
-        const value = node.textContent.trim();
-        if (!value) continue;
-        const parent = node.parentElement;
-        if (parent.closest('sup, sub, small')) continue;
-        const size = parseFloat(getComputedStyle(parent).fontSize) || baseSize;
-        if (size >= baseSize * 0.9 && /(?:^|\b)(?:0|1|½|0[.,]5)(?:w)?(?:$|\b)/i.test(value)) return true;
-      }
-      return false;
+      const parts = cellParts(cell);
+      if (parts.includes('½') || /\b(?:0|1)[.,]5\b|\b(?:0|1)w\b/i.test(clean(cell))) return true;
+      return parts.filter(part => /^\d+$/.test(part)).length > 2;
     };
     for (const { index } of columns) {
       for (const [number, player] of players) {

@@ -12,6 +12,9 @@ aktuell poäng plus summan av de predikterade rondcellerna.
 Vid 100 poängs Elo-skillnad ger Elo-formeln ungefär 0,64 poäng till den högre
 rankade och 0,36 till den lägre. Partier utan känd rating eller lottning lämnas
 orörda. Klicka igen för att räkna om; inga extra kolumner läggs till.
+Om du har sparat en äldre version av bokmärket, byt dess URL till den aktuella
+texten i `prediction-bookmarklet.txt`. Den lägger till ett tidsvärde i skriptadressen
+så att webbläsaren hämtar den publicerade senaste versionen.
 
 ## Visa spelarnas score i bordslistan
 
