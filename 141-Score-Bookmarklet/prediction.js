@@ -1,144 +1,103 @@
 (() => {
   'use strict';
   const clean = cell => cell?.textContent.replace(/\s+/g, ' ').trim() || '';
-  const id = cell => {
-    const action = cell?.getAttribute('onclick') || cell?.querySelector('[onclick]')?.getAttribute('onclick') || '';
-    return action.match(/postshowindtournamentresultform\('\d+'\s*,\s*'(\d+)'\)/i)?.[1]
-      || action.match(/[?&]partid=(\d+)/i)?.[1];
-  };
-  const elo = cell => Number(clean(cell).match(/^\d+/)?.[0]) || null;
-  const format = value => value.toFixed(2).replace('.', ',');
-  const nameKey = cell => clean(cell).replace(/^(?:GM|IM|FM|CM|WGM|WIM|WFM|WCM)\s+/i, '').toLocaleLowerCase('sv');
-  const standings = [];
-  const rounds = new Set();
+  const rating = cell => Number(clean(cell).match(/^\d+/)?.[0]) || null;
+  const format = score => score.toFixed(2).replace('.', ',');
+  const roundNumber = label => /^(?:ROND\s*)?(\d+)$/.exec(label)?.[1];
+
+  // Restore the page before calculating again, so a second click updates the same cells.
+  document.querySelectorAll('[data-prediction-value]').forEach(node => node.remove());
+  document.querySelectorAll('[data-prediction-column]').forEach(node => node.remove());
+  let tables = 0, predictions = 0;
   for (const table of document.querySelectorAll('table')) {
     const header = Array.from(table.rows).find(row => {
       const labels = Array.from(row.cells).map(cell => clean(cell).toUpperCase());
-      return labels.includes('NAMN') && labels.includes('POÄNG') && labels.some(label => /^(?:ROND\s*)?\d+$/.test(label));
+      return labels.includes('NAMN') && labels.includes('POÄNG') && labels.some(label => roundNumber(label));
     });
     if (!header) continue;
-    const labels = Array.from(header.cells).map(cell => clean(cell).toUpperCase());
-    const columns = new Map();
-    labels.forEach((label, index) => {
-      const match = label.match(/^(?:ROND\s*)?(\d+)$/);
-      if (match) { columns.set(Number(match[1]), index); rounds.add(Number(match[1])); }
+    tables++;
+    let position = 0;
+    const headings = Array.from(header.cells).map((cell, index) => {
+      const heading = { label: clean(cell).toUpperCase(), index, position, span: cell.colSpan || 1 };
+      position += heading.span;
+      return heading;
     });
-    const eloIndex = labels.findIndex(label => /^ELO(?:\s|$)/.test(label));
-    standings.push({ table, header, columns, name: labels.indexOf('NAMN'),
-      score: labels.indexOf('POÄNG'), elo: eloIndex < 0 ? labels.findIndex(label => /^RANKING(?:\s|$)/.test(label)) : eloIndex });
-  }
-  if (!standings.length) {
-    alert('Kunde inte hitta en ställningslista med spelare och ronder.');
-    return;
-  }
-  const players = new Map();
-  for (const info of standings) for (const row of info.table.rows) {
-    if (row === info.header) continue;
-    const player = { row, info, elo: info.elo < 0 ? null : elo(row.cells[info.elo]) };
-    const playerId = Array.from(row.cells).map(id).find(Boolean);
-    if (playerId) players.set(`id:${playerId}`, player);
-    const name = nameKey(row.cells[info.name]);
-    if (name) players.set(`name:${name}`, player);
-  }
-  const games = page => {
-    const found = [];
-    for (const table of page.querySelectorAll('table')) {
-      const header = Array.from(table.rows).find(row => {
-        const labels = Array.from(row.cells).map(cell => clean(cell).toUpperCase());
-        return ['BORD', 'VIT', 'SVART', 'RESULTAT'].every(label => labels.includes(label));
-      });
-      if (!header) continue;
-      const labels = Array.from(header.cells).map(cell => clean(cell).toUpperCase());
-      const white = labels.indexOf('VIT'), black = labels.indexOf('SVART');
-      const result = labels.indexOf('RESULTAT'), board = labels.indexOf('BORD');
-      const whiteElo = labels.indexOf('ELO'), blackElo = labels.indexOf('ELO', whiteElo + 1);
-      for (const row of table.rows) {
-        if (row === header || !/^\d+$/.test(clean(row.cells[board]))) continue;
-        const w = id(row.cells[white]), b = id(row.cells[black]);
-        const wn = nameKey(row.cells[white]), bn = nameKey(row.cells[black]);
-        if ((w || wn) && (b || bn)) found.push({ w, b, wn, bn, result: clean(row.cells[result]),
-          we: whiteElo < 0 ? null : elo(row.cells[whiteElo]),
-          be: blackElo < 0 ? null : elo(row.cells[blackElo]) });
+    const nameHeading = headings.find(item => item.label === 'NAMN');
+    const nameIndex = nameHeading.position + nameHeading.span - 1;
+    const scoreHeading = headings.find(item => item.label === 'POÄNG');
+    const scoreIndex = scoreHeading.position;
+    const rankingIndex = headings.find(item => /^(?:RANKING|ELO)(?:\s|$)/.test(item.label))?.position ?? -1;
+    const columns = headings.map(item => ({ round: roundNumber(item.label), index: item.position }))
+      .filter(column => column.round !== undefined);
+    const players = new Map();
+    for (const row of table.rows) {
+      if (row === header) continue;
+      const number = Number(clean(row.cells[nameIndex - 1]));
+      if (!Number.isInteger(number) || number < 1) continue;
+      players.set(number, { row, elo: rankingIndex < 0 ? null : rating(row.cells[rankingIndex]),
+        total: 0 });
+    }
+
+    const opponentNumber = cell => {
+      const match = clean(cell).match(/\d+/);
+      return match ? Number(match[0]) : null;
+    };
+    // Result digits use the cell's normal font; the opponent and colour labels
+    // are printed in smaller text above them.
+    const hasResult = cell => {
+      if (!cell) return true;
+      const baseSize = parseFloat(getComputedStyle(cell).fontSize) || 14;
+      const walker = document.createTreeWalker(cell, NodeFilter.SHOW_TEXT);
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        const value = node.textContent.trim();
+        if (!value) continue;
+        const parent = node.parentElement;
+        if (parent.closest('sup, sub, small')) continue;
+        const size = parseFloat(getComputedStyle(parent).fontSize) || baseSize;
+        if (size >= baseSize * 0.9 && /(?:^|\b)(?:0|1|½|0[.,]5)(?:w)?(?:$|\b)/i.test(value)) return true;
+      }
+      return false;
+    };
+    for (const { index } of columns) {
+      for (const [number, player] of players) {
+        const cell = player.row.cells[index];
+        const otherNumber = opponentNumber(cell);
+        if (!otherNumber || otherNumber <= number || hasResult(cell)) continue;
+        const other = players.get(otherNumber);
+        const otherCell = other?.row.cells[index];
+        if (!otherCell || opponentNumber(otherCell) !== number || hasResult(otherCell)) continue;
+        if (player.elo === null || other.elo === null) continue;
+        const expected = 1 / (1 + 10 ** ((other.elo - player.elo) / 400));
+        for (const [target, value] of [[player, expected], [other, 1 - expected]]) {
+          const span = document.createElement('span');
+          span.dataset.predictionValue = '';
+          span.textContent = format(value);
+          span.style.fontStyle = 'italic';
+          span.style.display = 'inline-block';
+          target.row.cells[index].append(span);
+          target.total += value;
+          predictions++;
+        }
       }
     }
-    return found;
-  };
-  const roundLinks = new Map();
-  for (const element of document.querySelectorAll('[onclick], a[href]')) {
-    const source = `${element.getAttribute('onclick') || ''} ${element.getAttribute('href') || ''}`;
-    const match = source.match(/ShowTournamentServlet\?[^'"\s]*[?&]round=(\d+)/i);
-    if (match) roundLinks.set(Number(match[1]), new URL(match[0], location.href));
+    const heading = document.createElement('th');
+    heading.textContent = 'PRED POÄNG';
+    heading.className = 'listheader js-sort-number';
+    heading.scope = 'col';
+    heading.dataset.predictionColumn = '';
+    header.cells[scoreHeading.index].after(heading);
+    for (const player of players.values()) {
+      const actual = clean(player.row.cells[scoreIndex]);
+      if (!/^\d+(?:[.,]\d+)?$/.test(actual)) continue;
+      const cell = document.createElement('td');
+      cell.className = 'listrighttext';
+      cell.dataset.predictionColumn = '';
+      cell.style.textAlign = 'right';
+      cell.textContent = format(Number(actual.replace(',', '.')) + player.total);
+      player.row.cells[scoreIndex].after(cell);
+    }
   }
-  const base = new URL(location.href);
-  base.searchParams.delete('listingtype');
-  (async () => {
-    const byRound = new Map(), failures = [];
-    await Promise.all(Array.from(rounds).map(async round => {
-      try {
-        const url = new URL(roundLinks.get(round) || base);
-        url.searchParams.delete('listingtype');
-        url.searchParams.set('round', round);
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        byRound.set(round, games(new DOMParser().parseFromString(await response.text(), 'text/html')));
-      } catch { failures.push(round); }
-    }));
-    document.querySelectorAll('[data-prediction]').forEach(cell => {
-      cell.textContent = cell.dataset.predictionOriginal;
-      cell.style.fontStyle = cell.dataset.predictionStyle;
-      delete cell.dataset.prediction;
-      delete cell.dataset.predictionOriginal;
-      delete cell.dataset.predictionStyle;
-    });
-    document.querySelectorAll('[data-prediction-column]').forEach(cell => cell.remove());
-    const totals = new Map();
-    let count = 0;
-    for (const [round, items] of byRound) for (const game of items) {
-      if (game.result && !/^[-–—?]$/.test(game.result)) continue;
-      const whitePlayer = players.get(`id:${game.w}`) || players.get(`name:${game.wn}`);
-      const blackPlayer = players.get(`id:${game.b}`) || players.get(`name:${game.bn}`);
-      const we = whitePlayer?.elo ?? game.we;
-      const be = blackPlayer?.elo ?? game.be;
-      if (we === null || be === null) continue;
-      const white = 1 / (1 + 10 ** ((be - we) / 400));
-      for (const [player, score] of [[whitePlayer, white], [blackPlayer, 1 - white]]) {
-        const index = player?.info.columns.get(round);
-        const cell = index === undefined ? null : player.row.cells[index];
-        if (!cell || !/^(?:|[-–—?])$/.test(clean(cell))) continue;
-        cell.dataset.predictionOriginal = cell.textContent;
-        cell.dataset.predictionStyle = cell.style.fontStyle;
-        cell.dataset.prediction = '';
-        cell.textContent = format(score);
-        cell.style.fontStyle = 'italic';
-        totals.set(player, (totals.get(player) || 0) + score);
-        count++;
-      }
-    }
-    for (const info of standings) {
-      const heading = document.createElement('th');
-      heading.textContent = 'PRED POÄNG';
-      heading.className = 'listheader js-sort-number';
-      heading.scope = 'col';
-      heading.dataset.predictionColumn = '';
-      info.header.cells[info.score].after(heading);
-      for (const row of info.table.rows) {
-        if (row === info.header) continue;
-        const playerId = Array.from(row.cells).map(id).find(Boolean);
-        const player = players.get(`id:${playerId}`) || players.get(`name:${nameKey(row.cells[info.name])}`);
-        const actual = clean(row.cells[info.score]);
-        if (!player || !/^\d+(?:[.,]\d+)?$/.test(actual)) continue;
-        const cell = document.createElement('td');
-        cell.className = 'listrighttext';
-        cell.dataset.predictionColumn = '';
-        cell.style.textAlign = 'right';
-        cell.textContent = format(Number(actual.replace(',', '.')) + (totals.get(player) || 0));
-        row.cells[info.score].after(cell);
-      }
-    }
-    if (!count) {
-      const foundGames = Array.from(byRound.values()).reduce((sum, items) => sum + items.length, 0);
-      alert(`Inga prediktioner kunde placeras. Spelarträffar: ${players.size}, hämtade ronder: ${byRound.size}, partier: ${foundGames}.`);
-    }
-    if (failures.length) alert(`Kunde inte hämta rond ${failures.join(', ')}. Predikterad poäng kan vara ofullständig.`);
-  })();
+  if (!tables) alert('Kunde inte hitta ställningslistan med spelare och ronder.');
+  else if (!predictions) alert('Inga ospelade rondceller med ömsesidiga motståndarnummer och känd rating hittades.');
 })();
