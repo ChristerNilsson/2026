@@ -94,5 +94,14 @@
     }
   }
   if (!tables) alert('Kunde inte hitta ställningslistan med spelare och ronder.');
-  else if (!predictions) alert('Inga ospelade rondceller med ömsesidiga motståndarnummer och känd rating hittades.');
+  else if (!predictions) {
+    const table = Array.from(document.querySelectorAll('table')).find(item =>
+      Array.from(item.rows).some(row => Array.from(row.cells).some(cell => clean(cell).toUpperCase() === 'POÄNG')));
+    const rows = Array.from(table?.rows || []);
+    const abbas = rows.find(row => Array.from(row.cells).some(cell => /Abbas Razavi/i.test(clean(cell))));
+    const lars = rows.find(row => Array.from(row.cells).some(cell => /Lars A W Anderson/i.test(clean(cell))));
+    const details = [abbas, lars].filter(Boolean).map(row =>
+      Array.from(row.cells).map((cell, index) => `${index}: ${cell.outerHTML.slice(0, 280)}`).join('\n')).join('\n---\n');
+    prompt('Inga prediktioner placerades. Kopiera diagnostiken och skicka den hit:', details.slice(0, 3500));
+  }
 })();
