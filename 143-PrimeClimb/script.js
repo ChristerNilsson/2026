@@ -248,9 +248,10 @@ function render() {
       : finished(player) ? 'success' : player.surrendered ? 'failure' : '';
     return `<section class="player ${player.color} ${outcomeClass} ${playerIndex === activePlayerIndex ? 'active' : ''}" aria-label="${player.name}">
       <div class="play-area">
+        <div class="utility-column">${utilityButtons}</div>
         <div class="queue-column"><div class="queue-list" aria-label="Kommande tal, uppifrån och ner">${queueRows}</div></div>
         <div class="rpn-side"><div class="stack-values">${stackItems}</div></div>
-        <div class="control-grid">${utilityButtons}${numberButtons}${operatorButtons}</div>
+        <div class="control-grid">${numberButtons}${operatorButtons}</div>
       </div>
       ${status ? `<div class="player-bottom"><span class="message ${outcomeClass}" aria-live="polite">${status}</span></div>` : ''}
     </section>`;
