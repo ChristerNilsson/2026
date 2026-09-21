@@ -6,12 +6,12 @@
   <title>Vägar – Prime Climb</title>
   <style>
     *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Arial,sans-serif;background:#eaf0ed;color:#17283a}main{max-width:1000px;margin:auto;padding:28px 18px}header{text-align:center;margin-bottom:18px}h1{font-size:clamp(27px,5vw,42px);margin:0 0 7px}header p{margin:0;color:#607282}a{display:inline-block;margin-top:12px;color:#1d705f;font-weight:700}.columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.column{background:#fff;border:1px solid #dbe7e3;border-radius:16px;padding:16px;min-height:300px}.column.best{background:#f5faf7;border-color:#b8dccc}.column h2{font-size:18px;text-align:center;margin:0 0 4px}.column .meta{text-align:center;color:#78908c;font-size:13px;margin:0 0 12px}.steps{display:flex;flex-direction:column;align-items:center;gap:5px}.step{width:min(100%,160px);padding:8px;border:1px solid #dce8e2;border-radius:7px;background:#f8faf9;color:#365e58;font-size:20px;font-weight:700;text-align:center}.best .step{background:#fff}.empty{text-align:center;color:#9caab0;font-size:13px}@media(max-width:600px){main{padding:14px 7px}.columns{gap:5px}.column{padding:8px;min-height:200px}.column h2{font-size:13px}.step{font-size:16px;padding:6px}}
-    html{-webkit-text-size-adjust:100%}a{display:inline-flex;align-items:center;min-height:44px;touch-action:manipulation}main{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
+    html{-webkit-text-size-adjust:100%}a{display:inline-flex;align-items:center;min-height:44px;touch-action:manipulation}main{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}.column.success{border:3px solid #2f9d69;background:#f0faf5}.column.failure{border:3px solid #d65353;background:#fff5f5}.column.success h2,.column.success .meta{color:#18794e}.column.failure h2,.column.failure .meta{color:#b4232f}
   </style>
 </head>
 <body>
   <main>
-    <header><h1>Valda vägar</h1><p id="summary"></p><a id="next-game" href="index.html">Nytt spel</a></header>
+    <header><h1>Valda vägar</h1><p id="summary"></p><a id="next-game" href="index.html">Nytt spel · Enter</a></header>
     <div id="columns" class="columns"></div>
   </main>
   <script>
@@ -26,8 +26,7 @@
       const formatTime = seconds => `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
       const completed = report.players.filter(player => player.completed);
       const bestTime = completed.length ? Math.min(...completed.map(player => player.totalSeconds)) : null;
-      const winners = completed.filter(player => player.totalSeconds === bestTime).map(player => player.name);
-      summary.textContent = `Level ${report.level} · ${report.target}${winners.length ? ` · Snabbast: ${winners.join(' och ')}` : ''}`;
+      summary.textContent = `Level ${report.level}`;
       const valuesFromTokens = tokens => {
         const stack = [];
         return tokens.map(token => {
@@ -52,13 +51,13 @@
         return `${player.completed ? '' : 'Avbrutet · '}${formatTime(elapsed)} + 10×${player.presses} = ${formatTime(total)}`;
       };
       const entries = [
-        { title: report.players[0].name, meta: playerMeta(report.players[0]), tokens: report.players[0].tokens },
-        { title: 'Bästa lösningen', meta: `${report.level} drag`, tokens: report.solution, best: true },
-        { title: report.players[1].name, meta: playerMeta(report.players[1]), tokens: report.players[1].tokens }
+        { title: report.players[0].name, meta: playerMeta(report.players[0]), tokens: report.players[0].tokens, outcome: report.players[0].completed && report.players[0].totalSeconds === bestTime ? 'success' : 'failure' },
+        { title: 'Bästa lösningen', meta: `${report.solution.length} knapptryckningar`, tokens: report.solution, best: true },
+        { title: report.players[1].name, meta: playerMeta(report.players[1]), tokens: report.players[1].tokens, outcome: report.players[1].completed && report.players[1].totalSeconds === bestTime ? 'success' : 'failure' }
       ];
       for (const entry of entries) {
         const section = document.createElement('section');
-        section.className = `column${entry.best ? ' best' : ''}`;
+        section.className = `column${entry.best ? ' best' : ''}${entry.outcome ? ` ${entry.outcome}` : ''}`;
         const heading = document.createElement('h2'); heading.textContent = entry.title;
         const meta = document.createElement('p'); meta.className = 'meta'; meta.textContent = entry.meta;
         const steps = document.createElement('div'); steps.className = 'steps';
@@ -70,6 +69,11 @@
         section.append(heading, meta, steps); columns.append(section);
       }
     }
+    document.addEventListener('keydown', event => {
+      if (event.code !== 'Enter' || event.repeat || event.ctrlKey || event.altKey || event.metaKey) return;
+      event.preventDefault();
+      location.href = document.querySelector('#next-game').href;
+    });
   </script>
 </body>
 </html>
