@@ -9,12 +9,13 @@
 <body>
   <main class="app">
     <header class="hero">
-      <div class="eyebrow">ETT SPEL FÖR TVÅ</div>
-      <h1>RPN Game</h1>
+      <div class="title-row">
+        <h1>RPN Game</h1>
+        <div class="level-picker">Level <span id="level-display">1</span></div>
+        <div class="target-label">Target <span id="target-display"></span></div>
+      </div>
       <p>Klicka på ett av de två nedersta talen för att lägga det på stacken. Räkna med stackens två nedersta värden.</p>
-      <div class="level-picker">Level <span id="level-display">1</span></div>
       <button id="show-results" class="results-button" type="button" disabled>Visa vägar · Enter</button>
-      <div id="target-display" class="target-display" aria-live="polite"></div>
     </header>
 
     <div id="player-tabs" class="player-tabs" aria-label="Välj spelare">

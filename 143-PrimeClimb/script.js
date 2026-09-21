@@ -1,4 +1,6 @@
 const VISIBLE_COUNT = 10;
+const MAX_LEVEL = 5;
+const MAX_TARGET = 100n;
 const playersElement = document.querySelector('#players');
 const levelDisplay = document.querySelector('#level-display');
 const targetDisplay = document.querySelector('#target-display');
@@ -87,20 +89,24 @@ function randomPuzzle() {
   const queue = Array.from({ length: VISIBLE_COUNT }, (_, index) => index);
   const firstIndex = Math.random() < 0.5 ? 8 : 9;
   let score = BigInt(sequence[queue[firstIndex]]);
+  const intermediateValues = [score];
   const tokens = [String(sequence[queue[firstIndex]])];
   replaceChosenNumber(queue, firstIndex, VISIBLE_COUNT);
   for (let step = 0; step < level; step++) {
     const choices = [];
     for (const index of [8, 9]) for (const operation of ['+', '−', '×', '÷']) {
       const next = result(score, sequence[queue[index]], operation);
-      if (next !== null && next !== score) choices.push({ index, operation, next });
+      if (next !== null && next > 0n && next <= MAX_TARGET && next !== score) choices.push({ index, operation, next });
     }
     const chosen = choices[Math.floor(Math.random() * choices.length)];
     if (!chosen) return null;
     tokens.push(String(sequence[queue[chosen.index]]), chosen.operation);
     score = chosen.next;
+    intermediateValues.push(score);
     replaceChosenNumber(queue, chosen.index, VISIBLE_COUNT + step + 1);
   }
+  if (score <= 10n || score > MAX_TARGET) return null;
+  if (intermediateValues.some(value => value > score)) return null;
   if (hasShorterRpnSolution(sequence, score)) return null;
   return { sequence, target: score, tokens };
 }
@@ -131,11 +137,17 @@ function createPlayer(name, color) {
     tokens: [], history: [], operationsUsed: 0, entersUsed: 0, presses: 0, finishedSeconds: null, finishedElapsedSeconds: null, surrendered: false, surrenderedElapsedSeconds: null };
 }
 function newGame() {
-  level = Math.min(51, Math.max(1, Math.trunc(Number(level)) || 1));
+  level = Math.min(MAX_LEVEL, Math.max(1, Math.trunc(Number(level)) || 1));
   levelDisplay.textContent = String(level);
+  const generationStartedAt = performance.now();
   let puzzle = null;
-  if (level <= 5) for (let attempt = 0; attempt < 40 && !puzzle; attempt++) puzzle = randomPuzzle();
-  puzzle ??= guaranteedPuzzle();
+  for (let attempt = 0; attempt < 2000 && !puzzle; attempt++) puzzle = randomPuzzle();
+  if (!puzzle) {
+    level = Math.max(1, level - 1);
+    levelDisplay.textContent = String(level);
+    while (!puzzle) puzzle = randomPuzzle();
+  }
+  console.log(`Problemgenerator: Level ${level}, betänketid ${(performance.now() - generationStartedAt).toFixed(1)} ms`);
   numberSequence = puzzle.sequence;
   target = puzzle.target;
   solutionTokens = puzzle.tokens;
@@ -150,7 +162,7 @@ function finished(player) { return player.finishedSeconds !== null; }
 function roundFinished() { return players.every(player => player.surrendered || finished(player)); }
 function nextLevel() {
   const optimal = players.some(player => finished(player) && player.operationsUsed === level);
-  return optimal ? Math.min(51, level + 1) : Math.max(1, level - 1);
+  return optimal ? Math.min(MAX_LEVEL, level + 1) : Math.max(1, level - 1);
 }
 function saveState(player) {
   player.history.push({ stack: [...player.stack], queue: [...player.queue], tokens: [...player.tokens], operationsUsed: player.operationsUsed, entersUsed: player.entersUsed });
@@ -315,7 +327,7 @@ function openResults() {
     solution: solutionTokens
   };
   const url = `results.html#${encodeURIComponent(JSON.stringify(report))}`;
-  window.open(url, '_blank');
+  window.location.href = url;
 }
 showResultsButton.addEventListener('click', openResults);
 playerTabs.addEventListener('click', event => {
@@ -324,6 +336,9 @@ playerTabs.addEventListener('click', event => {
   activePlayerIndex = Number(button.dataset.tab);
   render();
 });
-const levelMatch = (window.location?.search || '').match(/[?&]level=(\d+)/);
-if (levelMatch) level = Number(levelMatch[1]);
+try {
+  const storedLevel = sessionStorage.getItem('rpn-next-level');
+  sessionStorage.removeItem('rpn-next-level');
+  if (storedLevel !== null) level = Number(storedLevel);
+} catch {}
 newGame();
