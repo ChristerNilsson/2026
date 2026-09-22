@@ -14,7 +14,8 @@ Ett lokalt webbläsarspel för två spelare. Båda får samma följd av slumpade
 2. Klicka på ett av de två valbara talen under kön. Talet läggs längst ner i den synliga stacken. Just den valda platsen ersätts av köns nedersta tal, medan det andra valbara talet ligger kvar. Ett nytt tal fyller på kön uppifrån.
 3. När stacken innehåller minst två värden kan du trycka på `+`, `−`, `×` eller `÷`. Knappen använder de två nedersta värdena. För `−` och `÷` är det äldre av de två talen vänster operand: `6 9 −` ger `−3`.
 4. Division går bara att använda när resultatet blir ett heltal.
-5. Målet är nått när stacken innehåller enbart måltalet. Du kan ångra hela vägen tillbaka till en tom stack eller avsluta ditt försök med **Ge upp**.
+5. Stacken kan innehålla högst åtta värden. När den är full måste du räkna eller ångra innan du kan välja ett nytt tal.
+6. Målet är nått när stacken innehåller enbart måltalet. Du kan ångra hela vägen tillbaka till en tom stack eller avsluta ditt försök med **Ge upp**.
 
 **Level** är antalet räkneoperationer i den kortaste lösningen. Talklick räknas inte in i Level. Om någon når målet med Level räkneoperationer ökar nästa nivå med ett; annars sjunker den med ett när båda försöken är avslutade. En direktstart börjar på Level 1.
 
@@ -24,7 +25,7 @@ Målet ligger mellan 11 och 100. Den bästa lösningen går aldrig tillfälligt 
 
 Varje talklick och räkneknapp ger ett tillägg på 10 sekunder. Totaltiden är förfluten tid plus dessa tillägg. **Ångra** ger inget nytt tillägg, men tidigare knapptryck räknas fortfarande. Tiden stannar för en spelare när målet nås. Den spelare som når målet med lägst totaltid vinner.
 
-När båda spelarna har nått målet eller avslutat sina försök blir **Visa vägar** tillgänglig. Den öppnar en separat resultatsida med spelarnas drag i vänster och höger kolumn och en bästa lösning i mitten. Räkneknappar visas där som sina resultat: `6 9 ×` visas som `6`, `9`, `54` på tre rader. Tidsberäkningen visas också där. **Nytt spel** på resultatsidan startar den beräknade nästa nivån utan att lägga nivån i URL:en.
+När båda spelarna har nått målet eller avslutat sina försök blir **Visa vägar** tillgänglig. Resultatsidan visar tre rader: vänster spelarens uttryck vänsterjusterat, den bästa lösningen centrerad och höger spelarens uttryck högerjusterat. En RPN-väg visas som ett vanligt matematiskt uttryck, exempelvis `(6 + 2) * 10 + 2 - 1 = 81`. Tidsberäkningen visas också där. **Nytt spel** på resultatsidan startar den beräknade nästa nivån utan att lägga nivån i URL:en.
 
 Efter avslutad omgång kan `Enter` användas för **Visa vägar**. På resultatsidan startar `Enter` ett nytt spel.
 

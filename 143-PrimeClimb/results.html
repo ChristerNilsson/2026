@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Vägar – Prime Climb</title>
   <style>
-    *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Arial,sans-serif;background:#eaf0ed;color:#17283a}main{max-width:1000px;margin:auto;padding:28px 18px}header{text-align:center;margin-bottom:18px}h1{font-size:clamp(27px,5vw,42px);margin:0 0 7px}header p{margin:0;color:#607282}a{display:inline-block;margin-top:12px;color:#1d705f;font-weight:700}.columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.column{background:#fff;border:1px solid #dbe7e3;border-radius:16px;padding:16px;min-height:300px}.column.best{background:#f5faf7;border-color:#b8dccc}.column h2{font-size:18px;text-align:center;margin:0 0 4px}.column .meta{text-align:center;color:#78908c;font-size:13px;margin:0 0 12px}.steps{display:flex;flex-direction:column;align-items:center;gap:5px}.step{width:min(100%,160px);padding:8px;border:1px solid #dce8e2;border-radius:7px;background:#f8faf9;color:#365e58;font-size:20px;font-weight:700;text-align:center}.best .step{background:#fff}.empty{text-align:center;color:#9caab0;font-size:13px}@media(max-width:600px){main{padding:14px 7px}.columns{gap:5px}.column{padding:8px;min-height:200px}.column h2{font-size:13px}.step{font-size:16px;padding:6px}}
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Arial,sans-serif;background:#eaf0ed;color:#17283a}main{max-width:1000px;margin:auto;padding:28px 18px}header{text-align:center;margin-bottom:18px}h1{font-size:clamp(27px,5vw,42px);margin:0 0 7px}header p{margin:0;color:#607282}a{display:inline-block;margin-top:12px;color:#1d705f;font-weight:700}.columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.column{background:#fff;border:1px solid #dbe7e3;border-radius:16px;padding:16px;min-height:300px}.column.best{background:#f5faf7;border-color:#b8dccc}.column h2{font-size:18px;text-align:center;margin:0 0 4px}.column .meta{text-align:center;color:#78908c;font-size:13px;margin:0 0 12px}.steps{display:flex;flex-direction:column;align-items:center;gap:5px}.step{width:min(100%,160px);padding:8px;border:1px solid #dce8e2;border-radius:7px;background:#f8faf9;color:#365e58;font-size:20px;font-weight:700;text-align:center}.best .step{background:#fff}.expression{width:100%;padding:14px 10px;border:1px solid #dce8e2;border-radius:9px;background:#f8faf9;color:#365e58;font-size:clamp(17px,2.2vw,24px);font-weight:700;line-height:1.35;text-align:center;overflow-wrap:anywhere}.best .expression{background:#fff}.empty{text-align:center;color:#9caab0;font-size:13px}@media(max-width:600px){main{padding:14px 7px}.columns{gap:5px}.column{padding:8px;min-height:200px}.column h2{font-size:13px}.step{font-size:16px;padding:6px}.expression{padding:9px 5px;font-size:15px}}
     html{-webkit-text-size-adjust:100%}main{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}#next-game{position:fixed;top:max(12px,env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left));z-index:2;min-height:44px;padding:9px 15px;border:1px solid #b8d2c6;border-radius:10px;background:#fff;color:#1d705f;font:700 15px Arial,sans-serif;cursor:pointer;touch-action:manipulation}.column.success{border:3px solid #2f9d69;background:#f0faf5}.column.failure{border:3px solid #d65353;background:#fff5f5}.column.success h2,.column.success .meta{color:#18794e}.column.failure h2,.column.failure .meta{color:#b4232f}
+    .columns{display:flex;flex-direction:column;align-items:stretch;gap:14px}.column{width:min(82%,760px);min-height:0}.column:nth-child(1){align-self:flex-start;text-align:left}.column:nth-child(2){align-self:center;text-align:center}.column:nth-child(3){align-self:flex-end;text-align:right}.column h2,.column .meta,.column .expression{text-align:inherit}.steps{align-items:stretch}@media(max-width:600px){.column{width:94%}}
   </style>
 </head>
 <body>
@@ -29,23 +30,32 @@
       const completed = report.players.filter(player => player.completed);
       const bestTime = completed.length ? Math.min(...completed.map(player => player.totalSeconds)) : null;
       summary.textContent = `Level ${report.level}`;
-      const valuesFromTokens = tokens => {
+      const expressionFromTokens = tokens => {
         const stack = [];
-        return tokens.map(token => {
+        for (const token of tokens) {
           if (/^\d+$/.test(token)) {
-            stack.push(BigInt(token));
-            return token;
+            stack.push({ text: token, value: BigInt(token), precedence: 3 });
+            continue;
           }
           const right = stack.pop();
           const left = stack.pop();
+          if (!left || !right) return '';
+          const precedence = token === '+' || token === '−' ? 1 : 2;
+          const leftText = left.precedence < precedence ? `(${left.text})` : left.text;
+          const rightNeedsParentheses = right.precedence < precedence ||
+            ((token === '−' || token === '÷') && right.precedence === precedence);
+          const rightText = rightNeedsParentheses ? `(${right.text})` : right.text;
           let value;
-          if (token === '+') value = left + right;
-          else if (token === '−') value = left - right;
-          else if (token === '×') value = left * right;
-          else if (token === '÷') value = left / right;
-          stack.push(value);
-          return String(value);
-        });
+          if (token === '+') value = left.value + right.value;
+          else if (token === '−') value = left.value - right.value;
+          else if (token === '×') value = left.value * right.value;
+          else if (token === '÷') value = left.value / right.value;
+          else return '';
+          const symbol = token === '×' ? '*' : token === '÷' ? '/' : token;
+          stack.push({ text: `${leftText} ${symbol} ${rightText}`, value, precedence });
+        }
+        if (stack.length === 1) return `${stack[0].text} = ${stack[0].value}`;
+        return stack.map(item => item.text).join('  |  ');
       };
       const playerMeta = player => {
         const elapsed = player.elapsedSeconds ?? 0;
@@ -63,11 +73,11 @@
         const heading = document.createElement('h2'); heading.textContent = entry.title;
         const meta = document.createElement('p'); meta.className = 'meta'; meta.textContent = entry.meta;
         const steps = document.createElement('div'); steps.className = 'steps';
-        for (const value of valuesFromTokens(entry.tokens)) {
-          const step = document.createElement('div'); step.className = 'step'; step.textContent = value;
-          steps.append(step);
-        }
-        if (!entry.tokens.length) { const empty = document.createElement('p'); empty.className = 'empty'; empty.textContent = 'Inga drag'; steps.append(empty); }
+        const expression = expressionFromTokens(entry.tokens);
+        if (expression) {
+          const result = document.createElement('div'); result.className = 'expression'; result.textContent = expression;
+          steps.append(result);
+        } else { const empty = document.createElement('p'); empty.className = 'empty'; empty.textContent = 'Inga drag'; steps.append(empty); }
         section.append(heading, meta, steps); columns.append(section);
       }
     }

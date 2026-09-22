@@ -1,4 +1,5 @@
 const VISIBLE_COUNT = 10;
+const MAX_STACK_SIZE = 8;
 const MAX_LEVEL = 5;
 const MAX_TARGET = 100n;
 const playersElement = document.querySelector('#players');
@@ -175,7 +176,7 @@ function checkGoal(player) {
 }
 function enter(playerIndex, queueIndex) {
   const player = players[playerIndex];
-  if (roundFinished() || player.surrendered || finished(player) || ![8, 9].includes(queueIndex)) return;
+  if (roundFinished() || player.surrendered || finished(player) || player.stack.length >= MAX_STACK_SIZE || ![8, 9].includes(queueIndex)) return;
   saveState(player);
   player.tokens.push(String(player.queue[queueIndex]));
   player.stack.push(BigInt(player.queue[queueIndex]));
@@ -240,7 +241,7 @@ function render() {
       <kbd>${playerIndex === 0 ? 'R' : 'O'}</kbd>
     </div>`;
     const numberButtons = [8, 9].map((queueIndex, index) => `<div class="control-cell">
-      <button class="control-button number-control" type="button" data-enter="${playerIndex}" data-index="${queueIndex}" aria-label="Lägg ${player.queue[queueIndex]} på stacken" ${inactive ? 'disabled' : ''}>${player.queue[queueIndex]}</button>
+      <button class="control-button number-control" type="button" data-enter="${playerIndex}" data-index="${queueIndex}" aria-label="Lägg ${player.queue[queueIndex]} på stacken" ${inactive || player.stack.length >= MAX_STACK_SIZE ? 'disabled' : ''}>${player.queue[queueIndex]}</button>
       <kbd>${controls.numberLabels[index]}</kbd>
     </div>`).join('');
     const operatorButtons = ['+', '−', '×', '÷'].map((operation, index) => {
