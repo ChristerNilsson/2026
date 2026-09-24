@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schackprotokoll · A5</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="toolbar">
+    <div><span class="eyebrow">FÖR BRÄDET OCH PENNAN</span><h1>Schackprotokoll <span>A5</span></h1>
+    <p>Ett ark. Två sidor. 120 drag.</p></div>
+    <button id="print" type="button">Skriv ut protokollet</button>
+  </header>
+  <main>
+    <aside class="settings">
+      <h2>Gör protokollet ditt</h2>
+      <p>Lämna fälten tomma om du vill fylla i dem för hand.</p>
+      <form id="details">
+        <label>Rubrik / arrangör<input name="heading" value="Schackprotokoll" maxlength="55"></label>
+        <label>Tävling / match<input name="event" maxlength="70"></label>
+        <div class="pair"><label>Datum<input name="date" type="date"></label><label>Rond<input name="round" maxlength="12"></label></div>
+        <div class="pair"><label>Bord<input name="board" maxlength="12"></label><label>Klass / grupp<input name="group" maxlength="25"></label></div>
+        <label>Betänketid<input name="time" maxlength="65"></label>
+        <label>Vit<input name="white" maxlength="45"></label>
+        <div class="pair"><label>Klubb<input name="whiteClub" maxlength="35"></label><label>Elo<input name="whiteElo" maxlength="5"></label></div>
+        <label>Svart<input name="black" maxlength="45"></label>
+        <div class="pair"><label>Klubb<input name="blackClub" maxlength="35"></label><label>Elo<input name="blackElo" maxlength="5"></label></div>
+      </form>
+      <label class="image-label">Liten bild / logotyp<input id="logo" type="file" accept="image/png,image/jpeg,image/webp"></label>
+      <button id="remove-logo" class="secondary" type="button" hidden>Ta bort bilden</button>
+      <p id="image-status" role="status">Bilden är valfri. Uppgifterna och bilden stannar i den här fliken.</p>
+      <section class="print-help"><h2>Så skriver du ut</h2><ol>
+        <li>Lägg A5-papper i skrivaren.</li>
+        <li>Välj <strong>A5, stående, 100 %</strong> och en sida per ark.</li>
+        <li>Välj <strong>dubbelsidigt, vänd längs långsidan</strong>.</li>
+        <li>Stäng av webbläsarens sidhuvud och sidfot.</li>
+      </ol><p>Utan automatisk dubbelsidig utskrift: skriv ut sida 1, lägg tillbaka arket och skriv ut sida 2. Testa först hur din skrivare vänder papperet.</p></section>
+    </aside>
+    <section class="preview" aria-label="Förhandsvisning av protokollets två sidor">
+      <p class="preview-note">FÖRHANDSVISNING <span>A5 · 148 × 210 mm</span></p>
+      <div id="pages"></div>
+    </section>
+  </main>
+</body>
+</html>
