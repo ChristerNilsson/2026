@@ -1,5 +1,7 @@
 # Schackprotokoll på A5
 
+[Try it!](https://christernilsson.github.io/2026/144-A5-protocol/)
+
 Öppna `index.html` i en webbläsare. Ingen installation eller internetanslutning behövs.
 
 Programmet skapar två A5-sidor med 60 numrerade drag vardera: 1–60 på framsidan och 61–120 på baksidan. Varje drag har en ruta för vit och en för svart. Rutorna är cirka 18 mm breda och 6,4 mm höga. Det fyraradiga formuläret med matchuppgifter finns bara på framsidan.
