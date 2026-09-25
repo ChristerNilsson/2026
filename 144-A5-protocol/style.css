@@ -49,8 +49,10 @@ ol { padding-left: 18px; } li { margin: 8px 0; line-height: 1.5; }
 .field.small { flex: .6; }
 .field-label { font-size: 6pt; display: block; line-height: 1.1; }
 .field-value { font-size: 8pt; display: block; line-height: 1.2; min-height: 3mm; white-space: nowrap; }
-.moves { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2mm; }
+.moves { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
 table { border-collapse: collapse; width: 100%; table-layout: fixed; border: .3mm solid #222; font-size: 9pt; }
+/* Let the next table supply the shared edge; hidden also suppresses cell borders. */
+.moves > table:not(:last-child) { border-right-style: hidden; }
 col.number { width: 6mm; }
 th, td { border: .2mm solid #777; padding: 0; }
 thead tr { height: 5mm; }
