@@ -14,7 +14,7 @@ for (let side = 0; side < 2; side++) {
   sheet.className = 'sheet';
   sheet.setAttribute('aria-label', side === 0 ? 'Framsida, drag 1–60' : 'Baksida, drag 61–120');
   sheet.innerHTML = `
-    <header class="sheet-header"><div>${side === 0 ? '<h2 class="sheet-title" data-value="heading"></h2>' : ''}</div><img class="sheet-logo" alt="Arrangörens logotyp" hidden></header>
+    <header class="sheet-header"><div>${side === 0 ? '<h2 class="sheet-title" data-value="heading"></h2>' : ''}</div><img class="sheet-logo" src="seniorschackstockholm.svg" alt="Arrangörens logotyp"></header>
     ${side === 0 ? `<div class="metadata">${fields.map(row => `<div class="field-row">${row.map(([label, key, size]) => `<div class="field ${size}"><span class="field-label">${label}</span><span class="field-value" data-value="${key}"></span></div>`).join('')}</div>`).join('')}<div class="score-box score-top">Poäng</div><div class="score-box score-bottom">Poäng</div></div>` : ''}
     <div class="moves">${Array.from({ length: 3 }, (_, column) => {
       const first = side * 60 + column * 20 + 1;
@@ -39,7 +39,7 @@ function updateDetails() {
   const values = new FormData(form);
   document.querySelectorAll('[data-value]').forEach(element => {
     const key = element.dataset.value;
-    element.textContent = values.get(key) || (key === 'heading' ? 'Schackprotokoll' : '');
+    element.textContent = values.get(key) || (key === 'heading' ? form.elements.heading.defaultValue : '');
   });
 }
 form.addEventListener('input', updateDetails);
@@ -56,8 +56,9 @@ logoInput.addEventListener('change', async () => {
   const version = ++uploadVersion;
   const file = logoInput.files[0];
   if (!file) return;
-  if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
-    status.textContent = 'Välj en bild i PNG-, JPEG- eller WebP-format.';
+  if (!['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml'].includes(file.type) &&
+      !(file.type === '' && /\.svg$/i.test(file.name))) {
+    status.textContent = 'Välj en bild i PNG-, JPEG-, WebP- eller SVG-format.';
     logoInput.value = '';
     return;
   }
