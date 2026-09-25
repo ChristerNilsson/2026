@@ -28,9 +28,9 @@ ol { padding-left: 18px; } li { margin: 8px 0; line-height: 1.5; }
 /* Mirror the extra 5 mm for hole punching when printing duplex. */
 .sheet:nth-child(odd) { padding-left: 13mm; }
 .sheet:nth-child(even) { padding-right: 13mm; }
-.sheet-header { display: flex; align-items: center; justify-content: space-between; height: 11mm; gap: 4mm; margin-bottom: 2mm; }
+.sheet-header { display: flex; align-items: center; justify-content: space-between; height: 15.1mm; gap: 4mm; margin-bottom: 2mm; }
 .sheet-title { margin: 0; font-size: 14pt; line-height: 1.1; overflow-wrap: anywhere; }
-.sheet-logo { max-width: 32mm; max-height: 11mm; object-fit: contain; }
+.sheet-logo { max-width: 45mm; max-height: 15.1mm; object-fit: contain; }
 .metadata { display: grid; grid-template-columns: minmax(0, 1fr) 12mm; grid-template-rows: repeat(4, auto); border: .25mm solid #222; margin-bottom: 2.5mm; }
 .field-row { grid-column: 1; display: flex; min-height: 7mm; }
 .field-row:nth-child(-n+2) { grid-column: 1 / -1; }
