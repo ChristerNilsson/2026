@@ -80,6 +80,19 @@ Svart**, med rondnummer efter Svart och gruppbokstav före varje bordsnummer.
 Bord och Resultat centreras. Ratingens bokstavssuffix tas bort; ospelade partier visas med `-`.
 Om webbläsaren blockerar den nya fliken laddas textfilen ned i stället.
 
+## Byt logga på namnbrickorna
+
+Skapa ett bokmärke med namnet **logga** och klistra in innehållet i
+`logga-bookmarklet.txt` som bokmärkets URL. Öppna exempelvis
+https://member.schack.se/PrintNameCards?id=19069 och klicka på bokmärket före utskrift.
+Alla bilder med Sveriges Schackförbunds textlogga ersätts med
+`seniorschackstockholm.svg`. Sidans placering, storleksregler och vändning av
+loggorna behålls. Ändringen gäller bara den öppna sidan; kör bokmärket igen
+efter omladdning. Källkoden finns i `logga.js`.
+
+`logga.js` och SVG-filen måste vara publicerade på projektets GitHub Pages
+för att bokmärket ska fungera.
+
 `.txt`-filerna är små laddare som hämtar respektive JS-fil från GitHub Pages.
 Vid ändringar uppdateras JS-filen; generera inte in hela källkoden i `.txt`-filerna.
 När JS-filen publicerats används ändringen via det befintliga bokmärket.

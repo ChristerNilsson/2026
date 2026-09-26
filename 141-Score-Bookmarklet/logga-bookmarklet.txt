@@ -1,0 +1,1 @@
+javascript:(()=>{const s=document.createElement('script');s.src='https://christernilsson.github.io/2026/141-Score-Bookmarklet/logga.js?v='+Date.now();s.onerror=()=>alert('Kunde inte hämta logga.js.');document.head.appendChild(s)})()
