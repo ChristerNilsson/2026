@@ -30,7 +30,7 @@ for (let side = 0; side < 2; side++) {
           }).join('')}
           ${Array.from({ length: 8 }, (_, index) => `<text x="3" y="${7 + index * 10}" text-anchor="middle">${8 - index}</text><text x="${12 + index * 10}" y="86" text-anchor="middle">${'abcdefgh'[index]}</text>`).join('')}
         </svg>
-        <div class="note-lines" aria-label="Sju anteckningslinjer">${'<div class="note-line"></div>'.repeat(7)}</div>
+        <div class="note-lines" aria-label="Sju anteckningslinjer">${'<div class="note-line"></div>'.repeat(6)}<div class="note-line note-line-signed"><span class="tiny-signature">nosslinretsirhc</span></div></div>
       </section>`}`;
   pages.append(sheet);
 }
