@@ -57,6 +57,8 @@ col.number { width: 6mm; }
 th, td { border: .2mm solid #777; padding: 0; }
 thead tr { height: 5mm; }
 thead th { font-size: 7pt; font-weight: 600; }
+.piece-circle { display: inline-block; width: 1.75mm; height: 1.75mm; border: .175mm solid #000; border-radius: 50%; vertical-align: middle; }
+.piece-circle-black { background: #000; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
 tbody tr { height: 6.4mm; }
 tbody th { font-size: 7pt; font-weight: 400; color: #333; text-align: center; }
 tbody tr:nth-child(5n) > * { border-bottom: .3mm solid #222; }

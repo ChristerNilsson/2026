@@ -18,7 +18,7 @@ for (let side = 0; side < 2; side++) {
     ${side === 0 ? `<div class="metadata">${fields.map(row => `<div class="field-row">${row.map(([label, key, size]) => `<div class="field ${size}"><span class="field-label">${label}</span><span class="field-value" data-value="${key}"></span></div>`).join('')}</div>`).join('')}<div class="score-box score-top">Poäng</div><div class="score-box score-bottom">Poäng</div></div>` : ''}
     <div class="moves">${Array.from({ length: 3 }, (_, column) => {
       const first = side * 60 + column * 20 + 1;
-      return `<table aria-label="Drag ${first}–${first + 19}"><colgroup><col class="number"><col><col></colgroup><thead><tr><th scope="col" aria-label="Dragnummer"></th><th scope="col">VIT</th><th scope="col">SVART</th></tr></thead><tbody>${Array.from({ length: 20 }, (_, row) => `<tr><th scope="row">${first + row}</th><td></td><td></td></tr>`).join('')}</tbody></table>`;
+      return `<table aria-label="Drag ${first}–${first + 19}"><colgroup><col class="number"><col><col></colgroup><thead><tr><th scope="col" aria-label="Dragnummer"></th><th scope="col" aria-label="Vit"><span class="piece-circle" aria-hidden="true"></span></th><th scope="col" aria-label="Svart"><span class="piece-circle piece-circle-black" aria-hidden="true"></span></th></tr></thead><tbody>${Array.from({ length: 20 }, (_, row) => `<tr><th scope="row">${first + row}</th><td></td><td></td></tr>`).join('')}</tbody></table>`;
     }).join('')}</div>
     ${side === 0 ? '<div class="result-row"><span>Vits underskrift:</span><span>Svarts underskrift:</span></div>' : `
       <section class="end-notes" aria-label="Schackdiagram och anteckningar">
