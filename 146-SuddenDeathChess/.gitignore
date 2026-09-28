@@ -1,0 +1,6 @@
+__pycache__/
+.venv/
+*.pyc
+.asset-tools/
+logg.pgn
+.pgn-*.tmp
