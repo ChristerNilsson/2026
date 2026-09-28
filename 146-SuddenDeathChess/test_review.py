@@ -96,7 +96,7 @@ class ReviewTests(unittest.TestCase):
         self.assertEqual(self.app.history.set("1", "white_best"), "d4")
         self.assertEqual(self.app.history.set("1", "white_eval"), "-25 cp")
         self.assertEqual(self.app.history.set("1", "black"), "e5")
-        self.assertEqual(self.app.history.set("1", "black_best"), "—")
+        self.assertEqual(self.app.history.set("1", "black_best"), "")
         board.push(black_move)
         self.app.update_history(board, chess.Move.from_uci("g1f3"))
         self.assertEqual(self.app.history.get_children(), ("1", "2"))
@@ -108,6 +108,25 @@ class ReviewTests(unittest.TestCase):
         self.app.reveal_answer()
         self.assertEqual(self.app.history.set("1", "white_best"), before.san(best))
         self.assertEqual(self.app.history.set("1", "white_best_eval"), "+30 cp")
+
+    def test_custom_game_time_is_locked_and_used_by_both_clocks_and_engine(self):
+        self.app.minutes.set("3,5")
+        self.app.increment.set("2")
+        self.app.submit = Mock()
+        self.app.start()
+        self.app.minutes.set("15")
+        self.app.increment.set("10")
+        for clock in self.app.clocks.values():
+            self.assertEqual(clock.value(), 210)
+            clock.stop(increment=True)
+            self.assertEqual(clock.value(), 212)
+        self.app.human = chess.BLACK
+        self.app.engine = Mock()
+        self.app.next_turn()
+        self.app.submit.call_args.args[0]()
+        limit = self.app.engine.play.call_args.args[1]
+        self.assertEqual(limit.white_inc, 2)
+        self.assertEqual(limit.black_inc, 2)
 
     def test_engine_time_setting_is_locked_and_passed_with_clocks(self):
         for value, expected in (("2,5", 2.5), ("  ", None)):

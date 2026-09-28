@@ -1,7 +1,7 @@
 # Sudden Death Chess
 
 Schack mot Stockfish med svenskt fönstergränssnitt, två förlustgränser och
-betänketiden **15 minuter + 10 sekunder per utfört drag**, för båda spelarna.
+valbar betänketid för båda spelarna. Standard är **15 minuter + 10 sekunder per utfört drag**.
 
 ## Starta
 
@@ -16,6 +16,11 @@ python main.py
 Stockfishs sökväg är hårdkodad till
 `C:\Program Files\stockfish\stockfish-windows-x86-64-avx2.exe`.
 Placera den körbara filen där. Ange gränserna, välj färg och tryck **Starta parti**.
+Standardvalet **Slumpa** lottar din färg på nytt vid varje partistart.
+Ange **Betänketid (min)** och **Tillägg per drag (s)** före start, exempelvis
+5 och 3 för 5+3. Starttiden kan anges med decimaler (t.ex. 0,5 för 30 sekunder)
+och tillägget som ett heltal från 0. Valet låses för det pågående partiet
+och används av båda klockorna, Stockfish och PGN-loggen.
 Klicka på en pjäs och sedan målrutan. Vid promovering väljer du D/T/L/S.
 Stockfishs senaste drag markeras med gulgröna start- och målrutor.
 Markeringen försvinner när du har gjort ditt drag; din valda pjäs
@@ -39,9 +44,9 @@ Se [bildkällor och licens](assets/pieces/cburnett/README.md).
   De två analyserna kan tillsammans ta upp till tio sekunder.
   Klockorna pausas under kontrollanalysen.
 - **Max s/drag (tomt = auto)** anger datorns maximala betänketid per drag
-  och låses när partiet startar. Standardvärdet är 5 sekunder. Lämna fältet
+  och låses när partiet startar. Standardvärdet är 1 sekund. Lämna fältet
   tomt för att låta Stockfish disponera tiden själv utifrån klockorna och
-  tillägget 15+10. Decimaltal går bra, exempelvis `2,5`.
+  det valda tillägget. Decimaltal går bra, exempelvis `2,5`.
   Kontrollanalyser och övningsanalyser har fortfarande högst fem sekunder
   per analys. Valet sparas i PGN-taggen `EngineMaxMoveTime`.
 - Schackmatt och automatiska remier avslutar partiet före gränskontrollen.
@@ -77,18 +82,18 @@ avslutas. Tidigare partier behålls utan att kontrollsparningar skapar kopior.
 analysen är klar finns draget kvar med kommentaren `Analysis pending.`.
 Eventuella skrivfel visas längst ner i fönstret.
 
-Draglistan är en tabell med en rad per dragnummer och kolumnerna **Nr, Vit,
-Vits bästa, Svart, Svarts bästa**, följt av fyra värderingskolumner för
-de utförda dragen och deras bästa alternativ. Värderingarna visas ur ditt
-perspektiv för båda färgerna, i cp eller mattavstånd (`#`). Ett streck betyder
-att det utförda draget redan var Stockfishs bästa. Kolumnbredderna kan ändras
+Draglistan är en tabell med en rad per dragnummer. Efter **Nr** kommer alla
+vita kolumner (drag, värdering, bästa drag, bästa värdering), sedan motsvarande
+svarta kolumner. Värderingarna visas ur ditt
+perspektiv för båda färgerna, i cp eller mattavstånd (`#`). Alternativkolumnerna
+är tomma när det utförda draget redan var Stockfishs bästa. Kolumnbredderna kan ändras
 genom att dra i rubrikernas kanter.
 Om Stockfish föredrar ett annat drag visas även det och dess värdering.
 Vid gränsförlust är svaret dolt i gränssnittet tills du visar det i övningen;
 PGN-filen innehåller det direkt. Övningsförsök ändrar inte det loggade partiet.
 
 PGN innehåller datum, spelarfärger, resultat, avslutsorsak, `TimeControl`
-(`900+10`), gränser och klockkommentarer (`[%clk ...]`). Värderingar sparas
+(t.ex. `900+10` för 15+10), gränser och klockkommentarer (`[%clk ...]`). Värderingar sparas
 med `[%eval ...]` **ur vits perspektiv**, i bondeenheter eller mattavstånd.
 Ett avvikande bästa drag sparas både i kommentaren och som spelbar sidovariant
 med egen värdering. Gränsförluster har `Termination "adjudication"`.

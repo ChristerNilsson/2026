@@ -17,7 +17,7 @@ def set_evaluation(node, info):
 
 
 class GameLog:
-    def __init__(self, path, human, absolute, relative):
+    def __init__(self, path, human, absolute, relative, initial_seconds=900, increment_seconds=10):
         self.path = Path(path)
         self.game = chess.pgn.Game()
         self.game.headers.update({
@@ -25,7 +25,7 @@ class GameLog:
             "Date": datetime.now().strftime("%Y.%m.%d"),
             "White": "Human" if human else "Stockfish",
             "Black": "Stockfish" if human else "Human",
-            "TimeControl": "900+10", "GameId": uuid.uuid4().hex,
+            "TimeControl": f"{initial_seconds:g}+{increment_seconds:g}", "GameId": uuid.uuid4().hex,
             "AbsoluteLimitCP": str(absolute), "RelativeLimitCP": str(relative),
         })
         self.node = self.game

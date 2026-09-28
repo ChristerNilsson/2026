@@ -70,6 +70,12 @@ class GameLogTests(unittest.TestCase):
         self.assertEqual(games[1].headers["Result"], "*")
         self.assertIn("Analysis pending", games[1].end().comment)
 
+    def test_custom_time_control(self):
+        log = GameLog(self.path, chess.WHITE, 300, 100, 210, 2)
+        log.save()
+        game, = self.read_games()
+        self.assertEqual(game.headers["TimeControl"], "210+2")
+
     def test_checkmate_keeps_mate_not_centipawn_surrogate(self):
         log = GameLog(self.path, chess.WHITE, 300, 100)
         board = chess.Board()

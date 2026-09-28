@@ -15,6 +15,7 @@ def loss_reason(best: int, played: int, absolute: int, relative: int) -> str | N
 class Clock:
     remaining: float = 900.0
     started: float | None = None
+    increment_seconds: float = 10.0
 
     def start(self):
         self.started = time.monotonic()
@@ -26,4 +27,4 @@ class Clock:
         self.remaining = max(0.0, self.value())
         self.started = None
         if increment and self.remaining > 0:
-            self.remaining += 10
+            self.remaining += self.increment_seconds

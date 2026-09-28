@@ -1,6 +1,7 @@
 """Run with python main.py. Stockfish is installed separately."""
 import os
 import math
+import random
 import queue
 import sys
 import threading
@@ -55,9 +56,13 @@ class App:
         self.clocks = {c: Clock() for c in chess.COLORS}
         self.absolute = tk.StringVar(value="300")
         self.relative = tk.StringVar(value="100")
-        self.max_time = tk.StringVar(value="5")
-        self.engine_time_limit = 5.0
-        self.color = tk.StringVar(value="Vit")
+        self.max_time = tk.StringVar(value="1")
+        self.engine_time_limit = 1.0
+        self.minutes = tk.StringVar(value="15")
+        self.increment = tk.StringVar(value="10")
+        self.initial_seconds = 900
+        self.increment_seconds = 10
+        self.color = tk.StringVar(value="Slumpa")
         self.status = tk.StringVar(value="Ange inställningarna och tryck på Starta parti.")
         self.clock_text = tk.StringVar()
         panel = ttk.Frame(root, padding=12)
@@ -68,11 +73,11 @@ class App:
         panel.columnconfigure(5, weight=1)
         history_panel.columnconfigure(0, weight=1)
         history_panel.rowconfigure(0, weight=1)
-        columns = ("nr", "white", "white_best", "black", "black_best",
-                   "white_eval", "white_best_eval", "black_eval", "black_best_eval")
+        columns = ("nr", "white", "white_eval", "white_best", "white_best_eval",
+                   "black", "black_eval", "black_best", "black_best_eval")
         self.history = ttk.Treeview(history_panel, columns=columns, show="headings", height=26)
-        headings = ("Nr", "Vit", "Vits bästa", "Svart", "Svarts bästa",
-                    "Värd. vit", "Värd. vit bäst", "Värd. svart", "Värd. svart bäst")
+        headings = ("Nr", "Vit", "Värd. vit", "Vits bästa", "Värd. vit bäst",
+                    "Svart", "Värd. svart", "Svarts bästa", "Värd. svart bäst")
         for column, heading in zip(columns, headings):
             self.history.heading(column, text=heading)
             self.history.column(column, width=40 if column == "nr" else 85, minwidth=40, anchor="center")
@@ -91,7 +96,7 @@ class App:
         ttk.Entry(panel, textvariable=self.absolute, width=8).grid(row=1, column=1)
         ttk.Label(panel, text="Relativ gräns (cp):").grid(row=1, column=2)
         ttk.Entry(panel, textvariable=self.relative, width=8).grid(row=1, column=3)
-        ttk.Combobox(panel, textvariable=self.color, values=["Vit", "Svart"], state="readonly", width=8).grid(row=1, column=4)
+        ttk.Combobox(panel, textvariable=self.color, values=["Slumpa", "Vit", "Svart"], state="readonly", width=8).grid(row=1, column=4)
         self.start_button = ttk.Button(panel, text="Starta parti", command=self.start)
         self.start_button.grid(row=2, column=0, pady=8)
         ttk.Button(panel, text="Ge upp", command=self.resign).grid(row=2, column=1)
@@ -110,6 +115,17 @@ class App:
         ttk.Label(panel, textvariable=self.review_text, wraplength=560).grid(row=7, column=0, columnspan=5, sticky="w")
         self.reveal_button = ttk.Button(panel, text="Visa Stockfishs svar", command=self.reveal_answer, state="disabled")
         self.reveal_button.grid(row=8, column=0, columnspan=3, pady=6)
+        # Make room for game clock settings above the start controls.
+        for widget in panel.grid_slaves():
+            row = int(widget.grid_info()["row"])
+            if row >= 2:
+                widget.grid_configure(row=row + 1)
+        game_time = ttk.Frame(panel)
+        game_time.grid(row=2, column=0, columnspan=5, sticky="w", pady=4)
+        ttk.Label(game_time, text="Betänketid (min):").pack(side="left")
+        ttk.Entry(game_time, textvariable=self.minutes, width=6).pack(side="left", padx=6)
+        ttk.Label(game_time, text="Tillägg per drag (s):").pack(side="left")
+        ttk.Entry(game_time, textvariable=self.increment, width=6).pack(side="left", padx=6)
         root.protocol("WM_DELETE_WINDOW", self.close)
         self.draw()
         self.poll()
@@ -143,6 +159,19 @@ class App:
         except ValueError:
             messagebox.showerror("Ogiltig betänketid", "Ange minst 0,001 sekunder eller lämna fältet tomt för automatisk tidsfördelning.")
             return
+        try:
+            minutes = float(self.minutes.get().strip().replace(",", "."))
+            increment = int(self.increment.get().strip())
+            if not math.isfinite(minutes) or minutes <= 0 or increment < 0:
+                raise ValueError
+            initial_seconds = round(minutes * 60)
+            if initial_seconds < 1:
+                raise ValueError
+        except (ValueError, OverflowError):
+            messagebox.showerror("Ogiltig betänketid", "Ange minst en sekunds starttid i minuter och ett heltal från 0 för tillägget.")
+            return
+        self.initial_seconds = initial_seconds
+        self.increment_seconds = increment
         self.generation += 1
         self.engine_time_limit = time_limit
         self.review = None
@@ -150,10 +179,10 @@ class App:
         for row in self.history.get_children():
             self.history.delete(row)
         self.reveal_button.configure(state="disabled")
-        self.human = self.color.get() == "Vit"
+        self.human = random.choice(chess.COLORS) if self.color.get() == "Slumpa" else self.color.get() == "Vit"
         self.board.reset()
         self.selected = None
-        self.clocks = {c: Clock() for c in chess.COLORS}
+        self.clocks = {c: Clock(remaining=self.initial_seconds, increment_seconds=self.increment_seconds) for c in chess.COLORS}
         self.start_button.configure(state="disabled")
         self.status.set("Startar Stockfish…")
         self.draw()
@@ -165,7 +194,8 @@ class App:
             return chess.engine.SimpleEngine.popen_uci(STOCKFISH_PATH)
         def ready(engine):
             self.engine = engine
-            self.game_log = GameLog(LOG_PATH, self.human, self.abs_limit, self.rel_limit)
+            self.game_log = GameLog(LOG_PATH, self.human, self.abs_limit, self.rel_limit,
+                                    self.initial_seconds, self.increment_seconds)
             self.game_log.game.headers["EngineMaxMoveTime"] = (
                 str(self.engine_time_limit) if self.engine_time_limit is not None else "auto")
             self.save_log()
@@ -188,7 +218,7 @@ class App:
             limit = chess.engine.Limit(time=self.engine_time_limit,
                                        white_clock=max(.001, self.clocks[chess.WHITE].value()),
                                        black_clock=max(.001, self.clocks[chess.BLACK].value()),
-                                       white_inc=10, black_inc=10)
+                                       white_inc=self.increment_seconds, black_inc=self.increment_seconds)
             self.submit(lambda: self.engine.play(position, limit), self.engine_moved)
 
     def engine_moved(self, result):
@@ -311,9 +341,9 @@ class App:
             self.history.set(row, side + "_eval", display(played_info))
             different = best_move != move
             self.history.set(row, side + "_best", "Dolt" if hide_best and different
-                             else before.san(best_move) if different else "—")
+                             else before.san(best_move) if different else "")
             self.history.set(row, side + "_best_eval", "Dolt" if hide_best and different
-                             else display(best_info) if different else "—")
+                             else display(best_info) if different else "")
         self.history.see(row)
 
     def save_log(self):
@@ -422,7 +452,9 @@ class App:
         def formatted(color):
             seconds = max(0, int(self.clocks[color].value()))
             return f"{seconds // 60:02}:{seconds % 60:02}"
-        self.clock_text.set(f"Vit  {formatted(chess.WHITE)}       Svart  {formatted(chess.BLACK)}       15+10")
+        time_control = f"{self.initial_seconds / 60:g}+{self.increment_seconds}"
+        self.clock_text.set(f"Vit  {formatted(chess.WHITE)}       Svart  {formatted(chess.BLACK)}       {time_control}")
+        self.root.title(f"Sudden Death Chess — {time_control}")
         self.root.after(50, self.poll)
 
     def draw(self):
