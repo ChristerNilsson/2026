@@ -91,7 +91,9 @@ analys pågår. Övningen ändrar inte resultatet i det avslutade partiet.
 
 Under dragtabellen visas motståndarens lagliga kandidatdrag från ställningen
 före senaste datordraget, med värderingar ur vits perspektiv och en markering
-av det utförda draget. Det är en separat MultiPV-analys med djup 1 och högst
+av det utförda draget. Kolumnen **Huvudlinje** visar Stockfishs rapporterade
+fortsättning i schacknotation med dragnummer. Vid djup 1 kan den vara ett enda drag.
+Det är en separat MultiPV-analys med djup 1 och högst
 en sekund; listan återger inte de faktiskt besökta noderna. Om ett drag inte
 hinner värderas visas ett streck. Kandidatanalysen ändrar inte statistiken
 för själva datordraget.

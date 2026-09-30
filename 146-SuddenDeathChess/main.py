@@ -107,17 +107,22 @@ class App:
         candidates_panel = ttk.LabelFrame(history_panel, text="Motståndarens kandidatdrag – djup 1", padding=6)
         candidates_panel.grid(row=2, column=0, columnspan=2, sticky="ew", pady=(10, 0))
         candidates_panel.columnconfigure(0, weight=1)
-        self.candidates = ttk.Treeview(candidates_panel, columns=("move", "score", "played"),
+        self.candidates = ttk.Treeview(candidates_panel, columns=("move", "score", "played", "pv"),
                                       show="headings", height=6)
         for column, title in (("move", "Drag"), ("score", "Värde (+ vit)"), ("played", "Utfört")):
             self.candidates.heading(column, text=title)
             self.candidates.column(column, width=100, anchor="center")
+        self.candidates.heading("pv", text="Huvudlinje")
+        self.candidates.column("pv", width=360, minwidth=120, anchor="w")
         self.candidates.grid(row=0, column=0, sticky="ew")
         candidate_scroll = ttk.Scrollbar(candidates_panel, command=self.candidates.yview)
         candidate_scroll.grid(row=0, column=1, sticky="ns")
         self.candidates.configure(yscrollcommand=candidate_scroll.set)
+        candidate_horizontal = ttk.Scrollbar(candidates_panel, orient="horizontal", command=self.candidates.xview)
+        candidate_horizontal.grid(row=1, column=0, sticky="ew")
+        self.candidates.configure(xscrollcommand=candidate_horizontal.set)
         ttk.Label(candidates_panel, text="Separat analys, inte en lista över besökta noder.").grid(
-            row=1, column=0, columnspan=2, sticky="w")
+            row=2, column=0, columnspan=2, sticky="w")
         settings = ttk.LabelFrame(panel, text="Inställningar", padding=12)
         settings.grid(row=0, column=0, rowspan=4, sticky="ns", padx=(0, 12))
 
@@ -423,12 +428,14 @@ class App:
             self.candidates.delete(row)
         scores = {info["pv"][0]: info["score"].white() for info in infos
                   if info.get("pv") and "score" in info}
+        lines = {info["pv"][0]: before.variation_san(info["pv"]) for info in infos if info.get("pv")}
         moves = list(scores) + [move for move in before.legal_moves if move not in scores]
         for move in moves:
             score = scores.get(move)
             value = ("—" if score is None else f"#{score.mate():+d}" if score.is_mate()
                      else f"{score.score():+d}")
-            self.candidates.insert("", "end", values=(before.san(move), value, "✓" if move == played else ""))
+            self.candidates.insert("", "end", values=(before.san(move), value,
+                                                       "✓" if move == played else "", lines.get(move, "")))
 
     def show_analysis_stats(self, best_info, played_info=None):
         infos = [best_info] if played_info is None else [best_info, played_info]
