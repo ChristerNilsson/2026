@@ -15,11 +15,12 @@ import chess.engine
 from rules import loss_reason
 from game_log import GameLog
 from move_table import MoveTable
-from settings import DEFAULTS, load_settings, save_settings
+from settings import DEFAULTS, DEPTH_VALUES, load_settings, save_settings
 
 CELL = 70
 MATE_CP = 100000
-ANALYSIS_TIME_LIMIT = 5.0
+ANALYSIS_TIME_LIMIT = 1.0
+ANALYSIS_DEPTH_LIMIT = 20
 STOCKFISH_PATH = r"C:\Program Files\stockfish\stockfish-windows-x86-64-avx2.exe"
 PIECE_DIRECTORY = Path(__file__).resolve().parent / "assets" / "pieces" / "cburnett"
 LOG_PATH = Path(__file__).resolve().parent / "logg.pgn"
@@ -67,11 +68,15 @@ class App:
         self.engine_time_limit = 1.0
         self.color = tk.StringVar(value="Slumpa")
         self.starting_hearts = tk.StringVar(value="5")
+        self.max_depth = tk.StringVar(value="18")
+        self.engine_depth_limit = 18
         for key, value in load_settings(self.settings_path).items():
             getattr(self, key).set(value)
         self.status = tk.StringVar()
         self.hearts = self.total_hearts = int(self.starting_hearts.get())
         self.heart_text = tk.StringVar(value=" ".join(["♥"] * self.hearts))
+        self.engine_stats = tk.StringVar(value="Senaste datordrag\nSökdjup: —\nNoder: —\nSöktid: —")
+        self.analysis_stats = tk.StringVar(value="Analys: bäst / utfört\nSökdjup: — / —\nNoder: — / —\nSöktid: — / —")
         self.starting_hearts.trace_add("write", lambda *_: self.preview_hearts())
         panel = ttk.Frame(root, padding=12)
         panel.pack(fill="both", expand=True)
@@ -99,6 +104,20 @@ class App:
         history_horizontal = ttk.Scrollbar(history_panel, orient="horizontal", command=self.history.xview)
         history_horizontal.grid(row=1, column=0, sticky="ew")
         self.history.configure(yscrollcommand=history_scroll.set, xscrollcommand=history_horizontal.set)
+        candidates_panel = ttk.LabelFrame(history_panel, text="Motståndarens kandidatdrag – djup 1", padding=6)
+        candidates_panel.grid(row=2, column=0, columnspan=2, sticky="ew", pady=(10, 0))
+        candidates_panel.columnconfigure(0, weight=1)
+        self.candidates = ttk.Treeview(candidates_panel, columns=("move", "score", "played"),
+                                      show="headings", height=6)
+        for column, title in (("move", "Drag"), ("score", "Värde (+ vit)"), ("played", "Utfört")):
+            self.candidates.heading(column, text=title)
+            self.candidates.column(column, width=100, anchor="center")
+        self.candidates.grid(row=0, column=0, sticky="ew")
+        candidate_scroll = ttk.Scrollbar(candidates_panel, command=self.candidates.yview)
+        candidate_scroll.grid(row=0, column=1, sticky="ns")
+        self.candidates.configure(yscrollcommand=candidate_scroll.set)
+        ttk.Label(candidates_panel, text="Separat analys, inte en lista över besökta noder.").grid(
+            row=1, column=0, columnspan=2, sticky="w")
         settings = ttk.LabelFrame(panel, text="Inställningar", padding=12)
         settings.grid(row=0, column=0, rowspan=4, sticky="ns", padx=(0, 12))
 
@@ -122,6 +141,7 @@ class App:
         setting("Relativ gräns", self.relative, "centipawn")
         setting("Färg", self.color, values=("Slumpa", "Vit", "Svart"), readonly=True)
         setting("Hjärtan", self.starting_hearts, values=tuple(str(n) for n in range(1, 8)), readonly=True)
+        setting("Max sökdjup", self.max_depth, values=DEPTH_VALUES, readonly=True)
         setting("Max", self.max_time, "sek/drag",
                 ("0.001", "0.002", "0.005", "0.01", "0.02", "0.05",
                  "0.1", "0.2", "0.5", "1", "2", "5"), readonly=True)
@@ -129,6 +149,10 @@ class App:
         self.start_button.pack(fill="x", pady=(16, 4))
         ttk.Button(settings, text="Ge upp", command=self.resign).pack(fill="x", pady=4)
         ttk.Button(settings, text="Kräv remi", command=self.claim_draw).pack(fill="x", pady=4)
+        stats_panel = ttk.Frame(settings)
+        stats_panel.pack(side="bottom", anchor="w", pady=(20, 0))
+        ttk.Label(stats_panel, textvariable=self.engine_stats, justify="left").pack(anchor="w")
+        ttk.Label(stats_panel, textvariable=self.analysis_stats, justify="left").pack(anchor="w", pady=(12, 0))
 
         clocks = ttk.Frame(panel)
         clocks.grid(row=0, column=1, sticky="ew")
@@ -188,9 +212,17 @@ class App:
         if self.starting_hearts.get() not in tuple(str(n) for n in range(1, 8)):
             messagebox.showerror("Ogiltigt antal hjärtan", "Välj 1–7 hjärtan.")
             return
+        if self.max_depth.get() not in DEPTH_VALUES:
+            messagebox.showerror("Ogiltigt sökdjup", "Välj ett sökdjup i listan.")
+            return
+        self.engine_depth_limit = int(self.max_depth.get())
         self.persist_settings()
         self.generation += 1
         self.engine_time_limit = time_limit
+        self.engine_stats.set("Senaste datordrag\nSökdjup: —\nNoder: —\nSöktid: —")
+        for row in self.candidates.get_children():
+            self.candidates.delete(row)
+        self.analysis_stats.set("Analys: bäst / utfört\nSökdjup: — / —\nNoder: — / —\nSöktid: — / —")
         self.stop_heart_flash()
         self.hearts = self.total_hearts = int(self.starting_hearts.get())
         self.absolute_mistakes = 0
@@ -216,6 +248,7 @@ class App:
             self.engine = engine
             self.game_log = GameLog(LOG_PATH, self.human, self.abs_limit, self.rel_limit, initial_seconds=None)
             self.game_log.game.headers["EngineMaxMoveTime"] = str(self.engine_time_limit)
+            self.game_log.game.headers["EngineMaxDepth"] = str(self.engine_depth_limit)
             self.game_log.game.headers["StartingHearts"] = str(self.total_hearts)
             self.game_log.game.headers["AbsoluteLimitMultipliers"] = ",".join(str(n) for n in range(1, self.total_hearts + 1))
             self.save_log()
@@ -234,12 +267,17 @@ class App:
         else:
             self.status.set("Datorn tänker…")
             position = self.board.copy()
-            limit = chess.engine.Limit(time=self.engine_time_limit)
-            self.submit(lambda: self.engine.play(position, limit), self.engine_moved)
+            limit = chess.engine.Limit(time=self.engine_time_limit, depth=self.engine_depth_limit)
+            self.submit(lambda: self.engine.play(position, limit, info=chess.engine.INFO_BASIC), self.engine_moved)
 
     def engine_moved(self, result):
         if not self.active:
             return
+        info = result.info
+        depth = str(info["depth"]) if "depth" in info else "—"
+        nodes = f"{info['nodes']:,}".replace(",", " ") if "nodes" in info else "—"
+        elapsed = f"{info['time']:.3f}".replace(".", ",") + " sek" if "time" in info else "—"
+        self.engine_stats.set(f"Senaste datordrag\nSökdjup: {depth}\nNoder: {nodes}\nSöktid: {elapsed}")
         if result.move is None or result.move not in self.board.legal_moves:
             self.finish("Stockfish kunde inte leverera ett giltigt drag.")
             return
@@ -303,7 +341,11 @@ class App:
         self.status.set("Analyserar draget och bästa alternativet…")
         after = self.board.copy()
         def evaluate():
-            limit = chess.engine.Limit(depth=18, time=ANALYSIS_TIME_LIMIT)
+            candidates = None
+            if before.turn != self.human:
+                candidates = self.engine.analyse(before, chess.engine.Limit(depth=1, time=1),
+                                                 multipv=before.legal_moves.count())
+            limit = chess.engine.Limit(depth=ANALYSIS_DEPTH_LIMIT, time=ANALYSIS_TIME_LIMIT)
             best = self.engine.analyse(before, limit)
             if after.is_game_over():
                 outcome = after.outcome()
@@ -312,11 +354,14 @@ class App:
             else:
                 played = self.engine.analyse(before, limit, root_moves=[move])
             scores = tuple(info["score"].pov(self.human).score(mate_score=MATE_CP) for info in (best, played))
-            return before, move, best["pv"][0], scores, best, played
+            return before, move, best["pv"][0], scores, best, played, candidates
         self.submit(evaluate, self.evaluated)
 
     def evaluated(self, result):
-        before, move, best_move, (best, played), best_info, played_info = result
+        before, move, best_move, (best, played), best_info, played_info = result[:6]
+        if len(result) > 6 and result[6] is not None:
+            self.show_candidates(before, move, result[6])
+        self.show_analysis_stats(best_info, played_info)
         if self.game_log:
             self.game_log.annotate(best_move, best_info, played_info)
             self.save_log()
@@ -372,6 +417,26 @@ class App:
         self.canvas.create_text(4*CELL, 4*CELL, text="♥", fill="#c62828",
                                 font=("Segoe UI Symbol", 240), tags="heart_flash")
         self.heart_animation = self.root.after(800, self.stop_heart_flash)
+
+    def show_candidates(self, before, played, infos):
+        for row in self.candidates.get_children():
+            self.candidates.delete(row)
+        scores = {info["pv"][0]: info["score"].white() for info in infos
+                  if info.get("pv") and "score" in info}
+        moves = list(scores) + [move for move in before.legal_moves if move not in scores]
+        for move in moves:
+            score = scores.get(move)
+            value = ("—" if score is None else f"#{score.mate():+d}" if score.is_mate()
+                     else f"{score.score():+d}")
+            self.candidates.insert("", "end", values=(before.san(move), value, "✓" if move == played else ""))
+
+    def show_analysis_stats(self, best_info, played_info=None):
+        infos = [best_info] if played_info is None else [best_info, played_info]
+        depths = " / ".join(str(info.get("depth", "—")) for info in infos)
+        nodes = " / ".join(f"{info['nodes']:,}".replace(",", " ") if "nodes" in info else "—" for info in infos)
+        times = " / ".join(f"{info['time']:.3f}".replace(".", ",") + " sek" if "time" in info else "—" for info in infos)
+        title = "Analys: försök" if played_info is None else "Analys: bäst / utfört"
+        self.analysis_stats.set(f"{title}\nSökdjup: {depths}\nNoder: {nodes}\nSöktid: {times}")
 
     def update_history(self, before, move, best_move=None, best_info=None, played_info=None, hide_best=False):
         row = str(before.fullmove_number)
@@ -437,9 +502,11 @@ class App:
         self.review_text.set(f"Analyserar ditt försök {before.san(move)}…")
         self.start_button.configure(state="disabled")
         def evaluate_attempt():
-            info = self.engine.analyse(before, chess.engine.Limit(depth=18, time=ANALYSIS_TIME_LIMIT), root_moves=[move])
-            return info["score"].pov(self.human).score(mate_score=MATE_CP)
-        def attempted(score):
+            info = self.engine.analyse(before, chess.engine.Limit(depth=ANALYSIS_DEPTH_LIMIT, time=ANALYSIS_TIME_LIMIT), root_moves=[move])
+            return info
+        def attempted(info):
+            self.show_analysis_stats(info)
+            score = info["score"].pov(self.human).score(mate_score=MATE_CP)
             improvement = score - review["played"]
             feedback = (f"En förbättring med {improvement} centipawn!" if improvement > 0
                         else "Det förbättrar inte värderingen av ditt ursprungliga drag.")

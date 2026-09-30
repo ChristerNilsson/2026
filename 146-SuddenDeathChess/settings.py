@@ -3,7 +3,8 @@ import json
 import math
 from pathlib import Path
 
-DEFAULTS = dict(absolute="300", relative="100", max_time="1", color="Slumpa", starting_hearts="5")
+DEPTH_VALUES = ("1", "2", "3", "4", "6", "8", "10", "12", "14", "16", "18", "20", "24", "28", "32")
+DEFAULTS = dict(absolute="300", relative="100", max_time="1", color="Slumpa", starting_hearts="5", max_depth="18")
 
 
 def valid(key, value):
@@ -13,6 +14,8 @@ def valid(key, value):
         return value in ("Slumpa", "Vit", "Svart")
     if key == "starting_hearts":
         return value in tuple(str(n) for n in range(1, 8))
+    if key == "max_depth":
+        return value in DEPTH_VALUES
     try:
         number = float(value.replace(",", "."))
         if not math.isfinite(number):

@@ -149,7 +149,7 @@ class ReviewTests(unittest.TestCase):
                 self.assertEqual(limit.time, expected)
                 self.assertIsNone(limit.white_clock)
                 self.assertIsNone(limit.black_clock)
-                self.assertEqual(limit.depth, 18 if expected is None else None)
+                self.assertEqual(limit.depth, 18)
 
     @patch("main.messagebox.showerror")
     def test_invalid_engine_time_does_not_start_game(self, showerror):

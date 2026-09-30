@@ -22,6 +22,10 @@ ett parti eller stänger fönstret, och läses in vid nästa programstart.
 Välj **Hjärtan** mellan 1 och 7; standard är 5. Inställningarna låses under partiet.
 Maximal datortid väljs i en kombobox med 0.001, 0.002, 0.005, 0.01, 0.02,
 0.05, 0.1, 0.2, 0.5, 1, 2 och 5 sekunder. Tomt val finns inte längre.
+**Max sökdjup** väljs mellan 1, 2, 3, 4, 6, 8, 10, 12, 14, 16, 18, 20,
+24, 28 och 32 (standard 18). Det gäller datorns egna drag.
+Sökningen stoppas vid den gräns som nås först: djup eller tid. Valet sparas
+i inställningarna och i PGN-taggen `EngineMaxDepth`.
 Klicka på en pjäs och sedan målrutan. Vid promovering väljer du D/T/L/S.
 Stockfishs senaste drag markeras med gulgröna start- och målrutor.
 Markeringen försvinner när du har gjort ditt drag; din valda pjäs
@@ -46,11 +50,11 @@ Se [bildkällor och licens](assets/pieces/cburnett/README.md).
 - Exakt på gränsen är tillåtet. En bonde motsvarar 100 cp.
 - Gränserna låses när partiet startar. De kontrolleras efter varje mänskligt
   drag. Efter båda sidors drag analyserar Stockfish både fritt och med det utförda draget som enda
-  tillåtna rot-drag, till djup 18 eller högst fem sekunder per analys.
-  De två analyserna kan tillsammans ta upp till tio sekunder.
+  tillåtna rot-drag, till sökdjup 20 eller högst en sekund per analys.
+  De två analyserna kan tillsammans ta upp till två sekunder.
 - **Max sek/drag** anger datorns maximala betänketid per drag
   och låses när partiet startar. Standardvärdet är 1 sekund.
-  Kontrollanalyser och övningsanalyser har fortfarande högst fem sekunder
+  Kontrollanalyser och övningsanalyser har separat sökdjup 20 och högst en sekund
   per analys. Valet sparas i PGN-taggen `EngineMaxMoveTime`.
 - Schackmatt och automatiska remier avslutar partiet före gränskontrollen.
   **Kräv remi** används för trefaldig upprepning och femtiodragsregeln,
@@ -60,7 +64,7 @@ Se [bildkällor och licens](assets/pieces/cburnett/README.md).
 
 Värderingen är Stockfishs uppskattning vid det angivna sökdjupet, inte en
 matematisk garanti. Två separata sökningar kan ge något olika uppskattningar.
-Varje analys begränsas till fem sekunder, även för försök i övningen.
+Varje analys begränsas till en sekund, även för försök i övningen.
 
 ## Träna på misstaget
 
@@ -84,6 +88,13 @@ Du kan starta ett nytt parti när ingen
 analys pågår. Övningen ändrar inte resultatet i det avslutade partiet.
 
 ## Partilogg och värderingar
+
+Under dragtabellen visas motståndarens lagliga kandidatdrag från ställningen
+före senaste datordraget, med värderingar ur vits perspektiv och en markering
+av det utförda draget. Det är en separat MultiPV-analys med djup 1 och högst
+en sekund; listan återger inte de faktiskt besökta noderna. Om ett drag inte
+hinner värderas visas ett streck. Kandidatanalysen ändrar inte statistiken
+för själva datordraget.
 
 Alla nya partier sparas automatiskt i **logg.pgn**, i samma katalog som
 `main.py`. Filen uppdateras efter varje drag, efter analysen och när partiet
