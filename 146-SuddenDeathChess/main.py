@@ -12,8 +12,10 @@ from tkinter import messagebox, simpledialog, ttk
 import chess
 import chess.engine
 
-from rules import Clock, loss_reason
+from rules import loss_reason
 from game_log import GameLog
+from move_table import MoveTable
+from settings import DEFAULTS, load_settings, save_settings
 
 CELL = 70
 MATE_CP = 100000
@@ -21,6 +23,7 @@ ANALYSIS_TIME_LIMIT = 5.0
 STOCKFISH_PATH = r"C:\Program Files\stockfish\stockfish-windows-x86-64-avx2.exe"
 PIECE_DIRECTORY = Path(__file__).resolve().parent / "assets" / "pieces" / "cburnett"
 LOG_PATH = Path(__file__).resolve().parent / "logg.pgn"
+SETTINGS_PATH = Path(__file__).resolve().parent / "settings.json"
 
 
 def create_window():
@@ -34,15 +37,16 @@ def create_window():
 
 
 class App:
-    def __init__(self, root):
+    def __init__(self, root, settings_path=SETTINGS_PATH):
         self.root = root
+        self.settings_path = settings_path
         self.piece_images = {
             (color, piece_type): tk.PhotoImage(
                 master=root,
                 file=str(PIECE_DIRECTORY / f"{'w' if color else 'b'}{chess.piece_symbol(piece_type).upper()}.png"))
             for color in chess.COLORS for piece_type in chess.PIECE_TYPES
         }
-        root.title("Sudden Death Chess — 15+10")
+        root.title("Sudden Death Chess")
         self.board = chess.Board()
         self.human = chess.WHITE
         self.engine = None
@@ -51,36 +55,39 @@ class App:
         self.generation = 0
         self.selected = None
         self.review = None
+        self.hearts = 3
+        self.absolute_mistakes = 0
+        self.heart_animation = None
         self.game_log = None
         self.events = queue.Queue()
-        self.clocks = {c: Clock() for c in chess.COLORS}
         self.absolute = tk.StringVar(value="300")
         self.relative = tk.StringVar(value="100")
         self.max_time = tk.StringVar(value="1")
         self.engine_time_limit = 1.0
-        self.minutes = tk.StringVar(value="15")
-        self.increment = tk.StringVar(value="10")
-        self.initial_seconds = 900
-        self.increment_seconds = 10
         self.color = tk.StringVar(value="Slumpa")
-        self.status = tk.StringVar(value="Ange inställningarna och tryck på Starta parti.")
-        self.clock_text = tk.StringVar()
+        for key, value in load_settings(self.settings_path).items():
+            getattr(self, key).set(value)
+        self.status = tk.StringVar()
+        self.heart_text = tk.StringVar(value="♥ ♥ ♥")
         panel = ttk.Frame(root, padding=12)
         panel.pack(fill="both", expand=True)
-        ttk.Label(panel, text="Drag och värdering (ur ditt perspektiv)").grid(row=0, column=5, padx=12)
         history_panel = ttk.Frame(panel, width=640)
-        history_panel.grid(row=1, column=5, rowspan=8, padx=(12, 0), sticky="nsew")
-        panel.columnconfigure(5, weight=1)
+        self.history_panel = history_panel
+        history_panel.grid(row=1, column=2, rowspan=3, padx=(12, 0), sticky="nsew")
+        panel.columnconfigure(2, weight=1)
         history_panel.columnconfigure(0, weight=1)
         history_panel.rowconfigure(0, weight=1)
         columns = ("nr", "white", "white_eval", "white_best", "white_best_eval",
                    "black", "black_eval", "black_best", "black_best_eval")
-        self.history = ttk.Treeview(history_panel, columns=columns, show="headings", height=26)
-        headings = ("Nr", "Vit", "Värd. vit", "Vits bästa", "Värd. vit bäst",
-                    "Svart", "Värd. svart", "Svarts bästa", "Värd. svart bäst")
+        self.history = MoveTable(history_panel, columns=columns, show="headings", height=26)
+        self.history.configure(displaycolumns=("white_best_eval", "white_best", "white_eval", "white",
+                                                "nr", "black", "black_eval", "black_best", "black_best_eval"))
+        headings = ("Nr", "Vit", "Värde", "Bäst", "Värde",
+                    "Svart", "Värde", "Bäst", "Värde")
         for column, heading in zip(columns, headings):
             self.history.heading(column, text=heading)
-            self.history.column(column, width=40 if column == "nr" else 85, minwidth=40, anchor="center")
+            self.history.column(column, width=40 if column == "nr" else 85,
+                                minwidth=40, anchor="center")
         self.history.tag_configure("alternate", background="#f0f3f5")
         self.history.grid(row=0, column=0, sticky="nsew")
         history_scroll = ttk.Scrollbar(history_panel, command=self.history.yview)
@@ -88,44 +95,50 @@ class App:
         history_horizontal = ttk.Scrollbar(history_panel, orient="horizontal", command=self.history.xview)
         history_horizontal.grid(row=1, column=0, sticky="ew")
         self.history.configure(yscrollcommand=history_scroll.set, xscrollcommand=history_horizontal.set)
-        self.log_status = tk.StringVar(value=f"Partier sparas i {LOG_PATH}")
-        ttk.Label(panel, textvariable=self.log_status, wraplength=850).grid(row=9, column=0, columnspan=6, sticky="w")
-        ttk.Label(panel, text="Stockfish-fil:").grid(row=0, column=0, sticky="w")
-        ttk.Label(panel, text=STOCKFISH_PATH, wraplength=450).grid(row=0, column=1, columnspan=4, sticky="w")
-        ttk.Label(panel, text="Absolut gräns (cp):").grid(row=1, column=0, sticky="w")
-        ttk.Entry(panel, textvariable=self.absolute, width=8).grid(row=1, column=1)
-        ttk.Label(panel, text="Relativ gräns (cp):").grid(row=1, column=2)
-        ttk.Entry(panel, textvariable=self.relative, width=8).grid(row=1, column=3)
-        ttk.Combobox(panel, textvariable=self.color, values=["Slumpa", "Vit", "Svart"], state="readonly", width=8).grid(row=1, column=4)
-        self.start_button = ttk.Button(panel, text="Starta parti", command=self.start)
-        self.start_button.grid(row=2, column=0, pady=8)
-        ttk.Button(panel, text="Ge upp", command=self.resign).grid(row=2, column=1)
-        ttk.Button(panel, text="Kräv remi", command=self.claim_draw).grid(row=2, column=2)
-        time_settings = ttk.Frame(panel)
-        time_settings.grid(row=2, column=3, columnspan=2, padx=6)
-        ttk.Label(time_settings, text="Max s/drag (tomt = auto):").pack(side="left")
-        ttk.Entry(time_settings, textvariable=self.max_time, width=6).pack(side="left", padx=4)
-        ttk.Label(panel, textvariable=self.clock_text, font=("Segoe UI", 14)).grid(row=3, column=0, columnspan=5)
+        settings = ttk.LabelFrame(panel, text="Inställningar", padding=12)
+        settings.grid(row=0, column=0, rowspan=4, sticky="ns", padx=(0, 12))
+
+        self.setting_widgets = []
+
+        def setting(label, variable, unit="", values=None, readonly=False):
+            ttk.Label(settings, text=label).pack(anchor="w", pady=(8, 2))
+            field = ttk.Frame(settings)
+            field.pack(fill="x", pady=(0, 4))
+            if values is None:
+                widget = ttk.Entry(field, textvariable=variable, width=9)
+            else:
+                widget = ttk.Combobox(field, textvariable=variable, values=values,
+                                      width=9, state="readonly" if readonly else "normal")
+            widget.pack(side="left")
+            self.setting_widgets.append((widget, "readonly" if readonly else "normal"))
+            if unit:
+                ttk.Label(field, text=unit).pack(side="left", padx=(5, 0))
+
+        setting("Absolut gräns", self.absolute, "centipawn")
+        setting("Relativ gräns", self.relative, "centipawn")
+        setting("Färg", self.color, values=("Slumpa", "Vit", "Svart"), readonly=True)
+        setting("Max", self.max_time, "sek/drag",
+                ("", "0.001", "0.002", "0.005", "0.01", "0.02", "0.05",
+                 "0.1", "0.2", "0.5", "1", "2", "5"), readonly=True)
+        self.start_button = ttk.Button(settings, text="Starta parti", command=self.start)
+        self.start_button.pack(fill="x", pady=(16, 4))
+        ttk.Button(settings, text="Ge upp", command=self.resign).pack(fill="x", pady=4)
+        ttk.Button(settings, text="Kräv remi", command=self.claim_draw).pack(fill="x", pady=4)
+
+        clocks = ttk.Frame(panel)
+        clocks.grid(row=0, column=1, sticky="ew")
+        tk.Label(clocks, textvariable=self.heart_text, fg="#c62828",
+                 font=("Segoe UI Symbol", 18)).pack(side="right")
         self.canvas = tk.Canvas(panel, width=8*CELL, height=8*CELL, highlightthickness=0)
-        self.canvas.grid(row=4, column=0, columnspan=5, pady=8)
+        self.canvas.grid(row=1, column=1, pady=8, sticky="n")
         self.canvas.bind("<Button-1>", self.click)
-        ttk.Label(panel, textvariable=self.status, wraplength=560).grid(row=5, column=0, columnspan=5, sticky="w")
-        ttk.Label(panel, text="Klicka på pjäs och målruta. 100 cp = en bonde. Gränser gäller dina drag.").grid(row=6, column=0, columnspan=5, pady=6)
+        root.bind("<Escape>", self.clear_selection)
+        ttk.Label(panel, textvariable=self.status, wraplength=560).grid(row=2, column=1, sticky="nw")
         self.review_text = tk.StringVar()
-        ttk.Label(panel, textvariable=self.review_text, wraplength=560).grid(row=7, column=0, columnspan=5, sticky="w")
-        self.reveal_button = ttk.Button(panel, text="Visa Stockfishs svar", command=self.reveal_answer, state="disabled")
-        self.reveal_button.grid(row=8, column=0, columnspan=3, pady=6)
-        # Make room for game clock settings above the start controls.
-        for widget in panel.grid_slaves():
-            row = int(widget.grid_info()["row"])
-            if row >= 2:
-                widget.grid_configure(row=row + 1)
-        game_time = ttk.Frame(panel)
-        game_time.grid(row=2, column=0, columnspan=5, sticky="w", pady=4)
-        ttk.Label(game_time, text="Betänketid (min):").pack(side="left")
-        ttk.Entry(game_time, textvariable=self.minutes, width=6).pack(side="left", padx=6)
-        ttk.Label(game_time, text="Tillägg per drag (s):").pack(side="left")
-        ttk.Entry(game_time, textvariable=self.increment, width=6).pack(side="left", padx=6)
+        self.log_status = tk.StringVar()
+        self.log_error = ttk.Label(panel, textvariable=self.log_status, wraplength=560)
+        self.log_error.grid(row=3, column=1, sticky="nw")
+        self.log_error.grid_remove()
         root.protocol("WM_DELETE_WINDOW", self.close)
         self.draw()
         self.poll()
@@ -140,6 +153,10 @@ class App:
             except Exception as exc:
                 self.events.put((generation, callback, None, str(exc)))
         threading.Thread(target=work, daemon=True).start()
+
+    def lock_settings(self, locked):
+        for widget, original_state in self.setting_widgets:
+            widget.configure(state="disabled" if locked else original_state)
 
     def start(self):
         if self.active or self.busy:
@@ -157,34 +174,25 @@ class App:
             if time_limit is not None and (not math.isfinite(time_limit) or time_limit < 0.001):
                 raise ValueError
         except ValueError:
-            messagebox.showerror("Ogiltig betänketid", "Ange minst 0,001 sekunder eller lämna fältet tomt för automatisk tidsfördelning.")
+            messagebox.showerror("Ogiltig betänketid", "Ange minst 0,001 sekunder eller lämna fältet tomt för sökdjup 18.")
             return
-        try:
-            minutes = float(self.minutes.get().strip().replace(",", "."))
-            increment = int(self.increment.get().strip())
-            if not math.isfinite(minutes) or minutes <= 0 or increment < 0:
-                raise ValueError
-            initial_seconds = round(minutes * 60)
-            if initial_seconds < 1:
-                raise ValueError
-        except (ValueError, OverflowError):
-            messagebox.showerror("Ogiltig betänketid", "Ange minst en sekunds starttid i minuter och ett heltal från 0 för tillägget.")
-            return
-        self.initial_seconds = initial_seconds
-        self.increment_seconds = increment
+        self.persist_settings()
         self.generation += 1
         self.engine_time_limit = time_limit
+        self.stop_heart_flash()
+        self.hearts = 3
+        self.absolute_mistakes = 0
+        self.heart_text.set("♥ ♥ ♥")
         self.review = None
         self.review_text.set("")
         for row in self.history.get_children():
             self.history.delete(row)
-        self.reveal_button.configure(state="disabled")
         self.human = random.choice(chess.COLORS) if self.color.get() == "Slumpa" else self.color.get() == "Vit"
         self.board.reset()
         self.selected = None
-        self.clocks = {c: Clock(remaining=self.initial_seconds, increment_seconds=self.increment_seconds) for c in chess.COLORS}
         self.start_button.configure(state="disabled")
-        self.status.set("Startar Stockfish…")
+        self.lock_settings(True)
+        self.status.set("Startar partiet…")
         self.draw()
         def launch():
             if self.engine:
@@ -194,8 +202,7 @@ class App:
             return chess.engine.SimpleEngine.popen_uci(STOCKFISH_PATH)
         def ready(engine):
             self.engine = engine
-            self.game_log = GameLog(LOG_PATH, self.human, self.abs_limit, self.rel_limit,
-                                    self.initial_seconds, self.increment_seconds)
+            self.game_log = GameLog(LOG_PATH, self.human, self.abs_limit, self.rel_limit, initial_seconds=None)
             self.game_log.game.headers["EngineMaxMoveTime"] = (
                 str(self.engine_time_limit) if self.engine_time_limit is not None else "auto")
             self.save_log()
@@ -209,24 +216,18 @@ class App:
             result = "Remi" if outcome.winner is None else ("Du vann" if outcome.winner == self.human else "Du förlorade")
             self.finish(f"{result}: {outcome.termination.name.lower()} ({outcome.result()}).", outcome.result(), "normal")
             return
-        self.clocks[self.board.turn].start()
         if self.board.turn == self.human:
-            self.status.set("Ditt drag." + (" Schack!" if self.board.is_check() else ""))
+            self.status.set("Schack!" if self.board.is_check() else "")
         else:
-            self.status.set("Stockfish tänker…")
+            self.status.set("Datorn tänker…")
             position = self.board.copy()
-            limit = chess.engine.Limit(time=self.engine_time_limit,
-                                       white_clock=max(.001, self.clocks[chess.WHITE].value()),
-                                       black_clock=max(.001, self.clocks[chess.BLACK].value()),
-                                       white_inc=self.increment_seconds, black_inc=self.increment_seconds)
+            limit = (chess.engine.Limit(time=self.engine_time_limit) if self.engine_time_limit is not None
+                     else chess.engine.Limit(depth=18))
             self.submit(lambda: self.engine.play(position, limit), self.engine_moved)
 
     def engine_moved(self, result):
         if not self.active:
             return
-        if self.check_timeout():
-            return
-        self.clocks[self.board.turn].stop(increment=True)
         if result.move is None or result.move not in self.board.legal_moves:
             self.finish("Stockfish kunde inte leverera ett giltigt drag.")
             return
@@ -236,10 +237,12 @@ class App:
         self.draw()
         self.analyse_move(before, result.move)
 
+    def clear_selection(self, event=None):
+        self.selected = None
+        self.draw()
+
     def click(self, event):
         if (not self.active and self.review is None) or self.busy or self.board.turn != self.human:
-            return
-        if self.check_timeout():
             return
         col, row = event.x // CELL, event.y // CELL
         if not (0 <= col < 8 and 0 <= row < 8):
@@ -247,7 +250,7 @@ class App:
         square = chess.square(col if self.human else 7-col, 7-row if self.human else row)
         piece = self.board.piece_at(square)
         if piece and piece.color == self.human:
-            self.selected = square
+            self.selected = None if self.selected == square else square
             self.draw()
             return
         if self.selected is None:
@@ -267,9 +270,8 @@ class App:
         if self.review is not None:
             self.try_review_move(move)
             return
-        if not self.active or self.check_timeout():
+        if not self.active:
             return
-        self.clocks[self.human].stop(increment=True)
         before = self.board.copy()
         self.board.push(move)
         self.record_move(move)
@@ -282,11 +284,11 @@ class App:
         before.pop()
         self.update_history(before, move)
         if self.game_log:
-            self.game_log.move(move, self.clocks[not self.board.turn].value())
+            self.game_log.move(move, None)
             self.save_log()
 
     def analyse_move(self, before, move):
-        self.status.set("Analyserar draget och bästa alternativet… Klockorna är pausade.")
+        self.status.set("Analyserar draget och bästa alternativet…")
         after = self.board.copy()
         def evaluate():
             limit = chess.engine.Limit(depth=18, time=ANALYSIS_TIME_LIMIT)
@@ -306,38 +308,78 @@ class App:
         if self.game_log:
             self.game_log.annotate(best_move, best_info, played_info)
             self.save_log()
-        reason = loss_reason(best, played, self.abs_limit, self.rel_limit)
+        absolute_hit = played < -self.abs_limit * (1 + self.absolute_mistakes)
+        reason = loss_reason(best, played, self.abs_limit * (1 + self.absolute_mistakes), self.rel_limit)
+        if absolute_hit:
+            white_value = played if self.human else -played
+            reason = f"Absolut gräns passerad: {white_value:+d} centipawn (ur vits perspektiv)."
         is_loss = self.active and before.turn == self.human and reason and not self.board.is_game_over()
-        self.update_history(before, move, best_move, best_info, played_info, hide_best=bool(is_loss))
+        self.update_history(before, move, best_move, best_info, played_info)
         if not self.active:
             return
         if is_loss:
-            self.finish("Du förlorade! " + reason, "0-1" if self.human else "1-0", "adjudication")
-            self.review = dict(move=move, best_move=best_move, best=best, played=played,
-                               best_info=best_info, played_info=played_info)
+            self.hearts -= 1
+            if absolute_hit:
+                self.absolute_mistakes += 1
+            self.heart_text.set(" ".join(["♥"] * self.hearts + ["♡"] * (3 - self.hearts)))
+            if self.game_log:
+                self.game_log.undo_mistake(best_move, self.hearts)
+                self.save_log()
             self.board = before
             self.selected = None
+            self.history.set(str(before.fullmove_number), "white" if self.human else "black", before.san(move) + " ↶")
+            side = "white" if self.human else "black"
+            row = str(before.fullmove_number)
+            self.history.set(row, side + "_best", before.san(best_move))
+            self.history.color_cell(row, side, "#c62828")
+            self.history.color_cell(row, side + "_best", "#188038")
             self.review_text.set(
-                f"Ställningen före misstaget. Du spelade {before.san(move)} ({played:+d} cp). "
-                "Försök hitta ett bättre drag på brädet, eller visa svaret. Klockorna står stilla.")
-            self.reveal_button.configure(state="normal")
+                f"Tillbakadraget: {before.san(move)} ({played if self.human else -played:+d} centipawn). "
+                f"Bästa drag: {before.san(best_move)} ({best if self.human else -best:+d} centipawn).")
+            if self.hearts:
+                threshold = self.abs_limit * (1 + self.absolute_mistakes) * (-1 if self.human else 1)
+                self.status.set(f"Ett hjärta förlorat. {reason} Försök igen. Absolut gräns nu: {threshold:+d} centipawn.")
+            else:
+                self.finish("Du förlorade ditt sista hjärta! " + reason,
+                            "0-1" if self.human else "1-0", "adjudication")
+                self.review = dict(move=move, best_move=best_move, best=best, played=played,
+                                   best_info=best_info, played_info=played_info)
             self.draw()
+            self.flash_heart()
         else:
             self.next_turn()
+
+    def stop_heart_flash(self):
+        if self.heart_animation is not None:
+            self.root.after_cancel(self.heart_animation)
+            self.heart_animation = None
+        self.canvas.delete("heart_flash")
+
+    def flash_heart(self):
+        self.stop_heart_flash()
+        self.canvas.create_text(4*CELL, 4*CELL, text="♥", fill="#c62828",
+                                font=("Segoe UI Symbol", 240), tags="heart_flash")
+        self.heart_animation = self.root.after(800, self.stop_heart_flash)
 
     def update_history(self, before, move, best_move=None, best_info=None, played_info=None, hide_best=False):
         row = str(before.fullmove_number)
         if not self.history.exists(row):
             self.history.insert("", "end", iid=row, values=(row,) + ("",) * 8,
                                 tags=("alternate",) if before.fullmove_number % 2 == 0 else ())
+            for column in ("white_eval", "white_best_eval", "black_eval", "black_best_eval"):
+                self.history.color_cell(row, column, "#707070")
         side = "white" if before.turn else "black"
         self.history.set(row, side, before.san(move))
         if played_info is None:
+            self.history.color_cell(row, side, None)
+            self.history.color_cell(row, side + "_best", None)
             self.history.set(row, side + "_eval", "Analyserar…")
+            self.history.set(row, side + "_best", "")
+            self.history.set(row, side + "_best_eval", "")
         else:
             def display(info):
-                score = info["score"].pov(self.human)
-                return f"#{score.mate():+d}" if score.is_mate() else f"{score.score():+d} cp"
+                score = info["score"].white()
+                return f"#{score.mate():+d}" if score.is_mate() else f"{score.score():+d}"
             self.history.set(row, side + "_eval", display(played_info))
             different = best_move != move
             self.history.set(row, side + "_best", "Dolt" if hide_best and different
@@ -350,9 +392,11 @@ class App:
         if self.game_log:
             try:
                 self.game_log.save()
-                self.log_status.set(f"Sparat i {self.game_log.path}")
+                self.log_status.set("")
+                self.log_error.grid_remove()
             except (OSError, ValueError) as exc:
                 self.log_status.set(f"Kunde inte spara PGN: {exc}")
+                self.log_error.grid()
 
     def reveal_answer(self):
         if self.review is None or self.busy:
@@ -361,10 +405,10 @@ class App:
         move = review["best_move"]
         self.update_history(self.board, review["move"], move, review["best_info"], review["played_info"])
         self.review_text.set(
-            f"Ditt drag: {self.board.san(review['move'])} ({review['played']:+d} cp). "
+            f"Ditt drag: {self.board.san(review['move'])} ({review['played'] if self.human else -review['played']:+d} centipawn). "
             f"Stockfishs bästa drag: {self.board.san(move)} "
             f"({chess.square_name(move.from_square)}–{chess.square_name(move.to_square)}), "
-            f"{review['best']:+d} cp. Tapp: {max(0, review['best'] - review['played'])} cp. "
+            f"{review['best'] if self.human else -review['best']:+d} centipawn. Tapp: {max(0, review['best'] - review['played'])} centipawn. "
             "Starta ett nytt parti när du är redo.")
         self.selected = move.from_square
         self.draw()
@@ -379,26 +423,23 @@ class App:
         before = self.board.copy()
         review = self.review
         self.review_text.set(f"Analyserar ditt försök {before.san(move)}…")
-        self.reveal_button.configure(state="disabled")
         self.start_button.configure(state="disabled")
         def evaluate_attempt():
             info = self.engine.analyse(before, chess.engine.Limit(depth=18, time=ANALYSIS_TIME_LIMIT), root_moves=[move])
             return info["score"].pov(self.human).score(mate_score=MATE_CP)
         def attempted(score):
             improvement = score - review["played"]
-            feedback = (f"En förbättring med {improvement} cp!" if improvement > 0
+            feedback = (f"En förbättring med {improvement} centipawn!" if improvement > 0
                         else "Det förbättrar inte värderingen av ditt ursprungliga drag.")
             self.review_text.set(
-                f"Ditt försök: {before.san(move)} ({score:+d} cp). {feedback} "
+                f"Ditt försök: {before.san(move)} ({score if self.human else -score:+d} centipawn). {feedback} "
                 "Du kan försöka igen eller visa Stockfishs svar.")
-            self.reveal_button.configure(state="normal")
         self.submit(evaluate_attempt, attempted)
 
     def finish(self, text, result="*", termination="unterminated"):
+        self.lock_settings(False)
         was_active = self.active
         self.active = False
-        for clock in self.clocks.values():
-            clock.stop()
         self.status.set(text)
         if self.game_log and was_active:
             self.game_log.finish(result, termination, text)
@@ -417,19 +458,7 @@ class App:
             else:
                 self.status.set("Du kan inte kräva remi i denna ställning.")
 
-    def check_timeout(self):
-        if self.active and self.clocks[self.board.turn].value() <= 0:
-            loser = self.board.turn
-            if self.board.has_insufficient_material(not loser):
-                self.finish("Remi: tiden tog slut men motståndaren saknar mattmaterial.", "1/2-1/2", "time forfeit")
-            else:
-                self.finish("Din tid tog slut. Du förlorade." if loser == self.human else "Stockfish tid tog slut. Du vann!",
-                            "0-1" if loser else "1-0", "time forfeit")
-            return True
-        return False
-
     def poll(self):
-        self.check_timeout()
         try:
             while True:
                 generation, callback, result, error = self.events.get_nowait()
@@ -442,19 +471,12 @@ class App:
                     self.finish("Motorfel: " + error)
                     if self.review is not None:
                         self.review_text.set("Försöket kunde inte analyseras. Försök igen eller visa det sparade svaret.")
-                        self.reveal_button.configure(state="normal")
                 else:
                     callback(result)
                 if not self.active and not self.busy:
                     self.start_button.configure(state="normal")
         except queue.Empty:
             pass
-        def formatted(color):
-            seconds = max(0, int(self.clocks[color].value()))
-            return f"{seconds // 60:02}:{seconds % 60:02}"
-        time_control = f"{self.initial_seconds / 60:g}+{self.increment_seconds}"
-        self.clock_text.set(f"Vit  {formatted(chess.WHITE)}       Svart  {formatted(chess.BLACK)}       {time_control}")
-        self.root.title(f"Sudden Death Chess — {time_control}")
         self.root.after(50, self.poll)
 
     def draw(self):
@@ -481,7 +503,15 @@ class App:
                     self.canvas.create_image(x+CELL/2, y+CELL/2,
                                              image=self.piece_images[piece.color, piece.piece_type])
 
+    def persist_settings(self):
+        try:
+            save_settings(self.settings_path, {key: getattr(self, key).get() for key in DEFAULTS})
+        except OSError as exc:
+            messagebox.showerror("Inställningarna kunde inte sparas", str(exc), parent=self.root)
+
     def close(self):
+        self.persist_settings()
+        self.stop_heart_flash()
         if self.active:
             self.finish("Partiet avbröts när fönstret stängdes.")
         else:

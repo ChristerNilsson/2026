@@ -76,6 +76,33 @@ class GameLogTests(unittest.TestCase):
         game, = self.read_games()
         self.assertEqual(game.headers["TimeControl"], "210+2")
 
+    def test_untimed_game_has_no_clock_annotations(self):
+        log = GameLog(self.path, chess.WHITE, 300, 100, initial_seconds=None)
+        log.move(chess.Move.from_uci("e2e4"), None)
+        log.save()
+        game, = self.read_games()
+        self.assertEqual(game.headers["TimeControl"], "-")
+        self.assertIsNone(game.end().clock())
+
+    def test_rejected_move_is_logged_without_corrupting_continuation(self):
+        log = GameLog(self.path, chess.WHITE, 300, 100)
+        bad = chess.Move.from_uci("f2f3")
+        best = chess.Move.from_uci("e2e4")
+        log.move(bad, 905)
+        log.annotate(best, info(30), info(-200))
+        log.undo_mistake(best, 2)
+        log.save()
+        game, = self.read_games()
+        self.assertEqual(list(game.mainline_moves()), [])
+        self.assertIn("Rejected move: f3", game.comment)
+        log.move(best, 900)
+        log.annotate(best, info(30), info(30))
+        log.move(chess.Move.from_uci("e7e5"), 905)
+        log.save()
+        game, = self.read_games()
+        self.assertEqual([m.uci() for m in game.mainline_moves()], ["e2e4", "e7e5"])
+        self.assertIn("Hearts remaining: 2", game.comment)
+
     def test_checkmate_keeps_mate_not_centipawn_surrogate(self):
         log = GameLog(self.path, chess.WHITE, 300, 100)
         board = chess.Board()

@@ -17,10 +17,15 @@ Stockfishs sökväg är hårdkodad till
 `C:\Program Files\stockfish\stockfish-windows-x86-64-avx2.exe`.
 Placera den körbara filen där. Ange gränserna, välj färg och tryck **Starta parti**.
 Standardvalet **Slumpa** lottar din färg på nytt vid varje partistart.
+Inställningarna sparas i `settings.json` bredvid programmet när du startar
+ett parti eller stänger fönstret, och läses in vid nästa programstart.
 Ange **Betänketid (min)** och **Tillägg per drag (s)** före start, exempelvis
 5 och 3 för 5+3. Starttiden kan anges med decimaler (t.ex. 0,5 för 30 sekunder)
 och tillägget som ett heltal från 0. Valet låses för det pågående partiet
 och används av båda klockorna, Stockfish och PGN-loggen.
+Minuter och tillägg väljs i varsin kombobox; egna värden kan också skrivas in.
+Maximal datortid väljs i en kombobox med 0.001, 0.002, 0.005, 0.01, 0.02,
+0.05, 0.1, 0.2, 0.5, 1, 2 och 5 sekunder samt ett tomt val för automatisk tid.
 Klicka på en pjäs och sedan målrutan. Vid promovering väljer du D/T/L/S.
 Stockfishs senaste drag markeras med gulgröna start- och målrutor.
 Markeringen försvinner när du har gjort ditt drag; din valda pjäs
@@ -32,10 +37,15 @@ Se [bildkällor och licens](assets/pieces/cburnett/README.md).
 
 ## Regler
 
-- Alla värderingar gäller människans perspektiv, även när du spelar svart.
-- Absolut gräns **300 cp** betyder förlust när värderingen efter ditt drag
-  är **lägre än −300 cp**.
-- Relativ gräns **100 cp** betyder förlust när ditt drag tappar **mer än
+- Visade värderingar gäller vits perspektiv: plus betyder att vit leder,
+  minus att svart leder. Förlustgränserna beräknas ur människans perspektiv.
+- Du börjar med tre hjärtan. Ett gränsöverskridande kostar ett hjärta.
+  Vid tredje misstaget förlorar du partiet.
+- Absolut grundgräns **300 cp** ger gränserna **−300, −600 och −900 cp**
+  efter noll, ett respektive två absoluta misstag. Relativa misstag höjer inte
+  den absoluta gränsen. Värderingen måste understiga gränsen. Om båda gränserna
+  överskrids på samma drag räknas det som ett absolut misstag och kostar ett hjärta.
+- Relativ gräns **100 cp** kostar ett hjärta när ditt drag tappar **mer än
   100 cp jämfört med bästa lagliga draget** i samma ställning.
 - Exakt på gränsen är tillåtet. En bonde motsvarar 100 cp.
 - Gränserna låses när partiet startar. De kontrolleras efter varje mänskligt
@@ -46,7 +56,7 @@ Se [bildkällor och licens](assets/pieces/cburnett/README.md).
 - **Max s/drag (tomt = auto)** anger datorns maximala betänketid per drag
   och låses när partiet startar. Standardvärdet är 1 sekund. Lämna fältet
   tomt för att låta Stockfish disponera tiden själv utifrån klockorna och
-  det valda tillägget. Decimaltal går bra, exempelvis `2,5`.
+  det valda tillägget.
   Kontrollanalyser och övningsanalyser har fortfarande högst fem sekunder
   per analys. Valet sparas i PGN-taggen `EngineMaxMoveTime`.
 - Schackmatt och automatiska remier avslutar partiet före gränskontrollen.
@@ -61,7 +71,16 @@ Varje analys begränsas till fem sekunder, även för försök i övningen.
 
 ## Träna på misstaget
 
-Efter en förlust på någon av utvärderingsgränserna visas ställningen före
+När du tappar ett hjärta visas bästa draget direkt och ditt felaktiga drag
+backas. Med hjärtan kvar fortsätter partiet från ställningen före misstaget.
+I tabellen till höger visas det dåliga dragets text i rött och det bästa
+dragets text i grönt tills du gör nästa drag.
+Din klocka startar igen: förbrukad tid återställs inte, men tidstillägget från
+det återtagna draget tas bort. Den relativa gränsen ändras inte.
+Återtagna drag markeras med ↶ i tabellen och noteras i PGN-kommentarer;
+de ingår inte i partiets fortsatta dragföljd.
+
+Efter förlusten av sista hjärtat visas ställningen före
 misstaget, ditt drag och dess värdering. Partiet är avslutat och klockorna
 står stilla. Försök hitta ett bättre drag genom att spela det på brädet.
 Du får återkoppling på ditt försök och kan försöka flera gånger; ställningen
@@ -82,15 +101,15 @@ avslutas. Tidigare partier behålls utan att kontrollsparningar skapar kopior.
 analysen är klar finns draget kvar med kommentaren `Analysis pending.`.
 Eventuella skrivfel visas längst ner i fönstret.
 
-Draglistan är en tabell med en rad per dragnummer. Efter **Nr** kommer alla
-vita kolumner (drag, värdering, bästa drag, bästa värdering), sedan motsvarande
-svarta kolumner. Värderingarna visas ur ditt
+Draglistan är en tabell med en rad per dragnummer. Alla vita kolumner
+(bästa värdering, bästa drag, värdering, drag) ligger till vänster,
+**Nr** i mitten och motsvarande svarta kolumner till höger. Värderingarna visas ur vits
 perspektiv för båda färgerna, i cp eller mattavstånd (`#`). Alternativkolumnerna
 är tomma när det utförda draget redan var Stockfishs bästa. Kolumnbredderna kan ändras
 genom att dra i rubrikernas kanter.
 Om Stockfish föredrar ett annat drag visas även det och dess värdering.
-Vid gränsförlust är svaret dolt i gränssnittet tills du visar det i övningen;
-PGN-filen innehåller det direkt. Övningsförsök ändrar inte det loggade partiet.
+Vid hjärtförlust visas svaret direkt. Övningsförsök efter avslutat parti ändrar
+inte det loggade partiet.
 
 PGN innehåller datum, spelarfärger, resultat, avslutsorsak, `TimeControl`
 (t.ex. `900+10` för 15+10), gränser och klockkommentarer (`[%clk ...]`). Värderingar sparas

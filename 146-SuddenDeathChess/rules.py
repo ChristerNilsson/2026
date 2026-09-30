@@ -5,9 +5,9 @@ import time
 
 def loss_reason(best: int, played: int, absolute: int, relative: int) -> str | None:
     if played < -absolute:
-        return f"Absolut gräns: {played:+d} cp understiger −{absolute} cp."
+        return f"Absolut gräns: {played:+d} centipawn understiger −{absolute} centipawn."
     if best - played > relative:
-        return f"Relativ gräns: tappet {best - played} cp överstiger {relative} cp."
+        return f"Relativ gräns: tappet {best - played} centipawn överstiger {relative} centipawn."
     return None
 
 

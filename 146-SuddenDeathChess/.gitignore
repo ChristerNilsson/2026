@@ -4,3 +4,5 @@ __pycache__/
 .asset-tools/
 logg.pgn
 .pgn-*.tmp
+settings.json
+settings.json.tmp

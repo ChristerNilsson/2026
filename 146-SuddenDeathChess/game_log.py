@@ -25,15 +25,17 @@ class GameLog:
             "Date": datetime.now().strftime("%Y.%m.%d"),
             "White": "Human" if human else "Stockfish",
             "Black": "Stockfish" if human else "Human",
-            "TimeControl": f"{initial_seconds:g}+{increment_seconds:g}", "GameId": uuid.uuid4().hex,
+            "TimeControl": "-" if initial_seconds is None else f"{initial_seconds:g}+{increment_seconds:g}", "GameId": uuid.uuid4().hex,
             "AbsoluteLimitCP": str(absolute), "RelativeLimitCP": str(relative),
+            "StartingHearts": "3", "AbsoluteLimitMultipliers": "1,2,3",
         })
         self.node = self.game
 
     def move(self, move, clock):
         self.node = self.node.add_main_variation(move)
         self.node.comment = "Analysis pending."
-        self.node.set_clock(clock)
+        if clock is not None:
+            self.node.set_clock(clock)
 
     def annotate(self, best_move, best_info, played_info):
         node = self.node
@@ -49,6 +51,20 @@ class GameLog:
         self.game.headers["Result"] = result
         self.game.headers["Termination"] = termination
         self.node.comment += " " + reason
+
+    def undo_mistake(self, best_move, hearts):
+        node = self.node
+        parent = node.parent
+        board = parent.board()
+        parent.comment += (f" Rejected move: {board.san(node.move)}. "
+                           f"Best move: {board.san(best_move)}. Hearts remaining: {hearts}. "
+                           f"Attempt analysis: {node.comment.replace('[%', '(').replace(']', ')')}")
+        for alternative in parent.variations:
+            if alternative.move == best_move:
+                parent.comment += " Best analysis: " + alternative.comment.replace('[%', '(').replace(']', ')')
+        # Neither the rejected move nor its suggested alternative was played.
+        parent.variations.clear()
+        self.node = parent
 
     def save(self):
         # Upsert this game so checkpoints never create duplicate games. Replace

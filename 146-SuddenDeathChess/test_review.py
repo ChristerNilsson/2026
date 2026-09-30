@@ -13,14 +13,15 @@ class ReviewTests(unittest.TestCase):
     def setUp(self):
         self.root = create_window()
         self.root.withdraw()
-        self.app = App(self.root)
+        self.app = App(self.root, settings_path=None)
         self.app.abs_limit = 300
         self.app.rel_limit = 100
 
     def tearDown(self):
         self.app.close()
 
-    def lose(self, black=False):
+    def lose(self, black=False, hearts=1):
+        self.app.hearts = hearts
         before = chess.Board()
         if black:
             before.push_uci("e2e4")
@@ -43,14 +44,13 @@ class ReviewTests(unittest.TestCase):
                 col, row = 7 - col, 7 - row
             self.app.click(SimpleNamespace(x=col * 70 + 35, y=row * 70 + 35))
 
-    def test_hidden_answer_and_best_guess_for_both_colors(self):
+    def test_final_answer_and_best_guess_for_both_colors(self):
         for black in (False, True):
             with self.subTest(black=black):
                 before, best = self.lose(black)
                 self.assertFalse(self.app.active)
                 self.assertEqual(self.app.board.fen(), before.fen())
-                self.assertNotIn(before.san(best), self.app.review_text.get())
-                self.assertTrue(all(c.started is None for c in self.app.clocks.values()))
+                self.assertIn(before.san(best), self.app.review_text.get())
                 self.click_move(best)
                 self.assertIn("Rätt!", self.app.review_text.get())
                 self.assertIn(before.san(best), self.app.review_text.get())
@@ -64,11 +64,11 @@ class ReviewTests(unittest.TestCase):
         self.app.engine = engine
         self.app.submit = lambda job, callback: callback(job())
         self.click_move(chess.Move.from_uci("d2d4"))
-        self.assertIn("förbättring med 160 cp", self.app.review_text.get())
+        self.assertIn("förbättring med 160 centipawn", self.app.review_text.get())
         self.assertNotIn(before.san(best), self.app.review_text.get())
         self.assertEqual(self.app.board.fen(), before.fen())
         self.app.reveal_answer()
-        self.assertIn("180 cp", self.app.review_text.get())
+        self.assertIn("180 centipawn", self.app.review_text.get())
 
     def test_new_game_clears_exercise(self):
         self.lose()
@@ -77,7 +77,6 @@ class ReviewTests(unittest.TestCase):
         self.assertIsNone(self.app.review)
         self.assertEqual(self.app.review_text.get(), "")
         self.assertEqual(self.app.board.fen(), chess.Board().fen())
-        self.assertEqual(str(self.app.reveal_button["state"]), "disabled")
         self.assertEqual(self.app.history.get_children(), ())
 
     def test_move_table_groups_colors_and_preserves_white_cells(self):
@@ -94,39 +93,45 @@ class ReviewTests(unittest.TestCase):
         self.app.update_history(board, black_move, black_move, played, played)
         self.assertEqual(self.app.history.get_children(), ("1",))
         self.assertEqual(self.app.history.set("1", "white_best"), "d4")
-        self.assertEqual(self.app.history.set("1", "white_eval"), "-25 cp")
+        self.assertEqual(self.app.history.set("1", "white_eval"), "+25")
         self.assertEqual(self.app.history.set("1", "black"), "e5")
         self.assertEqual(self.app.history.set("1", "black_best"), "")
         board.push(black_move)
         self.app.update_history(board, chess.Move.from_uci("g1f3"))
         self.assertEqual(self.app.history.get_children(), ("1", "2"))
 
-    def test_table_hides_review_answer_until_revealed(self):
+    def test_table_shows_answer_immediately(self):
         before, best = self.lose()
-        self.assertEqual(self.app.history.set("1", "white_best"), "Dolt")
-        self.assertEqual(self.app.history.set("1", "white_best_eval"), "Dolt")
+        self.assertEqual(self.app.history.set("1", "white_best"), before.san(best))
+        self.assertEqual(self.app.history.set("1", "white_best_eval"), "+30")
         self.app.reveal_answer()
         self.assertEqual(self.app.history.set("1", "white_best"), before.san(best))
-        self.assertEqual(self.app.history.set("1", "white_best_eval"), "+30 cp")
+        self.assertEqual(self.app.history.set("1", "white_best_eval"), "+30")
 
-    def test_custom_game_time_is_locked_and_used_by_both_clocks_and_engine(self):
-        self.app.minutes.set("3,5")
-        self.app.increment.set("2")
-        self.app.submit = Mock()
-        self.app.start()
-        self.app.minutes.set("15")
-        self.app.increment.set("10")
-        for clock in self.app.clocks.values():
-            self.assertEqual(clock.value(), 210)
-            clock.stop(increment=True)
-            self.assertEqual(clock.value(), 212)
-        self.app.human = chess.BLACK
-        self.app.engine = Mock()
-        self.app.next_turn()
-        self.app.submit.call_args.args[0]()
-        limit = self.app.engine.play.call_args.args[1]
-        self.assertEqual(limit.white_inc, 2)
-        self.assertEqual(limit.black_inc, 2)
+    def test_three_hearts_allow_two_retries(self):
+        for remaining in (3, 2, 1):
+            before, best = self.lose(hearts=remaining)
+            self.assertEqual(self.app.hearts, remaining - 1)
+            self.assertEqual(self.app.absolute_mistakes, 0)
+            self.assertEqual(self.app.board.fen(), before.fen())
+            self.assertEqual(self.app.active, remaining > 1)
+            self.assertIn(before.san(best), self.app.review_text.get())
+            if remaining > 1:
+                self.assertIsNone(self.app.review)
+
+    def test_absolute_threshold_scales_only_with_absolute_mistakes(self):
+        board = chess.Board()
+        move = chess.Move.from_uci("e2e4")
+        for hearts, score in ((3, -301), (2, -601), (1, -901)):
+            self.app.hearts = hearts
+            self.app.human = chess.WHITE
+            self.app.active = True
+            self.app.board = board.copy()
+            self.app.board.push(move)
+            info = {"score": chess.engine.PovScore(chess.engine.Cp(score), chess.WHITE)}
+            self.app.evaluated((board.copy(), move, move, (score, score), info, info))
+            self.assertEqual(self.app.hearts, hearts - 1)
+            self.assertEqual(self.app.absolute_mistakes, 4 - hearts)
 
     def test_engine_time_setting_is_locked_and_passed_with_clocks(self):
         for value, expected in (("2,5", 2.5), ("  ", None)):
@@ -142,10 +147,9 @@ class ReviewTests(unittest.TestCase):
                 job()
                 limit = self.app.engine.play.call_args.args[1]
                 self.assertEqual(limit.time, expected)
-                self.assertEqual(limit.white_inc, 10)
-                self.assertEqual(limit.black_inc, 10)
-                self.assertGreater(limit.white_clock, 899)
-                self.assertEqual(limit.black_clock, 900)
+                self.assertIsNone(limit.white_clock)
+                self.assertIsNone(limit.black_clock)
+                self.assertEqual(limit.depth, 18 if expected is None else None)
 
     @patch("main.messagebox.showerror")
     def test_invalid_engine_time_does_not_start_game(self, showerror):
