@@ -134,7 +134,7 @@ class ReviewTests(unittest.TestCase):
             self.assertEqual(self.app.absolute_mistakes, 4 - hearts)
 
     def test_engine_time_setting_is_locked_and_passed_with_clocks(self):
-        for value, expected in (("2,5", 2.5), ("  ", None)):
+        for value, expected in (("2", 2), ("0.001", 0.001)):
             with self.subTest(value=value):
                 self.app.max_time.set(value)
                 self.app.submit = Mock()
@@ -154,11 +154,21 @@ class ReviewTests(unittest.TestCase):
     @patch("main.messagebox.showerror")
     def test_invalid_engine_time_does_not_start_game(self, showerror):
         self.app.submit = Mock()
-        for value in ("0", "-1", "NaN", "inf", "abc", "0.0001"):
+        for value in ("0", "-1", "NaN", "inf", "abc", "0.0001", "", "6"):
             self.app.max_time.set(value)
             self.app.start()
-        self.assertEqual(showerror.call_count, 6)
+        self.assertEqual(showerror.call_count, 8)
         self.app.submit.assert_not_called()
+
+    def test_selectable_hearts(self):
+        self.assertEqual(self.app.starting_hearts.get(), "5")
+        for count in range(1, 8):
+            self.app.starting_hearts.set(str(count))
+            self.app.submit = Mock()
+            self.app.start()
+            self.assertEqual(self.app.hearts, count)
+            self.assertEqual(self.app.total_hearts, count)
+            self.assertEqual(self.app.heart_text.get().count("♥"), count)
 
 
 if __name__ == "__main__":

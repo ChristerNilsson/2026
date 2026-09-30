@@ -55,7 +55,8 @@ class App:
         self.generation = 0
         self.selected = None
         self.review = None
-        self.hearts = 3
+        self.hearts = 5
+        self.total_hearts = 5
         self.absolute_mistakes = 0
         self.heart_animation = None
         self.game_log = None
@@ -65,10 +66,13 @@ class App:
         self.max_time = tk.StringVar(value="1")
         self.engine_time_limit = 1.0
         self.color = tk.StringVar(value="Slumpa")
+        self.starting_hearts = tk.StringVar(value="5")
         for key, value in load_settings(self.settings_path).items():
             getattr(self, key).set(value)
         self.status = tk.StringVar()
-        self.heart_text = tk.StringVar(value="♥ ♥ ♥")
+        self.hearts = self.total_hearts = int(self.starting_hearts.get())
+        self.heart_text = tk.StringVar(value=" ".join(["♥"] * self.hearts))
+        self.starting_hearts.trace_add("write", lambda *_: self.preview_hearts())
         panel = ttk.Frame(root, padding=12)
         panel.pack(fill="both", expand=True)
         history_panel = ttk.Frame(panel, width=640)
@@ -117,8 +121,9 @@ class App:
         setting("Absolut gräns", self.absolute, "centipawn")
         setting("Relativ gräns", self.relative, "centipawn")
         setting("Färg", self.color, values=("Slumpa", "Vit", "Svart"), readonly=True)
+        setting("Hjärtan", self.starting_hearts, values=tuple(str(n) for n in range(1, 8)), readonly=True)
         setting("Max", self.max_time, "sek/drag",
-                ("", "0.001", "0.002", "0.005", "0.01", "0.02", "0.05",
+                ("0.001", "0.002", "0.005", "0.01", "0.02", "0.05",
                  "0.1", "0.2", "0.5", "1", "2", "5"), readonly=True)
         self.start_button = ttk.Button(settings, text="Starta parti", command=self.start)
         self.start_button.pack(fill="x", pady=(16, 4))
@@ -154,6 +159,10 @@ class App:
                 self.events.put((generation, callback, None, str(exc)))
         threading.Thread(target=work, daemon=True).start()
 
+    def preview_hearts(self):
+        if not self.active and self.starting_hearts.get() in tuple(str(n) for n in range(1, 8)):
+            self.heart_text.set(" ".join(["♥"] * int(self.starting_hearts.get())))
+
     def lock_settings(self, locked):
         for widget, original_state in self.setting_widgets:
             widget.configure(state="disabled" if locked else original_state)
@@ -170,19 +179,22 @@ class App:
             return
         try:
             value = self.max_time.get().strip().replace(",", ".")
-            time_limit = float(value) if value else None
-            if time_limit is not None and (not math.isfinite(time_limit) or time_limit < 0.001):
+            time_limit = float(value)
+            if not math.isfinite(time_limit) or not 0.001 <= time_limit <= 5:
                 raise ValueError
         except ValueError:
-            messagebox.showerror("Ogiltig betänketid", "Ange minst 0,001 sekunder eller lämna fältet tomt för sökdjup 18.")
+            messagebox.showerror("Ogiltig betänketid", "Välj en tid mellan 0,001 och 5 sekunder.")
+            return
+        if self.starting_hearts.get() not in tuple(str(n) for n in range(1, 8)):
+            messagebox.showerror("Ogiltigt antal hjärtan", "Välj 1–7 hjärtan.")
             return
         self.persist_settings()
         self.generation += 1
         self.engine_time_limit = time_limit
         self.stop_heart_flash()
-        self.hearts = 3
+        self.hearts = self.total_hearts = int(self.starting_hearts.get())
         self.absolute_mistakes = 0
-        self.heart_text.set("♥ ♥ ♥")
+        self.heart_text.set(" ".join(["♥"] * self.hearts))
         self.review = None
         self.review_text.set("")
         for row in self.history.get_children():
@@ -203,8 +215,9 @@ class App:
         def ready(engine):
             self.engine = engine
             self.game_log = GameLog(LOG_PATH, self.human, self.abs_limit, self.rel_limit, initial_seconds=None)
-            self.game_log.game.headers["EngineMaxMoveTime"] = (
-                str(self.engine_time_limit) if self.engine_time_limit is not None else "auto")
+            self.game_log.game.headers["EngineMaxMoveTime"] = str(self.engine_time_limit)
+            self.game_log.game.headers["StartingHearts"] = str(self.total_hearts)
+            self.game_log.game.headers["AbsoluteLimitMultipliers"] = ",".join(str(n) for n in range(1, self.total_hearts + 1))
             self.save_log()
             self.active = True
             self.next_turn()
@@ -221,8 +234,7 @@ class App:
         else:
             self.status.set("Datorn tänker…")
             position = self.board.copy()
-            limit = (chess.engine.Limit(time=self.engine_time_limit) if self.engine_time_limit is not None
-                     else chess.engine.Limit(depth=18))
+            limit = chess.engine.Limit(time=self.engine_time_limit)
             self.submit(lambda: self.engine.play(position, limit), self.engine_moved)
 
     def engine_moved(self, result):
@@ -321,7 +333,7 @@ class App:
             self.hearts -= 1
             if absolute_hit:
                 self.absolute_mistakes += 1
-            self.heart_text.set(" ".join(["♥"] * self.hearts + ["♡"] * (3 - self.hearts)))
+            self.heart_text.set(" ".join(["♥"] * self.hearts + ["♡"] * (self.total_hearts - self.hearts)))
             if self.game_log:
                 self.game_log.undo_mistake(best_move, self.hearts)
                 self.save_log()

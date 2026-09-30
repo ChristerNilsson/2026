@@ -3,7 +3,7 @@ import json
 import math
 from pathlib import Path
 
-DEFAULTS = dict(absolute="300", relative="100", max_time="1", color="Slumpa")
+DEFAULTS = dict(absolute="300", relative="100", max_time="1", color="Slumpa", starting_hearts="5")
 
 
 def valid(key, value):
@@ -11,15 +11,15 @@ def valid(key, value):
         return False
     if key == "color":
         return value in ("Slumpa", "Vit", "Svart")
-    if key == "max_time" and not value.strip():
-        return True
+    if key == "starting_hearts":
+        return value in tuple(str(n) for n in range(1, 8))
     try:
         number = float(value.replace(",", "."))
         if not math.isfinite(number):
             return False
         if key in ("absolute", "relative", "increment"):
             return int(value) >= 0
-        return number >= (0.001 if key == "max_time" else 1 / 60)
+        return 0.001 <= number <= 5
     except (ValueError, OverflowError):
         return False
 

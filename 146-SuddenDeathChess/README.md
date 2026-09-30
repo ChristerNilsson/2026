@@ -1,7 +1,7 @@
 # Sudden Death Chess
 
 Schack mot Stockfish med svenskt fönstergränssnitt, två förlustgränser och
-valbar betänketid för båda spelarna. Standard är **15 minuter + 10 sekunder per utfört drag**.
+spel utan klockor. Datorns maximala tid per drag anges separat.
 
 ## Starta
 
@@ -19,13 +19,9 @@ Placera den körbara filen där. Ange gränserna, välj färg och tryck **Starta
 Standardvalet **Slumpa** lottar din färg på nytt vid varje partistart.
 Inställningarna sparas i `settings.json` bredvid programmet när du startar
 ett parti eller stänger fönstret, och läses in vid nästa programstart.
-Ange **Betänketid (min)** och **Tillägg per drag (s)** före start, exempelvis
-5 och 3 för 5+3. Starttiden kan anges med decimaler (t.ex. 0,5 för 30 sekunder)
-och tillägget som ett heltal från 0. Valet låses för det pågående partiet
-och används av båda klockorna, Stockfish och PGN-loggen.
-Minuter och tillägg väljs i varsin kombobox; egna värden kan också skrivas in.
+Välj **Hjärtan** mellan 1 och 7; standard är 5. Inställningarna låses under partiet.
 Maximal datortid väljs i en kombobox med 0.001, 0.002, 0.005, 0.01, 0.02,
-0.05, 0.1, 0.2, 0.5, 1, 2 och 5 sekunder samt ett tomt val för automatisk tid.
+0.05, 0.1, 0.2, 0.5, 1, 2 och 5 sekunder. Tomt val finns inte längre.
 Klicka på en pjäs och sedan målrutan. Vid promovering väljer du D/T/L/S.
 Stockfishs senaste drag markeras med gulgröna start- och målrutor.
 Markeringen försvinner när du har gjort ditt drag; din valda pjäs
@@ -39,8 +35,8 @@ Se [bildkällor och licens](assets/pieces/cburnett/README.md).
 
 - Visade värderingar gäller vits perspektiv: plus betyder att vit leder,
   minus att svart leder. Förlustgränserna beräknas ur människans perspektiv.
-- Du börjar med tre hjärtan. Ett gränsöverskridande kostar ett hjärta.
-  Vid tredje misstaget förlorar du partiet.
+- Du börjar med valt antal hjärtan (standard 5). Ett gränsöverskridande kostar
+  ett hjärta. När sista hjärtat förloras avslutas partiet.
 - Absolut grundgräns **300 cp** ger gränserna **−300, −600 och −900 cp**
   efter noll, ett respektive två absoluta misstag. Relativa misstag höjer inte
   den absoluta gränsen. Värderingen måste understiga gränsen. Om båda gränserna
@@ -52,11 +48,8 @@ Se [bildkällor och licens](assets/pieces/cburnett/README.md).
   drag. Efter båda sidors drag analyserar Stockfish både fritt och med det utförda draget som enda
   tillåtna rot-drag, till djup 18 eller högst fem sekunder per analys.
   De två analyserna kan tillsammans ta upp till tio sekunder.
-  Klockorna pausas under kontrollanalysen.
-- **Max s/drag (tomt = auto)** anger datorns maximala betänketid per drag
-  och låses när partiet startar. Standardvärdet är 1 sekund. Lämna fältet
-  tomt för att låta Stockfish disponera tiden själv utifrån klockorna och
-  det valda tillägget.
+- **Max sek/drag** anger datorns maximala betänketid per drag
+  och låses när partiet startar. Standardvärdet är 1 sekund.
   Kontrollanalyser och övningsanalyser har fortfarande högst fem sekunder
   per analys. Valet sparas i PGN-taggen `EngineMaxMoveTime`.
 - Schackmatt och automatiska remier avslutar partiet före gränskontrollen.
@@ -75,21 +68,19 @@ När du tappar ett hjärta visas bästa draget direkt och ditt felaktiga drag
 backas. Med hjärtan kvar fortsätter partiet från ställningen före misstaget.
 I tabellen till höger visas det dåliga dragets text i rött och det bästa
 dragets text i grönt tills du gör nästa drag.
-Din klocka startar igen: förbrukad tid återställs inte, men tidstillägget från
-det återtagna draget tas bort. Den relativa gränsen ändras inte.
+Det finns ingen spelklocka. Den relativa gränsen ändras inte.
 Återtagna drag markeras med ↶ i tabellen och noteras i PGN-kommentarer;
 de ingår inte i partiets fortsatta dragföljd.
 
 Efter förlusten av sista hjärtat visas ställningen före
-misstaget, ditt drag och dess värdering. Partiet är avslutat och klockorna
-står stilla. Försök hitta ett bättre drag genom att spela det på brädet.
+misstaget, ditt drag och dess värdering. Partiet är avslutat.
+Försök hitta ett bättre drag genom att spela det på brädet.
 Du får återkoppling på ditt försök och kan försöka flera gånger; ställningen
 behålls. Alternativa drag analyseras också, så en förbättring behöver inte
 vara exakt det drag Stockfish valde.
 
-**Visa Stockfishs svar** visar bästa draget, dess värdering och hur mycket
-ditt ursprungliga drag tappade. Hittar du själv det sparade bästa draget
-visas svaret direkt. Du kan när som helst starta ett nytt parti när ingen
+Tabellen visar bästa draget och dess värdering direkt.
+Du kan starta ett nytt parti när ingen
 analys pågår. Övningen ändrar inte resultatet i det avslutade partiet.
 
 ## Partilogg och värderingar
@@ -112,7 +103,7 @@ Vid hjärtförlust visas svaret direkt. Övningsförsök efter avslutat parti ä
 inte det loggade partiet.
 
 PGN innehåller datum, spelarfärger, resultat, avslutsorsak, `TimeControl`
-(t.ex. `900+10` för 15+10), gränser och klockkommentarer (`[%clk ...]`). Värderingar sparas
+(`-` för spel utan klockor), gränser och antal hjärtan. Värderingar sparas
 med `[%eval ...]` **ur vits perspektiv**, i bondeenheter eller mattavstånd.
 Ett avvikande bästa drag sparas både i kommentaren och som spelbar sidovariant
 med egen värdering. Gränsförluster har `Termination "adjudication"`.
