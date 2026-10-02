@@ -19,8 +19,8 @@ class Player:
 
 @dataclass(frozen=True)
 class Weights:
-    points: float = 100
-    rank: float = 1
+    points: float = 10000
+    rank: float = 100
     color: float = 1
 
     def __post_init__(self):
@@ -43,7 +43,7 @@ class CostMatrix:
 
 
 def cost_matrix(players: Sequence[Player], weights: Weights = Weights()) -> CostMatrix:
-    """None anger diagonal eller förbjudet åter möte; övriga celler är kostnader."""
+    """None anger diagonal, åter möte eller otillåten summerad färgbalans."""
     players = tuple(players)
     if len({p.id for p in players}) != len(players):
         raise ValueError("Spelar-id måste vara unika.")
@@ -54,22 +54,25 @@ def cost_matrix(players: Sequence[Player], weights: Weights = Weights()) -> Cost
         groups.setdefault(p.points, []).append(p)
     for group in groups.values():
         group.sort(key=lambda p: (-p.elo, p.id))
-    wp, wr, wc = (Fraction(str(v)) for v in
-                  (weights.points, weights.rank, weights.color))
+    wp, wr = (Fraction(str(v)) for v in (weights.points, weights.rank))
     cells = [[None] * len(players) for _ in players]
     for a, p in enumerate(players):
         for b in range(a + 1, len(players)):
             q = players[b]
             if q.id in p.opponents or p.id in q.opponents:
                 continue
+            if p.color_balance + q.color_balance not in (-1, 0, 1):
+                continue
             group = groups[p.points]
             if p.points != q.points:
                 group = sorted(group + groups[q.points], key=lambda x: (-x.elo, x.id))
             ranks = {x.id: i for i, x in enumerate(group)}
-            rank_cost = abs(abs(ranks[p.id] - ranks[q.id]) - Fraction(len(group), 2))
-            cost = (wp * abs(Fraction(str(p.points)) - Fraction(str(q.points)))
-                    + wr * rank_cost + wc * abs(p.color_balance + q.color_balance))
-            cells[a][b] = cells[b][a] = cost
+            points_diff = Fraction(str(p.points)) - Fraction(str(q.points))
+            distance_diff = abs(ranks[p.id] - ranks[q.id]) - Fraction(len(group), 2)
+            cost = (wp * abs(points_diff)
+                    + wr * abs(distance_diff))
+            # Bevara det beräknade flyttalsvärdet exakt inför heltalsskalningen.
+            cells[a][b] = cells[b][a] = Fraction(float(cost) ** 1.01)
     return CostMatrix(players, tuple(tuple(row) for row in cells))
 
 
@@ -84,7 +87,7 @@ def pair_round(players: Sequence[Player], weights: Weights = Weights()) -> list[
     matrix = cost_matrix(players, weights)
     graph = nx.Graph()
     graph.add_nodes_from(range(len(matrix.players)))
-    # Exakta rationella kostnader skalas till heltal för Blossom.
+    # Matrisens kostnader skalas till heltal utan ytterligare avrundning.
     from math import lcm
     scale = lcm(*(c.denominator for row in matrix.cells for c in row if c is not None))
     for i, row in enumerate(matrix.cells):
@@ -93,7 +96,7 @@ def pair_round(players: Sequence[Player], weights: Weights = Weights()) -> list[
                 graph.add_edge(i, j, weight=int(row[j] * scale))
     matching = nx.min_weight_matching(graph, weight="weight")
     if len(matching) * 2 != len(matrix.players):
-        raise ValueError("Ingen fullständig lottning finns utan åter möten.")
+        raise ValueError("Ingen fullständig lottning finns med tillåtna motståndare och färgbalanser.")
     result = []
     for i, j in sorted(tuple(sorted(edge)) for edge in matching):
         p, q = matrix.players[i], matrix.players[j]
