@@ -38,29 +38,17 @@
           bye: /^(?:w\.?o\.?|frirond)$/i.test(opponentText)
         };
       });
-      const scoreText = clean(row.cells[labels.indexOf('POÄNG')]);
-      const score = /^\d+(?:[.,]\d+)?$/.test(scoreText) ? Number(scoreText.replace(',', '.')) : null;
       const rating = ratingIndex >= 0 ? clean(row.cells[ratingIndex]) : '';
       const elo = parseElo(rating) || (ratingIndex < 0 || !rating
         ? preceding.slice(1).map(clean).reverse().map(parseElo).find(Boolean) || '' : '');
       players.set(number, {
         number, name: clean(row.cells[labels.indexOf('NAMN')]),
         elo,
-        baseScore: score,
+        score: '0',
         rounds
       });
     }
     if (players.size) {
-      // The latest paired round is the upcoming/current round, not postponed.
-      const lastPaired = Math.max(...Array.from(players.values(), player =>
-        player.rounds.reduce((last, round, index) =>
-          round.opponent !== null || round.bye ? index : last, -1)));
-      for (const player of players.values()) {
-        const postponed = player.rounds.filter((round, index) =>
-          index < lastPaired && round.opponent > 0 && round.hasResult && !round.result).length;
-        player.score = player.baseScore === null ? ''
-          : String(player.baseScore + postponed * 0.5).replace('.', ',');
-      }
       groups.push({ table, players });
     }
   }
@@ -70,6 +58,15 @@
   }
 
   const gamesForRound = (players, index) => {
+    for (const player of players.values()) {
+      const score = player.rounds.slice(0, index).reduce((sum, round) => {
+        const result = round.result.replace(/[wb+\-]$/i, '').replace(',', '.');
+        if (result === '½' || result === '1/2') return sum + 0.5;
+        if (/^\d+(?:\.\d+)?$/.test(result)) return sum + Number(result);
+        return sum + (round.opponent > 0 && round.hasResult && !round.result ? 0.5 : 0);
+      }, 0);
+      player.score = String(score).replace('.', ',');
+    }
     const games = [];
     const seen = new Set();
     for (const player of players.values()) {
@@ -124,7 +121,7 @@
   close.style.marginLeft = '1em';
   close.onclick = () => section.remove();
   const note = document.createElement('p');
-  note.textContent = 'Bord sorteras efter spelarnas sammanlagda poäng, högst först, och därefter efter vits startnummer. Poäng inkluderar 0,5 för uppskjutna partier före den senaste lottade ronden.';
+  note.textContent = 'Poäng visar summan före vald rond, inklusive 0,5 för tidigare uppskjutna partier. Rond 1 börjar på 0. Bord sorteras efter spelarnas sammanlagda poäng, högst först, och därefter efter vits startnummer.';
   const content = document.createElement('div');
   section.append(title, label, close, note, content);
   const render = () => {
