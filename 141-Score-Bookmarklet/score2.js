@@ -15,6 +15,9 @@
     });
     if (!header) continue;
     const labels = Array.from(header.cells).map(cell => clean(cell).toUpperCase());
+    const eloIndex = labels.findIndex(label => /^ELO(?:\s|$)/.test(label));
+    const ratingIndex = eloIndex >= 0 ? eloIndex
+      : labels.findIndex(label => /^RANKING(?:\s|$)/.test(label));
     const players = new Map();
     for (const row of table.rows) {
       if (row === header) continue;
@@ -36,10 +39,11 @@
       });
       const scoreText = clean(row.cells[labels.indexOf('POÄNG')]);
       const score = /^\d+(?:[.,]\d+)?$/.test(scoreText) ? Number(scoreText.replace(',', '.')) : null;
-      const ratingIndex = labels.indexOf('ELO') >= 0 ? labels.indexOf('ELO') : labels.indexOf('RANKING');
+      const rating = ratingIndex >= 0 ? clean(row.cells[ratingIndex])
+        : preceding.map(clean).reverse().find(value => /^\d{3,4}(?:\s*[A-Za-z])?$/.test(value)) || '';
       players.set(number, {
         number, name: clean(row.cells[labels.indexOf('NAMN')]),
-        elo: ratingIndex >= 0 ? clean(row.cells[ratingIndex]) : '',
+        elo: rating.match(/^(\d+)(?:\s*[A-Za-z])?$/)?.[1] || '',
         baseScore: score,
         rounds
       });
