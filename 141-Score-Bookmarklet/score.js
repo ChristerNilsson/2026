@@ -20,7 +20,16 @@
     for (const row of table.rows) {
       const id = Array.from(row.cells).map(playerId).find(Boolean);
       const score = row.cells[index]?.textContent.trim();
-      if (id && score && /^\d+(?:[.,]\d+)?$/.test(score)) scores.set(id, score);
+      if (id && score && /^\d+(?:[.,]\d+)?$/.test(score)) {
+        const postponed = Array.from(row.querySelectorAll('td.rfrresultcentertext')).filter(cell => {
+          const opponent = cell.querySelector('.CP_White, .CP_Black')?.textContent.trim();
+          const result = cell.querySelector('.rfrresult');
+          return /^\d+$/.test(opponent || '') && Number(opponent) > 0
+            && result && !result.textContent.trim();
+        }).length;
+        const adjusted = Number(score.replace(',', '.')) + postponed * 0.5;
+        scores.set(id, postponed ? String(adjusted).replace('.', score.includes(',') ? ',' : '.') : score);
+      }
       if (nameIndex < 0 || (row !== header && !id)) continue;
       const nameCell = row.cells[nameIndex];
       if (!nameCell) continue;

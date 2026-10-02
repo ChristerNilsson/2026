@@ -33,6 +33,8 @@ Lägg innehållet i bookmarklet.txt i ett bokmärke
 
 Bookmarkleten kopierar aktuell poäng från resultatlistan till egna POÄNG-kolumner
 efter vit respektive svart spelares namn i bordslistan. Spelarna matchas med ID.
+Uppskjutna partier (tomt rondresultat med ett motståndarnummer) räknas som 0,5
+poäng per parti och läggs till den aktuella poängen i bordslistan.
 W.O. får ingen poäng. Upprepade klick uppdaterar poängen utan dubbletter.
 Ändringen visas bara i din webbläsare. Kör bokmärket igen efter omladdning eller rondbyte.
 
