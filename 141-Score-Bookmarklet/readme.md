@@ -1,5 +1,32 @@
 https://member.schack.se/ShowTournamentServlet?id=19069
 
+## JSON för lottning av nästa rond
+
+Skapa ett bokmärke med namnet **get-json** och använd innehållet i
+`get-json-bookmarklet.txt` som URL. Öppna ställningen med detaljer
+(`listingtype=2`, eller den sparade `19069.html`) och klicka på bokmärket.
+En UTF-8-fil, exempelvis `19069.json`, laddas ned. `get-json.js` måste vara
+publicerad på projektets GitHub Pages för att bokmärket ska fungera.
+
+JSON innehåller turnerings-id, namn, källadress och exporttid samt `groups`
+med spelarnas nummer, id, namn, klubb, rating, aktuell poäng och alla ronder.
+Motståndare anges med `opponentNumber`, som hänvisar till spelarens `number`
+i samma grupp. `color` är `white`, `black` eller `null`. `result` är numeriskt
+eller `null`; originalets `opponentText`, `resultText` och `ratingText` bevaras.
+`bye` markerar F/frirond/W.O./motståndarnummer 0. `status` skiljer mellan
+`unpaired`, `pending`, `finished` och `special` (ett annat resultattecken).
+Ratingkolumnens rubrik sparas i `ratingLabel`, eftersom RANKING kan avse annan rating än Elo.
+
+`lastPairedRound` är senaste rond med en tilldelad motståndare eller frirond.
+`nextRound` är följande rond, eller `null` när alla rondkolumner har lottats.
+Tomma resultat räknas inte som remi och poängen ändras inte. Underlaget gör det
+möjligt att ta hänsyn till tidigare motståndare och färger vid nästa lottning;
+deltagande, uppskjutna partier och särskilda resultat behöver hanteras av den
+framtida lottningsfunktionen. Exporten utför ingen lottning.
+
+`19069.json` är en exempel-export från den sparade HTML-filen. Svenska tecken
+bevaras med UTF-8.
+
 ## Prediktera ospelade ronder
 
 Lägg innehållet i `prediction-bookmarklet.txt` i ett separat bokmärke och öppna
