@@ -7,6 +7,7 @@
     copy.querySelectorAll('[data-prediction-value]').forEach(node => node.remove());
     return copy.textContent.replace(/\s+/g, ' ').trim();
   };
+  const parseElo = value => value.match(/^(\d{3,4})(?:\s*[A-Za-z])?$/)?.[1] || '';
   const groups = [];
   for (const table of document.querySelectorAll('table')) {
     const header = Array.from(table.rows).find(row => {
@@ -39,11 +40,12 @@
       });
       const scoreText = clean(row.cells[labels.indexOf('POÄNG')]);
       const score = /^\d+(?:[.,]\d+)?$/.test(scoreText) ? Number(scoreText.replace(',', '.')) : null;
-      const rating = ratingIndex >= 0 ? clean(row.cells[ratingIndex])
-        : preceding.map(clean).reverse().find(value => /^\d{3,4}(?:\s*[A-Za-z])?$/.test(value)) || '';
+      const rating = ratingIndex >= 0 ? clean(row.cells[ratingIndex]) : '';
+      const elo = parseElo(rating) || (ratingIndex < 0 || !rating
+        ? preceding.slice(1).map(clean).reverse().map(parseElo).find(Boolean) || '' : '');
       players.set(number, {
         number, name: clean(row.cells[labels.indexOf('NAMN')]),
-        elo: rating.match(/^(\d+)(?:\s*[A-Za-z])?$/)?.[1] || '',
+        elo,
         baseScore: score,
         rounds
       });
@@ -91,7 +93,10 @@
         seen.add(player.number);
       }
     }
-    return games.sort((a, b) => (a.white.number ?? a.number) - (b.white.number ?? b.number));
+    const totalScore = game => [game.white, game.black].reduce((sum, player) =>
+      sum + Number(player.score.replace(',', '.')), 0);
+    return games.sort((a, b) => totalScore(b) - totalScore(a)
+      || (a.white.number ?? a.number) - (b.white.number ?? b.number));
   };
 
   document.getElementById('chess-score2')?.remove();
@@ -119,7 +124,7 @@
   close.style.marginLeft = '1em';
   close.onclick = () => section.remove();
   const note = document.createElement('p');
-  note.textContent = 'Bord numreras efter vits startnummer. Poäng inkluderar 0,5 för uppskjutna partier före den senaste lottade ronden.';
+  note.textContent = 'Bord sorteras efter spelarnas sammanlagda poäng, högst först, och därefter efter vits startnummer. Poäng inkluderar 0,5 för uppskjutna partier före den senaste lottade ronden.';
   const content = document.createElement('div');
   section.append(title, label, close, note, content);
   const render = () => {
@@ -140,7 +145,7 @@
       const table = document.createElement('table');
       table.style.cssText = 'border-collapse:collapse;width:100%';
       const header = table.createTHead().insertRow();
-      for (const text of ['BORD', 'VIT', 'POÄNG', 'ELO', 'RESULTAT', 'ELO', 'SVART', 'POÄNG']) {
+      for (const text of ['BORD', 'VIT', 'ELO', 'POÄNG', 'RESULTAT', 'SVART', 'ELO', 'POÄNG']) {
         const cell = document.createElement('th');
         cell.scope = 'col';
         cell.textContent = text;
@@ -151,8 +156,8 @@
       games.forEach((game, index) => {
         const row = body.insertRow();
         if (index % 2) row.style.background = '#f3f4f6';
-        for (const value of [index + 1, game.white.name, game.white.score, game.white.elo,
-          game.result, game.black.elo, game.black.name, game.black.score]) {
+        for (const value of [index + 1, game.white.name, game.white.elo, game.white.score,
+          game.result, game.black.name, game.black.elo, game.black.score]) {
           const cell = row.insertCell();
           cell.textContent = String(value);
           cell.style.padding = '.4em';

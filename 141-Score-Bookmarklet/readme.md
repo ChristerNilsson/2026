@@ -51,7 +51,8 @@ Använd `score2-bookmarklet.txt` på ställningen med detaljer (`listingtype=2`)
 utan att hämta andra sidor. Välj rond i listan; den senaste lottade ronden visas först.
 Listan visar namn, Elo, resultat och aktuell totalpoäng inklusive 0,5 per
 uppskjutet parti före den senaste lottade ronden. Tomma resultat i den kommande
-ronden ger inga extra poäng. Bord numreras efter vits startnummer, eftersom originalets
+ronden ger inga extra poäng. Bord sorteras efter spelarnas sammanlagda poäng, högst
+först, och vid lika summa efter vits startnummer, eftersom originalets
 bordsnummer inte kan härledas ur dessa ronduppgifter. Upprepade klick ersätter listan.
 
 ## Alfabetisk namnlista med bord och färg
