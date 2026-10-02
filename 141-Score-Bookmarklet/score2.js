@@ -145,7 +145,7 @@
       const table = document.createElement('table');
       table.style.cssText = 'border-collapse:collapse;width:100%';
       const header = table.createTHead().insertRow();
-      for (const text of ['BORD', 'VIT', 'ELO', 'POÄNG', 'RESULTAT', 'SVART', 'ELO', 'POÄNG']) {
+      for (const text of ['BORD', 'VIT', 'SVART', 'ELO', 'ELO', 'POÄNG', 'POÄNG', 'RESULTAT']) {
         const cell = document.createElement('th');
         cell.scope = 'col';
         cell.textContent = text;
@@ -156,8 +156,8 @@
       games.forEach((game, index) => {
         const row = body.insertRow();
         if (index % 2) row.style.background = '#f3f4f6';
-        for (const value of [index + 1, game.white.name, game.white.elo, game.white.score,
-          game.result, game.black.name, game.black.elo, game.black.score]) {
+        for (const value of [index + 1, game.white.name, game.black.name,
+          game.white.elo, game.black.elo, game.white.score, game.black.score, game.result]) {
           const cell = row.insertCell();
           cell.textContent = String(value);
           cell.style.padding = '.4em';
