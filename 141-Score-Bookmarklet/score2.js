@@ -35,6 +35,7 @@
           white: opponentCell?.classList.contains('CP_White') ?? false,
           result: clean(cell.querySelector('.rfrresult')),
           hasResult: Boolean(cell.querySelector('.rfrresult')),
+          personalBye: /^(?:F|personlig frirond|frirond)$/i.test(opponentText),
           bye: /^(?:w\.?o\.?|frirond)$/i.test(opponentText)
         };
       });
@@ -63,6 +64,7 @@
         const result = round.result.replace(/[wb+\-]$/i, '').replace(',', '.');
         if (result === '½' || result === '1/2') return sum + 0.5;
         if (/^\d+(?:\.\d+)?$/.test(result)) return sum + Number(result);
+        if (round.personalBye && !round.result) return sum + 0.5;
         return sum + (round.opponent > 0 && round.hasResult && !round.result ? 0.5 : 0);
       }, 0);
       player.score = String(score).replace('.', ',');
@@ -83,8 +85,8 @@
         games.push({ white, black, result: whiteResult || blackResult ? `${whiteResult || '?'}–${blackResult || '?'}` : '–' });
         seen.add(player.number);
         seen.add(opponent.number);
-      } else if (round.bye || round.opponent === 0) {
-        const wo = { name: 'W.O.', elo: '', score: '' };
+      } else if (round.personalBye || round.bye || round.opponent === 0) {
+        const wo = { name: round.personalBye ? 'Frirond' : 'W.O.', elo: '', score: '' };
         games.push({ white: round.white ? player : wo, black: round.white ? wo : player,
           result: round.result || '–', number: player.number });
         seen.add(player.number);

@@ -78,7 +78,8 @@ Använd `score2-bookmarklet.txt` på ställningen med detaljer (`listingtype=2`)
 utan att hämta andra sidor. Välj rond i listan; den senaste lottade ronden visas först.
 Listan visar namn, Elo, resultat och totalpoäng före vald rond. Rond 1 visar 0 för
 alla spelare, rond 2 visar poängen efter rond 1 och så vidare. Uppskjutna partier
-före vald rond räknas som 0,5 poäng. Resultat i vald rond och senare ronder ger
+före vald rond räknas som 0,5 poäng. Personlig frirond (`F`) med tomt resultat
+ger också 0,5 poäng före vald rond. Resultat i vald rond och senare ronder ger
 inga extra poäng. Bord sorteras efter spelarnas sammanlagda poäng, högst
 först, och vid lika summa efter vits startnummer, eftersom originalets
 bordsnummer inte kan härledas ur dessa ronduppgifter. Upprepade klick ersätter listan.
