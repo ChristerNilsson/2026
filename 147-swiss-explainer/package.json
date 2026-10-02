@@ -1,0 +1,1 @@
+{"name":"swiss-explainer","version":"1.0.0","private":true,"scripts":{"start":"node server.cjs","check":"node --check public/app.js && node --check public/candidates.js","test":"node check-candidates.cjs"}}

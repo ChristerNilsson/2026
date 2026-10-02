@@ -1,0 +1,5300 @@
+{
+  "name": "Stockholmsmästerskap Veteran 60+ 2026",
+  "source": "19069.html",
+  "round": 5,
+  "tpnVerified": false,
+  "players": [
+    {
+      "id": 1,
+      "name": "CM  Mikael Helin",
+      "club": "Stockholms SS",
+      "rating": 1941,
+      "publishedScore": 3.5,
+      "history": [
+        {
+          "opponent": 30,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 5,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 22,
+          "color": "B",
+          "score": 1,
+          "played": false,
+          "status": "wo",
+          "raw": "1w"
+        },
+        {
+          "opponent": 14,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 4,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 9
+    },
+    {
+      "id": 2,
+      "name": "WFM  Susanna Berg Laachiri",
+      "club": "Kristallens SK",
+      "rating": 1917,
+      "publishedScore": 3.5,
+      "history": [
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": 29,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 13,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 12,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 10,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 13
+    },
+    {
+      "id": 3,
+      "name": "Olle Ålgars",
+      "club": "Täby SK",
+      "rating": 1949,
+      "publishedScore": 3.5,
+      "history": [
+        {
+          "opponent": 38,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 46,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 23,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 4,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 8
+    },
+    {
+      "id": 4,
+      "name": "Nils Carlsson",
+      "club": "Stockholms SS",
+      "rating": 2066,
+      "publishedScore": 3,
+      "history": [
+        {
+          "opponent": 35,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 8,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 16,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 3,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": 1,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 3
+    },
+    {
+      "id": 5,
+      "name": "Björn Löwgren",
+      "club": "Seniorschack Stockholm",
+      "rating": 1795,
+      "publishedScore": 3,
+      "history": [
+        {
+          "opponent": 54,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 1,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 6,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 34,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 9,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 23
+    },
+    {
+      "id": 6,
+      "name": "Svante Wedin",
+      "club": "Tyresö SK",
+      "rating": 1937,
+      "publishedScore": 3,
+      "history": [
+        {
+          "opponent": 36,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 7,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 5,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 26,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 8,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 11
+    },
+    {
+      "id": 7,
+      "name": "Johan Sterner",
+      "club": "Wasa SK",
+      "rating": 1771,
+      "publishedScore": 3,
+      "history": [
+        {
+          "opponent": 9,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 6,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 17,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 27,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 11,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 28
+    },
+    {
+      "id": 8,
+      "name": "Rune Evertsson",
+      "club": "Stockholms SS",
+      "rating": 1879,
+      "publishedScore": 3,
+      "history": [
+        {
+          "opponent": 24,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 4,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 44,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 28,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 6,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 15
+    },
+    {
+      "id": 9,
+      "name": "FM  Mikael Näslund",
+      "club": "Kristallens SK",
+      "rating": 2124,
+      "publishedScore": 3,
+      "history": [
+        {
+          "opponent": 7,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 36,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 37,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 23,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 5,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 1
+    },
+    {
+      "id": 10,
+      "name": "Bo E Eriksson",
+      "club": "Kristallens SK",
+      "rating": 2019,
+      "publishedScore": 3,
+      "history": [
+        {
+          "opponent": 37,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 25,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 47,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 24,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 2,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 4
+    },
+    {
+      "id": 11,
+      "name": "Stefan Bäcklin",
+      "club": "Seniorschack Stockholm",
+      "rating": 1975,
+      "publishedScore": 3,
+      "history": [
+        {
+          "opponent": 16,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 45,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 35,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 32,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 7,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 7
+    },
+    {
+      "id": 12,
+      "name": "Ivan Franchuk",
+      "club": "Södertälje SS",
+      "rating": 2071,
+      "publishedScore": 2.5,
+      "history": [
+        {
+          "opponent": 40,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 17,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 18,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 2,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 14,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 2
+    },
+    {
+      "id": 13,
+      "name": "Bo Franzén",
+      "club": "Södra SASS",
+      "rating": 1824,
+      "publishedScore": 2.5,
+      "history": [
+        {
+          "opponent": 42,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 39,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 2,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 25,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 16,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 20
+    },
+    {
+      "id": 14,
+      "name": "Hans Weström",
+      "club": "Täby SK",
+      "rating": 1796,
+      "publishedScore": 2.5,
+      "history": [
+        {
+          "opponent": 51,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": 15,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 1,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 12,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 22
+    },
+    {
+      "id": 15,
+      "name": "Henrik Strömbäck",
+      "club": "Seniorschack Stockholm",
+      "rating": 2003,
+      "publishedScore": 2.5,
+      "history": [
+        {
+          "opponent": 19,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 32,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 14,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 30,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 18,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 5
+    },
+    {
+      "id": 16,
+      "name": "Stefan Lindh",
+      "club": "Stockholms SS",
+      "rating": 1703,
+      "publishedScore": 2.5,
+      "history": [
+        {
+          "opponent": 11,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 33,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 4,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 17,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 13,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 35
+    },
+    {
+      "id": 17,
+      "name": "Peter Carlsten",
+      "club": "Stockholms SS",
+      "rating": 1913,
+      "publishedScore": 2.5,
+      "history": [
+        {
+          "opponent": 45,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 12,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 7,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 16,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 20,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 14
+    },
+    {
+      "id": 18,
+      "name": "Camilo Garcia Giraldo",
+      "club": "Nacka-Värmdö SK",
+      "rating": 1793,
+      "publishedScore": 2.5,
+      "history": [
+        {
+          "opponent": 44,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 41,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 12,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": 15,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 24
+    },
+    {
+      "id": 19,
+      "name": "Christer Johansson",
+      "club": "Seniorschack Stockholm",
+      "rating": 1726,
+      "publishedScore": 2.5,
+      "history": [
+        {
+          "opponent": 15,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 53,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 34,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 44,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 33
+    },
+    {
+      "id": 20,
+      "name": "Dick Viklund",
+      "club": "Stockholms SS",
+      "rating": 1781,
+      "publishedScore": 2.5,
+      "history": [
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": 24,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 43,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 37,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 17,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 26
+    },
+    {
+      "id": 21,
+      "name": "Tomas Lindblad",
+      "club": "SK Passanten",
+      "rating": 1997,
+      "publishedScore": 2.5,
+      "history": [
+        {
+          "opponent": 47,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 23,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 38,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 40,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 22,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 6
+    },
+    {
+      "id": 22,
+      "name": "Lars Cederfeldt",
+      "club": "Täby SK",
+      "rating": 1785,
+      "publishedScore": 2.5,
+      "history": [
+        {
+          "opponent": 25,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 43,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 1,
+          "color": "W",
+          "score": 0,
+          "played": false,
+          "status": "wo",
+          "raw": "0w"
+        },
+        {
+          "opponent": 42,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 21,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 25
+    },
+    {
+      "id": 23,
+      "name": "Leif Lundquist",
+      "club": "Kristallens SK",
+      "rating": 1856,
+      "publishedScore": 2,
+      "history": [
+        {
+          "opponent": 49,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 21,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 3,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 9,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 35,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 18
+    },
+    {
+      "id": 24,
+      "name": "Anders Hillbur",
+      "club": "Solna-Sundbyberg SS",
+      "rating": 1643,
+      "publishedScore": 2,
+      "history": [
+        {
+          "opponent": 8,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 20,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 41,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 10,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 26,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 42
+    },
+    {
+      "id": 25,
+      "name": "Andreas Segeljakt",
+      "club": "Seniorschack Stockholm",
+      "rating": 0,
+      "publishedScore": 2,
+      "history": [
+        {
+          "opponent": 22,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 10,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 40,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 13,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 53
+    },
+    {
+      "id": 26,
+      "name": "Göran Adamsson",
+      "club": "Seniorschack Stockholm",
+      "rating": 1745,
+      "publishedScore": 2,
+      "history": [
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": 48,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 27,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 6,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 24,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 30
+    },
+    {
+      "id": 27,
+      "name": "Ove Hartzell",
+      "club": "Farsta SK",
+      "rating": 1861,
+      "publishedScore": 2,
+      "history": [
+        {
+          "opponent": 48,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": 26,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 7,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 30,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 17
+    },
+    {
+      "id": 28,
+      "name": "Valeri Ivanyuhin",
+      "club": "Solna-Sundbyberg SS",
+      "rating": 1640,
+      "publishedScore": 2,
+      "history": [
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": 31,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 32,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 8,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 37,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 43
+    },
+    {
+      "id": 29,
+      "name": "Friedemann Stumpf",
+      "club": "Stockholms SS",
+      "rating": 1673,
+      "publishedScore": 2,
+      "history": [
+        {
+          "opponent": 41,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 2,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 49,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 46,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 31,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 39
+    },
+    {
+      "id": 30,
+      "name": "Thomas Axelsson",
+      "club": "SK Rockaden Sthlm",
+      "rating": 1688,
+      "publishedScore": 2,
+      "history": [
+        {
+          "opponent": 1,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 54,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 46,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 15,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 27,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 38
+    },
+    {
+      "id": 31,
+      "name": "Jockum Wahlberg",
+      "club": "Farsta SK",
+      "rating": 1774,
+      "publishedScore": 2,
+      "history": [
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": 28,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 39,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 33,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 29,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 27
+    },
+    {
+      "id": 32,
+      "name": "Sven-Åke Karlsson",
+      "club": "Nacka-Värmdö SK",
+      "rating": 1828,
+      "publishedScore": 2,
+      "history": [
+        {
+          "opponent": 52,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 15,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 28,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 11,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 38,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 19
+    },
+    {
+      "id": 33,
+      "name": "Peter Silins",
+      "club": "SK Rockaden Sthlm",
+      "rating": 1862,
+      "publishedScore": 2,
+      "history": [
+        {
+          "opponent": 39,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 16,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 50,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 31,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 36,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 16
+    },
+    {
+      "id": 34,
+      "name": "Lennart B. Johansson",
+      "club": "Seniorschack Stockholm",
+      "rating": 1941,
+      "publishedScore": 2,
+      "history": [
+        {
+          "opponent": 43,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": 19,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 5,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 10
+    },
+    {
+      "id": 35,
+      "name": "Lars Ring",
+      "club": "Seniorschack Stockholm",
+      "rating": 1738,
+      "publishedScore": 2,
+      "history": [
+        {
+          "opponent": 4,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 52,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 11,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 48,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 23,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 31
+    },
+    {
+      "id": 36,
+      "name": "Kent Sahlin",
+      "club": "Seniorschack Stockholm",
+      "rating": 1673,
+      "publishedScore": 2,
+      "history": [
+        {
+          "opponent": 6,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 9,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 53,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 47,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 33,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 40
+    },
+    {
+      "id": 37,
+      "name": "Magnus Karlsson",
+      "club": "Seniorschack Stockholm",
+      "rating": 1737,
+      "publishedScore": 1.5,
+      "history": [
+        {
+          "opponent": 10,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 42,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 9,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 20,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 28,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 32
+    },
+    {
+      "id": 38,
+      "name": "Abbas Razavi",
+      "club": "Seniorschack Stockholm",
+      "rating": 1691,
+      "publishedScore": 1.5,
+      "history": [
+        {
+          "opponent": 3,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 51,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 21,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 41,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": 32,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 36
+    },
+    {
+      "id": 39,
+      "name": "Leif Hållstedt",
+      "club": "Seniorschack Stockholm",
+      "rating": 1626,
+      "publishedScore": 1.5,
+      "history": [
+        {
+          "opponent": 33,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 13,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 31,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 44
+    },
+    {
+      "id": 40,
+      "name": "Lars-Åke Pettersson",
+      "club": "Seniorschack Stockholm",
+      "rating": 1765,
+      "publishedScore": 1.5,
+      "history": [
+        {
+          "opponent": 12,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 49,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 25,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 21,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 42,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 29
+    },
+    {
+      "id": 41,
+      "name": "Bo Ländin",
+      "club": "Täby SK",
+      "rating": 1922,
+      "publishedScore": 1.5,
+      "history": [
+        {
+          "opponent": 29,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 18,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 24,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 38,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 12
+    },
+    {
+      "id": 42,
+      "name": "Helge Bergström",
+      "club": "Seniorschack Stockholm",
+      "rating": 1545,
+      "publishedScore": 1.5,
+      "history": [
+        {
+          "opponent": 13,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 37,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 52,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 22,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 40,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 48
+    },
+    {
+      "id": 43,
+      "name": "Bengt Eriksson",
+      "club": "SK Rockaden Sthlm",
+      "rating": 1688,
+      "publishedScore": 1,
+      "history": [
+        {
+          "opponent": 34,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 22,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 20,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 50,
+          "color": "W",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 51,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 37
+    },
+    {
+      "id": 44,
+      "name": "Jan Karlsson",
+      "club": "Seniorschack Stockholm",
+      "rating": 0,
+      "publishedScore": 1,
+      "history": [
+        {
+          "opponent": 18,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 1,
+          "played": false,
+          "status": "full-bye",
+          "raw": "1w"
+        },
+        {
+          "opponent": 8,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 19,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 54,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 54
+    },
+    {
+      "id": 45,
+      "name": "Mikael Lundberg",
+      "club": "Seniorschack Stockholm",
+      "rating": 1660,
+      "publishedScore": 1,
+      "history": [
+        {
+          "opponent": 17,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 11,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": 51,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 41
+    },
+    {
+      "id": 46,
+      "name": "Bele Ullmark",
+      "club": "SK Rockaden Sthlm",
+      "rating": 1823,
+      "publishedScore": 1,
+      "history": [
+        {
+          "opponent": 53,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 3,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 30,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 29,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 48,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 21
+    },
+    {
+      "id": 47,
+      "name": "Leonid Stolov",
+      "club": "Seniorschack Stockholm",
+      "rating": 1718,
+      "publishedScore": 1,
+      "history": [
+        {
+          "opponent": 21,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 50,
+          "color": "W",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 10,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 36,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 49,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 34
+    },
+    {
+      "id": 48,
+      "name": "Christer Nilsson",
+      "club": "Seniorschack Stockholm",
+      "rating": 1599,
+      "publishedScore": 1,
+      "history": [
+        {
+          "opponent": 27,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 26,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 54,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 35,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 46,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 45
+    },
+    {
+      "id": 49,
+      "name": "Miroljub Zivic",
+      "club": "Seniorschack Stockholm",
+      "rating": 1594,
+      "publishedScore": 1,
+      "history": [
+        {
+          "opponent": 23,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 40,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 29,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 53,
+          "color": "B",
+          "score": 1,
+          "played": true,
+          "status": "completed",
+          "raw": "1"
+        },
+        {
+          "opponent": 47,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 46
+    },
+    {
+      "id": 50,
+      "name": "Jovan Nikander",
+      "club": "Seniorschack Stockholm",
+      "rating": 1492,
+      "publishedScore": 1,
+      "history": [
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": 47,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 33,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 43,
+          "color": "B",
+          "score": 0.5,
+          "played": true,
+          "status": "completed",
+          "raw": "½"
+        },
+        {
+          "opponent": 52,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 50
+    },
+    {
+      "id": 51,
+      "name": "Ali Koc",
+      "club": "Seniorschack Stockholm",
+      "rating": 1459,
+      "publishedScore": 0.5,
+      "history": [
+        {
+          "opponent": 14,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 38,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": null,
+          "color": "W",
+          "score": 0.5,
+          "played": false,
+          "status": "half-bye",
+          "raw": "b"
+        },
+        {
+          "opponent": 45,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": 43,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 51
+    },
+    {
+      "id": 52,
+      "name": "Lars-Ivar Juntti",
+      "club": "Seniorschack Stockholm",
+      "rating": 1553,
+      "publishedScore": 0,
+      "history": [
+        {
+          "opponent": 32,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 35,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 42,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 54,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": 50,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 47
+    },
+    {
+      "id": 53,
+      "name": "Arne Jansson",
+      "club": "Seniorschack Stockholm",
+      "rating": 1496,
+      "publishedScore": 0,
+      "history": [
+        {
+          "opponent": 46,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 19,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 36,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 49,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": null,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "unscored-bye",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 49
+    },
+    {
+      "id": 54,
+      "name": "Vida Radon",
+      "club": "Seniorschack Stockholm",
+      "rating": 1403,
+      "publishedScore": 0,
+      "history": [
+        {
+          "opponent": 5,
+          "color": "B",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 30,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 48,
+          "color": "W",
+          "score": 0,
+          "played": true,
+          "status": "completed",
+          "raw": "0"
+        },
+        {
+          "opponent": 52,
+          "color": "B",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": 44,
+          "color": "W",
+          "score": null,
+          "played": false,
+          "status": "pending",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        },
+        {
+          "opponent": null,
+          "color": null,
+          "score": null,
+          "played": false,
+          "status": "absent",
+          "raw": ""
+        }
+      ],
+      "estimatedTpn": 52
+    }
+  ]
+}

@@ -1,0 +1,3350 @@
+[
+  {
+    "number": 1,
+    "name": "CM  Mikael Helin",
+    "rating": 1941,
+    "history": [
+      {
+        "opponent": "30",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "5",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "22",
+        "result": "1w",
+        "color": "B"
+      },
+      {
+        "opponent": "14",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "4",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 2,
+    "name": "WFM  Susanna Berg Laachiri",
+    "rating": 1917,
+    "history": [
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "29",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "13",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "12",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "10",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 3,
+    "name": "Olle Ålgars",
+    "rating": 1949,
+    "history": [
+      {
+        "opponent": "38",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "46",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "23",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "4",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 4,
+    "name": "Nils Carlsson",
+    "rating": 2066,
+    "history": [
+      {
+        "opponent": "35",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "8",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "16",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "3",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "1",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 5,
+    "name": "Björn Löwgren",
+    "rating": 1795,
+    "history": [
+      {
+        "opponent": "54",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "1",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "6",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "34",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "9",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 6,
+    "name": "Svante Wedin",
+    "rating": 1937,
+    "history": [
+      {
+        "opponent": "36",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "7",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "5",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "26",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "8",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 7,
+    "name": "Johan Sterner",
+    "rating": 1771,
+    "history": [
+      {
+        "opponent": "9",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "6",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "17",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "27",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "11",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 8,
+    "name": "Rune Evertsson",
+    "rating": 1879,
+    "history": [
+      {
+        "opponent": "24",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "4",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "44",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "28",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "6",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 9,
+    "name": "FM  Mikael Näslund",
+    "rating": 2124,
+    "history": [
+      {
+        "opponent": "7",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "36",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "37",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "23",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "5",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 10,
+    "name": "Bo E Eriksson",
+    "rating": 2019,
+    "history": [
+      {
+        "opponent": "37",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "25",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "47",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "24",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "2",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 11,
+    "name": "Stefan Bäcklin",
+    "rating": 1975,
+    "history": [
+      {
+        "opponent": "16",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "45",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "35",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "32",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "7",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 12,
+    "name": "Ivan Franchuk",
+    "rating": 2071,
+    "history": [
+      {
+        "opponent": "40",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "17",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "18",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "2",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "14",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 13,
+    "name": "Bo Franzén",
+    "rating": 1824,
+    "history": [
+      {
+        "opponent": "42",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "39",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "2",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "25",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "16",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 14,
+    "name": "Hans Weström",
+    "rating": 1796,
+    "history": [
+      {
+        "opponent": "51",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "15",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "1",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "12",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 15,
+    "name": "Henrik Strömbäck",
+    "rating": 2003,
+    "history": [
+      {
+        "opponent": "19",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "32",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "14",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "30",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "18",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 16,
+    "name": "Stefan Lindh",
+    "rating": 1703,
+    "history": [
+      {
+        "opponent": "11",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "33",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "4",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "17",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "13",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 17,
+    "name": "Peter Carlsten",
+    "rating": 1913,
+    "history": [
+      {
+        "opponent": "45",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "12",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "7",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "16",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "20",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 18,
+    "name": "Camilo Garcia Giraldo",
+    "rating": 1793,
+    "history": [
+      {
+        "opponent": "44",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "41",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "12",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "15",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 19,
+    "name": "Christer Johansson",
+    "rating": 1726,
+    "history": [
+      {
+        "opponent": "15",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "53",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "34",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "44",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 20,
+    "name": "Dick Viklund",
+    "rating": 1781,
+    "history": [
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "24",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "43",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "37",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "17",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 21,
+    "name": "Tomas Lindblad",
+    "rating": 1997,
+    "history": [
+      {
+        "opponent": "47",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "23",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "38",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "40",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "22",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 22,
+    "name": "Lars Cederfeldt",
+    "rating": 1785,
+    "history": [
+      {
+        "opponent": "25",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "43",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "1",
+        "result": "0w",
+        "color": "W"
+      },
+      {
+        "opponent": "42",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "21",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 23,
+    "name": "Leif Lundquist",
+    "rating": 1856,
+    "history": [
+      {
+        "opponent": "49",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "21",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "3",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "9",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "35",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 24,
+    "name": "Anders Hillbur",
+    "rating": 1643,
+    "history": [
+      {
+        "opponent": "8",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "20",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "41",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "10",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "26",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 25,
+    "name": "Andreas Segeljakt",
+    "rating": 0,
+    "history": [
+      {
+        "opponent": "22",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "10",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "40",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "13",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 26,
+    "name": "Göran Adamsson",
+    "rating": 1745,
+    "history": [
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "48",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "27",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "6",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "24",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 27,
+    "name": "Ove Hartzell",
+    "rating": 1861,
+    "history": [
+      {
+        "opponent": "48",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "26",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "7",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "30",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 28,
+    "name": "Valeri Ivanyuhin",
+    "rating": 1640,
+    "history": [
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "31",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "32",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "8",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "37",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 29,
+    "name": "Friedemann Stumpf",
+    "rating": 1673,
+    "history": [
+      {
+        "opponent": "41",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "2",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "49",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "46",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "31",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 30,
+    "name": "Thomas Axelsson",
+    "rating": 1688,
+    "history": [
+      {
+        "opponent": "1",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "54",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "46",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "15",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "27",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 31,
+    "name": "Jockum Wahlberg",
+    "rating": 1774,
+    "history": [
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "28",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "39",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "33",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "29",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 32,
+    "name": "Sven-Åke Karlsson",
+    "rating": 1828,
+    "history": [
+      {
+        "opponent": "52",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "15",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "28",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "11",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "38",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 33,
+    "name": "Peter Silins",
+    "rating": 1862,
+    "history": [
+      {
+        "opponent": "39",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "16",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "50",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "31",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "36",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 34,
+    "name": "Lennart B. Johansson",
+    "rating": 1941,
+    "history": [
+      {
+        "opponent": "43",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "19",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "5",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 35,
+    "name": "Lars Ring",
+    "rating": 1738,
+    "history": [
+      {
+        "opponent": "4",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "52",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "11",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "48",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "23",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 36,
+    "name": "Kent Sahlin",
+    "rating": 1673,
+    "history": [
+      {
+        "opponent": "6",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "9",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "53",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "47",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "33",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 37,
+    "name": "Magnus Karlsson",
+    "rating": 1737,
+    "history": [
+      {
+        "opponent": "10",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "42",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "9",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "20",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "28",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 38,
+    "name": "Abbas Razavi",
+    "rating": 1691,
+    "history": [
+      {
+        "opponent": "3",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "51",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "21",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "41",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "32",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 39,
+    "name": "Leif Hållstedt",
+    "rating": 1626,
+    "history": [
+      {
+        "opponent": "33",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "13",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "31",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 40,
+    "name": "Lars-Åke Pettersson",
+    "rating": 1765,
+    "history": [
+      {
+        "opponent": "12",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "49",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "25",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "21",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "42",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 41,
+    "name": "Bo Ländin",
+    "rating": 1922,
+    "history": [
+      {
+        "opponent": "29",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "18",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "24",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "38",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 42,
+    "name": "Helge Bergström",
+    "rating": 1545,
+    "history": [
+      {
+        "opponent": "13",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "37",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "52",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "22",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "40",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 43,
+    "name": "Bengt Eriksson",
+    "rating": 1688,
+    "history": [
+      {
+        "opponent": "34",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "22",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "20",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "50",
+        "result": "½",
+        "color": "W"
+      },
+      {
+        "opponent": "51",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 44,
+    "name": "Jan Karlsson",
+    "rating": 0,
+    "history": [
+      {
+        "opponent": "18",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "F",
+        "result": "1w",
+        "color": "W"
+      },
+      {
+        "opponent": "8",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "19",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "54",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 45,
+    "name": "Mikael Lundberg",
+    "rating": 1660,
+    "history": [
+      {
+        "opponent": "17",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "11",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "51",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 46,
+    "name": "Bele Ullmark",
+    "rating": 1823,
+    "history": [
+      {
+        "opponent": "53",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "3",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "30",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "29",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "48",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 47,
+    "name": "Leonid Stolov",
+    "rating": 1718,
+    "history": [
+      {
+        "opponent": "21",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "50",
+        "result": "1",
+        "color": "W"
+      },
+      {
+        "opponent": "10",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "36",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "49",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 48,
+    "name": "Christer Nilsson",
+    "rating": 1599,
+    "history": [
+      {
+        "opponent": "27",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "26",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "54",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "35",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "46",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 49,
+    "name": "Miroljub Zivic",
+    "rating": 1594,
+    "history": [
+      {
+        "opponent": "23",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "40",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "29",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "53",
+        "result": "1",
+        "color": "B"
+      },
+      {
+        "opponent": "47",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 50,
+    "name": "Jovan Nikander",
+    "rating": 1492,
+    "history": [
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "47",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "33",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "43",
+        "result": "½",
+        "color": "B"
+      },
+      {
+        "opponent": "52",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 51,
+    "name": "Ali Koc",
+    "rating": 1459,
+    "history": [
+      {
+        "opponent": "14",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "38",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "F",
+        "result": "b",
+        "color": "W"
+      },
+      {
+        "opponent": "45",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "43",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 52,
+    "name": "Lars-Ivar Juntti",
+    "rating": 1553,
+    "history": [
+      {
+        "opponent": "32",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "35",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "42",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "54",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "50",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 53,
+    "name": "Arne Jansson",
+    "rating": 1496,
+    "history": [
+      {
+        "opponent": "46",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "19",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "36",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "49",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "F",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  },
+  {
+    "number": 54,
+    "name": "Vida Radon",
+    "rating": 1403,
+    "history": [
+      {
+        "opponent": "5",
+        "result": "0",
+        "color": "B"
+      },
+      {
+        "opponent": "30",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "48",
+        "result": "0",
+        "color": "W"
+      },
+      {
+        "opponent": "52",
+        "result": "",
+        "color": "B"
+      },
+      {
+        "opponent": "44",
+        "result": "",
+        "color": "W"
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      },
+      {
+        "opponent": "",
+        "result": "",
+        "color": null
+      }
+    ]
+  }
+]
