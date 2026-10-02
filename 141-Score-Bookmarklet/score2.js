@@ -36,16 +36,27 @@
       });
       const scoreText = clean(row.cells[labels.indexOf('POÄNG')]);
       const score = /^\d+(?:[.,]\d+)?$/.test(scoreText) ? Number(scoreText.replace(',', '.')) : null;
-      const postponed = rounds.filter(round => round.opponent > 0 && round.hasResult && !round.result).length;
       const ratingIndex = labels.indexOf('ELO') >= 0 ? labels.indexOf('ELO') : labels.indexOf('RANKING');
       players.set(number, {
         number, name: clean(row.cells[labels.indexOf('NAMN')]),
         elo: ratingIndex >= 0 ? clean(row.cells[ratingIndex]) : '',
-        score: score === null ? '' : String(score + postponed * 0.5).replace('.', ','),
+        baseScore: score,
         rounds
       });
     }
-    if (players.size) groups.push({ table, players });
+    if (players.size) {
+      // The latest paired round is the upcoming/current round, not postponed.
+      const lastPaired = Math.max(...Array.from(players.values(), player =>
+        player.rounds.reduce((last, round, index) =>
+          round.opponent !== null || round.bye ? index : last, -1)));
+      for (const player of players.values()) {
+        const postponed = player.rounds.filter((round, index) =>
+          index < lastPaired && round.opponent > 0 && round.hasResult && !round.result).length;
+        player.score = player.baseScore === null ? ''
+          : String(player.baseScore + postponed * 0.5).replace('.', ',');
+      }
+      groups.push({ table, players });
+    }
   }
   if (!groups.length) {
     alert('Kunde inte hitta någon ställning med detaljer. Öppna ställningslistan med rondkolumner och försök igen.');
@@ -104,7 +115,7 @@
   close.style.marginLeft = '1em';
   close.onclick = () => section.remove();
   const note = document.createElement('p');
-  note.textContent = 'Bord numreras efter vits startnummer. Poäng är aktuell totalpoäng inklusive 0,5 för varje uppskjutet parti.';
+  note.textContent = 'Bord numreras efter vits startnummer. Poäng inkluderar 0,5 för uppskjutna partier före den senaste lottade ronden.';
   const content = document.createElement('div');
   section.append(title, label, close, note, content);
   const render = () => {

@@ -50,7 +50,8 @@ Använd `score2-bookmarklet.txt` på ställningen med detaljer (`listingtype=2`)
 `score2.js` bygger en bordslista från rondcellernas motståndarnummer och färg,
 utan att hämta andra sidor. Välj rond i listan; den senaste lottade ronden visas först.
 Listan visar namn, Elo, resultat och aktuell totalpoäng inklusive 0,5 per
-uppskjutet parti. Bord numreras efter vits startnummer, eftersom originalets
+uppskjutet parti före den senaste lottade ronden. Tomma resultat i den kommande
+ronden ger inga extra poäng. Bord numreras efter vits startnummer, eftersom originalets
 bordsnummer inte kan härledas ur dessa ronduppgifter. Upprepade klick ersätter listan.
 
 ## Alfabetisk namnlista med bord och färg
