@@ -61,6 +61,7 @@
   const gamesForRound = (players, index) => {
     for (const player of players.values()) {
       const score = player.rounds.slice(0, index).reduce((sum, round) => {
+        if (/^b$/i.test(round.result)) return sum + 0.5;
         const result = round.result.replace(/[wb+\-]$/i, '').replace(',', '.');
         if (result === '½' || result === '1/2') return sum + 0.5;
         if (/^\d+(?:\.\d+)?$/.test(result)) return sum + Number(result);
@@ -88,7 +89,8 @@
       } else if (round.personalBye || round.bye || round.opponent === 0) {
         const wo = { name: round.personalBye ? 'Frirond' : 'W.O.', elo: '', score: '' };
         games.push({ white: round.white ? player : wo, black: round.white ? wo : player,
-          result: round.result || '–', number: player.number });
+          result: round.personalBye && (!round.result || /^b$/i.test(round.result))
+            ? '0,5' : round.result || '–', number: player.number });
         seen.add(player.number);
       }
     }
