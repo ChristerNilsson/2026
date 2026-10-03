@@ -139,7 +139,7 @@ def pair_round(
                 raise ValueError("Ingen fullständig lottning finns med tillåtna motståndare och färgbalanser.")
             group.extend(donor[:2])
             del donor[:2]
-    return result
+    return sorted(result, key=lambda game: -(game.white.points + game.black.points))
 
 
 def _match_group(matrix: CostMatrix) -> list[Pairing] | None:

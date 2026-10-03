@@ -11,6 +11,8 @@ Okända eller tvetydiga namn stoppar körningen med ett felmeddelande.
 
 Programmet visar turnering och rond, personliga frironder, eventuell information
 om uppskjutna partier och den slutliga lottningen med vitt och svart.
+Bordslistan sorteras på fallande summa av de två spelarnas poäng.
+Vid lika summa behålls den tidigare ordningen.
 Trace-utskrifter av spelarstatistik, parkostnader och Blossom-försök visas inte.
 `pair_round` kan fortfarande rapportera gruppförsök via den valfria callbacken
 `on_group` vid felsökning.
@@ -50,7 +52,7 @@ liten mjuk färgkostnad till, som minimerar total färgbalans efter partiet utan
 att göra färgen till en hård barriär. Cellen innehåller avvikelsen från önskat
 rankavstånd upphöjd till 1,01, plus 1/20 av den bästa möjliga färgkostnaden
 för det paret. Exponenten ger större avvikelser en högre relativ kostnad.
-Poäng används endast för den inledande gruppindelningen.
+Poäng används för den inledande gruppindelningen och bordslistans sortering.
 
 Matrisen är symmetrisk och följer indatas spelarordning. `None` betyder
 diagonal, förbjudet åter möte eller otillåten summerad färgbalans. Historik i endera spelarens `opponents`

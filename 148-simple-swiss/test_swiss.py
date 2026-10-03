@@ -55,6 +55,14 @@ class SwissTests(unittest.TestCase):
                           for call in match.call_args_list],
                          [["b", "c"], ["d", "a", "e", "f"]])
 
+    def test_board_order_uses_combined_points_and_preserves_ties(self):
+        players = [Player("a", 1900, 3), Player("b", 2100, 2),
+                   Player("c", 2000, 2), Player("d", 2200, 1),
+                   Player("e", 1800, 1), Player("f", 1700, 1)]
+        games = pair_round(players)
+        self.assertEqual([(g.white.id, g.black.id) for g in games],
+                         [("b", "c"), ("a", "f"), ("d", "e")])
+
     def test_even_groups_are_solved_separately(self):
         players = [Player("a", 2200, 2), Player("b", 2100, 2),
                    Player("c", 2000, 1), Player("d", 1900, 1)]
