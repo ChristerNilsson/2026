@@ -1,7 +1,8 @@
 import unittest
 from pathlib import Path
 
-from main import format_player, format_player_overview, load_players, load_personal_byes
+from main import (format_player, format_player_overview, load_players,
+                  load_personal_byes)
 from swiss import Player, Weights
 
 

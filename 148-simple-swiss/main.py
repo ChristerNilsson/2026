@@ -6,11 +6,6 @@ from swiss import Player, Weights, pair_round
 
 
 def load_personal_byes(path, entries):
-    aliases = {
-        "Susanna Berg": "WFM Susanna Berg Laachiri",
-        "Lennart Johansson": "Lennart B. Johansson",
-        "Over Hartzell": "Ove Hartzell",
-    }
     ids_by_name = {}
     for entry in entries:
         ids_by_name.setdefault(entry["name"], []).append(entry["id"])
@@ -23,7 +18,7 @@ def load_personal_byes(path, entries):
         if match is None:
             raise ValueError(f"Ogiltig frirond på rad {line_number}: {line}")
         name, rounds = match.groups()
-        matches = ids_by_name.get(aliases.get(name, name), [])
+        matches = ids_by_name.get(name, [])
         if len(matches) != 1:
             raise ValueError(f"Namnet på rad {line_number} måste matcha en spelare: {name}")
         byes.setdefault(matches[0], set()).update(map(int, rounds.split()))
@@ -103,7 +98,6 @@ def main():
     with path.open(encoding="utf-8") as source:
         data = json.load(source)
 
-    weights = Weights()
     personal_byes = load_personal_byes(
         path.with_suffix(".txt"),
         [entry for group in data["groups"] for entry in group["players"]],
@@ -123,12 +117,12 @@ def main():
         if any(r["result"] is None and not r["bye"] for p in group["players"]
                for r in p["rounds"] if r["paired"] and r["round"] < round_number):
             print("Preliminär lottning: uppskjutna partier räknas tillfälligt som 0.5 poäng.")
-        print(format_player_overview(all_players, entries, weights, absent_ids))
-        print()
-        print("Vit: nr, namn, Elo, lottningspoäng | Svart: nr, namn, Elo, lottningspoäng | Kostnad")
-        for game in pair_round(players, weights):
+        pairings = pair_round(players)
+        print("\nLottning:")
+        print("Vit: nr, namn, Elo, lottningspoäng | Svart: nr, namn, Elo, lottningspoäng")
+        for game in pairings:
             print(f"{format_player(game.white, entries[game.white.id])} | "
-                  f"{format_player(game.black, entries[game.black.id])} | {game.cost:g}")
+                  f"{format_player(game.black, entries[game.black.id])}")
 
 
 if __name__ == "__main__":

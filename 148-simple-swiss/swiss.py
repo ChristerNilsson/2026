@@ -1,11 +1,13 @@
-"""Viktad Swiss-lottning med NetworkX Blossom."""
+"""Gruppvis Swiss-lottning med NetworkX Blossom."""
 
 from dataclasses import dataclass
 from fractions import Fraction
 from math import isfinite
-from typing import Sequence
+from typing import Callable, Sequence
 
 import networkx as nx
+
+COLOR_COST_WEIGHT = Fraction(1, 20)
 
 
 @dataclass(frozen=True)
@@ -19,6 +21,7 @@ class Player:
 
 @dataclass(frozen=True)
 class Weights:
+    """Vikter enbart för spelaröversiktens individuella statistik."""
     points: float = 10000
     rank: float = 100
     color: float = 1
@@ -42,52 +45,108 @@ class CostMatrix:
     cells: tuple[tuple[Fraction | None, ...], ...]
 
 
-def cost_matrix(players: Sequence[Player], weights: Weights = Weights()) -> CostMatrix:
-    """None anger diagonal, åter möte eller otillåten summerad färgbalans."""
+def pairing_restrictions(p: Player, q: Player) -> tuple[str, ...]:
+    """Ange samtliga regler som förbjuder ett spelarpar."""
+    reasons = []
+    if q.id in p.opponents or p.id in q.opponents:
+        reasons.append("tidigare möte")
+    if p.color_balance + q.color_balance not in (-1, 0, 1):
+        reasons.append(
+            f"färgbalans ({p.color_balance:+d} + {q.color_balance:+d} = "
+            f"{p.color_balance + q.color_balance:+d}; tillåtet: -1, 0 eller +1)"
+        )
+    return tuple(reasons)
+
+
+def color_cost(p: Player, q: Player) -> int:
+    """Liten mjuk kostnad för avvikande total färgbalans i paret."""
+    return abs(p.color_balance + q.color_balance)
+
+
+def cost_matrix(players: Sequence[Player]) -> CostMatrix:
+    """Rankavvikelse i en Elo-sorterad grupp med liten färgbonus.
+
+    None anger diagonal, åter möte eller otillåten summerad färgbalans.
+    """
     players = tuple(players)
     if len({p.id for p in players}) != len(players):
         raise ValueError("Spelar-id måste vara unika.")
     if any(not isfinite(p.points) or p.points < 0 for p in players):
         raise ValueError("Poängen måste vara ändliga och icke-negativa.")
-    groups = {}
-    for p in players:
-        groups.setdefault(p.points, []).append(p)
-    for group in groups.values():
-        group.sort(key=lambda p: (-p.elo, p.id))
-    wp, wr = (Fraction(str(v)) for v in (weights.points, weights.rank))
+    group = sorted(players, key=lambda p: (-p.elo, p.id))
+    ranks = {p.id: i for i, p in enumerate(group)}
     cells = [[None] * len(players) for _ in players]
     for a, p in enumerate(players):
         for b in range(a + 1, len(players)):
             q = players[b]
-            if q.id in p.opponents or p.id in q.opponents:
+            if pairing_restrictions(p, q):
                 continue
-            if p.color_balance + q.color_balance not in (-1, 0, 1):
-                continue
-            group = groups[p.points]
-            if p.points != q.points:
-                group = sorted(group + groups[q.points], key=lambda x: (-x.elo, x.id))
-            ranks = {x.id: i for i, x in enumerate(group)}
-            points_diff = Fraction(str(p.points)) - Fraction(str(q.points))
-            distance_diff = abs(ranks[p.id] - ranks[q.id]) - Fraction(len(group), 2)
-            cost = (wp * abs(points_diff)
-                    + wr * abs(distance_diff))
-            # Bevara det beräknade flyttalsvärdet exakt inför heltalsskalningen.
-            cells[a][b] = cells[b][a] = Fraction(float(cost) ** 1.01)
+            distance = abs(abs(ranks[p.id] - ranks[q.id]) - Fraction(len(group), 2))
+            # En liten mjuk färgkostnad förbättrar färgbalansen utan att göra
+            # färgen till en hård barriär mellan tillåtna par.
+            cells[a][b] = cells[b][a] = (
+                Fraction(float(distance) ** 1.01) + COLOR_COST_WEIGHT * color_cost(p, q)
+            )
     return CostMatrix(players, tuple(tuple(row) for row in cells))
 
 
-def pair_round(players: Sequence[Player], weights: Weights = Weights()) -> list[Pairing]:
-    """Minimera summan av parkostnader; kräv att alla spelare blir parade.
-
-    Vid udda deltagarantal måste en frirond väljas av anroparen först.
-    Indata och spelarhistorik ändras aldrig.
-    """
+def score_groups(players: Sequence[Player]) -> list[list[Player]]:
+    """Jämna ut poänggrupper uppifrån med lägsta Elo som nedflyttare."""
     if len(players) % 2:
         raise ValueError("Välj en spelare för frirond före lottning av udda antal.")
-    matrix = cost_matrix(players, weights)
+    if len({p.id for p in players}) != len(players):
+        raise ValueError("Spelar-id måste vara unika.")
+    if any(not isfinite(p.points) or p.points < 0 for p in players):
+        raise ValueError("Poängen måste vara ändliga och icke-negativa.")
+    by_points = {}
+    for player in players:
+        by_points.setdefault(player.points, []).append(player)
+    groups = [by_points[points] for points in sorted(by_points, reverse=True)]
+    for index, group in enumerate(groups):
+        group.sort(key=lambda p: (-p.elo, p.id))
+        if len(group) % 2:
+            groups[index + 1].append(group.pop())
+    return groups
+
+
+def pair_round(
+    players: Sequence[Player],
+    *,
+    on_group: Callable[[int, tuple[Player, ...], list[Pairing] | None], None] | None = None,
+) -> list[Pairing]:
+    """Lös jämna poänggrupper uppifrån; utöka med två spelare vid behov.
+
+    Hämtade spelare har högst Elo i närmaste kvarvarande lägre grupp.
+    Avslutade grupper omprövas inte. Indata och historik ändras aldrig.
+    on_group får varje försöks gruppnummer, spelare och resultat (None vid misslyckande).
+    """
+    groups = score_groups(players)
+    result = []
+    for index, group in enumerate(groups):
+        if not group:
+            continue
+        while True:
+            group.sort(key=lambda p: (-p.elo, p.id))
+            matrix = cost_matrix(group)
+            pairings = _match_group(matrix)
+            if on_group is not None:
+                on_group(index + 1, matrix.players, pairings)
+            if pairings is not None:
+                result.extend(pairings)
+                break
+            donor = next((g for g in groups[index + 1:] if g), None)
+            if donor is None:
+                raise ValueError("Ingen fullständig lottning finns med tillåtna motståndare och färgbalanser.")
+            group.extend(donor[:2])
+            del donor[:2]
+    return result
+
+
+def _match_group(matrix: CostMatrix) -> list[Pairing] | None:
+    """Blossom optimerar den aktuella gruppen och kräver full matchning."""
     graph = nx.Graph()
     graph.add_nodes_from(range(len(matrix.players)))
-    # Matrisens kostnader skalas till heltal utan ytterligare avrundning.
+    # Scale powered costs to integers without additional rounding.
     from math import lcm
     scale = lcm(*(c.denominator for row in matrix.cells for c in row if c is not None))
     for i, row in enumerate(matrix.cells):
@@ -96,7 +155,7 @@ def pair_round(players: Sequence[Player], weights: Weights = Weights()) -> list[
                 graph.add_edge(i, j, weight=int(row[j] * scale))
     matching = nx.min_weight_matching(graph, weight="weight")
     if len(matching) * 2 != len(matrix.players):
-        raise ValueError("Ingen fullständig lottning finns med tillåtna motståndare och färgbalanser.")
+        return None
     result = []
     for i, j in sorted(tuple(sorted(edge)) for edge in matching):
         p, q = matrix.players[i], matrix.players[j]
@@ -106,8 +165,3 @@ def pair_round(players: Sequence[Player], weights: Weights = Weights()) -> list[
         result.append(Pairing(white, black, float(matrix.cells[i][j])))
     return result
 
-
-if __name__ == "__main__":
-    players = [Player(str(i + 1), 2400 - i * 100) for i in range(8)]
-    for pairing in pair_round(players):
-        print(f"Vit: {pairing.white.id}, svart: {pairing.black.id}, kostnad: {pairing.cost:g}")
