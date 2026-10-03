@@ -6,15 +6,15 @@ Göran Adamsson        1
 Jovan Nikander        1
 Valeri Ivanyuhin      1
 Jockum Wahlberg       1
-Ove Hartzell          2
-Hans Weström          2
-Lennart B. Johansson  2
-Mikael Lundberg       3 5
-Ali Koc               3
-Leif Hållstedt        4 5
-Andreas Segeljakt     5
-Camilo Garcia Giraldo 4
-Olle Ålgars           5
-Bo Ländin             5
-Christer Johansson    5
+Ove Hartzell           2
+Hans Weström           2
+Lennart B. Johansson   2
+Mikael Lundberg         3 5
+Ali Koc                 3
+Leif Hållstedt           45
+Andreas Segeljakt         5
+Camilo Garcia Giraldo    4
+Olle Ålgars               5
+Bo Ländin                 5
+Christer Johansson        5
 
