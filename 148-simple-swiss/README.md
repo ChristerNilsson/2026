@@ -1,82 +1,49 @@
 # Simple Swiss
 
-Python 3.10+ och Blossom via NetworkX.
+Målet med detta program är att förenkla koden maximalt.  
+Koden har minskat från 8000 LOC till 250.  
+Resultatet behöver inte bli identiskt.  
+Algoritmen, förutom Blossom, går att utföra för hand.
 
-`python main.py` läser turneringen från `19069.json` och personliga frironder
-från `19069.txt`. Varje rad efter rubriken innehåller spelarens namn följt av
-rondnummer, exempelvis `Mikael Lundberg 3 5`. Personliga frironder ger 0,5 poäng
-och spelaren undantas från lottningen i dessa ronder. Tidigare personliga
-frironder räknas en gång och påverkar inte färg- eller motståndarhistoriken.
-Okända eller tvetydiga namn stoppar körningen med ett felmeddelande.
+Så här fungerar algoritmen:
 
-Programmet visar turnering och rond, personliga frironder, eventuell information
-om uppskjutna partier och den slutliga lottningen med vitt och svart.
-Bordslistan sorteras på fallande summa av de två spelarnas poäng.
-Vid lika summa behålls den tidigare ordningen.
-Trace-utskrifter av spelarstatistik, parkostnader och Blossom-försök visas inte.
-`pair_round` kan fortfarande rapportera gruppförsök via den valfria callbacken
-`on_group` vid felsökning.
+* Skapa poänggrupperna
+* Se till att antalet i varje grupp blir jämnt.
+  * Detta genom att eventuellt flytta ner den udda spelaren
+* För varje grupp
+  * Sortera på elo
+  * Beräkna avståndet till gruppens mitt med abs(abs(i,j)-n/2) ^ 1.01
+  * Beräkna färgkostnaden
+  * Lägg in avstånd och färgkostnad i varje cell
+  * Låt Blossom utför parningen
+  * Om Blossom misslyckas
+    * Flytta de två översta spelarna från underliggande grupp till nuvarande grupp
+    * Repetera tills Blossom lyckas para alla spelarna.
 
-```powershell
-python -m pip install -r requirements.txt
-python swiss.py
-python -m unittest -v
+Exempel:
 ```
-
-```python
-from swiss import Player, pair_round, cost_matrix
-
-players = [
-    Player("Anna", 2100, points=2, color_balance=1),
-    Player("Bo", 2000, points=2, color_balance=-1),
-    Player("Cia", 1900, points=1),
-    Player("Dan", 1800, points=1),
-]
-matrix = cost_matrix(players)
-for game in pair_round(players):
-    print(game.white.id, game.black.id, game.cost)
-```
-
-Varje tillåten cell innehåller parkostnaden
-
-`abs(abs(i-j) - n/2) ** 1.01`.
-
-`i` och `j` är positioner i fallande Elo-ordning inom poänggruppen;
-lika Elo avgörs med spelar-id. `n` är gruppens storlek. Vid lottning används
-hela den aktuella, eventuellt utökade gruppens Elo-ordning och storlek, oavsett
-spelarnas poäng. `cost_matrix` behandlar alla angivna spelare som en grupp.
-Färgbalans är antal vita minus antal svarta partier. Walkover-partier
-(`1w` och `0w`) påverkar inte färgbalansen. Ett par tillåts bara om
-`balance_i + balance_j` är -1, 0 eller 1. För tillåtna par läggs dessutom en
-liten mjuk färgkostnad till, som minimerar total färgbalans efter partiet utan
-att göra färgen till en hård barriär. Cellen innehåller avvikelsen från önskat
-rankavstånd upphöjd till 1,01, plus 1/20 av den bästa möjliga färgkostnaden
-för det paret. Exponenten ger större avvikelser en högre relativ kostnad.
-Poäng används för den inledande gruppindelningen och bordslistans sortering.
-
-Matrisen är symmetrisk och följer indatas spelarordning. `None` betyder
-diagonal, förbjudet åter möte eller otillåten summerad färgbalans. Historik i endera spelarens `opponents`
-räcker för att förbjuda paret. Blossom minimerar den aktuella gruppens totalkostnad.
-Potensen beräknas med flyttal och resultatet lagras exakt som ett rationellt tal.
-Inför Blossom skalas kostnaderna till heltal utan ytterligare avrundning.
-Färg väljs därefter genom att minimera summan av spelarnas absoluta
-färgbalanser efter partiet; vid lika utfall får den först angivna spelaren vitt.
-
-`Weights` används endast för spelaröversiktens individuella statistik;
-lottningen tar inga vikter.
-Lottningen delar först upp spelarna efter fallande poäng. En udda grupp flyttar
-sin lägst Elo-rankade spelare ned till nästa poänggrupp, uppifrån och ned.
-Varje grupp sorteras på fallande Elo oavsett spelarnas ursprungliga poäng.
-Blossom försöker hitta en fullständig parning i första gruppen. Om det inte går
-hämtas de två högst Elo-rankade spelarna från närmaste kvarvarande lägre grupp.
-Den utökade gruppen sorteras om och försöket upprepas tills en lösning finns
-eller spelarna tar slut. Därefter behandlas nästa kvarvarande grupp.
-Avslutade parningar omprövas inte; algoritmen kan därför misslyckas även om
-en annan parning av en tidigare grupp skulle möjliggöra en fullständig rond.
-Spelarnas poäng och historik ändras inte av gruppflyttningarna.
-
-Detta är en Swiss-liknande
-optimeringsmodell, inte en fullständig FIDE-lottning. Färghistorik och gränser
-för upprepade färger ingår inte. Vid udda antal väljer anroparen frirond och
-tar bort den spelaren före lottningen. Uppdatera poäng, färgbalans och
-motståndarhistorik efter varje omgång.
+  1  CM Mikael Helin                 1941    3.5 |   4  Nils Carlsson                   2066    3.5
+  7  Johan Sterner                   1771      3 |   2  WFM Susanna Berg Laachiri       1917    3.5
+  9  FM Mikael Näslund               2124      3 |   6  Svante Wedin                    1937      3
+ 10  Bo E Eriksson                   2019      3 |   8  Rune Evertsson                  1879      3
+ 11  Stefan Bäcklin                  1975      3 |   5  Björn Löwgren                   1795      3
+ 12  Ivan Franchuk                   2071    2.5 |  14  Hans Weström                    1796    2.5
+ 18  Camilo Garcia Giraldo           1793    2.5 |  15  Henrik Strömbäck                2003    2.5
+ 21  Tomas Lindblad                  1997    2.5 |  22  Lars Cederfeldt                 1785    2.5
+ 20  Dick Viklund                    1781    2.5 |  17  Peter Carlsten                  1913    2.5
+ 13  Bo Franzén                      1824    2.5 |  16  Stefan Lindh                    1703    2.5
+ 35  Lars Ring                       1738      2 |  34  Lennart B. Johansson            1941      2
+ 33  Peter Silins                    1862      2 |  38  Abbas Razavi                    1691      2
+ 30  Thomas Axelsson                 1688      2 |  27  Ove Hartzell                    1861      2
+ 23  Leif Lundquist                  1856      2 |  36  Kent Sahlin                     1673      2
+ 32  Sven-Åke Karlsson               1828      2 |  29  Friedemann Stumpf               1673      2
+ 31  Jockum Wahlberg                 1774      2 |  24  Anders Hillbur                  1643      2
+ 26  Göran Adamsson                  1745      2 |  28  Valeri Ivanyuhin                1640      2
+ 40  Lars-Åke Pettersson             1765    1.5 |  37  Magnus Karlsson                 1737    1.5
+ 47  Leonid Stolov                   1718      1 |  42  Helge Bergström                 1545    1.5
+ 46  Bele Ullmark                    1823      1 |  49  Miroljub Zivic                  1594      1
+ 51  Ali Koc                         1459      1 |  43  Bengt Eriksson                  1688      1
+ 50  Jovan Nikander                  1492      1 |  48  Christer Nilsson                1599      1
+ 52  Lars-Ivar Juntti                1553    0.5 |  44  Jan Karlsson                       0      1
+ 53  Arne Jansson                    1496      0 |  54  Vida Radon                      1403    0.5
+ ```
