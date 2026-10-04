@@ -17,6 +17,16 @@ class Player:
     points: float = 0
     color_balance: int = 0  # Antal vita minus antal svarta partier.
     opponents: frozenset[str] = frozenset()
+    upfloat_count: int = 0
+    downfloat_count: int = 0
+    float_history: tuple[str, ...] = ()  # Rond 1 på index 0: up/down/none.
+    color_history: tuple[str, ...] = ()  # Spelade partier, äldsta först.
+    pairing_number: int | None = None
+    initial_color: str = "white"
+
+    def __post_init__(self):
+        if self.upfloat_count < 0 or self.downfloat_count < 0:
+            raise ValueError("Antalet upfloats/downfloats får inte vara negativa.")
 
 
 @dataclass(frozen=True)
@@ -32,6 +42,12 @@ class Weights:
             raise ValueError("Vikterna måste vara ändliga och icke-negativa.")
 
 
+def pairing_order(player: Player):
+    """Fast lottningsnummer; Elo används för spelare utan lottningsnummer."""
+    return (player.pairing_number if player.pairing_number is not None else float("inf"),
+            -player.elo, player.id)
+
+
 @dataclass(frozen=True)
 class Pairing:
     white: Player
@@ -43,6 +59,7 @@ class Pairing:
 class CostMatrix:
     players: tuple[Player, ...]
     cells: tuple[tuple[Fraction | None, ...], ...]
+    components: tuple = ()  # Färgönskemål, starka önskemål, rankavstånd, färgbalans.
 
 
 def pairing_restrictions(p: Player, q: Player) -> tuple[str, ...]:
@@ -63,31 +80,105 @@ def color_cost(p: Player, q: Player) -> int:
     return abs(p.color_balance + q.color_balance)
 
 
-def cost_matrix(players: Sequence[Player]) -> CostMatrix:
-    """Rankavvikelse i en Elo-sorterad grupp med liten färgbonus.
+def unmet_color_preferences(p: Player, q: Player) -> tuple[int, int]:
+    """Antal ouppfyllda färgönskemål, totalt respektive starka."""
+    white, black = allocate_colors(p, q)
+    unmet = strong = 0
+    for player, assigned in ((white, "white"), (black, "black")):
+        preferred, strength = color_preference(player)
+        if preferred is not None and preferred != assigned:
+            unmet += 1
+            strong += strength == 2
+    return unmet, strong
 
-    None anger diagonal, åter möte eller otillåten summerad färgbalans.
+
+def color_preference(player: Player) -> tuple[str | None, int]:
+    """Önskad färg och styrka: absolut=3, stark=2, mild=1 (1.7)."""
+    balance, history = player.color_balance, player.color_history
+    if abs(balance) > 1:
+        return ("black" if balance > 0 else "white"), 3
+    if len(history) >= 2 and history[-1] == history[-2]:
+        return ("black" if history[-1] == "white" else "white"), 3
+    if balance:
+        return ("black" if balance > 0 else "white"), 2
+    if history:
+        return ("black" if history[-1] == "white" else "white"), 1
+    return None, 0
+
+
+def allocate_colors(p: Player, q: Player) -> tuple[Player, Player]:
+    """FIDE Dutch 2026-02-01, färgtilldelning i ordningen 5.2.1–5.2.5."""
+    pc, ps = color_preference(p)
+    qc, qs = color_preference(q)
+
+    def grant(player, color):
+        other = q if player is p else p
+        return (player, other) if color == "white" else (other, player)
+
+    if pc != qc:
+        if pc is not None:
+            return grant(p, pc)
+        if qc is not None:
+            return grant(q, qc)
+    if ps != qs:
+        return grant(p, pc) if ps > qs else grant(q, qc)
+    if ps == 3 and abs(p.color_balance) != abs(q.color_balance):
+        return grant(p, pc) if abs(p.color_balance) > abs(q.color_balance) else grant(q, qc)
+    for previous_p, previous_q in zip(reversed(p.color_history), reversed(q.color_history)):
+        if previous_p != previous_q:
+            return grant(p, "black" if previous_p == "white" else "white")
+    higher = min((p, q), key=lambda player: (
+        -player.points, player.pairing_number if player.pairing_number is not None else float("inf"),
+        -player.elo, player.id))
+    preference, _ = color_preference(higher)
+    if preference is not None:
+        return grant(higher, preference)
+    color = higher.initial_color
+    if higher.pairing_number is not None and higher.pairing_number % 2 == 0:
+        color = "black" if color == "white" else "white"
+    return grant(higher, color)
+
+
+def cost_matrix(players: Sequence[Player], *, s1_ids: frozenset[str] | None = None) -> CostMatrix:
+    """Färgönskemål före rankavvikelse i en Elo-sorterad grupp.
+
+    S1 är normalt övre Elo-halvan och S2 den undre. Endast S1–S2 tillåts.
+    None anger samma delgrupp, åter möte eller otillåten färgbalans.
     """
     players = tuple(players)
     if len({p.id for p in players}) != len(players):
         raise ValueError("Spelar-id måste vara unika.")
     if any(not isfinite(p.points) or p.points < 0 for p in players):
         raise ValueError("Poängen måste vara ändliga och icke-negativa.")
-    group = sorted(players, key=lambda p: (-p.elo, p.id))
+    group = sorted(players, key=pairing_order)
     ranks = {p.id: i for i, p in enumerate(group)}
+    # En enhet måste överstiga hela matchningens lägre prioriterade kostnad.
+    pair_count = len(group) // 2
+    strong_unit = pair_count * (Fraction(len(group) ** 1.01) + COLOR_COST_WEIGHT) + 1
+    preference_unit = (2 * pair_count + 1) * strong_unit
+    if s1_ids is None:
+        s1_ids = frozenset(p.id for p in group[:len(group) // 2])
+    if not s1_ids <= ranks.keys():
+        raise ValueError("S1 måste innehålla spelare från gruppen.")
     cells = [[None] * len(players) for _ in players]
+    components = [[None] * len(players) for _ in players]
     for a, p in enumerate(players):
         for b in range(a + 1, len(players)):
             q = players[b]
+            if (p.id in s1_ids) == (q.id in s1_ids):
+                continue
             if pairing_restrictions(p, q):
                 continue
             distance = abs(abs(ranks[p.id] - ranks[q.id]) - Fraction(len(group), 2))
-            # En liten mjuk färgkostnad förbättrar färgbalansen utan att göra
-            # färgen till en hård barriär mellan tillåtna par.
-            cells[a][b] = cells[b][a] = (
-                Fraction(float(distance) ** 1.01) + COLOR_COST_WEIGHT * color_cost(p, q)
+            unmet, strong = unmet_color_preferences(p, q)
+            parts = (
+                unmet * preference_unit, strong * strong_unit,
+                Fraction(float(distance) ** 1.01), COLOR_COST_WEIGHT * color_cost(p, q)
             )
-    return CostMatrix(players, tuple(tuple(row) for row in cells))
+            components[a][b] = components[b][a] = parts
+            cells[a][b] = cells[b][a] = sum(parts)
+    return CostMatrix(players, tuple(tuple(row) for row in cells),
+                      tuple(tuple(row) for row in components))
 
 
 def score_groups(players: Sequence[Player]) -> list[list[Player]]:
@@ -103,7 +194,7 @@ def score_groups(players: Sequence[Player]) -> list[list[Player]]:
         by_points.setdefault(player.points, []).append(player)
     groups = [by_points[points] for points in sorted(by_points, reverse=True)]
     for index, group in enumerate(groups):
-        group.sort(key=lambda p: (-p.elo, p.id))
+        group.sort(key=pairing_order)
         if len(group) % 2:
             groups[index + 1].append(group.pop())
     return groups
@@ -112,25 +203,65 @@ def score_groups(players: Sequence[Player]) -> list[list[Player]]:
 def pair_round(
     players: Sequence[Player],
     *,
-    on_group: Callable[[int, tuple[Player, ...], list[Pairing] | None], None] | None = None,
+    on_group: Callable[[float, tuple[Player, ...], list[Pairing] | None], None] | None = None,
+    on_matrix: Callable[[float, CostMatrix], None] | None = None,
 ) -> list[Pairing]:
     """Lös jämna poänggrupper uppifrån; utöka med två spelare vid behov.
 
     Hämtade spelare har högst Elo i närmaste kvarvarande lägre grupp.
     Avslutade grupper omprövas inte. Indata och historik ändras aldrig.
-    on_group får varje försöks gruppnummer, spelare och resultat (None vid misslyckande).
+    on_group får varje försöks grupppoäng, spelare och resultat (None vid misslyckande).
     """
     groups = score_groups(players)
+    downfloaters = {
+        p.id for group in groups if group
+        for p in group if p.points > min(q.points for q in group)
+    }
     result = []
     for index, group in enumerate(groups):
         if not group:
             continue
+        group_points = min(player.points for player in group)
         while True:
-            group.sort(key=lambda p: (-p.elo, p.id))
+            group.sort(key=pairing_order)
             matrix = cost_matrix(group)
-            pairings = _match_group(matrix)
+            # Lås nedflyttaren till första tillåtna motståndaren i Elo-ordning.
+            pairings = None
+            for i, player in enumerate(matrix.players):
+                if player.id not in downfloaters:
+                    continue
+                candidates = [j for j, candidate in enumerate(matrix.players)
+                              if candidate.points < player.points
+                              and not pairing_restrictions(player, candidate)]
+                # C17 (2026-02-01) är ett kvalitetskriterium, inte ett förbud.
+                # Stabil sortering behåller fallande Elo inom båda kategorierna.
+                candidates.sort(key=lambda j: (
+                    len(matrix.players[j].float_history) >= 2
+                    and matrix.players[j].float_history[-2] == "up"))
+                for opponent in candidates:
+                    # MDP-paret väljs först. Återstoden delas i Elo-halvor.
+                    remainder = [p for j, p in enumerate(matrix.players)
+                                 if j not in (i, opponent)]
+                    s1_ids = frozenset([player.id] + [
+                        p.id for p in remainder[:len(remainder) // 2]])
+                    trial = cost_matrix(group, s1_ids=s1_ids)
+                    cells = [list(row) for row in trial.cells]
+                    for j in range(len(group)):
+                        if j != opponent:
+                            cells[i][j] = cells[j][i] = None
+                    trial = CostMatrix(matrix.players, tuple(tuple(row) for row in cells),
+                                       trial.components)
+                    pairings = _match_group(trial)
+                    matrix = trial
+                    if pairings is not None:
+                        break
+                break  # Jämnandet ger högst en nedflyttare per grupp.
+            else:
+                pairings = _match_group(matrix)
             if on_group is not None:
-                on_group(index + 1, matrix.players, pairings)
+                on_group(group_points, matrix.players, pairings)
+            if on_matrix is not None:
+                on_matrix(group_points, matrix)
             if pairings is not None:
                 result.extend(pairings)
                 break
@@ -159,9 +290,7 @@ def _match_group(matrix: CostMatrix) -> list[Pairing] | None:
     result = []
     for i, j in sorted(tuple(sorted(edge)) for edge in matching):
         p, q = matrix.players[i], matrix.players[j]
-        p_white = abs(p.color_balance + 1) + abs(q.color_balance - 1)
-        q_white = abs(p.color_balance - 1) + abs(q.color_balance + 1)
-        white, black = (p, q) if p_white <= q_white else (q, p)
+        white, black = allocate_colors(p, q)
         result.append(Pairing(white, black, float(matrix.cells[i][j])))
     return result
 

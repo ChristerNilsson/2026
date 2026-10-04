@@ -1,5 +1,7 @@
 # Simple Swiss
 
+`19069.txt` innehåller personliga frironder (namn följt av rondnummer) och sektionen `Strukna spelare fr o m` (namn följt av första rond spelaren ska uteslutas). Tidigare partier och motståndarhistorik behålls. Vid udda antal väljs en lottningsfrirond på 1 poäng bland behöriga spelare i stigande poäng/Elo, förutsatt att övriga kan paras. Personliga frironder ger fortsatt 0.5 poäng.
+
 Målet med detta program är att förenkla koden maximalt.  
 Koden har minskat från 8000 LOC till 250.  
 Resultatet behöver inte bli identiskt.  
@@ -7,11 +9,17 @@ Algoritmen, förutom Blossom, går att utföra för hand.
 
 Så här fungerar algoritmen:
 
+Färger tilldelas enligt FIDE Dutch 2026-02-01, 5.2.1–5.2.5: bådas preferenser, starkare preferens, alternering vid senaste olika färger, högre rankades preferens och slutligen initialfärg/TPN. Färghistoriken innehåller endast spelade partier; walkover och frironder hoppas över. Initialfärg läses från `initialColor` om den finns, annars härleds den från första rondens lottning (vit används om underlag saknas).
+
+Floathistorik beräknas per rond från poängen före ronden enligt FIDE Dutch från 1 februari 2026 (1.4.2–1.4.4). Uppskjutna resultat räknas preliminärt som 0.5. Personliga frironder med poäng och vunna walkoverpartier ger downfloat. C17 prioriterar motståndare som inte upfloatade två ronder tidigare; inom samma kategori provas fallande Elo. Kriteriet kan släppas om fullständig lottning annars saknas. Detta är fortfarande en förenklad algoritm, inte en fullständig implementation av alla Dutch-kriterier.
+
 * Skapa poänggrupperna
 * Se till att antalet i varje grupp blir jämnt.
   * Detta genom att eventuellt flytta ner den udda spelaren
+  * Nedflyttaren paras med den första tillåtna deltagaren i den undre gruppen, sorterad på fallande Elo. Kandidater som bryter mot reglerna för tidigare möten eller färgbalans hoppas över.
 * För varje grupp
   * Sortera på elo
+  * Dela i S1 (övre halvan) och S2 (undre halvan). Endast celler mellan S1 och S2 är tillåtna. För en nedflyttare väljs dess motståndare först; återstående deltagare delas sedan i två Elo-halvor.
   * Beräkna avståndet till gruppens mitt med abs(abs(i,j)-n/2) ^ 1.01
   * Beräkna färgkostnaden
   * Lägg in avstånd och färgkostnad i varje cell
@@ -47,3 +55,9 @@ Exempel:
  52  Lars-Ivar Juntti                1553    0.5 |  44  Jan Karlsson                       0      1
  53  Arne Jansson                    1496      0 |  54  Vida Radon                      1403    0.5
  ```
+Lottningsordningen använder `pairingNumber`, importerat från spelarnumren i
+`4.trf`. `number` behålls som visningsnummer och för tidigare motståndarreferenser.
+Aktuell Elo ändrar inte den fastställda lottningsordningen. Underlag utan
+`pairingNumber` använder `number`. Spelare skapade direkt utan lottningsnummer
+sorteras fortfarande efter fallande Elo.
+
