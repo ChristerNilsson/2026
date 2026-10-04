@@ -18,7 +18,14 @@ class MainTests(unittest.TestCase):
         byes, withdrawals = load_absences(path.with_suffix(".txt"), group["players"])
         entries = {p["id"]: p for p in group["players"]}
         players = load_players(group, 5, byes, withdrawals=withdrawals)
-        games, _ = pair_with_bye(players, entries, 5, byes)
+        games, bye = pair_with_bye(players, entries, 5, byes)
+        self.assertEqual(entries[bye.id]["name"], "Arne Jansson")
+        paired_ids = [p.id for game in games for p in (game.white, game.black)]
+        self.assertEqual(len(paired_ids), len(set(paired_ids)))
+        self.assertEqual(set(paired_ids) | {bye.id}, {p.id for p in players})
+        for game in games:
+            self.assertNotIn(game.black.id, game.white.opponents)
+            self.assertNotIn(game.white.id, game.black.opponents)
         self.assertEqual({p.pairing_number for p in players},
                          {entries[p.id]["number"] for p in players})
         for game in games:
@@ -33,7 +40,20 @@ class MainTests(unittest.TestCase):
         players = load_players(group, 5, byes, withdrawals=withdrawals)
         self.assertEqual(len({p["pairingNumber"] for p in group["players"]}), 54)
         entries = {p["id"]: p for p in group["players"]}
-        games, _ = pair_with_bye(players, entries, 5, byes)
+        attempts = []
+        games, bye = pair_with_bye(
+            players, entries, 5, byes,
+            on_group=lambda points, members, pairs: attempts.append((points, members, pairs)))
+        self.assertEqual(bye.pairing_number, 51)
+        self.assertEqual(attempts[-2][0], 1.0)
+        self.assertEqual(len(attempts[-2][1]), 6)
+        self.assertEqual(attempts[-1][0], 0.5)
+        lower_numbers = {p.pairing_number for p in attempts[-1][1]}
+        self.assertTrue({49, 54} <= lower_numbers)
+        self.assertEqual(len(lower_numbers), 4)
+        self.assertEqual(lower_numbers, {49, 52, 53, 54})
+        self.assertIsNotNone(attempts[-2][2])
+        self.assertIsNotNone(attempts[-1][2])
         self.assertEqual({(g.white.pairing_number, g.black.pairing_number)
                           for g in games if g.white.points == g.black.points == 2},
                          {(33, 16), (38, 17), (41, 18), (20, 34), (29, 39), (31, 42)})

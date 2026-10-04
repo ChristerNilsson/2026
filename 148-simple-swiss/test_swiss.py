@@ -2,10 +2,20 @@ import unittest
 from fractions import Fraction
 from unittest.mock import patch
 
-from swiss import Player, allocate_colors, cost_matrix, pair_round, pairing_restrictions, score_groups
+from swiss import (Player, allocate_colors, cost_matrix, pair_round, pairing_restrictions,
+                   score_groups)
 
 
 class SwissTests(unittest.TestCase):
+    def test_lowest_elo_floats_even_when_pairing_numbers_have_different_order(self):
+        players = [Player("Carlsson", 2066, 3.5, pairing_number=3),
+                   Player("Laachiri", 1917, 3.5, pairing_number=10),
+                   Player("Helin", 1941, 3.5, pairing_number=13),
+                   Player("other", 2000, 3, pairing_number=1)]
+        groups = score_groups(players)
+        self.assertEqual({p.id for p in groups[0]}, {"Carlsson", "Helin"})
+        self.assertEqual({p.id for p in groups[1]}, {"Laachiri", "other"})
+
     def test_reported_matrix_components_sum_to_actual_costs(self):
         players = [Player("a", 2000, color_history=("white", "black")),
                    Player("b", 1900, color_history=("white", "black"))]

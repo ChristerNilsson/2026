@@ -61,3 +61,6 @@ Aktuell Elo ändrar inte den fastställda lottningsordningen. Underlag utan
 `pairingNumber` använder `number`. Spelare skapade direkt utan lottningsnummer
 sorteras fortfarande efter fallande Elo.
 
+Om sista gruppen inte kan lottas ompr?vas f?reg?ende grupp. De tv? spelarna
+med l?gst Elo flyttas ned och grupperna lottas var f?r sig igen. Fler spelare
+flyttas ned endast om det fortfarande saknas en fullst?ndig lottning.

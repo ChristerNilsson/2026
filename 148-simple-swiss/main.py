@@ -145,7 +145,7 @@ def load_players(group, round_number, personal_byes=None, *, include_absent=Fals
 
 def pair_with_bye(players, entries, round_number, personal_byes, *, on_group=None,
                   on_matrix=None):
-    """Välj vid udda antal lägsta poäng/Elo som medger full lottning.
+    """Välj lägsta poäng, därefter högsta lottningsnummer, med full lottning.
 
     Tidigare lottningsfrirond eller full poäng utan spel utesluter ny frirond.
     """

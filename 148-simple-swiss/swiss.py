@@ -173,7 +173,7 @@ def cost_matrix(players: Sequence[Player], *, s1_ids: frozenset[str] | None = No
             unmet, strong = unmet_color_preferences(p, q)
             parts = (
                 unmet * preference_unit, strong * strong_unit,
-                Fraction(float(distance) ** 1.01), COLOR_COST_WEIGHT * color_cost(p, q)
+                Fraction(float(distance) ** 1.01), COLOR_COST_WEIGHT * color_cost(p, q),
             )
             components[a][b] = components[b][a] = parts
             cells[a][b] = cells[b][a] = sum(parts)
@@ -196,7 +196,11 @@ def score_groups(players: Sequence[Player]) -> list[list[Player]]:
     for index, group in enumerate(groups):
         group.sort(key=pairing_order)
         if len(group) % 2:
-            groups[index + 1].append(group.pop())
+            downfloater = min(group, key=lambda p: (p.elo,
+                             -(p.pairing_number if p.pairing_number is not None else 0),
+                             p.id))
+            group.remove(downfloater)
+            groups[index + 1].append(downfloater)
     return groups
 
 
@@ -218,6 +222,7 @@ def pair_round(
         for p in group if p.points > min(q.points for q in group)
     }
     result = []
+    completed = []
     for index, group in enumerate(groups):
         if not group:
             continue
@@ -264,9 +269,41 @@ def pair_round(
                 on_matrix(group_points, matrix)
             if pairings is not None:
                 result.extend(pairings)
+                completed.append((group_points, tuple(group), pairings))
                 break
             donor = next((g for g in groups[index + 1:] if g), None)
             if donor is None:
+                # Om sista gruppen låser sig, ompröva tidigare grupper för att
+                # kunna fullfölja lottningen med samma frirondskandidat.
+                remainder = list(group)
+                while completed:
+                    previous_points, previous_players, previous_games = completed.pop()
+                    del result[-len(previous_games):]
+                    previous_players = sorted(previous_players, key=pairing_order)
+                    for moved_count in range(2, len(previous_players) + 1, 2):
+                        moved = sorted(previous_players, key=lambda p: (p.elo, pairing_order(p)))[:moved_count]
+                        moved_ids = {p.id for p in moved}
+                        upper = [p for p in previous_players if p.id not in moved_ids]
+                        lower = sorted(moved + remainder, key=pairing_order)
+                        upper_matrix = cost_matrix(upper)
+                        upper_games = _match_group(upper_matrix)
+                        if upper_games is None:
+                            continue
+                        lower_matrix = cost_matrix(lower)
+                        lower_games = _match_group(lower_matrix)
+                        if lower_games is not None:
+                            for points, retry, pairs in (
+                                (previous_points, upper_matrix, upper_games),
+                                (group_points, lower_matrix, lower_games),
+                            ):
+                                if retry.players:
+                                    if on_group is not None:
+                                        on_group(points, retry.players, pairs)
+                                    if on_matrix is not None:
+                                        on_matrix(points, retry)
+                            result.extend(upper_games + lower_games)
+                            return sorted(result, key=lambda game: -(game.white.points + game.black.points))
+                    remainder.extend(previous_players)
                 raise ValueError("Ingen fullständig lottning finns med tillåtna motståndare och färgbalanser.")
             group.extend(donor[:2])
             del donor[:2]
