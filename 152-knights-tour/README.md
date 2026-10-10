@@ -17,6 +17,10 @@ En enkel webbapp för att träna på Knights Tour i en 8x8-bräda.
    `python -m http.server 8000`
 3. Gå till `http://localhost:8000` i webbläsaren.
 
+## Try it!
+
+[Try it!](https://christernilsson.github.io/2026/152-knights-tour/)
+
 ## Notes
 
 Den fasta lösningen visualiseras från den fördefinierade sekvensen i `script.js`.
