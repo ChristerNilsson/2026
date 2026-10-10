@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Knights Tour – Träning</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Knights Tour</p>
+          <h1>Träning</h1>
+        </div>
+        <div class="status-box">
+          <span class="label">Tid</span>
+          <strong id="timer">00:00.0</strong>
+        </div>
+      </header>
+
+      <section class="panel controls">
+        <div class="field">
+          <label for="startSquare">Startruta</label>
+          <select id="startSquare"></select>
+        </div>
+
+        <div class="field">
+          <label for="direction">Riktning</label>
+          <select id="direction">
+            <option value="forward">Framåt</option>
+            <option value="reverse">Bakåt</option>
+          </select>
+        </div>
+
+        <div class="field checkbox-field">
+          <label for="showSolution">Visa fast lösning</label>
+          <input id="showSolution" type="checkbox" checked />
+        </div>
+
+        <div class="field checkbox-field">
+          <label for="blindMode">Kör blint</label>
+          <input id="blindMode" type="checkbox" />
+        </div>
+
+        <div class="button-row">
+          <button id="startBtn" class="primary">Starta träning</button>
+        </div>
+      </section>
+
+      <section class="board-panel">
+        <div id="board" class="board" aria-label="Knights tour board"></div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

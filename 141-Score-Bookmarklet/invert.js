@@ -1,0 +1,28 @@
+(() => {
+  'use strict';
+  const id = '__invert_bookmarklet_style__';
+  const existing = document.getElementById(id);
+  if (existing) {
+    existing.remove();
+    return;
+  }
+
+  const root = document.documentElement;
+  const background = getComputedStyle(root).backgroundColor;
+  // Transparent document canvases normally appear white. Give the filter
+  // an explicit canvas to invert, without changing the page's own styles.
+  const transparent = background === 'transparent' ||
+    /^rgba\([^)]*,\s*0\s*\)$/.test(background);
+  const style = document.createElement('style');
+  style.id = id;
+  style.textContent = `
+    html {
+      filter: invert(1) hue-rotate(180deg) !important;
+      ${transparent ? 'background-color: white !important;' : ''}
+    }
+    img, video, canvas, iframe, svg image {
+      filter: invert(1) hue-rotate(180deg) !important;
+    }
+  `;
+  (document.head || root).appendChild(style);
+})();

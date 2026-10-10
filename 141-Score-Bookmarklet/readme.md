@@ -1,5 +1,25 @@
 https://member.schack.se/ShowTournamentServlet?id=19069
 
+## Invert – växla ljust och mörkt
+
+Skapa ett bokmärke med namnet **invert** och klistra in hela innehållet i
+`invert-bookmarklet.txt` som bokmärkets URL/adress. Öppna en webbsida och
+klicka på bokmärket för att invertera färgerna. Klicka igen för att återställa
+sidans ursprungliga utseende. Efter omladdning behöver bokmärket aktiveras igen.
+
+Bookmarkleten är fristående; `invert.js` behöver inte publiceras eller hämtas.
+Text och bakgrunder inverteras med bevarad färgton. Bilder, video, canvas och
+inbäddade ramar inverteras tillbaka för att behålla sitt utseende.
+Bakgrundsbilder påverkas däremot av inverteringen. Det är en generell
+färgväxling, inte sidans inbyggda tema; vissa sajter kan därför få visuella
+avvikelser, och webbläsarens interna sidor stöder inte bookmarklets.
+
+Testad i Chrome på https://www.marshallchessclub.org/about:
+mörk bakgrund blir ljus, text blir mörk, fotografier bevaras och nästa klick
+återställer originalet. Skärmbilder: `invert-before.png` och `invert-after.png`.
+Även ljus/mörk testbakgrund och transparent sidbakgrund har kontrollerats.
+Testet kan köras med `python test-invert.py` när Playwright och Chrome finns.
+
 ## JSON för lottning av nästa rond
 
 Skapa ett bokmärke med namnet **get-json** och använd innehållet i
