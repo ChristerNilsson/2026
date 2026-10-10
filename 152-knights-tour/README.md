@@ -10,13 +10,6 @@ En enkel webbapp för att träna på Knights Tour i en 8x8-bräda.
 - Första fel stoppar tiden.
 - Lösningen är tänkt att gå tillbaka till d4 i den fasta sekvensen.
 
-## Kör lokalt
-
-1. Öppna terminalen i projektmappen.
-2. Starta en enkel webserver:
-   `python -m http.server 8000`
-3. Gå till `http://localhost:8000` i webbläsaren.
-
 ## Try it!
 
 [Try it!](https://christernilsson.github.io/2026/152-knights-tour/)
