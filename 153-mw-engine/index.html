@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lottningsengine – exempel</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f3f5f8; color: #203047; font: 16px/1.6 system-ui, sans-serif; }
+    main { max-width: 960px; margin: 40px auto; padding: 0 20px; }
+    h1 { margin-bottom: 8px; }
+    h2 { font-size: 1.25rem; }
+    section, details { margin: 24px 0; padding: 24px; border: 1px solid #dbe2ec; border-radius: 12px; background: white; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; white-space: nowrap; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5eaf0; }
+    th { background: #f5f7fb; }
+    pre { overflow-x: auto; font-size: 13px; }
+    summary { cursor: pointer; font-weight: 600; }
+    #status { color: #486079; }
+    #status.error { color: #a82323; }
+  </style>
+  <script src="./fide-dutch-engine.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1>Lottningsengine</h1>
+    <p>Exempelturneringen har fem spelare och en avslutad rond. Sidan anropar enginen automatiskt för att lotta rond 2.</p>
+    <p id="status" role="status">Förbereder lottningen…</p>
+    <section aria-labelledby="round-title">
+      <h2 id="round-title">Nästa rond</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Bord</th><th>Vit / spelare</th><th>Elo</th><th>Svart</th><th>Elo</th><th>Resultat</th></tr></thead>
+          <tbody id="pairings"></tbody>
+        </table>
+      </div>
+      <p>Nya partier väntar på resultat. Frirond ger poäng automatiskt.</p>
+    </section>
+    <section aria-labelledby="players-title">
+      <h2 id="players-title">Spelare före nästa rond</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Namn</th><th>Elo</th><th>Lottningsnummer</th><th>Poäng</th></tr></thead>
+          <tbody id="players"></tbody>
+        </table>
+      </div>
+    </section>
+    <details><summary>Indata till enginen</summary><pre id="input"></pre></details>
+    <details><summary>Resultat från enginen (JSON)</summary><pre id="output"></pre></details>
+    <p>Enginen använder originalets experimentella Dutch-algoritm.</p>
+  </main>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tournament = {
+        name: 'Exempelturnering',
+        totalRounds: 5,
+        initialColor: 'W',
+        players: [
+          { id: 'p1', name: 'Anna Andersson', elo: 2100, tpn: 1 },
+          { id: 'p2', name: 'Bo Berg', elo: 2000, tpn: 2 },
+          { id: 'p3', name: 'Cecilia Carlsson', elo: 1900, tpn: 3 },
+          { id: 'p4', name: 'David Dahl', elo: 1800, tpn: 4 },
+          { id: 'p5', name: 'Eva Ek', elo: 1700, tpn: 5 }
+        ],
+        rounds: [{
+          roundNumber: 1,
+          pairings: [
+            { kind: 'game', board: 1, whiteId: 'p1', blackId: 'p3', result: '1-0' },
+            { kind: 'game', board: 2, whiteId: 'p4', blackId: 'p2', result: '0.5-0.5' },
+            { kind: 'pab', pabId: 'p5', result: 'AUTO', awardedPoints: 1 }
+          ]
+        }]
+      };
+
+      function addRow(target, values) {
+        const row = document.createElement('tr');
+        for (const value of values) {
+          const cell = document.createElement('td');
+          cell.textContent = String(value);
+          row.appendChild(cell);
+        }
+        document.getElementById(target).appendChild(row);
+      }
+
+      document.getElementById('input').textContent = JSON.stringify(tournament, null, 2);
+      try {
+        const result = FideDutchEngine.nextPairing(tournament);
+        const players = new Map(result.players.map(player => [player.id, player]));
+        document.getElementById('round-title').textContent = `Lottning – rond ${result.roundNumber}`;
+        for (const pairing of result.pairings) {
+          if (pairing.kind === 'game') {
+            const white = players.get(pairing.whiteId);
+            const black = players.get(pairing.blackId);
+            addRow('pairings', [pairing.board, white.name, white.elo, black.name, black.elo, 'Ej spelat']);
+          } else {
+            const player = players.get(pairing.pabId ?? pairing.unplayedId);
+            addRow('pairings', ['–', player.name, player.elo, pairing.kind === 'pab' ? 'Frirond' : 'Frånvaro', '–', `${pairing.awardedPoints} poäng`]);
+          }
+        }
+        for (const player of result.players) {
+          addRow('players', [player.id, player.name, player.elo, player.tpn, player.score]);
+        }
+        document.getElementById('output').textContent = JSON.stringify(result, null, 2);
+        document.getElementById('status').textContent = `Rond ${result.roundNumber} lottad med ${result.players.length} spelare.`;
+      } catch (error) {
+        const status = document.getElementById('status');
+        status.className = 'error';
+        status.textContent = `Lottningen misslyckades: ${error.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
