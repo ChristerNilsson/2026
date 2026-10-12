@@ -1,0 +1,54 @@
+﻿2124	FM Mikael Näslund
+2071	Ivan Franchuk
+2066	Nils Carlsson
+2019	Bo E Eriksson
+2003	Henrik Strömbäck
+1997	Tomas Lindblad
+1975	Stefan Bäcklin
+1949	Olle Ålgars
+1941	CM Mikael Helin
+1941	Lennart B. Johansson
+1937	Svante Wedin
+1922	Bo Ländin
+1917	WFM Susanna Berg Laachiri
+1913	Peter Carlsten
+1879	Rune Evertsson
+1862	Peter Silins
+1861	Ove Hartzell
+1856	Leif Lundquist
+1828	Sven-Åke Karlsson
+1824	Bo Franzén
+1823	Bele Ullmark
+1796	Hans Weström
+1795	Björn Löwgren
+1793	Camilo Garcia Giraldo
+1785	Lars Cederfeldt
+1781	Dick Viklund
+1774	Jockum Wahlberg
+1771	Johan Sterner
+1765	Lars-Åke Pettersson
+1745	Göran Adamsson
+1738	Lars Ring
+1737	Magnus Karlsson
+1726	Christer Johansson
+1718	Leonid Stolov
+1703	Stefan Lindh
+1691	Abbas Razavi
+1688	Bengt Eriksson
+1688	Thomas Axelsson
+1673	Friedemann Stumpf
+1673	Kent Sahlin
+1660	Mikael Lundberg
+1643	Anders Hillbur
+1640	Valeri Ivanyuhin
+1626	Leif Hållstedt
+1599	Christer Nilsson
+1594	Miroljub Zivic
+1553	Lars-Ivar Juntti
+1545	Helge Bergström
+1496	Arne Jansson
+1492	Jovan Nikander
+1459	Ali Koc
+1403	Vida Radon
+0	Andreas Segeljakt
+0	Jan Karlsson

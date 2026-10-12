@@ -36,7 +36,8 @@
     alert('Kunde inte hitta namn och Elo. Öppna turneringens deltagarlista eller ställningslista och försök igen.');
     return;
   }
-  const text = ['Elo Namn', ...players.map(player => `${player.elo} ${player.name}`)].join('\r\n') + '\r\n';
+  players.sort((a, b) => Number(b.elo) - Number(a.elo));
+  const text = players.map(player => `${player.elo} ${player.name}`).join('\r\n') + '\r\n';
   const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
   const tab = window.open(url, '_blank');
   if (!tab) {
