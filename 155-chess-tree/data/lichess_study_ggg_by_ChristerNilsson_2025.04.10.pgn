@@ -1,0 +1,36 @@
+[Event "GGG: Veine Gustafsson - Christer Nilsson"]
+[Date "2025-04-10"]
+[White "Veine Gustafsson"]
+[Black "Christer Nilsson"]
+[Result "1-0"]
+[WhiteElo "1783"]
+[BlackElo "1631"]
+[Variant "Standard"]
+[ECO "D02"]
+[Opening "Queen's Pawn Game: Zukertort Variation"]
+[StudyName "GGG"]
+[ChapterName "Veine Gustafsson - Christer Nilsson"]
+[ChapterURL "https://lichess.org/study/TXV9aZnl/kriDJ5Xh"]
+[Annotator "https://lichess.org/@/ChristerNilsson"]
+
+1. Nf3 { [%eval 0.14] } 1... d5 { [%eval 0.18] } 2. d4 { [%eval 0.08] } 2... Bf5 { [%eval 0.34] } 3. c4 { [%eval 0.39] } 3... e6 { [%eval 0.34] } 4. Nc3 { [%eval 0.27] } 4... Bb4 { [%eval 0.53] } 5. Qa4+ { [%eval 0.29] } 5... Nc6 { [%eval 0.27] } 6. Ne5 { [%eval 0.07] } 6... Ne7 { [%eval 0.07] } 7. e3 { [%eval -0.08] } 7... O-O { [%eval -0.11] } 8. Nf3?! { [%eval -0.72] } { Inaccuracy. Nxc6 was best. } (8. Nxc6 Nxc6 9. Bd2 dxc4 10. a3 Bd6 11. Qxc4 a6 12. Be2 Qg5) 8... a6 { [%eval -0.54] } 9. a3 { [%eval -0.55] } 9... Bxc3+ { [%eval -0.56] } 10. bxc3 { [%eval -0.53] } 10... dxc4 { [%eval -0.6] } 11. Qxc4 { [%eval -0.55] } 11... b5 { [%eval -0.48] } 12. Qb3?! { [%eval -1.12] } { Inaccuracy. Qa2 was best. } (12. Qa2 Na5 13. c4 c5 14. Bd2 Nxc4 15. Bxc4 bxc4 16. Qxc4 Rc8 17. dxc5 Bd3) 12... Nd5 { [%eval -1.12] } 13. Bd2 { [%eval -1.03] } 13... Nb6?! { [%eval -0.03] } { Inaccuracy. Na5 was best. } (13... Na5) 14. Be2?! { [%eval -1.12] } { Inaccuracy. c4 was best. } (14. c4 Nxc4) 14... Na5 { [%eval -0.96] } 15. Qd1?! { [%eval -1.73] } { Inaccuracy. Qa2 was best. } (15. Qa2 Be4 16. O-O Rc8 17. Rfd1 Bd5 18. Qb1 Na4 19. e4 Bc4 20. Re1 Bxe2) 15... Qd5 { [%eval -1.17] } 16. Nh4 { [%eval -1.34] } 16... Qb3? { [%eval 0.06] } { Mistake. Be4 was best. } (16... Be4 17. f3 Qd8 18. fxe4 Qxh4+ 19. g3 Qxe4 20. Bf3 Qd3 21. Bxa8 Rxa8 22. Qe2) 17. Nxf5 { [%eval 0.02] } 17... exf5 { [%eval -0.04] } 18. O-O { [%eval -0.33] } 18... Qxd1 { [%eval 0.1] } 19. Rfxd1 { [%eval 0.09] } 19... Nb3 { [%eval 0.11] } 20. Rab1 { [%eval 0.14] } 20... Nxd2 { [%eval 0.13] } 21. Rxd2 { [%eval 0.18] } 21... Rfd8 { [%eval 0.62] } 22. Rc2 { [%eval 0.56] } 22... g5 { [%eval 0.66] } 23. Kf1 { [%eval 0.67] } 23... g4?! { [%eval 1.27] } { Inaccuracy. f4 was best. } (23... f4) 24. Bd3 { [%eval 0.94] } 24... h5?! { [%eval 1.67] } { Inaccuracy. f4 was best. } (24... f4 25. exf4) 25. Bxf5 { [%eval 1.53] } 25... Nc4 { [%eval 2.11] } 26. Ra2 { [%eval 1.91] } 26... Nd6 { [%eval 2.06] } 27. Bd3 { [%eval 2.02] } 27... f5 { [%eval 2.01] } 28. Ke2 { [%eval 1.97] } 28... Kg7 { [%eval 2.17] } 29. a4 { [%eval 2.25] } 29... c6 { [%eval 2.68] } 30. Rba1 { [%eval 2.4] } 30... Rab8 { [%eval 2.92] } 31. axb5 { [%eval 2.95] } 31... axb5 { [%eval 2.91] } 32. Ra7+ { [%eval 3.04] } 32... Kg6 { [%eval 3.09] } 33. Rc7 { [%eval 3.14] } 33... Rbc8 { [%eval 3.08] } 34. Rxc8 { [%eval 2.86] } 34... Rxc8 { [%eval 2.97] } 35. Ra6 { [%eval 2.93] } 35... Ne4?! { [%eval 4.01] } { Inaccuracy. Kf6 was best. } (35... Kf6 36. f3 gxf3+ 37. gxf3 h4 38. e4 Kg5 39. Ke3 f4+ 40. Ke2 Nc4 41. Bxc4) 36. Bxe4 { [%eval 3.95] } 36... fxe4 { [%eval 3.81] } 37. d5 { [%eval 3.78] } 37... Kf7 { [%eval 3.9] } 38. dxc6 { [%eval 3.77] } 38... Rc7 { [%eval 4.47] } 39. Rb6 { [%eval 4.43] } 39... Ke6 { [%eval 4.77] } 40. Rxb5 { [%eval 4.69] } 40... Rxc6 { [%eval 4.87] } 41. Kd2?! { [%eval 3.48] } { Inaccuracy. Rxh5 was best. } (41. Rxh5 Rxc3 42. Rg5 g3 43. Rxg3 Rc2+ 44. Ke1 Rc1+ 45. Kd2 Rf1 46. Ke2 Ra1) 41... Rd6+ { [%eval 3.57] } 42. Kc2 { [%eval 3.38] } 42... Rd5?? { [%eval 7.25] } { Blunder. Rd7 was best. } (42... Rd7 43. Rb4 Ke5 44. c4 Rf7 45. Rb2 Rxf2+ 46. Kc3 Rf8 47. Rb5+ Ke6 48. Rxh5) 43. Rxd5 { [%eval 7.03] } 43... Kxd5 { [%eval 6.98] } 44. Kb3 { [%eval 6.91] } 44... Kc5 { [%eval 6.89] } 45. c4 { [%eval 7.19] } 45... h4 { [%eval 8.11] } 46. Kc3 { [%eval 8.03] } 46... h3 { [%eval 12.73] } 47. g3?! { [%eval 10.82] } 1-0
+
+
+[Event "GGG: Christer Nilsson vs Veine Gustafsson"]
+[Date "2026-03-12"]
+[White "Christer Nilsson"]
+[Black "Veine Gustafsson"]
+[Result "0-1"]
+[WhiteElo "1694"]
+[BlackElo "1753"]
+[Variant "Standard"]
+[ECO "B30"]
+[Opening "Sicilian Defense: Old Sicilian"]
+[StudyName "GGG"]
+[ChapterName "Christer Nilsson vs Veine Gustafsson"]
+[ChapterURL "https://lichess.org/study/TXV9aZnl/f2PVi7Xy"]
+[Annotator "https://lichess.org/@/ChristerNilsson"]
+
+1. e4 { [%eval 0.18] } 1... c5 { [%eval 0.25] } 2. Nf3 { [%eval 0.2] } 2... Nc6 { [%eval 0.3] } 3. Nc3 { [%eval 0.19] } 3... e6 { [%eval 0.31] } 4. Bc4 { [%eval -0.03] } 4... a6 { [%eval 0.32] } 5. a4?! { [%eval -0.31] } { Inaccuracy. d4 was best. } (5. d4 cxd4 6. Nxd4 Qc7 7. Nxc6 Qxc6 8. Qe2 Nf6 9. Bd3 Be7) 5... Nf6 { [%eval -0.17] } 6. d3 { [%eval -0.18] } 6... d5 { [%eval -0.15] } 7. exd5 { [%eval -0.54] } 7... exd5 { [%eval -0.53] } 8. Qe2+? { [%eval -1.87] } { Mistake. Bb3 was best. } (8. Bb3 Be6 9. O-O Qc7 10. a5 O-O-O 11. Ba4 Nxa5 12. Bd2 Bd6) 8... Be7 { [%eval -2.02] } 9. Bb3 { [%eval -2.44] } 9... Bg4 { [%eval -2.37] } 10. Bg5 { [%eval -2.4] } 10... Nd4 { [%eval -2.62] } 11. Qe3? { [%eval -4.24] } { Mistake. Qd1 was best. } (11. Qd1 Qd7 12. h3 Bxf3 13. gxf3 O-O-O 14. Kf1 Qc6 15. a5 Kb8 16. Bd2 Nh5) 11... Nxb3 { [%eval -4.2] } 12. cxb3 { [%eval -4.54] } 12... d4 { [%eval -4.47] } 13. Qf4 { [%eval -4.45] } 13... Bxf3 { [%eval -4.39] } 14. Qxf3 { [%eval -4.35] } 14... dxc3 { [%eval -4.36] } 15. bxc3 { [%eval -4.59] } 15... Qd5 { [%eval -4.38] } 16. Qxd5 { [%eval -4.25] } 16... Nxd5 { [%eval -4.3] } 17. Bd2 { [%eval -4.63] } 17... Bf6 { [%eval -4.71] } 18. Rc1 { [%eval -4.61] } 18... Kd7 { [%eval -4.58] } 19. O-O { [%eval -4.59] } 19... Rhe8 { [%eval -4.69] } 20. c4 { [%eval -4.75] } 20... Nc7 { [%eval -4.72] } 21. Be3 { [%eval -4.99] } 21... Ne6 { [%eval -4.9] } 22. Rfe1 { [%eval -5.02] } 22... Nd4 { [%eval -4.86] } 23. Bxd4 { [%eval -5.3] } 23... Bxd4 { [%eval -5.26] } 24. Kf1 { [%eval -5.22] } 24... Rxe1+ { [%eval -5.32] } 25. Rxe1 { [%eval -5.33] } 25... Re8 { [%eval -5.33] } 26. Rxe8 { [%eval -5.26] } 26... Kxe8 { [%eval -5.13] } 27. Ke2 { [%eval -5.42] } 27... Ke7 { [%eval -5.44] } 28. f4 { [%eval -5.88] } 28... Ke6 { [%eval -5.78] } 29. Kf3 { [%eval -5.7] } 29... Bg1 { [%eval -5.68] } 30. h3 { [%eval -5.74] } 30... Kf5 { [%eval -5.62] } 31. g4+ { [%eval -5.63] } 31... Ke6 { [%eval -5.46] } 32. Ke4 { [%eval -5.33] } 32... Bd4 { [%eval -5.26] } 33. b4 { [%eval -5.47] } 33... b6 { [%eval -5.45] } 34. b5 { [%eval -5.36] } 34... a5 { [%eval -5.13] } 35. f5+ { [%eval -5.8] } 35... Kd6 { [%eval -5.4] } 36. h4 { [%eval -6.31] } 36... Bf2 { [%eval -5.83] } 37. h5 { [%eval -6.25] } 37... h6 { [%eval -6.54] } 38. Kf3 { [%eval -8.02] } 38... Bh4 { [%eval -7.01] } 39. Kf4 { [%eval -7.16] } 39... Bg5+ { [%eval -7.06] } 40. Ke4 { [%eval -6.6] } 40... Bd2 { [%eval -6.61] } 41. d4 { [%eval -7.82] } 41... cxd4 { [%eval -7.6] } 42. Kxd4 { [%eval -7.43] } 42... Bb4 { [%eval -6.57] } 43. Ke4 { [%eval -8.28] } 43... f6 { [%eval -8.13] } 44. Kd4 { [%eval -8.43] } 44... Ba3 { [%eval -8.0] } 45. Kd3 { [%eval -9.32] } 45... Kc5 { [%eval -8.51] } 46. Kc3 { [%eval -9.19] } 46... Bb4+ { [%eval -8.98] } 47. Kd3 { [%eval -8.28] } 47... Be1 { [%eval -8.01] } 48. Ke2 { [%eval -7.67] } 48... Kxc4 { [%eval -7.83] } 49. Kxe1 { [%eval -7.65] } 49... Kb4 { [%eval -7.14] } 0-1
+
+
