@@ -91,7 +91,9 @@ async function load(name, text) {
   elements.get('groups').onchange({target:{dataset:{group:'1',board:'1'},value:'1-0'}});
   assert.equal(elements.get('download').disabled, false);
   assert.equal(elements.get('status').textContent, '');
-  elements.get('groups').onchange({target:{dataset:{group:'1',board:'1'},value:''}});
+  elements.get('groups').onchange({target:{dataset:{group:'1',board:'1'},value:'0-1'}});
+  assert.equal(vm.runInContext('state.groups[0].rounds[0].games[0].result',context),'1-0');
+  press('Delete',0);
   assert.equal(elements.get('download').disabled, true);
   let prevented=false;
   documentHandlers.keydown({key:'ArrowLeft',target:elements.get('download'),preventDefault(){prevented=true;}});
@@ -113,17 +115,37 @@ async function load(name, text) {
   }
   const getResult=board=>vm.runInContext(`state.groups.flatMap(g=>g.rounds.find(r=>r.number===state.current_round)?.games||[]).find(g=>g.board===${board}).result`,context);
   press('1',0);assert.equal(getResult(1),'1-0');assert.equal(focused.dataset.board,'2');
+  press('0',0);assert.equal(getResult(1),'1-0');assert.equal(focused.dataset.board,'2');
   press(' ',1);assert.equal(getResult(2),'½-½');assert.equal(focused.dataset.board,'3');
+  press('1',1);assert.equal(getResult(2),'½-½');assert.equal(focused.dataset.board,'3');
+  press('Delete',1);assert.equal(getResult(2),null);
+  press('=',1);assert.equal(getResult(2),'½-½');assert.equal(focused.dataset.board,'3');
+  for(const key of ['PageUp','PageDown','Home','End',' ','Enter','2','a','Backspace','Escape']){
+    const before=getResult(2);
+    press(key,1);
+    assert.equal(getResult(2),before);
+  }
   press('0',2);assert.equal(getResult(3),'0-1');assert.equal(focused.dataset.board,'4');
   press('ArrowUp',3);assert.equal(focused.dataset.board,'3');assert.equal(getResult(3),'0-1');
   press('ArrowDown',2);assert.equal(focused.dataset.board,'4');
-  press('Delete',2);assert.equal(getResult(3),null);assert.equal(focused.dataset.board,'3');
-  press('ArrowUp',0);assert.equal(focused.dataset.board,'1');
-  press('ArrowDown',23);assert.equal(focused.dataset.board,'24');
-  press('1',23);assert.equal(getResult(24),'1-0');assert.equal(focused.dataset.board,'24');
+  press('Delete',2);assert.equal(getResult(3),null);assert.equal(focused.dataset.board,'4');
+  press('Delete',2);assert.equal(getResult(3),null);assert.equal(focused.dataset.board,'4');
+  press('ArrowUp',0);assert.equal(focused.dataset.board,'24');
+  press('ArrowDown',23);assert.equal(focused.dataset.board,'1');
+  press('1',23);assert.equal(getResult(24),'1-0');assert.equal(focused.dataset.board,'1');
   elements.get('download').onclick();
   assert.deepEqual(downloads,['players.json','resultat.txt']);
   assert.equal(elements.get('download').disabled,true);
+  press('ArrowUp',0);assert.equal(focused.dataset.board,'24');
+  press('1',23);assert.equal(getResult(24),'1-0');assert.equal(focused.dataset.board,'1');
+  assert.equal(elements.get('download').disabled,true);
+  press('ArrowDown',0);assert.equal(focused.dataset.board,'2');
+  press('1',0);assert.equal(getResult(1),'1-0');assert.equal(focused.dataset.board,'2');
+  assert.equal(elements.get('download').disabled,true);
+  press('0',0);assert.equal(getResult(1),'1-0');assert.equal(focused.dataset.board,'2');
+  press(' ',1);assert.equal(getResult(2),'½-½');assert.equal(focused.dataset.board,'3');
+  assert.equal(elements.get('download').disabled,true);
+  press('Delete',23);assert.equal(getResult(24),null);assert.equal(focused.dataset.board,'1');
   await load('players.json', fs.readFileSync('players.json', 'utf8'));
   await load('broken.json', '{}');
   assert.match(elements.get('status').textContent, /Kunde inte läsa filen/);

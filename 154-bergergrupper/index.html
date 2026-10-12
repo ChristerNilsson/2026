@@ -74,14 +74,19 @@ $('groups').onchange=e=>{
  if(!state||busy||!e.target.dataset.board)return;
  const group=state.groups.find(g=>g.number===Number(e.target.dataset.group));
  const game=group.rounds.find(r=>r.number===state.current_round).games.find(g=>g.board===Number(e.target.dataset.board));
+ if(game.result!==null){render();return;}
  game.result=e.target.value||null;changed();
 };
 $('groups').onkeydown=e=>{
  if(!state||busy||!e.target.dataset.board)return;
- const resultKeys={'1':'1-0',' ':'½-½','0':'0-1','Delete':null};
+ const resultKeys={'1':'1-0','=':'½-½',' ':'½-½','0':'0-1','Delete':null};
  const isResult=Object.hasOwn(resultKeys,e.key);
- if(!isResult&&e.key!=='ArrowUp'&&e.key!=='ArrowDown')return;
+ // Suppress native select shortcuts (Home/End, PageUp/PageDown,
+ // Space, Enter, type-to-select, etc.). Tab keeps normal focus navigation.
+ if(e.key==='Tab'||e.key==='ArrowLeft'||e.key==='ArrowRight')return;
  e.preventDefault();
+ if(e.ctrlKey||e.altKey||e.metaKey||e.repeat)return;
+ if(!isResult&&e.key!=='ArrowUp'&&e.key!=='ArrowDown')return;
  const inputs=[...$('groups').querySelectorAll('select[data-board]')];
  const index=inputs.indexOf(e.target);
  if(index<0)return;
@@ -89,9 +94,10 @@ $('groups').onkeydown=e=>{
  if(isResult){
   const group=state.groups.find(g=>g.number===Number(e.target.dataset.group));
   const game=group.rounds.find(r=>r.number===state.current_round).games.find(g=>g.board===Number(e.target.dataset.board));
+  if(e.key!=='Delete'&&game.result!==null&&game.result!==resultKeys[e.key])return;
   game.result=resultKeys[e.key];changed();
-  if(e.key!=='Delete')next=Math.min(index+1,inputs.length-1);
- }else next=Math.max(0,Math.min(index+(e.key==='ArrowDown'?1:-1),inputs.length-1));
+  next=(index+1)%inputs.length;
+ }else next=(index+(e.key==='ArrowDown'?1:-1)+inputs.length)%inputs.length;
  $('groups').querySelectorAll('select[data-board]')[next]?.focus();
 };
 document.addEventListener('keydown',e=>{

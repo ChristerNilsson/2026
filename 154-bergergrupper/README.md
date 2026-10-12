@@ -23,8 +23,14 @@ Grupperna heter A, B, C och vidare (efter Z följer AA). Namnen sparas också i 
 
 Spelarnas visade nummer löper från 1 genom alla grupper, även Schweizergruppen. Numret sparas som `player_number` i JSON. Gruppens interna `number` behålls som Bergernummer för lottningen.
 
-Resultat kan matas in med tangentbordet. Använd Tab för att nå ett resultatfält: `1` ger vit vinst, mellanslag ger remi och `0` ger svart vinst. Fokus flyttas automatiskt till nästa bord efter inmatning och stannar på sista bordet. Pil upp och pil ned flyttar mellan borden. `Delete` tar bort resultatet och behåller fokus på samma bord.
+Resultat kan matas in med tangentbordet. Använd Tab för att nå ett resultatfält: `1` ger vit vinst, mellanslag eller `=` ger remi och `0` ger svart vinst. Fokus flyttas automatiskt till nästa bord efter inmatning och wrappar från sista till första bordet. Pil upp och pil ned flyttar mellan borden. `Delete` rensar alltid resultatet och avancerar till nästa bord, även om fältet redan är tomt. Från sista bordet flyttas fokus till första.
 
 Kör tester med `node tests/test_tournament.cjs` och `node tests/test_ui.cjs`.
 
 SB visas i ställningen, JSON och resultat.txt. Beräkningen uppdateras efter varje resultat: motståndarens poäng vid vinst, halva vid remi och noll vid förlust.
+
+Endast 1, 0, mellanslag, = och Delete kan ändra resultat med tangentbordet. Home, End, PageUp, PageDown, Enter och andra tangenter blockeras i resultatfälten. Tab och piltangenterna används för navigering.
+
+Resultat kan bara matas in i tomma fält. Använd Delete för att radera ett befintligt resultat innan ett nytt anges.
+
+Ett befintligt resultat kan bekräftas med samma tangentvärde för att avancera utan ändring. Ett annat resultat kräver Delete först. Pil upp och ned wrappar mellan första och sista bordet.
