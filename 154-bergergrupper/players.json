@@ -1,0 +1,1503 @@
+{
+  "group_size": 4,
+  "current_round": 1,
+  "groups": [
+    {
+      "number": 1,
+      "system": "berger",
+      "players": [
+        {
+          "id": 1,
+          "name": "FM Mikael Näslund",
+          "elo": 2124,
+          "number": 1
+        },
+        {
+          "id": 2,
+          "name": "Ivan Franchuk",
+          "elo": 2071,
+          "number": 2
+        },
+        {
+          "id": 3,
+          "name": "Nils Carlsson",
+          "elo": 2066,
+          "number": 3
+        },
+        {
+          "id": 4,
+          "name": "Bo E Eriksson",
+          "elo": 2019,
+          "number": 4
+        }
+      ],
+      "rounds": [
+        {
+          "number": 1,
+          "games": [
+            {
+              "board": 1,
+              "white": 1,
+              "black": 4,
+              "result": null
+            },
+            {
+              "board": 2,
+              "white": 2,
+              "black": 3,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "games": [
+            {
+              "board": 1,
+              "white": 4,
+              "black": 3,
+              "result": null
+            },
+            {
+              "board": 2,
+              "white": 1,
+              "black": 2,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "games": [
+            {
+              "board": 1,
+              "white": 2,
+              "black": 4,
+              "result": null
+            },
+            {
+              "board": 2,
+              "white": 3,
+              "black": 1,
+              "result": null
+            }
+          ]
+        }
+      ],
+      "standings": [
+        {
+          "id": 1,
+          "name": "FM Mikael Näslund",
+          "elo": 2124,
+          "number": 1,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 2,
+          "name": "Ivan Franchuk",
+          "elo": 2071,
+          "number": 2,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 3,
+          "name": "Nils Carlsson",
+          "elo": 2066,
+          "number": 3,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 4,
+          "name": "Bo E Eriksson",
+          "elo": 2019,
+          "number": 4,
+          "points": 0,
+          "played": 0
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "system": "berger",
+      "players": [
+        {
+          "id": 5,
+          "name": "Henrik Strömbäck",
+          "elo": 2003,
+          "number": 1
+        },
+        {
+          "id": 6,
+          "name": "Tomas Lindblad",
+          "elo": 1997,
+          "number": 2
+        },
+        {
+          "id": 7,
+          "name": "Stefan Bäcklin",
+          "elo": 1975,
+          "number": 3
+        },
+        {
+          "id": 8,
+          "name": "Olle Ålgars",
+          "elo": 1949,
+          "number": 4
+        }
+      ],
+      "rounds": [
+        {
+          "number": 1,
+          "games": [
+            {
+              "board": 3,
+              "white": 5,
+              "black": 8,
+              "result": null
+            },
+            {
+              "board": 4,
+              "white": 6,
+              "black": 7,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "games": [
+            {
+              "board": 3,
+              "white": 8,
+              "black": 7,
+              "result": null
+            },
+            {
+              "board": 4,
+              "white": 5,
+              "black": 6,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "games": [
+            {
+              "board": 3,
+              "white": 6,
+              "black": 8,
+              "result": null
+            },
+            {
+              "board": 4,
+              "white": 7,
+              "black": 5,
+              "result": null
+            }
+          ]
+        }
+      ],
+      "standings": [
+        {
+          "id": 5,
+          "name": "Henrik Strömbäck",
+          "elo": 2003,
+          "number": 1,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 6,
+          "name": "Tomas Lindblad",
+          "elo": 1997,
+          "number": 2,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 7,
+          "name": "Stefan Bäcklin",
+          "elo": 1975,
+          "number": 3,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 8,
+          "name": "Olle Ålgars",
+          "elo": 1949,
+          "number": 4,
+          "points": 0,
+          "played": 0
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "system": "berger",
+      "players": [
+        {
+          "id": 9,
+          "name": "CM Mikael Helin",
+          "elo": 1941,
+          "number": 1
+        },
+        {
+          "id": 10,
+          "name": "Lennart B. Johansson",
+          "elo": 1941,
+          "number": 2
+        },
+        {
+          "id": 11,
+          "name": "Svante Wedin",
+          "elo": 1937,
+          "number": 3
+        },
+        {
+          "id": 12,
+          "name": "Bo Ländin",
+          "elo": 1922,
+          "number": 4
+        }
+      ],
+      "rounds": [
+        {
+          "number": 1,
+          "games": [
+            {
+              "board": 5,
+              "white": 9,
+              "black": 12,
+              "result": null
+            },
+            {
+              "board": 6,
+              "white": 10,
+              "black": 11,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "games": [
+            {
+              "board": 5,
+              "white": 12,
+              "black": 11,
+              "result": null
+            },
+            {
+              "board": 6,
+              "white": 9,
+              "black": 10,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "games": [
+            {
+              "board": 5,
+              "white": 10,
+              "black": 12,
+              "result": null
+            },
+            {
+              "board": 6,
+              "white": 11,
+              "black": 9,
+              "result": null
+            }
+          ]
+        }
+      ],
+      "standings": [
+        {
+          "id": 9,
+          "name": "CM Mikael Helin",
+          "elo": 1941,
+          "number": 1,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 10,
+          "name": "Lennart B. Johansson",
+          "elo": 1941,
+          "number": 2,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 11,
+          "name": "Svante Wedin",
+          "elo": 1937,
+          "number": 3,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 12,
+          "name": "Bo Ländin",
+          "elo": 1922,
+          "number": 4,
+          "points": 0,
+          "played": 0
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "system": "berger",
+      "players": [
+        {
+          "id": 13,
+          "name": "WFM Susanna Berg Laachiri",
+          "elo": 1917,
+          "number": 1
+        },
+        {
+          "id": 14,
+          "name": "Peter Carlsten",
+          "elo": 1913,
+          "number": 2
+        },
+        {
+          "id": 15,
+          "name": "Rune Evertsson",
+          "elo": 1879,
+          "number": 3
+        },
+        {
+          "id": 16,
+          "name": "Peter Silins",
+          "elo": 1862,
+          "number": 4
+        }
+      ],
+      "rounds": [
+        {
+          "number": 1,
+          "games": [
+            {
+              "board": 7,
+              "white": 13,
+              "black": 16,
+              "result": null
+            },
+            {
+              "board": 8,
+              "white": 14,
+              "black": 15,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "games": [
+            {
+              "board": 7,
+              "white": 16,
+              "black": 15,
+              "result": null
+            },
+            {
+              "board": 8,
+              "white": 13,
+              "black": 14,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "games": [
+            {
+              "board": 7,
+              "white": 14,
+              "black": 16,
+              "result": null
+            },
+            {
+              "board": 8,
+              "white": 15,
+              "black": 13,
+              "result": null
+            }
+          ]
+        }
+      ],
+      "standings": [
+        {
+          "id": 13,
+          "name": "WFM Susanna Berg Laachiri",
+          "elo": 1917,
+          "number": 1,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 14,
+          "name": "Peter Carlsten",
+          "elo": 1913,
+          "number": 2,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 15,
+          "name": "Rune Evertsson",
+          "elo": 1879,
+          "number": 3,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 16,
+          "name": "Peter Silins",
+          "elo": 1862,
+          "number": 4,
+          "points": 0,
+          "played": 0
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "system": "berger",
+      "players": [
+        {
+          "id": 17,
+          "name": "Ove Hartzell",
+          "elo": 1861,
+          "number": 1
+        },
+        {
+          "id": 18,
+          "name": "Leif Lundquist",
+          "elo": 1856,
+          "number": 2
+        },
+        {
+          "id": 19,
+          "name": "Sven-Åke Karlsson",
+          "elo": 1828,
+          "number": 3
+        },
+        {
+          "id": 20,
+          "name": "Bo Franzén",
+          "elo": 1824,
+          "number": 4
+        }
+      ],
+      "rounds": [
+        {
+          "number": 1,
+          "games": [
+            {
+              "board": 9,
+              "white": 17,
+              "black": 20,
+              "result": null
+            },
+            {
+              "board": 10,
+              "white": 18,
+              "black": 19,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "games": [
+            {
+              "board": 9,
+              "white": 20,
+              "black": 19,
+              "result": null
+            },
+            {
+              "board": 10,
+              "white": 17,
+              "black": 18,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "games": [
+            {
+              "board": 9,
+              "white": 18,
+              "black": 20,
+              "result": null
+            },
+            {
+              "board": 10,
+              "white": 19,
+              "black": 17,
+              "result": null
+            }
+          ]
+        }
+      ],
+      "standings": [
+        {
+          "id": 17,
+          "name": "Ove Hartzell",
+          "elo": 1861,
+          "number": 1,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 18,
+          "name": "Leif Lundquist",
+          "elo": 1856,
+          "number": 2,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 19,
+          "name": "Sven-Åke Karlsson",
+          "elo": 1828,
+          "number": 3,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 20,
+          "name": "Bo Franzén",
+          "elo": 1824,
+          "number": 4,
+          "points": 0,
+          "played": 0
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "system": "berger",
+      "players": [
+        {
+          "id": 21,
+          "name": "Bele Ullmark",
+          "elo": 1823,
+          "number": 1
+        },
+        {
+          "id": 22,
+          "name": "Hans Weström",
+          "elo": 1796,
+          "number": 2
+        },
+        {
+          "id": 23,
+          "name": "Björn Löwgren",
+          "elo": 1795,
+          "number": 3
+        },
+        {
+          "id": 24,
+          "name": "Camilo Garcia Giraldo",
+          "elo": 1793,
+          "number": 4
+        }
+      ],
+      "rounds": [
+        {
+          "number": 1,
+          "games": [
+            {
+              "board": 11,
+              "white": 21,
+              "black": 24,
+              "result": null
+            },
+            {
+              "board": 12,
+              "white": 22,
+              "black": 23,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "games": [
+            {
+              "board": 11,
+              "white": 24,
+              "black": 23,
+              "result": null
+            },
+            {
+              "board": 12,
+              "white": 21,
+              "black": 22,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "games": [
+            {
+              "board": 11,
+              "white": 22,
+              "black": 24,
+              "result": null
+            },
+            {
+              "board": 12,
+              "white": 23,
+              "black": 21,
+              "result": null
+            }
+          ]
+        }
+      ],
+      "standings": [
+        {
+          "id": 21,
+          "name": "Bele Ullmark",
+          "elo": 1823,
+          "number": 1,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 22,
+          "name": "Hans Weström",
+          "elo": 1796,
+          "number": 2,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 23,
+          "name": "Björn Löwgren",
+          "elo": 1795,
+          "number": 3,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 24,
+          "name": "Camilo Garcia Giraldo",
+          "elo": 1793,
+          "number": 4,
+          "points": 0,
+          "played": 0
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "system": "berger",
+      "players": [
+        {
+          "id": 25,
+          "name": "Lars Cederfeldt",
+          "elo": 1785,
+          "number": 1
+        },
+        {
+          "id": 26,
+          "name": "Dick Viklund",
+          "elo": 1781,
+          "number": 2
+        },
+        {
+          "id": 27,
+          "name": "Jockum Wahlberg",
+          "elo": 1774,
+          "number": 3
+        },
+        {
+          "id": 28,
+          "name": "Johan Sterner",
+          "elo": 1771,
+          "number": 4
+        }
+      ],
+      "rounds": [
+        {
+          "number": 1,
+          "games": [
+            {
+              "board": 13,
+              "white": 25,
+              "black": 28,
+              "result": null
+            },
+            {
+              "board": 14,
+              "white": 26,
+              "black": 27,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "games": [
+            {
+              "board": 13,
+              "white": 28,
+              "black": 27,
+              "result": null
+            },
+            {
+              "board": 14,
+              "white": 25,
+              "black": 26,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "games": [
+            {
+              "board": 13,
+              "white": 26,
+              "black": 28,
+              "result": null
+            },
+            {
+              "board": 14,
+              "white": 27,
+              "black": 25,
+              "result": null
+            }
+          ]
+        }
+      ],
+      "standings": [
+        {
+          "id": 25,
+          "name": "Lars Cederfeldt",
+          "elo": 1785,
+          "number": 1,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 26,
+          "name": "Dick Viklund",
+          "elo": 1781,
+          "number": 2,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 27,
+          "name": "Jockum Wahlberg",
+          "elo": 1774,
+          "number": 3,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 28,
+          "name": "Johan Sterner",
+          "elo": 1771,
+          "number": 4,
+          "points": 0,
+          "played": 0
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "system": "berger",
+      "players": [
+        {
+          "id": 29,
+          "name": "Lars-Åke Pettersson",
+          "elo": 1765,
+          "number": 1
+        },
+        {
+          "id": 30,
+          "name": "Göran Adamsson",
+          "elo": 1745,
+          "number": 2
+        },
+        {
+          "id": 31,
+          "name": "Lars Ring",
+          "elo": 1738,
+          "number": 3
+        },
+        {
+          "id": 32,
+          "name": "Magnus Karlsson",
+          "elo": 1737,
+          "number": 4
+        }
+      ],
+      "rounds": [
+        {
+          "number": 1,
+          "games": [
+            {
+              "board": 15,
+              "white": 29,
+              "black": 32,
+              "result": null
+            },
+            {
+              "board": 16,
+              "white": 30,
+              "black": 31,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "games": [
+            {
+              "board": 15,
+              "white": 32,
+              "black": 31,
+              "result": null
+            },
+            {
+              "board": 16,
+              "white": 29,
+              "black": 30,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "games": [
+            {
+              "board": 15,
+              "white": 30,
+              "black": 32,
+              "result": null
+            },
+            {
+              "board": 16,
+              "white": 31,
+              "black": 29,
+              "result": null
+            }
+          ]
+        }
+      ],
+      "standings": [
+        {
+          "id": 29,
+          "name": "Lars-Åke Pettersson",
+          "elo": 1765,
+          "number": 1,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 30,
+          "name": "Göran Adamsson",
+          "elo": 1745,
+          "number": 2,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 31,
+          "name": "Lars Ring",
+          "elo": 1738,
+          "number": 3,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 32,
+          "name": "Magnus Karlsson",
+          "elo": 1737,
+          "number": 4,
+          "points": 0,
+          "played": 0
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "system": "berger",
+      "players": [
+        {
+          "id": 33,
+          "name": "Christer Johansson",
+          "elo": 1726,
+          "number": 1
+        },
+        {
+          "id": 34,
+          "name": "Leonid Stolov",
+          "elo": 1718,
+          "number": 2
+        },
+        {
+          "id": 35,
+          "name": "Stefan Lindh",
+          "elo": 1703,
+          "number": 3
+        },
+        {
+          "id": 36,
+          "name": "Abbas Razavi",
+          "elo": 1691,
+          "number": 4
+        }
+      ],
+      "rounds": [
+        {
+          "number": 1,
+          "games": [
+            {
+              "board": 17,
+              "white": 33,
+              "black": 36,
+              "result": null
+            },
+            {
+              "board": 18,
+              "white": 34,
+              "black": 35,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "games": [
+            {
+              "board": 17,
+              "white": 36,
+              "black": 35,
+              "result": null
+            },
+            {
+              "board": 18,
+              "white": 33,
+              "black": 34,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "games": [
+            {
+              "board": 17,
+              "white": 34,
+              "black": 36,
+              "result": null
+            },
+            {
+              "board": 18,
+              "white": 35,
+              "black": 33,
+              "result": null
+            }
+          ]
+        }
+      ],
+      "standings": [
+        {
+          "id": 33,
+          "name": "Christer Johansson",
+          "elo": 1726,
+          "number": 1,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 34,
+          "name": "Leonid Stolov",
+          "elo": 1718,
+          "number": 2,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 35,
+          "name": "Stefan Lindh",
+          "elo": 1703,
+          "number": 3,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 36,
+          "name": "Abbas Razavi",
+          "elo": 1691,
+          "number": 4,
+          "points": 0,
+          "played": 0
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "system": "berger",
+      "players": [
+        {
+          "id": 37,
+          "name": "Bengt Eriksson",
+          "elo": 1688,
+          "number": 1
+        },
+        {
+          "id": 38,
+          "name": "Thomas Axelsson",
+          "elo": 1688,
+          "number": 2
+        },
+        {
+          "id": 39,
+          "name": "Friedemann Stumpf",
+          "elo": 1673,
+          "number": 3
+        },
+        {
+          "id": 40,
+          "name": "Kent Sahlin",
+          "elo": 1673,
+          "number": 4
+        }
+      ],
+      "rounds": [
+        {
+          "number": 1,
+          "games": [
+            {
+              "board": 19,
+              "white": 37,
+              "black": 40,
+              "result": null
+            },
+            {
+              "board": 20,
+              "white": 38,
+              "black": 39,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "games": [
+            {
+              "board": 19,
+              "white": 40,
+              "black": 39,
+              "result": null
+            },
+            {
+              "board": 20,
+              "white": 37,
+              "black": 38,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "games": [
+            {
+              "board": 19,
+              "white": 38,
+              "black": 40,
+              "result": null
+            },
+            {
+              "board": 20,
+              "white": 39,
+              "black": 37,
+              "result": null
+            }
+          ]
+        }
+      ],
+      "standings": [
+        {
+          "id": 37,
+          "name": "Bengt Eriksson",
+          "elo": 1688,
+          "number": 1,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 38,
+          "name": "Thomas Axelsson",
+          "elo": 1688,
+          "number": 2,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 39,
+          "name": "Friedemann Stumpf",
+          "elo": 1673,
+          "number": 3,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 40,
+          "name": "Kent Sahlin",
+          "elo": 1673,
+          "number": 4,
+          "points": 0,
+          "played": 0
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "system": "berger",
+      "players": [
+        {
+          "id": 41,
+          "name": "Mikael Lundberg",
+          "elo": 1660,
+          "number": 1
+        },
+        {
+          "id": 42,
+          "name": "Anders Hillbur",
+          "elo": 1643,
+          "number": 2
+        },
+        {
+          "id": 43,
+          "name": "Valeri Ivanyuhin",
+          "elo": 1640,
+          "number": 3
+        },
+        {
+          "id": 44,
+          "name": "Leif Hållstedt",
+          "elo": 1626,
+          "number": 4
+        }
+      ],
+      "rounds": [
+        {
+          "number": 1,
+          "games": [
+            {
+              "board": 21,
+              "white": 41,
+              "black": 44,
+              "result": null
+            },
+            {
+              "board": 22,
+              "white": 42,
+              "black": 43,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "games": [
+            {
+              "board": 21,
+              "white": 44,
+              "black": 43,
+              "result": null
+            },
+            {
+              "board": 22,
+              "white": 41,
+              "black": 42,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "games": [
+            {
+              "board": 21,
+              "white": 42,
+              "black": 44,
+              "result": null
+            },
+            {
+              "board": 22,
+              "white": 43,
+              "black": 41,
+              "result": null
+            }
+          ]
+        }
+      ],
+      "standings": [
+        {
+          "id": 41,
+          "name": "Mikael Lundberg",
+          "elo": 1660,
+          "number": 1,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 42,
+          "name": "Anders Hillbur",
+          "elo": 1643,
+          "number": 2,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 43,
+          "name": "Valeri Ivanyuhin",
+          "elo": 1640,
+          "number": 3,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 44,
+          "name": "Leif Hållstedt",
+          "elo": 1626,
+          "number": 4,
+          "points": 0,
+          "played": 0
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "system": "berger",
+      "players": [
+        {
+          "id": 45,
+          "name": "Christer Nilsson",
+          "elo": 1599,
+          "number": 1
+        },
+        {
+          "id": 46,
+          "name": "Miroljub Zivic",
+          "elo": 1594,
+          "number": 2
+        },
+        {
+          "id": 47,
+          "name": "Lars-Ivar Juntti",
+          "elo": 1553,
+          "number": 3
+        },
+        {
+          "id": 48,
+          "name": "Helge Bergström",
+          "elo": 1545,
+          "number": 4
+        }
+      ],
+      "rounds": [
+        {
+          "number": 1,
+          "games": [
+            {
+              "board": 23,
+              "white": 45,
+              "black": 48,
+              "result": null
+            },
+            {
+              "board": 24,
+              "white": 46,
+              "black": 47,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "games": [
+            {
+              "board": 23,
+              "white": 48,
+              "black": 47,
+              "result": null
+            },
+            {
+              "board": 24,
+              "white": 45,
+              "black": 46,
+              "result": null
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "games": [
+            {
+              "board": 23,
+              "white": 46,
+              "black": 48,
+              "result": null
+            },
+            {
+              "board": 24,
+              "white": 47,
+              "black": 45,
+              "result": null
+            }
+          ]
+        }
+      ],
+      "standings": [
+        {
+          "id": 45,
+          "name": "Christer Nilsson",
+          "elo": 1599,
+          "number": 1,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 46,
+          "name": "Miroljub Zivic",
+          "elo": 1594,
+          "number": 2,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 47,
+          "name": "Lars-Ivar Juntti",
+          "elo": 1553,
+          "number": 3,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 48,
+          "name": "Helge Bergström",
+          "elo": 1545,
+          "number": 4,
+          "points": 0,
+          "played": 0
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "system": "swiss",
+      "players": [
+        {
+          "id": 49,
+          "name": "Arne Jansson",
+          "elo": 1496,
+          "number": 1
+        },
+        {
+          "id": 50,
+          "name": "Jovan Nikander",
+          "elo": 1492,
+          "number": 2
+        },
+        {
+          "id": 51,
+          "name": "Ali Koc",
+          "elo": 1459,
+          "number": 3
+        },
+        {
+          "id": 52,
+          "name": "Vida Radon",
+          "elo": 1403,
+          "number": 4
+        },
+        {
+          "id": 53,
+          "name": "Andreas Segeljakt",
+          "elo": 0,
+          "number": 5
+        },
+        {
+          "id": 54,
+          "name": "Jan Karlsson",
+          "elo": 0,
+          "number": 6
+        }
+      ],
+      "rounds": [],
+      "standings": [
+        {
+          "id": 49,
+          "name": "Arne Jansson",
+          "elo": 1496,
+          "number": 1,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 50,
+          "name": "Jovan Nikander",
+          "elo": 1492,
+          "number": 2,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 51,
+          "name": "Ali Koc",
+          "elo": 1459,
+          "number": 3,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 52,
+          "name": "Vida Radon",
+          "elo": 1403,
+          "number": 4,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 53,
+          "name": "Andreas Segeljakt",
+          "elo": 0,
+          "number": 5,
+          "points": 0,
+          "played": 0
+        },
+        {
+          "id": 54,
+          "name": "Jan Karlsson",
+          "elo": 0,
+          "number": 6,
+          "points": 0,
+          "played": 0
+        }
+      ]
+    }
+  ]
+}

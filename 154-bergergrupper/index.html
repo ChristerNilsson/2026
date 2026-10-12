@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="sv">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bergergrupper</title>
+<style>
+body{font:16px system-ui;background:#f5f4ef;color:#20332d;margin:0}main{max-width:1200px;margin:auto;padding:30px 20px}header,.toolbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap}header{justify-content:space-between}h1{margin:0;font-size:32px}h2{font-size:21px}h3{font-size:16px}select,button{font:inherit;padding:8px;border:1px solid #b8c6bf;border-radius:5px;background:white;color:inherit}button{cursor:pointer}button:disabled{opacity:.4}.toolbar{margin:24px 0}.group{background:white;border:1px solid #d9e0da;border-radius:8px;padding:20px;margin:18px 0}.columns{display:block}.table-scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:10px 6px;border-bottom:1px solid #e7ebe7}th,.muted{color:#617168}#status{min-height:24px}a{color:#246346}@media(max-width:760px){.columns{grid-template-columns:1fr}main{padding:20px 12px}.group{padding:12px}td,th{padding:8px 4px}}
+tbody tr{background:var(--group-bg)}tbody tr td:first-child{border-left:4px solid var(--group-accent)}tbody tr:focus-within{outline:2px solid #246346;outline-offset:-2px}
+header{justify-content:flex-start;flex-wrap:nowrap;gap:12px;overflow-x:auto;white-space:nowrap}header h1{font-size:22px}header #summary{margin:0;font-size:14px}header .toolbar{margin:0 0 0 auto;flex-wrap:nowrap;gap:8px}#status{margin:8px 0;min-height:0}#status:empty{display:none}
+</style>
+<main><header><h1>Bergergrupper</h1><span class="muted" id="summary"></span><span id="file-picker"><button id="load" type="button">Läs in fil</button><input id="file" type="file" accept=".txt,.json,text/plain,application/json" hidden></span>
+<span id="status" role="status" aria-live="polite"></span><div class="toolbar"><button id="previous" aria-label="Föregående rond">←</button><strong id="round"></strong><button id="next" aria-label="Nästa rond">→</button><button id="download" disabled>Spara</button></div></header>
+<div id="groups"></div></main>
+<script src="tournament.js"></script>
+<script>
+let state=null,busy=false,savedResults='';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function resultSnapshot(){return JSON.stringify(state.groups.flatMap(g=>g.rounds.flatMap(r=>r.games.map(game=>game.result))));}
+function changed(message=''){
+ Tournament.update(state);render();$('status').textContent=message;
+}
+function hasResults(){return state?.groups.some(g=>g.rounds.some(r=>r.games.some(p=>p.result!==null)));}
+$('load').onclick=()=>{if(!busy&&!state)$('file').click();};
+$('file').onchange=async()=>{
+ const file=$('file').files[0];if(!file||busy||state)return;
+ if(hasResults()&&!confirm('En ny fil ersätter turneringen. Har du sparat resultaten och vill fortsätta?')){$('file').value='';return;}
+ busy=true;$('file').disabled=true;$('load').disabled=true;
+ try{
+  const text=await file.text();
+  let loaded;
+  if(/\.json$/i.test(file.name))loaded=Tournament.parseJson(text);
+  else if(/\.txt$/i.test(file.name)){const parsed=Tournament.parseText(text);loaded=Tournament.create(parsed.size,parsed.players);}
+  else throw Error('Välj en TXT- eller JSON-fil.');
+  state=loaded;savedResults=resultSnapshot();changed(`Inläst: ${file.name}.`);$('file-picker').hidden=true;
+  $('groups').querySelectorAll('select[data-board]')[0]?.focus();
+ }catch(error){$('status').textContent='Kunde inte läsa filen: '+error.message;}
+ finally{busy=false;$('file').disabled=state!==null;$('load').disabled=state!==null;$('file').value='';}
+};
+function downloadFile(name,text,type){
+ const blob=new Blob([text],{type});
+ const url=URL.createObjectURL(blob),link=document.createElement('a');
+ link.href=url;link.download=name;document.body.append(link);link.click();link.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+$('download').onclick=()=>{
+ if(!state||$('download').disabled)return;
+ downloadFile('players.json',JSON.stringify(state,null,2)+'\n','application/json;charset=utf-8');
+ downloadFile('resultat.txt',Tournament.resultText(state),'text/plain;charset=utf-8');
+ savedResults=resultSnapshot();$('download').disabled=true;
+ $('status').textContent='';
+};
+function groupColor(number){
+ return number%2?'--group-bg:#ffffff;--group-accent:#ffffff':'--group-bg:#eeeeee;--group-accent:#eeeeee';
+}
+function render(){
+ $('download').disabled=resultSnapshot()===savedResults;
+ const max=Math.max(0,...state.groups.map(g=>g.rounds.length));
+ $('round').textContent=max?`Rond ${state.current_round} av ${max}`:'Ingen Bergergrupp';
+ $('previous').disabled=state.current_round<=1;$('next').disabled=state.current_round>=max;
+ $('summary').textContent=`${state.groups.filter(g=>g.system==='berger').reduce((n,g)=>n+g.players.length,0)} spelare · ${state.groups.filter(g=>g.system==='berger').length} grupper`;
+ const ordered=state.groups.filter(g=>g.system==='berger').sort((a,b)=>a.number-b.number);
+ const rows=ordered.flatMap(g=>g.standings.map(p=>({group:g,...p})));
+ const boards=ordered.flatMap(g=>{
+  const players=new Map(g.players.map(p=>[p.id,p]));
+  return (g.rounds.find(r=>r.number===state.current_round)?.games||[]).map(game=>({group:g,game,players}));
+ }).sort((a,b)=>a.game.board-b.game.board);
+ $('groups').innerHTML=`<div class="columns"><section class="group"><h2>Bordslista · rond ${state.current_round}</h2><div class="table-scroll"><table id="boards"><thead><tr><th>Bord</th><th>Grupp</th><th>vit</th><th>elo</th><th>resultat</th><th>elo</th><th>svart</th></tr></thead><tbody>${boards.map(({group:g,game,players})=>`<tr style="${groupColor(g.number)}"><td>${game.board}</td><td>${g.name}</td><td>${esc(players.get(game.white).name)}</td><td>${players.get(game.white).elo}</td><td><select data-group="${g.number}" data-board="${game.board}" aria-label="Resultat bord ${game.board}">${[null,'1-0','½-½','0-1'].map(v=>`<option value="${v||''}" ${game.result===v?'selected':''}>${v||'–'}</option>`).join('')}</select></td><td>${players.get(game.black).elo}</td><td>${esc(players.get(game.black).name)}</td></tr>`).join('')}</tbody></table></div>${boards.length?'':'<p class="muted">Ingen Bergergrupp att lotta.</p>'}</section><section class="group"><h2>Ställning</h2><div class="table-scroll"><table id="standings"><thead><tr><th>Grupp</th><th>Nr</th><th>Spelare</th><th>Elo</th>${Array.from({length:max},(_,i)=>`<th scope="col">${i+1}</th>`).join('')}<th>Poäng</th><th><abbr title="Sonneborn-Berger">SB</abbr></th></tr></thead><tbody>${rows.map(({group:g,...p})=>`<tr style="${groupColor(g.number)}"><td>${g.name}</td><td>${p.player_number}</td><td>${esc(p.name)}</td><td>${p.elo}</td>${Tournament.meetings(g,p).map(meeting=>`<td>${meeting}</td>`).join('')}<td><strong>${String(p.points).replace('.',',')}</strong></td><td>${String(p.sb).replace('.',',')}</td></tr>`).join('')}</tbody></table></div></section></div>`;
+}
+
+$('previous').onclick=()=>{if(state&&!busy&&state.current_round>1){state.current_round--;changed();}};
+$('next').onclick=()=>{if(state&&!busy&&state.current_round<Math.max(...state.groups.map(g=>g.rounds.length))){state.current_round++;changed();}};
+$('groups').onchange=e=>{
+ if(!state||busy||!e.target.dataset.board)return;
+ const group=state.groups.find(g=>g.number===Number(e.target.dataset.group));
+ const game=group.rounds.find(r=>r.number===state.current_round).games.find(g=>g.board===Number(e.target.dataset.board));
+ game.result=e.target.value||null;changed();
+};
+$('groups').onkeydown=e=>{
+ if(!state||busy||!e.target.dataset.board)return;
+ const resultKeys={'1':'1-0',' ':'½-½','0':'0-1','Delete':null};
+ const isResult=Object.hasOwn(resultKeys,e.key);
+ if(!isResult&&e.key!=='ArrowUp'&&e.key!=='ArrowDown')return;
+ e.preventDefault();
+ const inputs=[...$('groups').querySelectorAll('select[data-board]')];
+ const index=inputs.indexOf(e.target);
+ if(index<0)return;
+ let next=index;
+ if(isResult){
+  const group=state.groups.find(g=>g.number===Number(e.target.dataset.group));
+  const game=group.rounds.find(r=>r.number===state.current_round).games.find(g=>g.board===Number(e.target.dataset.board));
+  game.result=resultKeys[e.key];changed();
+  if(e.key!=='Delete')next=Math.min(index+1,inputs.length-1);
+ }else next=Math.max(0,Math.min(index+(e.key==='ArrowDown'?1:-1),inputs.length-1));
+ $('groups').querySelectorAll('select[data-board]')[next]?.focus();
+};
+$('previous').disabled=true;$('next').disabled=true;
+
+</script></html>
