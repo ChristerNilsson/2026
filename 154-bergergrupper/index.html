@@ -6,6 +6,7 @@
 body{font:16px system-ui;background:#f5f4ef;color:#20332d;margin:0}main{max-width:1200px;margin:auto;padding:30px 20px}header,.toolbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap}header{justify-content:space-between}h1{margin:0;font-size:32px}h2{font-size:21px}h3{font-size:16px}select,button{font:inherit;padding:8px;border:1px solid #b8c6bf;border-radius:5px;background:white;color:inherit}button{cursor:pointer}button:disabled{opacity:.4}.toolbar{margin:24px 0}.group{background:white;border:1px solid #d9e0da;border-radius:8px;padding:20px;margin:18px 0}.columns{display:block}.table-scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:10px 6px;border-bottom:1px solid #e7ebe7}th,.muted{color:#617168}#status{min-height:24px}a{color:#246346}@media(max-width:760px){.columns{grid-template-columns:1fr}main{padding:20px 12px}.group{padding:12px}td,th{padding:8px 4px}}
 tbody tr{background:var(--group-bg)}tbody tr td:first-child{border-left:4px solid var(--group-accent)}tbody tr:focus-within{outline:2px solid #246346;outline-offset:-2px}
 header{justify-content:flex-start;flex-wrap:nowrap;gap:12px;overflow-x:auto;white-space:nowrap}header h1{font-size:22px}header #summary{margin:0;font-size:14px}header .toolbar{margin:0 0 0 auto;flex-wrap:nowrap;gap:8px}#status{margin:8px 0;min-height:0}#status:empty{display:none}
+#boards{table-layout:fixed;min-width:650px}#boards th:nth-child(1),#boards th:nth-child(2){width:5%}#boards th:nth-child(3),#boards th:nth-child(7){width:30%}#boards th:nth-child(4),#boards th:nth-child(6){width:7%}#boards th:nth-child(5){width:16%}#boards td{overflow-wrap:anywhere}
 </style>
 <main><header><h1>Bergergrupper</h1><span class="muted" id="summary"></span><span id="file-picker"><button id="load" type="button">Läs in fil</button><input id="file" type="file" accept=".txt,.json,text/plain,application/json" hidden></span>
 <span id="status" role="status" aria-live="polite"></span><div class="toolbar"><button id="previous" aria-label="Föregående rond">←</button><strong id="round"></strong><button id="next" aria-label="Nästa rond">→</button><button id="download" disabled>Spara</button></div></header>
@@ -93,6 +94,17 @@ $('groups').onkeydown=e=>{
  }else next=Math.max(0,Math.min(index+(e.key==='ArrowDown'?1:-1),inputs.length-1));
  $('groups').querySelectorAll('select[data-board]')[next]?.focus();
 };
+document.addEventListener('keydown',e=>{
+ if(!state||busy||(e.key!=='ArrowLeft'&&e.key!=='ArrowRight'))return;
+ const maximum=Math.max(0,...state.groups.map(g=>g.rounds.length));
+ if(!maximum)return;
+ e.preventDefault();
+ const board=e.target?.dataset?.board;
+ state.current_round=(state.current_round-1+(e.key==='ArrowRight'?1:-1)+maximum)%maximum+1;
+ changed();
+ const inputs=[...$('groups').querySelectorAll('select[data-board]')];
+ (inputs.find(input=>input.dataset.board===board)||inputs[0])?.focus();
+});
 $('previous').disabled=true;$('next').disabled=true;
 
 </script></html>

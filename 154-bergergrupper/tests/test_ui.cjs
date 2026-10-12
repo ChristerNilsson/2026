@@ -18,9 +18,11 @@ Object.defineProperty(elements.get('groups'), 'innerHTML', {
 });
 elements.get('groups').querySelectorAll=()=>resultInputs;
 const downloads=[];
+const documentHandlers={};
 const context = vm.createContext({
   Tournament, Blob, URL, setTimeout: callback=>callback(), document: {
     getElementById: id => elements.get(id) || null,
+    addEventListener:(event,handler)=>{documentHandlers[event]=handler;},
     body:{append(){}},
     createElement:()=>({click(){downloads.push(this.download);},remove(){}})
   },
@@ -91,6 +93,19 @@ async function load(name, text) {
   assert.equal(elements.get('status').textContent, '');
   elements.get('groups').onchange({target:{dataset:{group:'1',board:'1'},value:''}});
   assert.equal(elements.get('download').disabled, true);
+  let prevented=false;
+  documentHandlers.keydown({key:'ArrowLeft',target:elements.get('download'),preventDefault(){prevented=true;}});
+  assert(prevented);
+  assert.equal(elements.get('round').textContent,'Rond 3 av 3');
+  documentHandlers.keydown({key:'ArrowRight',target:focused,preventDefault(){}});
+  assert.equal(elements.get('round').textContent,'Rond 1 av 3');
+  documentHandlers.keydown({key:'ArrowRight',target:resultInputs[4],preventDefault(){}});
+  assert.equal(elements.get('round').textContent,'Rond 2 av 3');
+  assert.equal(focused.dataset.board,'5');
+  documentHandlers.keydown({key:'ArrowLeft',target:focused,preventDefault(){}});
+  assert.equal(elements.get('round').textContent,'Rond 1 av 3');
+  assert.equal(focused.dataset.board,'5');
+  assert.equal(elements.get('download').disabled,true);
   function press(key,index){
     let prevented=false;
     elements.get('groups').onkeydown({key,target:resultInputs[index],preventDefault(){prevented=true;}});
