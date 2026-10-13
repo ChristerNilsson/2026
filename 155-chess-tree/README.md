@@ -9,14 +9,14 @@ Konvertera PGN från kommandoraden, headless:
 
 ```powershell
 python -m pip install -r requirements.txt
-python pgn2json.py "Christer Nilsson"
-python pgn2json.py "Robert James Fischer 60"
+python pgn2json.py "Christer-Nilsson"
+python pgn2json.py "Robert-James-Fischer-60"
 ```
 
 Starta Go Live i projektets rot och öppna `<katalog>/W.html` eller `<katalog>/B.html`.
 Katalogen ligger direkt under gemensamma `index.js` och `index.css`. HTML-vyerna
 laddar dessa filer och sin egen JSON direkt, utan omdirigering eller query-sträng.
-Adressen stannar exempelvis på `Christer%20Nilsson/B.html`.
+Adressen stannar exempelvis på `Christer-Nilsson/B.html`.
 
 Konverteraren läser PGN-filer rekursivt och skriver `W.json` och `B.json` i indatakatalogen.
 Partier där hela vits namn finns i katalognamnet hamnar i W; övriga hamnar i B.
