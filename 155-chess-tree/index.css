@@ -1,0 +1,13 @@
+body { font-family: sans-serif; margin: 8px; }
+.table-wrap { width: 100%; }
+table { width: 100%; table-layout: fixed; border-collapse: collapse; font-family: monospace; font-size: clamp(5px, 0.85vw, 13px); line-height: 1.6; }
+th, td { text-align: center; padding: 3px 0; border: 1px solid #ddd; overflow-wrap: anywhere; }
+th:nth-last-child(3) { width: 7%; }
+th:nth-last-child(2) { width: 2%; }
+th:last-child { width: 4%; }
+th { background: #f5f5f5; }
+tr > :nth-child(2n):nth-child(-n+34) { background: #eee; }
+.move-cell { text-align: center; }
+.move-text { display: block; min-height: 1.6em; }
+.relative-eval { display: flex; justify-content: center; align-items: center; height: 5px; width: 100%; }
+.eval-line { height: 2px; background: currentColor; }

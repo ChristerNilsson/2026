@@ -1,0 +1,416 @@
+[
+  {
+    "White": "Christer Nilsson",
+    "Black": "Miroljub Zivic",
+    "Result": "remi",
+    "Date": "2025-01-22",
+    "ChapterURL": "https://lichess.org/study/cLMnEnUO/e5yQNUe8",
+    "moves": "e4 Nc6 d4 e6 Nf3 h6 a3 a6 Bc4 b5 Ba2 Bb7 O-O Be7 b4 d6 Bb2 Nf6 d5 exd5 exd5 Nb8 Re1 O-O c4 c6 Nc3 bxc4 Bxc4 Nbd7 dxc6 Bxc6 Qe2 Bxf3 Qxe7 Qxe7 Rxe7 Bc6 b5 axb5 Nxb5 d5 Nd4 dxc4 Nxc6 Rac8 Na7 Rc7 Nb5 Rc5 a4 Ra8 Bd4 Rf5 f3 Kf8 Ree1 Nc5 g4 Rg5 h4 Rd5 Bxf6 Rxa4 Be7+ Kg8 Nc3 Rxa1 Rxa1 Rd3 Rc1 Nb3 Rc2 Rxf3 Kg2 Rd3 Bb4 Nd4 Rc1 Nc6 Na2 Rb3 Rxc4 Rb2+ Kf1 Ne5 Re4 Nd3 Rd4 Rxa2 Rxd3 Rh2 Be1 Ra2 g5 Ra6 Bd2 h5 Kf2 Rg6 Rd8+ Kh7 Bc3 Rc6 Bd4 Rc7 Kf3 Re7 Kf4 Re1 Be5 Rf1+ Kg3 Rf5 Bf4 g6 Re8 Rb5 Be5 Rb3+ Kf2 f6 Bxf6 Rf3+",
+    "evals": "18 44 25 75 87 91 77 85 12 113 74 65 88 138 95 231 95 84 83 102 101 171 171 224 94 395 171 182 168 270 272 267 91 84 33 127 127 141 13 13 11 49 0 2 -2 -2 -96 5 0 8 9 10 8 21 0 84 85 303 297 326 306 286 289 519 368 365 366 392 386 386 -49 -52 -62 14 8 70 0 0 0 0 -4 37 0 53 1 3 5 59 61 55 58 68 57 58 0 -7 -6 180 145 256 270 302 205 139 283 357 257 255 177 365 360 287 180 161 168 680 627 999985 999986 999986 999987 999984 0 0"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Umair Islam",
+    "Result": "0-1",
+    "Date": "2025-04-06",
+    "ChapterURL": "https://lichess.org/study/Lt6JU7Je/0sRwJ7iW",
+    "moves": "e4 c5 Bc4 e6 Nc3 Nc6 Nf3 a6 a4 Nf6 d3 d5 exd5 exd5 Ba2 Be7 O-O Be6 h3 O-O Re1 Qd7 b3 d4 Ne4 Nxe4 dxe4 b5 Bb2 Nb4 Ba3 Nxa2 Rxa2 bxa4 Rb2 axb3 cxb3 a5 Ne5 Qc7 Nc4 a4 Qd3 axb3 Rxb3 Ra4 Rc1 Rb8 Rxb8+ Qxb8 Rb1 Qd8 Rc1 Bxc4 Rxc4 Rxc4 Qxc4 d3 Qc1 Bg5 Qd1 c4 g3 c3 f4 Qd4+ Kf1 Qxe4 Kf2 Bf6 Qe1 Bd4+",
+    "evals": "18 25 0 0 -20 0 0 39 -27 -17 -16 -13 -73 -53 -94 -49 -45 -27 -65 -26 -35 -23 -201 -200 -200 -161 -163 -143 -214 -178 -288 -284 -293 -291 -313 -299 -306 -295 -294 -278 -430 -422 -454 -448 -427 -443 -420 -417 -409 -499 -452 -304 -533 -521 -532 -531 -511 -535 -513 -472 -489 -486 -657 -599 -635 -571 -644 -617 -759 -728 -999997 -999998"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Umair Islam",
+    "Result": "0-1",
+    "Date": "2025-04-06",
+    "ChapterURL": "https://lichess.org/study/X8B5sM5c/7mgGnklf",
+    "moves": "e4 c5 Bc4 e6 Nc3 Nc6 Nf3 a6 a4 Nf6 d3 d5 exd5 exd5 Ba2 Be7 O-O Be6 h3 O-O Re1 Qd7 b3 d4 Ne4 Nxe4 dxe4 b5 Bb2 Nb4 Ba3 Nxa2 Rxa2 bxa4 Rb2 axb3 cxb3 a5 Ne5 Qc7 Nc4 a4 Qd3 axb3 Rxb3 Ra4 Rc1 Rb8 Rxb8+ Qxb8 Rb1 Qd8 Rc1 Bxc4 Rxc4 Rxc4 Qxc4 d3 Qc1 Bg5 Qd1 c4 g3 c3 f4 Qd4+ Kf1 Qxe4 Kf2 Bf6 Qe1 Bd4+",
+    "evals": "18 25 0 0 -20 0 0 39 -27 -17 -16 -13 -64 -53 -102 -54 -50 -28 -60 -32 -32 -23 -196 -204 -184 -166 -159 -153 -227 -177 -284 -299 -299 -302 -311 -306 -309 -290 -293 -287 -421 -415 -428 -420 -405 -417 -402 -392 -390 -412 -414 -318 -555 -532 -548 -545 -532 -535 -537 -508 -498 -498 -669 -630 -703 -657 -628 -602 -764 -727 -999997 -999998"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Helge Bergström",
+    "Result": "1-0",
+    "Date": "2025-06-02",
+    "ChapterURL": "https://lichess.org/study/8Ds1Bw7r/M084gH1g",
+    "moves": "e4 c5 Nf3 Nc6 Bc4 e6 Nc3 a6 a4 Na5 Qe2 Be7 O-O h5 d4 Nxc4 Qxc4 d5 exd5 exd5 Qxd5 Qxd5 Nxd5 Bd6 dxc5 Bxc5 Nc7+",
+    "evals": "18 25 20 25 0 0 0 39 -27 47 -36 11 -54 56 -7 -1 2 162 169 166 167 320 332 565 565 610 597"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Helge Bergström",
+    "Result": "1-0",
+    "Date": "2026-02-05",
+    "ChapterURL": "https://lichess.org/study/8Ds1Bw7r/7SfGVFUG",
+    "moves": "e4 c5 Nf3 Nc6 Nc3 Nf6 h3 d6 Bb5 Bd7 O-O a6 Bxc6 Bxc6 d3 Qc7 Re1 Rd8 Bf4 Nd7 Nd5 Qb8 c4 h6 Qb3 e5 Bd2 Bxd5 exd5 Be7 Qa4 Kf8 b4 Qc7 a3 Bf6 b5 Re8 bxa6 b6 Rab1 Ra8 Rb3 Bd8 Reb1 Qa7 Qc6 Ke7 Ba5 Qxa6 Bc3 Nb8 Qb5 Qc8 Nd2 Qd7 Ra1 Qxb5 Rxb5 Bc7 a4 Nd7 a5 Ra6 Nb3 Rha8 axb6 Rxa1+ Bxa1 Nxb6 Ra5 Rxa5 Nxa5 Kd7 f4 f6 f5 Nc8 Bc3 Ne7 g4 g6 Nc6 gxf5 Nxe7 Kxe7 gxf5 Kf7 Bd2 Kg7 Kg2 Bd8 Kg3 Kh7 Kh4 Bc7 Kh5 Kg8 Kxh6 Kf7 Be1 Bd8 Kh5 Bb6 h4 Kg7 Bd2 Kh7 Kg4 Bd8 h5 Be7 Kh4 Bf8 Ba5 Be7 Bc7 Kh6 Kg4 Kg7 Ba5 Bf8 Bd8 Kf7 Ba5 Ke7 Bd2 Kf7 h6 Kg8 Kh5 Kh7 Ba5 Bxh6 Bd8 Kg7 Be7 e4 dxe4 Bf4 Bd8 Be5 Ba5 Bf4 Kg4 Be3 Bc7 Bd4 Bxd6 Kf7 Kf3 Kg7 Bf4 Kh7 Be3 Kg7 Bxd4 cxd4 c5 Kf7 c6 Ke7 c7 Kd7 d6 Kc8 Ke2",
+    "evals": "18 25 20 30 19 34 -7 13 6 4 0 0 5 0 -24 21 0 65 9 117 104 133 142 202 92 97 88 88 49 66 41 142 145 169 114 121 59 114 117 280 233 216 102 114 63 286 259 301 175 168 -33 -44 -50 168 66 68 70 59 48 46 49 51 15 37 -8 26 3 13 4 4 17 8 21 22 -15 52 -255 8 0 0 0 16 0 12 0 2 0 0 3 32 52 3 0 7 39 319 293 736 475 493 474 468 478 524 369 465 480 467 446 418 393 368 447 431 411 395 302 455 426 415 379 373 417 430 353 428 399 256 16 16 23 28 1 3 2 17 21 1 0 0 3 7 23 49 44 642 609 706 663 675 706 693 633 999984 878 999983 1375 999985 999986 999986 999987 999986 999987 999988 999989 999990 999991"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Veine Gustafsson",
+    "Result": "0-1",
+    "Date": "2026-03-12",
+    "ChapterURL": "https://lichess.org/study/TXV9aZnl/f2PVi7Xy",
+    "moves": "e4 c5 Nf3 Nc6 Nc3 e6 Bc4 a6 a4 Nf6 d3 d5 exd5 exd5 Qe2+ Be7 Bb3 Bg4 Bg5 Nd4 Qe3 Nxb3 cxb3 d4 Qf4 Bxf3 Qxf3 dxc3 bxc3 Qd5 Qxd5 Nxd5 Bd2 Bf6 Rc1 Kd7 O-O Rhe8 c4 Nc7 Be3 Ne6 Rfe1 Nd4 Bxd4 Bxd4 Kf1 Rxe1+ Rxe1 Re8 Rxe8 Kxe8 Ke2 Ke7 f4 Ke6 Kf3 Bg1 h3 Kf5 g4+ Ke6 Ke4 Bd4 b4 b6 b5 a5 f5+ Kd6 h4 Bf2 h5 h6 Kf3 Bh4 Kf4 Bg5+ Ke4 Bd2 d4 cxd4 Kxd4 Bb4 Ke4 f6 Kd4 Ba3 Kd3 Kc5 Kc3 Bb4+ Kd3 Be1 Ke2 Kxc4 Kxe1 Kb4",
+    "evals": "18 25 20 30 19 31 -3 32 -31 -17 -18 -15 -54 -53 -187 -202 -244 -237 -240 -262 -424 -420 -454 -447 -445 -439 -435 -436 -459 -438 -425 -430 -463 -471 -461 -458 -459 -469 -475 -472 -499 -490 -502 -486 -530 -526 -522 -532 -533 -533 -526 -513 -542 -544 -588 -578 -570 -568 -574 -562 -563 -546 -533 -526 -547 -545 -536 -513 -580 -540 -631 -583 -625 -654 -802 -701 -716 -706 -660 -661 -782 -760 -743 -657 -828 -813 -843 -800 -932 -851 -919 -898 -828 -801 -767 -783 -765 -714"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Hans Weström",
+    "Result": "0-1",
+    "Date": "2026-02-05",
+    "ChapterURL": "https://lichess.org/study/Rm3Ybt3C/KqeGQafK",
+    "moves": "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 Nf6 Nc3 g6 Bf4 Bg7 Nxc6 bxc6 Bd3 O-O Qe2 Nh5 Bd2 e5 O-O-O d5 exd5 cxd5 g4 Nf4 Bxf4 exf4 Nxd5 Be6 Be4 Rb8 b3 Qa5 a4 Bxd5 Rxd5 Qc3 Rhd1 Qb2+ Kd2 Qc3+ Kc1 Rxb3 R1d3 Rb1+ Kxb1 Qb2#",
+    "evals": "18 25 20 30 27 27 21 19 26 38 0 0 -30 -9 -33 -19 -51 -55 -53 -42 -123 -113 -242 -238 -232 -235 -230 -214 -488 -22 -190 -181 -304 -300 -297 -143 -138 -123 -845 -864 -775 -801 -800 -677 -999998 -999999 -999999 ?"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Per Hamnström",
+    "Result": "1-0",
+    "Date": "2025-05-26",
+    "ChapterURL": "https://lichess.org/study/GFuwxt03/Gk9BfBFx",
+    "moves": "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 d6 Bb5 Bd7 O-O a6 Nxc6 bxc6 Bc4 Nf6 Nc3 e5 Bg5 h6 Bh4 g5 Bg3 Bg4 Be2 Bxe2 Qxe2 h5 h3 h4 Bh2 Nh5 Rad1 Qb6 Na4 Qa7 Qg4 f6 Qe6+ Qe7 Rxd6 Qxe6 Rxe6+ Kd7 Rxf6 Nxf6 Nb6+ Kc7 Nxa8+ Kb7 Rd1 Kxa8 Rd8+ Kb7 Bxe5 Bg7 Rd6 Rf8 f3 Rf7 Rd8 Nd7 Bxg7 Rxg7 Kf2 Kc7 Re8 Kb6 Ke3 Kc5 Ra8 Ne5 b3 Kb6 Kd4 Ng6 Rb8+ Kc7 Ra8 Nf4 Ra7+ Kb6 Rxg7 Nxg2 Rxg5 Ne1 Rf5 Nxc2+ Kc3 Ne3 Rf4",
+    "evals": "18 25 20 25 27 35 21 45 11 20 6 54 63 63 44 44 53 76 54 52 44 46 45 63 -11 51 61 105 51 84 67 128 111 135 -20 147 108 103 83 98 52 36 37 45 0 0 4 379 346 376 -111 19 27 23 26 16 -27 -24 -41 -42 -41 -22 -8 -7 -16 -7 -26 0 0 0 -62 -33 -35 0 -18 -23 -103 -112 -97 508 498 524 520 645 631 629 649 652 625 664 639"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Per Hamnström",
+    "Result": "1-0",
+    "Date": "2025-05-26",
+    "ChapterURL": "https://lichess.org/study/GFuwxt03/9efw7gze",
+    "moves": "e4 c5 Nf3 Nc6 d4 cxd4 Nxd4 d6 Bb5 Bd7 O-O a6 Nxc6 bxc6 Bc4 Nf6 Nc3 e5 Bg5 h6 Bh4 g5 Bg3 Bg4 Be2 Bxe2 Qxe2 h5 h3 h4 Bh2 Nh5 Rad1 Qb6 Na4 Qa7 Qg4 f6 Qe6+ Qe7 Rxd6 Qxe6 Rxe6+ Kd7 Rxf6 Nxf6 Nb6+ Kc7 Nxa8+ Kb7 Rd1 Kxa8 Rd8+ Kb7 Bxe5 Bg7 Rd6 Rf8 f3 Rf7 Rd8 Nd7 Bxg7 Rxg7 Kf2 Kc7 Re8 Kb6 Ke3 Kc5 Ra8 Ne5 b3 Kb6 Kd4 Ng6 Rb8+ Kc7 Ra8 Nf4 Ra7+ Kb6 Rxg7 Nxg2 Rxg5 Ne1 Rf5 Nxc2+ Kc3 Ne3 Rf4",
+    "evals": "18 25 20 25 27 35 21 45 11 20 6 54 63 56 44 44 53 76 54 52 44 46 45 63 -11 51 61 105 51 84 67 128 111 135 -20 147 108 103 83 98 52 36 37 45 0 0 4 379 346 376 -111 19 27 23 26 16 -27 -24 -41 -42 -41 -22 -8 -7 -16 -7 -26 0 0 0 -62 -33 -35 0 -18 -23 -103 -112 -97 508 498 524 520 645 631 629 649 652 625 664 639"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Göran Adamsson",
+    "Result": "*",
+    "Date": "2026.09.10",
+    "ChapterURL": "https://lichess.org/study/Lt6JU7Je/Jc7NtpQm",
+    "moves": "e4 c5 Nf3 d6 Nc3 Nf6 d3 Bg4 h3 Bh5 Be2 Nc6 O-O e6 Bg5 Be7 Qd2 a6 a3 Qc7 Bf4 Nd7 Bg3 Qd8 Rab1 b5 b4 O-O Nh2 Bxe2 Nxe2 cxb4 axb4 d5 exd5 exd5 d4 Nf6 f3 Nh5 Bf2 Bd6 Ng4 Re8 Rfe1 Re6 c3 Qe7 Qa2 Qd7 Kf1 Bc7 Ne3 Ne7 g4 Nf4 Nxf4 Bxf4 Ng2 Bc7 Re2 Rxe2 Qxe2 Ng6 Re1 Qd6 f4 h6 f5 Nf8 Qf3 Qc6 Bg3 Bxg3 Qxg3 Nh7 Qe5 Nf6 Rc1 Re8 Qg3 Qc4+ Kg1 Ne4 Qe1 Nd6 Qf1 Qc6 Qf4 Ne4 Ne3 Nxc3 Re1 Ne4 Ng2 Qc4 Ne3 Qxb4 Nc2 Qc4 Qc1 Qc7 Re2 Qg3+ Rg2 Qxh3 Qf4 Qd3 Ne3 Ng5 Rg3 Ne4 Rh3 Qxd4 Rxh6 gxh6 Qxh6 Qg7 Qc6 Nf6 Kf2 d4 Nd5 Nxg4+ Kf1 Ne3+ Nxe3 Rxe3 Qa8+ Kh7 Qh1+ Qh6 Qb7 Qf4+ Kg1",
+    "evals": "18 32 20 31 17 14 -11 22 28 86 44 42 6 9 -17 -14 -34 -28 -33 2 -17 4 5 6 -19 -13 -40 -38 -35 -38 -23 -22 -25 10 16 10 5 9 -41 -29 -33 -23 -27 -26 -20 -9 -19 10 -14 -11 -11 -18 -40 -43 -90 -19 -23 -26 -15 -16 -73 -64 -73 -73 -75 -4 -20 3 8 6 -46 -20 -76 -64 -81 -99 -468 -312 -477 -462 -431 -398 -423 -268 -234 -215 -208 -169 -223 -173 -409 -336 -596 -591 -574 -574 -721 -695 -749 -700 -827 -708 -766 -743 -727 -725 -780 -743 -810 -791 -832 -837 -782 -775 -1115 -1072 -999993 -862 -1127 -1078 -1221 -1216 -999987 -999988 -999988 -999988 -999988 -999989 -999990 -999991 -999991 -999992 -999996 -999997 -999998"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Sten Hellman",
+    "Result": "0-1",
+    "Date": "2025-09-10",
+    "ChapterURL": "https://lichess.org/study/GFuwxt03/BueM8b8M",
+    "moves": "e4 c5 Nf3 d6 Nc3 a6 a4 Nf6 Bc4 e6 d4 cxd4 Nxd4 Qc7 Qd3 Be7 Ba2 Nbd7 Qc4 Qxc4 Bxc4 Nb6 Bd3 Nbd7 f4 Nc5 Be3 Ng4 Bd2 Nxd3+ cxd3 Bd7 h3 Bh4+ Ke2 Nh6 Kf3 O-O f5 Bf6 Bxh6 Bxd4 Ne2 Bf6 Bf4 exf5 Bxd6 fxe4+ dxe4 Rfe8 Nc3 Bxc3 bxc3 Bc6 Rhe1 f5 Kf4 Bxe4 g4 g6 g5 Rad8 Red1 Bc6 Rd4 Re4+ Rxe4 Bxe4 Be5 Rd3 Bf6 Rxh3 Rd1 Rd3 Re1 Kf7 Re3 Ke6 Rxd3 Bxd3 Bd4 Kd5 a5 Bb5 Bb6 Bc6 Bd4 b5 axb6 a5 Ke3 a4 Kd3 f4 c4+ Ke6 Bf6 f3 Bd4 Kf5 Be3 Kg4 Kd2 Kg3 Ke1 Kg2 Bd4 a3",
+    "evals": "18 24 20 31 17 31 7 20 4 3 11 8 7 24 4 3 -20 10 -13 0 -6 23 5 8 -9 -17 -21 6 -9 11 10 22 16 56 56 55 -5 53 -58 -57 -54 -42 -272 -186 -241 -250 -279 -270 -254 -278 -246 -219 -244 -243 -218 -118 -142 -41 -43 -39 -129 -101 -282 -278 -340 -245 -241 -158 -289 -280 -338 -322 -333 -84 -421 -427 -432 -224 -321 -301 -301 -254 -203 -318 -309 -279 -254 -94 -517 -460 -490 -468 -464 -509 -509 -485 -604 -528 -624 -616 -639 -627 -690 -804 -774 -724 -913 -855"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Arifin Monmun Denanto 2012",
+    "Result": "0-1",
+    "Date": "2025-04-06",
+    "ChapterURL": "https://lichess.org/study/0Y3GYKfK/5BI3nVcV",
+    "moves": "e4 c5 Nf3 d6 h3 Nc6 Bb5 Bd7 Nc3 a6 Be2 Nf6 O-O g6 d4 cxd4 Nxd4 Bg7 Nxc6 Bxc6 Bf3 O-O Re1 e5 Bg5 Qd7 Nd5 Bxd5 exd5 Rfe8 Bxf6 Bxf6 Rc1 Bg5 Rb1 Rac8 Qe2 f5 g3 Rc5 c4 Qa4 b3 Qb4 Qb2 Rf8 a3 Qb6 Kg2 Bf6 Bd1 e4 Qd2 a5 Be2 a4 b4 Rc7 Rbd1 Rfc8 Qe3 Qxe3 fxe3 b5 c5 dxc5 Bxb5 cxb4 Bxa4 Ra7 Bc6 bxa3 Rc1 Ra6 Bb7 Rxc1 Rxc1 Ra7 Rc8+ Kg7 Rc7+ Kf8 d6 a2 Bd5 a1=Q d7",
+    "evals": "18 25 20 31 5 16 5 17 6 27 -5 0 -11 0 11 10 13 13 -12 -10 -16 -13 -20 67 24 45 -22 -27 -29 -16 -119 -117 -167 -154 -166 -139 -329 -205 -212 -142 -141 -64 -91 -70 -81 -68 -74 -69 -72 -46 -100 -100 -160 -17 -28 14 0 39 -20 112 -244 -234 -221 -7 -3 -2 -330 -337 -427 -397 -494 -447 -512 -457 -580 -533 -529 -540 -752 -756 -771 -658 -726 -705 -753 -717 -999997"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Dan Israel",
+    "Result": "remi",
+    "Date": "2025-10-15",
+    "ChapterURL": "https://lichess.org/study/X8B5sM5c/YQUlJSf8",
+    "moves": "e4 c5 Nf3 g6 c3 Bg7 d4 cxd4 cxd4 Nc6 Nc3 d6 h3 Nf6 d5 Ne5 Nxe5 dxe5 Bb5+ Bd7 Qa4 a6 Bxd7+ Qxd7 Qxd7+ Nxd7 Be3 O-O Kd2 Rac8 a4 h5 Rhc1 Nc5 Bxc5 Rxc5 Kd3 Rfc8 b4 Rc4 Ne2 R4c7 Rxc7 Rxc7 Rc1 Rxc1 Nxc1 Bf8 Nb3 b6 a5 bxa5 Nxa5 e6 dxe6 Bxb4 exf7+ Kxf7 Nc6 Bd6 Kc4 Ke6 h4 Bf8 Nd8+ Kd7 Nf7 Ke6 Ng5+ Kd6 Kb4 Kc6+ Ka5 Kb7 Nf7 Be7 Nxe5 Bxh4 g3 Bd8+ Ka4 g5 Nf7 Be7 e5 Kc6 f4 gxf4 gxf4 h4 Nh6 h3 Ng4 Kd5 f5 h2 Nxh2",
+    "evals": "18 24 20 34 24 59 47 50 48 95 82 70 80 84 99 92 98 94 75 87 76 53 60 56 34 42 47 72 50 54 19 85 72 112 15 18 -9 50 23 92 94 224 265 253 217 344 341 458 322 457 442 420 445 483 470 491 5 10 3 8 11 17 0 7 0 0 0 0 0 0 -23 0 -3 0 0 0 -5 0 -32 -38 -86 -68 -257 -35 -242 -54 -438 -466 -460 -441 -441 0 0 -14 -15 0 0"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Francese M",
+    "Result": "0-1",
+    "Date": "2025-11-18",
+    "ChapterURL": "https://lichess.org/study/mxjlmp5U/zNJgViLg",
+    "moves": "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Nd7 Bc4 e6 Bf4 Ngf6 Nd6+ Bxd6 Bxd6 Nb6 Bxe6 Bxe6 Bc5 Na4 Ba3 Qa5+ c3 Nxc3 Qc2 Nb5+ Qd2 Qxd2+ Kxd2 Nxa3 bxa3 O-O Ne2 Ne4+ Ke3 Bd5 f3 Nd6 Nc3 Nc4+ Kf2 Nxa3 Nxd5 cxd5 Rac1 Nc4 Rb1 b6 Rb5 Rfd8 Re1 a6 Rbb1 Rab8 Re7 Kf8 Ra7 a5 a4 Nd6 g4 Rb7 Rxb7 Nxb7 Rxb6 Nd6 Rc6 Ke7 Rc5 Nc4 f4 Rd6 h4 g6 Rc7+ Ke6 Rc5 h5 g5 Rd7 Rc6+ Kf5 Kf3 Nd2+ Ke2 Nb3 Kd3 Kxf4 Kc3 Nc1 Kd2 Nb3+ Kc3 Rb7 Rd6 Ke4 Ra6 Nxd4 Rxa5 Nc6 Rc5 d4+ Kc2 Nb4+ Kd2 Ra7 a5 Nd5 Rb5 Nc3 Rc5 Nd5 Rb5 Nf4",
+    "evals": "18 31 24 24 27 18 28 22 21 59 42 40 -386 -389 -432 -411 -486 -479 -486 -489 -485 -447 -548 -569 -657 -636 -632 -630 -625 -612 -610 -588 -586 -579 -573 -539 -538 -535 -540 -537 -541 -490 -513 -512 -521 -486 -503 -507 -485 -517 -541 -532 -545 -501 -511 -508 -519 -484 -484 -460 -471 -425 -412 -409 -429 -418 -423 -412 -427 -428 -438 -418 -433 -423 -453 -444 -475 -424 -546 -483 -631 -629 -638 -611 -610 -609 -619 -602 -636 -581 -632 -617 -645 -595 -782 -746 -742 -738 -717 -765 -766 -732 -701 -671 -697 -664 -701 -692 -691 -681 -681 -672 -656 -630"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Mikael Ekbom",
+    "Result": "remi",
+    "Date": "2026-05-28",
+    "ChapterURL": "https://lichess.org/study/INFRlKb1/PKuZbkhq",
+    "moves": "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Nf6 Nxf6+ exf6 Nf3 Bd6 Be2 O-O O-O Re8 c4 Nd7 c5 Bc7 b4 a6 a4 Nf8 Bc4 Be6 Qd3 Qd7 Be3 Bxc4 Qxc4 Ng6 Rfd1 Ne7 Nd2 Nd5 Qb3 h6 Nc4 Qf5 g3 h5 Nd6 Bxd6 cxd6 Qd7 b5 axb5 axb5 Qxd6 b6 Qd8 Bd2 Qxb6 Qxb6 Nxb6 Rab1 Ra6 Bf4 g5 Bd6 Nc4 Bb4 Rd8 Be7 Rd5 Rxb7 Kg7 Bc5 Ra5 Re1 Nd6 Rd7 Nf5 Rxd5 cxd5 Re8 Ra4 Rd8 Nxd4 Rxd5 Ne6 Be3 Kg6 h3 f5 Kg2 f4 Bd2 fxg3 fxg3 Rd4 Rxd4 Nxd4 Bc3 Nb5 Bb2 Kf5 Bc1 Nd6 Ba3 Nc4 Bc1 g4 h4 Ke4 Kf2 f5 Bf4 Kd3 Ke1 Nb6 Kf2 Nd5 Bg5 Nc3 Bf4 Nb5 Be5 Nd4 Bf4 Ke4 Be3 Ne6 Bh6 f4 gxf4 Nxf4 Kg3 Ne2+ Kf2 Nd4 Bg5 Nf5 Kg2 g3 Bc1",
+    "evals": "18 31 24 24 34 18 28 31 29 22 11 21 17 15 13 16 16 26 -18 -13 -46 23 -34 -36 -44 -34 -41 -43 -37 -28 -28 -14 -78 -77 -89 -98 -98 -97 -118 -62 -122 -125 -291 -293 -274 -191 -251 -213 -189 -194 -377 -292 -295 -238 -255 -238 -243 -262 -375 -266 -271 -245 -266 -263 -238 -40 -46 -42 -216 -80 -85 -9 -163 -46 -154 -148 -96 -106 -118 -48 -26 -28 -41 -39 -67 -63 -64 -39 -41 -43 -44 -16 -19 -21 -20 -21 -30 -3 -12 -11 -18 -21 -19 -20 -29 -28 -24 -16 -20 -26 -14 -13 -13 -15 -16 -16 -15 -24 -28 -30 -35 -16 -11 -13 -14 -15 -17 -13 -13 -14 -15 -21 -6 -5 -24 0 0"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Tommy Bech-Kristensen",
+    "Result": "0-1",
+    "Date": "2026-01-21",
+    "ChapterURL": "https://lichess.org/study/GekXVRi0/r82zesOH",
+    "moves": "e4 c6 d4 d5 Nc3 dxe4 Nxe4 Nf6 Nxf6+ exf6 c4 Bb4+ Bd2 Bxd2+ Qxd2 O-O O-O-O Bf5 Bd3 Bg6 Ne2 Na6 f3 Nc7 g4 Ne6 Qc3 Rc8 f4 Bxd3 Rxd3 b5 Kb1 bxc4 Qxc4 Re8 Rc1 Qd6 d5 cxd5 Qxc8 Rxc8 Rxc8+ Nf8 Rdc3 g6 Ra8 Kg7 Rcc8 Ne6 Rg8+ Kh6 Rxa7 Nxf4 Nxf4 Qxf4 Rxf7 Qxg4 Kc1 Qg1+ Kd2 Qxh2+ Kc3 Qe5+ Kc2 d4 Rgg7 Qe2+ Kc1 d3",
+    "evals": "18 31 24 24 34 18 28 31 29 22 13 19 4 31 24 23 -19 32 21 78 55 76 1 64 -35 67 -13 17 -23 -21 -92 -90 -89 -43 -49 -53 -74 214 221 302 317 302 294 295 -225 -164 -261 -233 -268 -66 -347 -330 -338 -289 -286 -293 -472 -191 -480 -288 -381 -401 -392 -397 -400 -403 -399 -361 -999994 -999995"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Anders Öhlund",
+    "Result": "0-1",
+    "Date": "2026.10.06",
+    "ChapterURL": "https://lichess.org/study/sydqbPDT/8SohiOL9",
+    "moves": "e4 c6 d4 d5 e5 Bf5 g4 Bg6 h4 h6 Bd3 Bxd3 Qxd3 e6 Bd2 Qb6 Bc3 Bb4 Nd2 Bxc3 Qxc3 Nd7 O-O-O c5 Ne2 cxd4 Qxd4 Qxd4 Nxd4 Nxe5 f3 Rc8 Kb1 a6 h5 Nc6 N2b3 Nxd4 Nxd4 Ne7 Rhe1 Kd7 b3 b5 f4 Nc6 Nxc6 Rxc6 f5 Rc3 Rg1 Rhc8 Rg2 Rf3 Rd3 Rxd3 cxd3 e5 Re2 f6 Rc2 Rxc2 Kxc2 b4 Kd2 d4 Ke2 Kd6 Kf2 Kd5 Kf3 a5 Ke2 e4 dxe4+ Kxe4 Kd2 d3 g5 hxg5 a3 bxa3 Kc3 Ke3 Kc4 a2 h6 gxh6 Kd5 d2",
+    "evals": "18 31 24 24 33 22 -18 24 -26 80 0 0 6 32 -38 0 -62 34 -3 16 9 0 5 5 -18 0 -188 -178 -168 -168 -247 -213 -228 -128 -155 -146 -154 -149 -147 -124 -133 -135 -169 -136 -140 -128 -225 -226 -195 -202 -224 -238 -256 -252 -491 -498 -520 -477 -572 -551 -780 -754 -747 -674 -807 -685 -1041 -991 -1028 -863 -1118 -1126 -1128 -1027 -999985 -999988 -999988 -1888 -999989 -999990 ? ? ? ? ? ? ? ? ? ?"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Heinz Schmidt",
+    "Result": "1-0",
+    "Date": "2026.09.16",
+    "ChapterURL": "https://lichess.org/study/pOZzY7HS/ynzbu5P7",
+    "moves": "e4 c6 d4 d5 e5 Bf5 g4 Bg6 h4 h6 f4 e6 Bg2 c5 Be3 c4 b3 Be7 bxc4 Bxh4+ Bf2 Bxf2+ Kxf2 Be4 Bxe4 dxe4 Nc3 f5 gxf5 exf5 Qh5+ Ke7 Nd5+ Kf8 e6 Ne7 Qf7#",
+    "evals": "18 31 24 24 33 22 -18 24 -26 80 50 74 11 30 -44 175 122 297 284 342 209 165 174 363 353 368 344 520 502 754 745 889 856 1029 969 999999 ?"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Bertil Wennström",
+    "Result": "1-0",
+    "Date": "2026-03-18",
+    "ChapterURL": "https://lichess.org/study/Rm3Ybt3C/dYozU3Da",
+    "moves": "e4 c6 d4 d5 e5 c5 c3 Nc6 Be3 e6 dxc5 Nxe5 b4 a5 a4 Ne7 Qd4 N5c6 Bb5 Bd7 Qd2 Nf5 Bf4 b6 Bxc6 Bxc6 b5 Bb7 c6 Bc8 Nf3 f6 Qe2 e5 O-O Be7 Bc1 O-O Ba3 Bxa3 Rxa3 Qd6 Rd1 Be6 Nfd2 Qe7 Re1 Rad8 Nf3 Rfe8 Ra1 Bf7 Nbd2 Qc5 Rec1 e4 Nb3 Qc4 Qxc4 dxc4 Nbd4 exf3 Nxf5 fxg2 Kxg2 Rd3 Ne3 Re5 Rd1 Bg6 Nxc4 Rg5+ Kf1 Rh5 Nxb6 Rxh2 Ke2 Rxc3 Rd8+ Kf7 Rd7+ Ke6 c7 Bh5+ Kd2 Rhh3 Re1+ Kf5 c8=Q Rxc8 Nxc8 Kg6 Ne7+ Kh6 b6 Rb3 b7 Rb2+ Kc3",
+    "evals": "18 31 24 24 33 32 25 15 0 45 -3 -5 -32 -14 -34 -37 -188 -188 -169 -196 -191 -104 -204 54 56 46 50 54 57 66 69 56 67 65 56 105 109 115 113 125 80 74 77 81 29 51 28 28 13 17 23 53 59 45 36 115 116 113 136 122 130 249 243 399 151 209 107 99 64 384 372 353 299 512 504 520 391 375 407 388 372 420 117 559 559 626 610 592 612 623 612 691 655 ? ? ? ? ? ?"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Lars Johansson",
+    "Result": "remi",
+    "Date": "2025-07-07",
+    "ChapterURL": "https://lichess.org/study/I94HPenc/7uwW8bUr",
+    "moves": "e4 c6 d4 d5 exd5 cxd5 Nc3 Nf6 Nf3 Bg4 h3 Bh5 Bd2 e6 Bb5+ Nc6 g4 Bg6 Ne5 Qc7 Bf4 Bd6 Qd2 Nd7 h4 Ncxe5 dxe5 Bxe5 Bxd7+ Ke7 Qe3 Bxc3+ bxc3 Qxd7 Qc5+ Kd8 O-O-O Qc6 Qd4 f6 Bd2 e5 Qb4 a5 Qb2 b5 Be3 Ke7 Rhe1 Rhb8 a3 Qc4 Qb3 Qxb3 cxb3 Bf7 Bc5+ Kd7 f4 Kc6 Be3 e4 Rd4 g6 Kc2 Rd8 g5 f5 Kb2 a4 b4 Rac8 Rd2 Kd6 Bd4 Rc4 Be5+ Kc6 Bd4 Re8 Be5 Rd8",
+    "evals": "18 23 24 24 8 18 -7 0 -4 -3 0 138 -13 -27 -29 -25 -20 -8 -32 58 -32 -32 -30 -23 -210 10 17 20 36 72 -44 -52 -51 -55 -140 -96 -123 46 -76 -84 -198 -163 -167 -140 -163 -117 -249 -243 -298 -255 -405 -263 -292 -190 -207 -94 -118 -108 -118 -97 -358 -26 -92 -28 -31 -20 -26 0 -5 0 -58 -56 -44 -3 -2 0 12 -3 -22 -41 -401 0"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Zavi Avci",
+    "Result": "1-0",
+    "Date": "2025-03-25",
+    "ChapterURL": "https://lichess.org/study/Lt6JU7Je/QZsGsSTK",
+    "moves": "e4 d5 exd5 Qxd5 c4 Qa5 Nc3 c6 d4 Bf5 Bd3 Nf6 a3 e6 Nf3 Ne4 Bd2 Nxd2 Qxd2 Bg6 O-O Nd7 Rfe1 Nf6 Ne5 Bd6 b4 Qc7 c5 Bxe5 dxe5 Ng4 Bxg6 hxg6 Qf4 Nxh2 Ne4 O-O-O Nd6+ Kb8 Qxf7 Rdf8 Qxe6 g5 Qg6 Ng4 f3 Nh6 Qxg5 Ng8 Rad1 Ne7 Qxg7 Rhg8 Qh6 Rxf3 Re3 Rff8 Rf1 Rd8 Rf7 Rh8 Qe6 Rd7 Rg3 b6 Rgg7 bxc5 Rxe7 cxb4 Re8+ Rxe8 Qxe8+ Rd8 Rxc7 Rxe8 Nxe8 bxa3 Rxc6 Kb7 Rc2",
+    "evals": "18 54 51 52 -34 21 12 80 69 69 49 60 55 52 55 174 -29 26 31 161 132 143 79 80 66 78 52 77 39 43 42 184 207 200 126 267 196 295 273 274 287 288 65 356 325 413 448 449 458 524 447 437 350 324 380 470 293 364 363 464 460 671 628 597 577 823 770 735 724 1018 930 901 884 857 819 999983 876 999988 999989 999989 999987"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Per Eriksson",
+    "Result": "1/2  - 1/2",
+    "Date": "2025-07-14",
+    "ChapterURL": "https://lichess.org/study/INFRlKb1/kaN81j8y",
+    "moves": "e4 d5 exd5 c6 dxc6 Nxc6 Bb5 e5 Bxc6+ bxc6 d3 Nf6 Nf3 Bd6 O-O O-O Re1 Qc7 Bg5 Bg4 Bxf6 gxf6 Nc3 f5 h3 Bh5 g3 Rad8 Qe2 Kh8 Qe3 Rg8 Nxe5 Rde8 Qh6 Rxe5 Qxh5 Rxe1+ Rxe1 Bxg3 Kf1 Qf4 Qe2 Bh2 Qe3 Qb8 Qd4+ Rg7 Qd7 Rg1+ Ke2 Qe5+ Kf3 Rxe1 Qd8+ Kg7 Qg5+ Kf8 Qh6+ Ke8 Qxc6+",
+    "evals": "18 54 51 75 76 86 65 64 49 64 51 83 69 82 88 86 82 75 14 114 111 115 61 60 48 45 -229 0 -224 -226 -335 -19 -1 129 160 264 246 349 345 381 -414 173 142 195 195 387 386 396 -347 -347 -334 -287 -531 -535 -532 -526 -516 -526 -540 -479 -471"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Susanna Berg Laachiri",
+    "Result": "0-1",
+    "Date": "2026-01-22",
+    "ChapterURL": "https://lichess.org/study/AgzTp9sx/CFG5MYl6",
+    "moves": "e4 d6 d4 Nf6 Nc3 Nbd7 Nf3 e5 dxe5 dxe5 a3 c6 Bg5 Be7 Be2 Qc7 O-O O-O Re1 Nc5 b4 Ne6 Bc4 Nxg5 Nxg5 h6 Nxf7 Rxf7 Bxf7+ Kxf7 Qe2 Be6 Rad1 a5 Rb1 axb4 axb4 b5 Red1 Qb6 Kh1 Kg8 f3 Rd8 Rd2 Rd4 Qf2 Qd8 Rxd4 exd4 Rd1 Bxb4 Rxd4 Qa5 Rxb4 Qxb4 Qe3 Qa3 Qe1 b4 Ne2 Qe3 Qd1 c5 Ng3 Qd4 Qxd4 cxd4 Ne2 d3 cxd3 b3 Nc3 b2 d4 Bc4 d5 Bd3 d6 Kf7 e5 Nd7 f4 b1=Q+ Nxb1 Bxb1 g3 Be4+ Kg1 g5 Kf2 gxf4 gxf4 Bg6 Kg3 Ke6 Kg4 Be8 h4 h5+ Kg5 Nc5 Kh6 Kf5 Kg7 Kxf4 Kf6 Bd7 Ke7 Kg4 e6 Bxe6",
+    "evals": "18 43 43 43 38 57 40 44 0 0 0 0 -51 -17 -47 -51 -49 -44 -58 -48 -73 -49 -194 -179 -195 -144 -285 -291 -306 -309 -302 -300 -334 -333 -331 -311 -306 -303 -318 -322 -405 -320 -299 -203 -300 -195 -188 -170 -171 -176 -314 -306 -395 -318 -452 -441 -493 -456 -492 -481 -478 -487 -498 -490 -495 -476 -475 -498 -523 -502 -496 -517 -477 -462 -538 -552 -529 -526 -577 -514 -1085 -631 -577 -568 -544 -542 -574 -582 -561 -482 -513 -468 -523 -518 -507 -491 -523 -537 -727 -695 -763 -749 -4466 -8308 -8265 -787 -820 -5684 -8127 -5196 -7053 -791"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Jouko Liistamo",
+    "Result": "1-0",
+    "Date": "2024-10-16",
+    "ChapterURL": "https://lichess.org/study/AgzTp9sx/O85gjw7P",
+    "moves": "e4 d6 d4 c6 Nf3 e6 c4 h6 Nc3 Nd7 Be2 Ne7 O-O Ng6 Qc2 e5 d5 Be7 b4 O-O Qa4 Qc7 Be3 Nf6 Rac1 Bg4 h3 Bd7 Qb3 Qc8 Kh2 Nh5 Nxe5 Ngf4 Nxd7 Qxd7 Bg4 Qc7 g3 Nxg3 fxg3 Nd3 Rcd1 Ne5 Bh5 Kh7 Bd4 Bf6 c5 Rg8 Bxe5 dxe5 d6 Qd8 Bxf7 Rf8 d7 g6 Qe6 Kg7 Be8 h5 a4 Kh6 Rd6 Kg7 b5 Qe7 Qxe7+ Bxe7 Rxf8 Bxd6 Rf7+ Kh6 cxd6 a6 b6 a5 Rf6",
+    "evals": "18 43 43 58 59 89 87 96 97 96 98 166 82 81 97 120 79 78 68 69 19 51 31 40 48 81 79 91 85 117 70 256 273 264 275 425 427 454 457 507 512 510 508 532 467 524 507 530 501 535 487 636 634 666 582 588 529 785 692 698 700 676 676 795 853 853 851 942 918 900 711 917 912 894 922 995 961 1078 1025"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Dick Öhman",
+    "Result": "1-0",
+    "Date": "2025-04-09",
+    "ChapterURL": "https://lichess.org/study/sydqbPDT/LBDwpygh",
+    "moves": "e4 e5 Nc3 Nf6 f4 d5 exd5 Nxd5 fxe5 Nxc3 bxc3 Qh4+ Ke2 Qe4+ Kf2 Qxe5 Qe2 Nc6 d4 Qxe2+ Bxe2 Bf5 Bb5 Bxc2 d5 O-O-O dxc6 Bc5+ Kf3 Rd6 cxb7+ Kxb7 Bf4 Rf6 Rc1 Bd6 g3 g5 Rxc2 gxf4 g4 h5 g5 Rf5 Bc4 Bc5 h4 Be3 Ne2 Rf8 Bd3 Ra5 Rb1+ Kc8 Nxf4 Bxf4 Kxf4 Ra4+ Rb4 Ra5 Bf5+ Kd8 Rb8+ Ke7 Re2+",
+    "evals": "18 21 8 3 -10 0 -32 -37 -34 -46 -35 -35 -39 43 76 75 -1 4 -12 -17 -5 -3 -117 -113 -123 -106 -80 263 -168 179 193 161 -110 23 23 368 231 373 366 367 372 367 365 356 336 483 482 532 486 530 532 535 512 575 579 569 556 643 628 718 727 999997 977 929 891"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Heinz Schmidt",
+    "Result": "1-0",
+    "Date": "2025-04-16",
+    "ChapterURL": "https://lichess.org/study/pOZzY7HS/nHydi5Mn",
+    "moves": "e4 e5 Nc3 Nf6 f4 d5 fxe5 Nxe4 Nf3 Be7 d3 Nxc3 bxc3 Nc6 d4 Bg4 Be2 f6 exf6 Bxf6 Ba3 Be7 Bxe7 Qxe7 O-O O-O Qd2 Rae8 Rf2 Qe3 Qxe3 Rxe3 Rb1 b6 c4 Rfe8 cxd5 Rxe2 dxc6 Bxf3 gxf3 R2e3 d5 R8e5 Rd1 Re1+ Rf1 Rxf1+ Kxf1 Re8 Re1 Kf7 Rxe8 Kxe8 a4 Ke7 Ke2 Kd6 c4 a6 Kd3 b5 axb5 axb5 Kd4 b4 c5+",
+    "evals": "18 21 8 3 -10 0 -22 0 -24 -10 -11 -25 -27 0 -18 17 10 27 20 33 -21 3 -5 -10 -18 -10 -2 0 -22 -17 -21 -18 -33 -31 -38 -33 -52 0 0 0 0 0 0 -5 -6 13 11 158 123 353 338 444 503 504 508 501 482 501 534 570 566 609 659 643 585 724 661"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Lars Ring",
+    "Result": "*",
+    "Date": "2026.10.01",
+    "ChapterURL": "https://lichess.org/study/badox5qN/Mtqr1Fzn",
+    "moves": "e4 e5 Nf3 Nc6 Bb5 Nf6 O-O d6 d4 Bd7 Bxc6 Bxc6 d5 Bd7 Nc3 Be7 h3 O-O Bd2 c6 Bg5 h6 Bh4 Rc8 Bg3 Nh7 Re1 f5 Nxe5 dxe5 Bxe5 fxe4 d6 Bf6 Rxe4 Bxe5 Rxe5 Qf6 Qd4 Rce8 Rae1 Ng5 f4 Ne6 Qe4 Qxf4 Qxf4 Rxf4 Ne2 Rff8 c3 Ng5 Nd4 Rxe5 Rxe5 Re8 Rxe8+ Bxe8 Nf5 Bd7 Ng3 Nf7 Ne4 b6 g4 c5 Kf2 Bc6 Ke3 Kf8 b4 Bxe4 bxc5 Bc6 Kd4 Ke8 c4 Kd7 h4 Ke6 cxb6 axb6 c5 b5 Kc3 Kd5 Kb4 Ne5 g5 hxg5 hxg5 Nd3+",
+    "evals": "18 22 18 22 15 17 11 61 54 60 44 50 -9 -9 -22 -11 -25 -12 -55 -1 -1 15 -96 7 -251 -55 -48 -44 -460 -479 -487 -395 -510 -502 -609 -552 -514 -503 -586 -583 -548 -575 -575 -582 -629 -598 -591 -497 -524 -516 -606 -591 -643 -634 -623 -552 -630 -598 -605 -608 -613 -606 -631 -611 -610 -609 -602 -594 -590 -587 -624 -594 -735 -736 -726 -726 -758 -747 -793 -764 -730 -757 -803 -795 -805 -793 -794 -801 -906 -781 -772 -761"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Axel Larsson",
+    "Result": "0-1",
+    "Date": "2026-06-04",
+    "ChapterURL": "https://lichess.org/study/AgzTp9sx/DQD42oEx",
+    "moves": "e4 e5 Nf3 Nc6 Bb5 a6 Ba4 Nf6 O-O b5 Bb3 Bc5 Bd5 Qe7 c3 O-O d4 exd4 Nxd4 Nxd5 Nxc6 dxc6 exd5 Rd8 Re1 Rxd5 Bd2 Qd8 Qe2 Bf5 Be3 Bd3 Qd1 Bxe3 Rxe3 Bc2 Qf1 Qd6 Na3 Rh5 g3 Bf5 Qe2 g6 Rd1 Qf8 h4 Be6 Rxe6 fxe6 Qxe6+ Qf7 Qxf7+ Kxf7 Rd7+ Ke6 Rxc7 Kd6 Rf7 Re8 Kf1 Re7 Rf8 Rhe5 Ra8 Re1+ Kg2 R1e2 Rxa6 Kd5 b3 Rxa2 c4+ bxc4 bxc4+ Kc5 Kf3 Re6 Ra7 h5 Nb5 Rxa7 Nxa7 Kxc4 Nc8 c5 Kf4 Kb4 Kg5 c4 Ne7 Rxe7 Kxg6 c3 Kxh5 c2",
+    "evals": "18 22 18 22 15 21 11 28 16 24 29 33 -4 85 122 122 139 131 -140 -141 -208 -188 -185 -196 -186 -186 -298 -248 -253 -258 -240 -254 -414 -383 -447 -291 -293 -280 -281 -107 -205 -73 -82 -75 -74 -59 -109 -110 -243 -232 -247 -215 -360 -365 -363 -341 -357 -347 -350 -347 -357 -302 -321 -319 -498 -480 -490 -487 -475 -407 -497 -410 -414 -394 -505 -492 -510 -456 -462 -455 -620 -620 -596 -604 -709 -676 -775 -694 -804 -772 -793 -1266 -999989 -1002 -999992 -999993"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Hans Weström",
+    "Result": "1-0",
+    "Date": "2025-03-13",
+    "ChapterURL": "https://lichess.org/study/Rm3Ybt3C/59H8c8gD",
+    "moves": "e4 e5 Nf3 Nc6 d4 exd4 Bc4 Bb4+ Bd2 Qe7 Qe2 Bxd2+ Nbxd2 d6 Bb5 Bg4 h3 Bh5 g4 Bg6 Nxd4 Qd7 f4 f6 Qc4 Bf7 Qxc6 bxc6 Bxc6 O-O-O Bxd7+ Kxd7 O-O Ne7 Rf3 Ng6 Nf5 Rhg8 h4 Ne7 Rc3 Nxf5 exf5 Rge8 Kf2 Bd5 Ra3 Ra8 Re1 Reb8 Rd3 c6 Rde3 Re8 c4 Rxe3 Rxe3 Bf7 b3 Rb8 Ne4 a5 Rd3 d5 cxd5 cxd5 Nc3 Kc6 Ne2 Rb7 Rc3+ Kd7 Rc5 a4 Nd4 axb3 axb3 Kd6 Rc6+ Kd7 Rc3 Rc7 Rxc7+ Kxc7 Ne6+ Kd6 Nxg7 Kc5 Ne6+ Kb4 Nd4 Kc3 Ke3 Be8 Ne6 Bb5 g5 Be8 Nc7 d4+ Kf2 Kc2 Nd5 Kd2 Nxf6 Bc6 Ng4 Be4 f6 Bd5 Ne5 Bxb3 f7 Bxf7 Nxf7 Kd3 Ne5+ Ke4 Kg3 Kf5 Kf3 Ke6 Ke4 h5 f5+ Ke7 Kxd4 Kf8 Ng6+ Kg7 Nf4 Kf7 Nxh5",
+    "evals": "18 22 18 21 7 4 0 -10 -31 25 -39 0 0 7 20 64 23 240 215 221 227 230 211 220 97 123 129 120 121 142 150 146 128 133 90 146 90 145 153 155 -9 0 0 0 8 87 85 104 83 161 160 252 200 195 184 194 176 205 142 232 224 221 214 216 137 137 136 140 130 245 242 256 249 269 257 239 246 268 290 293 201 440 373 474 508 508 436 508 556 559 542 569 536 585 529 577 574 650 379 343 272 677 270 565 555 729 484 639 643 633 589 817 816 916 936 895 874 800 886 999983 1453 999983 974 999990 999991 999991 999992 999992 999992 999992 999991 999991 999992"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Roland Eriksson",
+    "Result": "1-0",
+    "Date": "2025-11-05",
+    "ChapterURL": "https://lichess.org/study/INFRlKb1/4zv5JB9L",
+    "moves": "e4 e5 Nf3 Nc6 d4 exd4 Bc4 Be7 Nxd4 Ne5 Nd2 d6 b3 a6 a4 Nf6 O-O O-O Bb2 Bd7 Nf5 Nxc4 Nxc4 Re8 Re1 Bc6 e5 dxe5 Bxe5 Bf8 Qxd8 Raxd8 Bxc7 Rxe1+ Rxe1 Rd7 Bd6 Bxd6 Ncxd6 g6 Ne7+ Kf8 Nxc6 Rxd6 Nb4 Nd5 Rd1 Ke7 Nxd5+ Kd8 Ne3 Rxd1+ Nxd1 Kd7 f4 f5 Kf2 h5 Ke3 Kd6 Kd4 b6 Nc3 Kc6 Nd5 b5 Nb4+ Kb6 Nd5+ Kc6 axb5+ axb5 Ne7+",
+    "evals": "18 22 13 21 4 4 0 40 29 64 1 30 -40 26 -37 7 -8 8 4 36 -54 0 1 71 -27 171 36 31 1 43 42 46 51 48 48 50 0 80 85 88 91 84 87 87 78 541 546 580 562 575 572 565 568 586 576 648 622 682 707 729 716 853 788 846 784 907 833 869 934 944 924 925 876"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Roland Eriksson",
+    "Result": "0-1",
+    "Date": "2025-07-31",
+    "ChapterURL": "https://lichess.org/study/INFRlKb1/C1QLbArK",
+    "moves": "e4 e5 Nf3 Nc6 d4 exd4 Bc4 h6 Nxd4 Ne5 Bb3 Bc5 O-O d6 Bf4 Nf6 Nc3 O-O h3 Re8 Qd2 Bxd4 Qxd4 Be6 Ba4 Re7 Rad1 Qc8 Bxe5 dxe5 Qxe5 c6 Ne2 Qe8 Bb3 Bxb3 Qxe7 Qxe7 cxb3 Qxe4 Rfe1 Qc2 Rb1 Re8 Kf1 Rxe2",
+    "evals": "18 22 13 21 4 4 0 59 55 57 57 53 15 17 11 6 6 11 -127 -20 -164 66 66 77 45 84 91 123 127 124 119 140 -31 -40 -438 -432 -498 -497 -492 -483 -542 -488 -560 -575 -750 -738"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Abbas Razavi",
+    "Result": "1-0",
+    "Date": "2025-08-11",
+    "ChapterURL": "https://lichess.org/study/badox5qN/Ky2hNjjD",
+    "moves": "e4 e5 Nf3 Nc6 d4 exd4 Bc4 h6 Nxd4 Nxd4 Qxd4 Qf6 e5 Qe7 Nc3 Qc5 Be3 Qxd4 Bxd4 Bb4 a3 Ba5 b4 Bb6 Bxb6 axb6 Nb5 Kd8 Bxf7 Ne7 a4 Rf8 e6 d6 O-O Nc6 c3 Ne5 Rfe1 Nxf7 e7+ Ke8 Nxc7+",
+    "evals": "18 22 13 21 4 4 0 59 55 98 96 140 129 224 264 284 188 180 189 211 178 297 297 328 341 345 340 272 306 297 69 79 -133 175 149 262 253 442 295 999988 999989 999989 999984"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Lars Cederfeldt",
+    "Result": "1-0",
+    "Date": "2025-11-20",
+    "ChapterURL": "https://lichess.org/study/gUVqHJd9/D330MCld",
+    "moves": "e4 e5 Nf3 Nc6 d4 exd4 Nxd4 Bc5 Be3 Bb6 Nc3 Nge7 Na4 O-O Bc4 Ne5 Nxb6 axb6 Bb3 d6 a3 Bd7 c4 N7c6 Qd2 Na5 Qc3 Nxb3 Nxb3 Qh4 Nd2 f5 g3 Qe7 O-O-O fxe4 Nxe4 Bc6 Bg5 Qe6 Rhe1 Qxc4 Qxc4+ Nxc4 Bf4 h6 h4 Rf5 Rd4 b5 Nd2 g5 hxg5 Nxd2 Kxd2 hxg5 Be3 Bf3 Rc1 Bc6 Rg4 Raf8 f4 Bf3 Rxg5+ Rxg5 fxg5 c6 Bf4 d5 Re1 Be4 Kc3 Kf7 Kb4 Ke6 Kc5 Rf7 Kb6 Kf5 Ra1 d4 a4 b4 Kc5 Rd7 Kxb4 Rd5 Rc1 d3 Rc5 Ke6 Rxd5 Bxd5 Kc5 Be4 Kb6 Kd5 Kxb7 Kc4 Bd2 Kb3 a5 Kxb2 a6 Kc2 Bf4 d2 Bxd2 Kxd2 Kb6 Kd3 Kc5",
+    "evals": "18 22 13 21 4 4 6 18 21 74 37 85 6 26 -78 26 17 21 -25 38 27 52 -45 -10 -164 -164 -159 -167 -152 -156 -153 -164 -233 -191 -329 -321 -346 -283 -452 -428 -445 -256 -227 -247 -228 -165 -218 -162 -250 -223 -244 -184 -180 -6 -83 -89 -77 -8 -1 0 -4 0 -7 0 0 0 4 11 22 13 0 3 0 8 7 6 4 23 0 12 0 0 -9 33 37 40 36 48 38 39 36 64 8 444 452 507 496 586 609 650 574 591 545 589 0 -4 -2 637 632 655 656 731 690"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Abbas Razavi",
+    "Result": "1-0",
+    "Date": "2025-06-09",
+    "ChapterURL": "https://lichess.org/study/badox5qN/V5HfunPf",
+    "moves": "e4 e5 Nf3 Nc6 d4 exd4 c3 d5 exd5 Qxd5 Nxd4 Nxd4 Qxd4 Qxd4 cxd4 Bf5 Be3 O-O-O Bc4 f6 a3 Ne7 Nc3 Nc6 Rd1 a6 O-O Bd6 h3 Na5 Bd3 Bg6 Rfe1 f5 Bg5 Rde8 Nd5 Kb8 Ne7 Bxe7 Bxe7 Nc6 Bc5 Rd8 Bc2 b6 d5 Na7 Bd4 Rd7 Bc3 Rhd8 Bb3 Nc8 Re5 c5 Bc2 Nd6 b3 Kc7 a4 Re8 Rxe8 Bxe8 Re1 g6 Be5 Kd8 Bf6+ Kc7 Re6 Bf7 Re5 Ne8 Bg5 Rxd5 Re7+ Rd7 Bf4+ Kd8 Re3 Rd4 Bg5+ Kc8 Bd3 c4 Bxc4 Rxc4 bxc4 Nd6 Re7 Bxc4 Bf4 Bb3 Bxd6 Bxa4 Rxh7 Bd7 Rg7 Be8 Ra7 Bb5 Bc7 Bc6 Bxb6 Bb7 Kf1 g5 g3 Kb8 Ke2 Kc8 Ke3 Kb8 Kd4 Ba8 Ke5 Be4 Be3 f4 gxf4 gxf4 Kxf4",
+    "evals": "18 22 13 21 4 4 -11 0 0 0 -97 -28 -60 -64 -63 -27 -56 -32 -36 -15 -35 -11 -16 -15 -5 7 -7 -6 -9 -3 -60 -9 -27 36 34 49 -7 7 -4 40 15 19 -6 48 48 50 40 201 202 185 111 119 94 130 97 109 78 75 9 50 45 68 63 54 0 -2 -2 37 -7 -1 -116 -125 -106 -130 -147 -145 -151 -135 -148 -116 -192 -71 -89 -52 -166 255 233 440 413 532 514 565 561 574 600 593 591 625 614 633 628 636 626 680 669 677 642 640 669 680 663 688 676 720 708 820 790 773 711 864 830 820 753"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Joar Berglund",
+    "Result": "0-1",
+    "Date": "2026-09-18",
+    "ChapterURL": "https://lichess.org/study/8Ds1Bw7r/q2ep1ias",
+    "moves": "e4 e5 Nf3 Nc6 d4 exd4 c3 d5 exd5 Qxd5 c4 Bb4+ Bd2 Qd6 a3 Bxd2+ Qxd2 Nf6 b4 O-O Be2 Bg4 O-O Rad8 Rd1 Bxf3 Bxf3 Ne5 Bxb7 Nxc4 Qa2 Ne5 Nc3 Neg4 g3 Qb6 Nd5 Qxb7 Ne7+ Kh8 Qc2 Ne4 Rf1 d3 Qc6 Qxc6 Nxc6 Rd6 b5 d2 f3 Ne3",
+    "evals": "18 22 18 21 7 4 -11 0 0 0 -256 -148 -226 -192 -235 -225 -313 -315 -337 -292 -256 -260 -282 -252 -356 -274 -264 -224 -217 -214 -298 -235 -472 -451 -458 -454 -541 -559 -602 -601 -632 -463 -593 -601 -599 -597 -589 -574 -687 -680 -702 -690"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Abbas Razavi",
+    "Result": "1-0",
+    "Date": "2026-02-18",
+    "ChapterURL": "https://lichess.org/study/badox5qN/HD8CVlAf",
+    "moves": "e4 e5 Nf3 Nc6 d4 exd4 c3 dxc3 Bc4 Bb4 O-O h6 Qd5 Qe7 e5 Qe6 Nxc3 Bxc3 bxc3 Nge7 Qe4 Qg6 Bd3 Qxe4 Bxe4 b6 Ba3 Ba6 Rfe1 O-O-O Rad1 Bc4 Rd2 Be6 Nd4 Rhe8 f4 g6 h3 Nd5 Bxd5 Bxd5 Nf5 Be6 Nxh6 Rh8 Ng4 Bxg4 hxg4 Rh4 Kf2 Rxg4 g3 Re8 Rde2 Nxe5 Rxe5 Rxe5 Rxe5 d6 Re7 f5 Rg7 Kb8 Bb2 Kb7 c4 Kc6 Bf6 a5 Bg5 Kb7 Rxg6 Kc6 Rg7 Kb7 Rf7 Kc6 Kf3 d5 cxd5+ Kxd5 Rxf5+",
+    "evals": "18 22 18 21 7 4 -11 -10 -9 -13 0 210 -30 -8 -47 -16 -1 -1 -65 -17 -451 1 -115 -110 -113 -106 -150 -153 -152 -148 -171 -172 -246 -164 -166 -98 -101 -110 -128 -141 -257 -254 -262 -73 -77 -68 -115 -63 -29 7 7 221 222 226 193 435 427 435 423 467 465 475 462 456 452 503 514 515 547 581 484 634 597 659 636 709 687 748 710 814 762 884 778"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Tony Haddad",
+    "Result": "1-0",
+    "Date": "2025-10-23",
+    "ChapterURL": "https://lichess.org/study/GFuwxt03/1NCTUSXR",
+    "moves": "e4 e5 Nf3 Nf6 Nc3 Bc5 Nxe5 Nc6 Nxc6 dxc6 e5 Ng4 Ne4 Qe7 d4 Bb6 h3 f5 Bg5 Qb4+ c3 Bxd4 cxb4 Bxb2 Qd8+ Kf7 Qxh8 Bxa1 Bc4+ Kg6 Qe8#",
+    "evals": "18 22 13 34 0 97 90 149 146 202 -260 -249 -250 234 249 248 246 242 242 248 252 861 844 999989 999990 999989 760 1035 1010 999999 ?"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Stefan Kolev",
+    "Result": "remi",
+    "Date": "2026-06-08",
+    "ChapterURL": "https://lichess.org/study/GekXVRi0/vtctB0Ze",
+    "moves": "e4 e5 Nf3 Nf6 d4 Nxe4 dxe5 d5 Bd3 Be7 Bxe4 dxe4 Qxd8+ Bxd8 Ng5 Nc6 Nxe4 Nxe5 f4 Nd7 Nbc3 O-O Bd2 Nf6 O-O-O Nxe4 Nxe4 Bf5 Ng3 Bg4 Rde1 Bh4 Re3 Rfe8 Rhe1 Rxe3 Rxe3 Bxg3 Rxg3 Bf5 Re3 Be6 h3 h5 Re5 g6 b3 Rd8 Bc3 Rd5 a4 Rxe5 Bxe5 c6 h4 Kf8 a5 Ke7 Kd2 Bd5 g3 Ke6 Bd4 a6 b4 Kf5 Bf2 Kg4 Ke3 Kf5 Kd4 Ke6 Kc5 Kd7 c4 Be6 Bd4 Bf5 b5 cxb5 cxb5 axb5 Kxb5 Kc8 Kc5 Be6 Kd6 Ba2",
+    "evals": "18 22 18 34 32 22 0 15 0 15 -10 -18 -7 -14 -79 -71 -68 -69 -134 -54 -57 -53 -72 -36 -58 -60 -51 -30 -45 -46 -39 -37 -43 -28 -39 -39 -30 0 0 15 -22 -5 -14 -6 -7 -6 -12 -10 -17 0 -16 -7 -5 -4 0 -4 -8 0 -3 0 0 0 0 0 0 0 -8 0 0 0 0 0 0 0 0 0 0 0 0 0 -9 -19 -9 0 -11 0 0 0"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Vida Radon",
+    "Result": "1-0",
+    "Date": "2025-04-03",
+    "ChapterURL": "https://lichess.org/study/badox5qN/xyRMGg0w",
+    "moves": "e4 e5 Nf3 d6 Bc4 Bg4 h3 Bxf3 Qxf3 Qf6 Qb3 b6 Nc3 c6 Bd5 cxd5 Qxd5 Qd8 Qxa8 Be7 Nd5 Nf6 Nxe7 Kxe7 d3 h6 Qxa7+ Nbd7 Bd2 Qb8 Qxb8 Rxb8 b4 Rc8 c4 Ra8 a4 Ne8 Ke2 g5 Be3 Ng7 a5 bxa5 Rxa5 Rc8 c5 dxc5 bxc5 Rc6 d4 exd4 Bxd4 Ne6 Ke3 Nf4 g3 Ng6 Rb1 h5 Rb7 Ke6 Raa7 Ndf8 Rc7 Rxc5",
+    "evals": "18 21 13 48 25 67 63 78 72 192 185 199 204 228 41 437 432 431 423 449 453 453 475 466 325 485 469 445 445 537 535 525 535 546 523 540 524 551 556 575 536 528 529 522 522 552 486 506 513 549 491 483 484 476 471 504 495 552 568 655 639 717 693 999992 579 999998"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Håkan Zirath",
+    "Result": "0-1",
+    "Date": "2025-03-05",
+    "ChapterURL": "https://lichess.org/study/cLMnEnUO/gV7EbLJI",
+    "moves": "e4 e5 Nf3 d6 Be2 Nf6 Nc3 Be7 O-O O-O d4 exd4 Nxd4 a6 a4 h6 Be3 Nbd7 Qd2 Nc5 Bf3 Nh7 b4 Ne6 Nf5 Bg5 Bxg5 Nexg5 Qf4 Nxf3+ Qxf3 Bxf5 Qxf5 Qf6 Nd5 Qxf5 Ne7+ Kh8 Nxf5 Rfe8 f3 Re5 Rfd1 Rae8 Rd3 Nf6 g4 Kh7 Rc3 g6 Rxc7 gxf5 Rxf7+ Kg6 Rxb7 fxe4 f4 R5e7 Rxe7 Rxe7 h3 d5 Kf1 Rc7 Rc1 Rc3 Kg2 d4 b5 axb5 axb5 d3 b6 Rxc2+ Rxc2 dxc2",
+    "evals": "18 22 18 48 0 8 4 45 8 28 36 32 31 41 30 51 24 87 50 75 37 90 90 90 57 91 2 0 -40 -16 -15 -16 -28 25 9 17 4 14 10 11 15 65 49 80 53 67 -10 17 -9 -1 -234 -198 -386 -395 -361 -328 -368 -344 -389 -383 -336 -298 -307 -303 -381 -362 -495 -471 -509 -521 -512 -505 -952 -871 -844 -778"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Lars Jansson",
+    "Result": "1-0",
+    "Date": "2025.04.24",
+    "ChapterURL": "https://lichess.org/study/I94HPenc/p4EtiyPb",
+    "moves": "e4 e6 d4 d5 e5 c5 c3 Nc6 Nf3 Nge7 dxc5 Ng6 Bb5 Bxc5 b4 Bxf2+ Ke2 Bb6 a4 O-O Bg5 Qe8 Bxc6 bxc6 Be3 Ba6+ Kf2 Bc7 Bc5 Ne7 Re1 Qd7 Nd4 Rfe8 Nd2 Ng6 N2f3 Nf4 Re3 Bb7 g3 Ng6 Qd3 Qc8 b5 cxb5 axb5 Qb8 Nc6 Bxc6 Rb1 Bb7 Qd4 Ne7 Qb4 Nf5 Re2 Bc8 b6 axb6 Bxb6 Bxb6+ Qxb6 Qa7 Kg2 Ba6 Qxa7 Rxa7 Reb2 f6 Kf2 fxe5 Nxe5 g6 Ra1 Rea8 Rb6 Bc8 Rxa7 Rxa7 g4 Ne7 c4 dxc4 Nxc4 Nd5 Rb8 Ne7 Nd6 Rc7 h4 Kg7 Ne8+ Kf7 Nxc7 e5 g5 Bd7 Rh8 Kg7 Rd8 Bf5 Ne8+ Kf7 Nf6 Ke6 Nxh7 Nc6 Rf8 Bb1 Rf6+ Kd5 Rf3 Kd6 Rf6+ Kd5 Rf3 Kd4 Rf8 Bd3 Nf6 Bf5 Nd5 Kxd5",
+    "evals": "18 28 28 33 25 23 14 19 22 23 0 0 -67 -60 -114 166 -329 -339 -354 -336 -356 -336 -390 -400 -472 -430 -471 -328 -329 -222 -230 -70 -296 -159 -220 -197 -221 -141 -136 -21 -65 -70 -172 22 -231 -221 -317 -78 -413 -413 -418 -354 -430 -419 -505 -466 -473 -343 -520 -506 -529 -490 -493 -450 -528 -503 -515 -503 -525 -448 -467 -446 -432 -411 -420 -301 -430 -420 -445 -429 -428 -412 -420 -427 -437 -397 -396 -396 -398 -395 -393 230 218 ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Dimiter Konstantinov",
+    "Result": "1-0",
+    "Date": "2025-12-02",
+    "ChapterURL": "https://lichess.org/study/GekXVRi0/rPYgoW3K",
+    "moves": "e4 e6 d4 d5 e5 c5 c3 Qb6 Qb3 c4 Qxb6 axb6 Nd2 b5 b4 Nd7 Nb1 Nb6 Be2 Na4 Kd2 g6 f4 Bh6 Kc2 Ne7 g4 Bd7 Nf3 Nb6 h4 Bg7 h5 O-O-O h6 Bf8 Ng5 Be8 Na3 Rg8 Nxh7 Kc7 Nf6 Rh8 Nxe8+ Rxe8 Nxb5+ Kc6 Nd6 Ra8 Nxf7 Rh7 Ng5 Rxh6 Rxh6 Bxh6 Nxe6 Kd7 Nc5+ Kc6 a4 Nxa4 Rxa4 Rxa4 Nxa4 Kb5 Nc5 b6 Ne6 Kc6 g5",
+    "evals": "18 22 29 31 25 20 18 17 -26 49 -33 -16 -18 -12 -19 8 -13 -9 -16 0 -42 4 17 20 26 33 29 23 11 29 1 18 5 189 114 125 132 142 114 397 395 475 455 477 467 485 483 485 487 489 470 473 474 475 465 464 474 554 552 555 552 615 598 668 670 675 718 835 828 822 800"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Helge Bergrström",
+    "Result": "1-0",
+    "Date": "2025-08-05",
+    "ChapterURL": "https://lichess.org/study/8Ds1Bw7r/1AIBrbqp",
+    "moves": "e4 e6 d4 d5 exd5 Qxd5 c4 Bb4+ Nc3 Qd8 a3 Be7 Nf3 Nd7 Bf4 Ngf6 Nb5 Bd6 Bxd6 cxd6 Nxd6+ Ke7 c5 b6 b4 Qc7 Rc1 bxc5 dxc5 a6 Ng5 Rf8 Qf3 Rb8 Qg3 Qc6 Nf5+ exf5 Bc4 Ne4 Qe3 Kf6 Nxh7+ Kg6 Nxf8+ Nxf8 O-O Bb7 Rcd1 Re8 Bd5 Qc7 Bxb7 Qxb7 f3 Ng5 Qxe8 Nfe6 Rd6 Kf6 h4 Nh7 Rd7",
+    "evals": "18 28 29 37 13 54 55 77 73 80 75 155 144 147 153 308 289 324 305 316 318 315 316 426 354 373 348 391 400 458 396 383 347 349 344 480 -176 -146 -212 -215 -184 221 213 260 245 251 230 303 309 299 208 210 103 112 94 611 610 667 640 783 796 836 790"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Lars Jansson",
+    "Result": "1-0",
+    "Date": "2025-10-09",
+    "ChapterURL": "https://lichess.org/study/I94HPenc/cF4xtFP0",
+    "moves": "e4 e6 d4 d5 exd5 exd5 Nc3 Nf6 Nf3 Be7 Be2 O-O O-O Bf5 Re1 Nc6 a3 Re8 Bf4 Qd7 Bb5 Rad8 Ne5 a6 Nxd7",
+    "evals": "18 30 29 31 13 14 0 0 0 13 -7 0 -3 0 -12 16 2 10 14 36 43 252 263 630 595"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Dick Öhman",
+    "Result": "1-0",
+    "Date": "2026-02-04",
+    "ChapterURL": "https://lichess.org/study/sydqbPDT/m57v5y0U",
+    "moves": "e4 g6 d4 Bg7 Nc3 d6 Nf3 Nf6 Be2 O-O O-O c6 Bf4 Nh5 Qd2 Nxf4 Qxf4 Nd7 Rfd1 Qc7 a4 e5 dxe5 dxe5 Qe3 b6 Rd2 Nf6 h3 Bb7 Rad1 h5 Bc4 c5 Nd5 Nxd5 Bxd5 Bxd5 exd5 Qd6 c4 f6 Nh4 f5 Qg3 Kh7 Re2 Rad8 Nf3 Bf6 Ng5+ Bxg5 Qxg5 e4 Re3 Qf6 Qxf6 Rxf6 f3 exf3 Re7+ Kg8 gxf3 a6 Rde1 Kf8 R1e6 Rxe6 Rxe6 Re8 Rxb6 Re2 Rxa6 Rxb2 Ra5 Rb4 Rxc5 Rxa4 Rc7 Ra1+ Kf2 Rd1 Kg3 Rd4 Rc6 h4+ Kf2 Rd2+ Ke3 Rh2 Rxg6 Rxh3 Rf6+ Ke7 Rxf5 Rh1 Kf2 h3 Kg3 h2 Kg2 Rc1 Kxh2 Rxc4 Kg3 Rc5 d6+ Kxd6 Rxc5 Kxc5 Kf4 Kd6 Kf5 Ke7 Kg6",
+    "evals": "18 55 48 48 51 52 52 44 39 37 29 50 37 75 -48 -50 -44 -46 -84 -25 -60 -66 -76 -33 -42 -10 -17 -14 -46 27 24 157 149 353 129 123 124 118 56 37 38 42 0 11 7 58 56 49 54 345 34 45 48 62 19 150 160 152 157 152 123 168 180 216 204 302 178 276 269 373 348 431 425 403 316 395 364 354 304 431 398 487 42 318 6 38 52 514 509 509 532 489 503 577 555 584 475 529 531 552 499 487 492 485 421 8308 6661 8308 894 541 7671 7679 6985 886 839"
+  },
+  {
+    "White": "Christer Nilsson",
+    "Black": "Roland Eriksson",
+    "Result": "0-1",
+    "Date": "2026-04-08",
+    "ChapterURL": "https://lichess.org/study/INFRlKb1/Joo72Brb",
+    "moves": "e4 g6 d4 Bg7 Nf3 d6 Nc3 Nf6 h3 O-O Be2 e5 dxe5 dxe5 Nxe5 Qxd1+ Bxd1 Nxe4 Nxe4 Bxe5 f4 Bd4 c3 Bb6 Ke2 Re8 Kf3 Kg7 Ba4 Bd7 Bxd7 Nxd7 b4 f5 Nf2 Nf6 Bb2 Kf7 c4 c5 b5 Rad8 Rad1 Bc7 g4 Ne4 Nd3 b6 Ne5+ Bxe5 fxe5 Ke6 Ke3 Ng5 h4 Nf7 Kf4 fxg4 Kxg4 Nxe5+ Bxe5 Kxe5 Rhe1+ Kf6 Rxe8 Rxe8 Rf1+ Kg7 Kg3 Re2 a3 Re3+ Rf3 Rxf3+ Kxf3 Kf6 Kf4 h6 Ke4 g5 hxg5+ hxg5 Kd5 g4 Kc6 g3 Kb7 g2 Kxa7 g1=Q Kxb6 Qd4 a4 Qxc4 a5 Qa4 Kxc5 Qxa5 Kc6 Qc3+ Kb7 Ke6 b6 Kd6 Ka8 Qh8+ Ka7 Qa1+ Kb8 Qa6 b7 Kc6",
+    "evals": "18 55 48 48 32 43 52 44 28 27 4 53 50 46 10 13 10 18 14 16 -18 -21 -24 -21 -65 -73 -83 -82 -83 -84 -72 -75 -172 -169 -158 -166 -999999 -221 -999999 0 0 0 0 0 -10 -21 -40 0 -285 -292 -297 -90 -124 -82 -159 -117 -188 -192 -175 -113 -81 -134 -117 -118 -197 -142 -199 -224 -380 -367 -439 -398 -688 -688 -641 -509 -626 -654 -652 -638 -795 -766 -844 -748 -1304 -1251 -999989 -1449 -1461 -1458 -1440 -1479 -6577 -8115 -8099 -1357 -999988 -553 -999993 -999992 -999994 -999995 -999996 -999997 -999997 -999997 -999997 -999997 -999997 -999998 -999998 -999998"
+  }
+]

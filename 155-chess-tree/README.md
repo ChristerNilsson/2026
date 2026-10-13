@@ -1,40 +1,44 @@
-# Schackträd
+﻿# Schackträd
+
+Konvertera PGN från kommandoraden, headless:
 
 ```powershell
 python -m pip install -r requirements.txt
-python chess_tree.py
+python pgn2json.py "Christer Nilsson"
+python pgn2json.py "Robert James Fischer 60"
 ```
 
-Programmet läser alla PGN-filer i `data` och underkataloger, behåller alla
-huvudvarianter och deras eval i minnet och sorterar alfabetiskt efter SAN-drag,
-kolumn för kolumn. Sidovarianter tas inte med. Resultatet sparas i `index.html`.
-Egna sökvägar kan anges med `--data` och `--output`.
-Programmet varnar i terminalen med filnamnet om eval saknas helt eller för
-vissa drag i huvudvarianterna. Partierna läses fortfarande in.
+Starta Go Live i projektets rot och öppna `<katalog>/W.html` eller `<katalog>/B.html`.
+Katalogen ligger direkt under gemensamma `index.js` och `index.css`. HTML-vyerna
+laddar dessa filer och sin egen JSON direkt, utan omdirigering eller query-sträng.
+Adressen stannar exempelvis på `Christer%20Nilsson/B.html`.
 
-Varje parti får en rad med högst 34 enskilda drag (halvdrag). Gemensamma
-inledningsdrag med föregående utskrivna parti lämnas tomma.
-HTML-tabellens kolumnbredder följer innehållet och cellerna har diskreta linjer. Första raden
-innehåller dragnumren: `1 .. 2 .. 3 ..` till `17 ..`.
-Efter dragkolumnerna står orsaken och sist en klickbar länk från PGN:s
-`ChapterURL` (alternativt `Site`). Datum och spelarnamn skrivs inte ut.
-Länkarna visas med texten `Länk` i stället för URL:en.
-Öppna `index.html` i en webbläsare. Om partiet saknar länk lämnas den tom.
+Konverteraren läser PGN-filer rekursivt och skriver `W.json` och `B.json` i indatakatalogen.
+Partier där hela vits namn finns i katalognamnet hamnar i W; övriga hamnar i B.
+Jämförelsen bortser från stora och små bokstäver. Sidovarianter tas inte med.
 
-Utskriften slutar vid det första draget där något av följande gäller;
-det draget inkluderas:
+Varje JSON-fil innehåller en lista med partier med `White`, `Black`, `Result`, `Date`
+och `ChapterURL`. `moves` innehåller mellanslagsseparerade SAN-drag, exempelvis `"e4 e5"`.
+`evals` innehåller motsvarande centipawns ur vits perspektiv, exempelvis `"20 -15"`.
+Saknad eval markeras med `?`; matt med ±1000000 centipawns.
+Startpositionens eval sparas som `initialEval` när den finns.
 
-- `A3.45`: eval-värdets absolutbelopp överstiger 3.0 bönder.
-- `R1.2`: skillnadens absolutbelopp mellan aktuellt och föregående drags
-  eval överstiger 1.0 bönder. Detta är en skillnad i bönder, inte procent.
-- `Slut:1-0`, `Slut:0-1`, `Slut:1/2-1/2` eller `Slut:*`: partiets slut
-  nåddes utan att någon gräns passerades; resultatet hämtas från PGN.
+Vyn läser JSON direkt med fetch via Go Live. Ingen separat server behöver startas.
 
-Om gränsen på 34 drag nås innan partiets slut lämnas orsaken tom.
+Partier sorteras alfabetiskt efter SAN-drag, kolumn för kolumn. Tabellen visar högst
+34 halvdrag och lämnar gemensamma inledningar med föregående parti tomma.
+Efter dragen visas orsak, resultat och ChapterURL. Spelarnamn och datum finns i radens tooltip.
 
-Om båda eval-gränserna passeras på samma drag används A. Gränserna är
-strikta: exakt 1.0 respektive 3.0 räcker inte. Eval läses från `[%eval ...]`
-och räknas alltid ur vits perspektiv. Saknade eval-värden uppskattas inte;
-R beräknas bara mellan angränsande positioner som båda har eval. Första
-draget jämförs med startpositionen bara om även den har eval i PGN.
-Mattvärden behandlas som +/-10000 bönder och ger därmed `A10000`.
+Under varje dragcell centreras den absoluta förändringen från föregående positions eval.
+En centrerad heldragen linje visar förändringen: 50 cp (0,5) täcker 50 procent
+av cellens bredd. Bredden avrundas till närmaste tiotal procent, vilket ger tio
+synliga bredder (10–100 procent); noll ger ingen linje. Från 100 cp (1,0) täcker
+linjen hela cellen utan marginaler.
+Tooltipen visar den exakta förändringen med tecken. Saknad eval ger ingen markering.
+När ett gemensamt inledningsdrag döljs, döljs även dess eval-linje.
+
+Visningen stannar vid första draget med absolut eval över 300 centipawns (A),
+eller eval-skillnad över 100 centipawns (R). A har företräde och gränserna är strikta.
+R jämför bara angränsande positioner som båda har eval. Vid partiets slut visas `Slut:Result`.
+Vid gränsen på 34 halvdrag visas sista eval, eller `A?` om den saknas.
+
