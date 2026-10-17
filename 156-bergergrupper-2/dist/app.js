@@ -4,6 +4,9 @@ let GROUPS = ['A', 'B', 'C', 'D', 'E'];
 let IDS = Object.fromEntries(GROUPS.map((group, i) => [group, String(19095 + i)]));
 let prefix = 'W2';
 let availableGroups = GROUPS.map((group, i) => ({prefix, number:i + 1, id:IDS[group]}));
+let groupNumbers = Object.fromEntries(GROUPS.map((group, i) => [group, i + 1]));
+let detectionNumber = 0;
+let boardsPerGroup = 3;
 const $ = id => document.getElementById(id);
 let games = [];
 let round = Number(window.BERGER_ROUND) || 1;
@@ -11,7 +14,36 @@ if (!Number.isInteger(round) || round < 1 || round > 5) round = 1;
 let busy = false;
 let requestNumber = 0;
 const failures = new Map();
-function groupName(group) { return prefix + '-' + (GROUPS.indexOf(group) + 1); }
+function groupName(group) { return prefix + '-' + groupNumbers[group]; }
+function participantCount(doc, tournamentId) {
+  const ids = new Set();
+  const pairedIds = new Set();
+  for (const element of doc.querySelectorAll('[onclick], a[href]')) {
+    const target = (element.getAttribute('onclick') || '') + ' ' + (element.getAttribute('href') || '');
+    const call = target.match(/postshowindtournamentresultform\(\s*['"](\d+)['"]\s*,\s*['"](\d+)['"]/i);
+    if (call && call[1] === String(tournamentId)) ids.add(call[2]);
+    const link = target.match(/ShowTournamentParticipantResultServlet\?([^'"\s]+)/i);
+    if (link) {
+      const query = new URLSearchParams(link[1]);
+      const id = query.get('partid');
+      if (query.get('id') === String(tournamentId) && /^\d+$/.test(id || '')) pairedIds.add(id);
+    }
+  }
+  // Standings can retain replaced players. Pairings reflect the current group size.
+  if (pairedIds.size) return pairedIds.size;
+  if (!ids.size) throw Error('Kunde inte läsa deltagarantalet för turnerings-ID ' + tournamentId + '.');
+  return ids.size;
+}
+function selectBergerGroups(definitions, counts) {
+  const firstCount = counts[0];
+  if (!definitions.length || counts.length !== definitions.length || counts.some(n => !Number.isInteger(n) || n < 1)) throw Error('Deltagarantal saknas.');
+  const last = definitions.length - 1;
+  for (let i = 1; i < last; i++) {
+    if (counts[i] !== firstCount) throw Error(definitions[i].prefix + '-' + definitions[i].number + ' har ' + counts[i] + ' deltagare, men första gruppen har ' + firstCount + '. Kontrollera grupperna.');
+  }
+  const ignored = last > 0 && counts[last] !== firstCount ? definitions[last] : null;
+  return {definitions:ignored ? definitions.slice(0, -1) : definitions, participantCount:firstCount, ignored, ignoredCount:ignored ? counts[last] : null};
+}
 function discoverGroups(doc) {
   const found = new Map();
   for (const link of doc.querySelectorAll('[onclick], a[href]')) {
@@ -27,13 +59,50 @@ function discoverGroups(doc) {
 function configureGroups(value, count) {
   const selectedPrefix = value.trim().replace(/-+$/, '');
   if (!Number.isInteger(count) || count < 1 || count > 26) throw Error('Välj 1–26 grupper.');
-  const definitions = Array.from({length:count}, (_, i) => availableGroups.find(g => g.prefix.toLocaleLowerCase() === selectedPrefix.toLocaleLowerCase() && g.number === i + 1));
-  if (definitions.some(g => !g)) throw Error('Alla grupper 1–' + count + ' med prefix ' + selectedPrefix + ' finns inte på källsidan.');
+  const definitions = availableGroups.filter(g => g.prefix.toLocaleLowerCase() === selectedPrefix.toLocaleLowerCase()).sort((a, b) => a.number - b.number).slice(0, count);
+  if (definitions.length !== count) throw Error('Alla ' + count + ' grupper med prefix ' + selectedPrefix + ' finns inte på källsidan.');
   prefix = definitions[0].prefix;
   GROUPS = definitions.map((_, i) => String.fromCharCode(65 + i));
   IDS = Object.fromEntries(GROUPS.map((group, i) => [group, definitions[i].id]));
+  groupNumbers = Object.fromEntries(GROUPS.map((group, i) => [group, definitions[i].number]));
+  boardsPerGroup = 3;
   games = []; failures.clear(); requestNumber++; busy = false;
-  $('prefix').value = prefix; $('groupCount').value = String(count);
+  $('prefix').value = prefix;
+  $('detectedGroups').textContent = count + ' grupper';
+}
+async function loadGroupDocument(definition) {
+  const response = await fetch('https://member.schack.se/ShowTournamentServlet?id=' + definition.id, {cache:'no-store', signal:AbortSignal.timeout(20000)});
+  if (!response.ok) throw Error('Kunde inte läsa ' + definition.prefix + '-' + definition.number + '.');
+  const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
+  const name = (definition.prefix + '-' + definition.number).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  if (!new RegExp('(?:^|\\s)' + name + '(?=\\s|$)').test(doc.title)) throw Error('Fel källgrupp: ' + doc.title);
+  return doc;
+}
+async function detectGroups(value, sourceDoc = null, sourceId = null) {
+  const selectedPrefix = value.trim().replace(/-+$/, '').toLocaleLowerCase();
+  const definitions = availableGroups.filter(g => g.prefix.toLocaleLowerCase() === selectedPrefix).sort((a, b) => a.number - b.number);
+  if (!definitions.length) throw Error('Inga grupper med prefix ' + value + ' hittades på källsidan.');
+  const request = ++detectionNumber;
+  let configured = false;
+  requestNumber++; busy = true; render();
+  $('applyGroups').disabled = true; $('notice').className = '';
+  $('notice').textContent = 'Jämför gruppernas deltagarantal…';
+  try {
+    const counts = await Promise.all(definitions.map(async definition => {
+      const doc = sourceDoc && definition.id === sourceId ? sourceDoc : await loadGroupDocument(definition);
+      return participantCount(doc, definition.id);
+    }));
+    if (request !== detectionNumber) return;
+    const selection = selectBergerGroups(definitions, counts);
+    configureGroups(selection.definitions[0].prefix, selection.definitions.length);
+    boardsPerGroup = Math.ceil(selection.participantCount / 2);
+    configured = true;
+    const ignored = selection.ignored;
+    $('detectedGroups').textContent = selection.definitions.length + ' grupper med ' + selection.participantCount + ' deltagare vardera.' + (ignored ? ' ' + ignored.prefix + '-' + ignored.number + ' (' + selection.ignoredCount + ' deltagare) ignoreras.' : ' Sista gruppen ingår.');
+    render(); await refresh();
+  } finally {
+    if (request === detectionNumber) { if (!configured) busy = false; $('applyGroups').disabled = false; render(); }
+  }
 }
 function populatePrefixes() {
   $('prefixes').replaceChildren();
@@ -86,7 +155,7 @@ async function fetchGroup(group, selectedRound) {
 }
 function currentGames() { return games.filter(g => g.round === round).sort((a, b) => a.group.localeCompare(b.group) || a.board - b.board); }
 function boardNumber(g) {
-  return GROUPS.slice(0, GROUPS.indexOf(g.group)).reduce((offset, group) => offset + Math.max(3, ...games.filter(row => row.group === group).map(row => row.board)), g.board);
+  return GROUPS.slice(0, GROUPS.indexOf(g.group)).reduce((offset, group) => offset + Math.max(boardsPerGroup, ...games.filter(row => row.group === group).map(row => row.board)), g.board);
 }
 function render() {
   const rows = currentGames();
@@ -113,7 +182,7 @@ function render() {
   if (!rows.length) { const row = document.createElement('tr'), td = document.createElement('td'); td.colSpan = 7; td.className = 'empty'; td.textContent = busy ? 'Hämtar bordslistor…' : 'Ingen bordslista för denna rond.'; row.append(td); $('games').append(row); }
   $('groups').replaceChildren();
   GROUPS.forEach(group => { const count = rows.filter(g => g.group === group).length; const label = document.createElement('span'); label.textContent = `${group} / ${groupName(group)} · ${count ? count + ' bord' : 'saknas'}`; if (!count || failures.get(round)?.includes(group)) label.className = 'missing'; $('groups').append(label); });
-  $('scope').textContent = prefix + '-1–' + GROUPS.length + ' · ' + rows.length + ' bord';
+  $('scope').textContent = groupName(GROUPS[0]) + '–' + groupNumbers[GROUPS.at(-1)] + ' · ' + rows.length + ' bord';
 }
 async function refresh() {
   if (!LIVE) { $('installation').showModal(); return; }
@@ -158,8 +227,8 @@ if (typeof BOOKMARKLET_URL !== 'undefined') {
     catch { $('bookmarkCode').hidden = false; $('bookmarkCode').value = BOOKMARKLET_URL; $('bookmarkCode').focus(); $('bookmarkCode').select(); $('installStatus').textContent = 'Kopiera den markerade adressen och klistra in den i ett bokmärkes URL-fält.'; }
   };
 }
-$('applyGroups').onclick = () => {
-  try { configureGroups($('prefix').value, Number($('groupCount').value)); render(); if (LIVE) void refresh(); }
+$('applyGroups').onclick = async () => {
+  try { if (!LIVE) { $('installation').showModal(); return; } await detectGroups($('prefix').value); }
   catch (error) { $('notice').className = 'warning'; $('notice').textContent = error.message; }
 };
 populatePrefixes(); render();
@@ -177,11 +246,10 @@ async function initializeLive() {
     availableGroups = discovered;
     const current = discovered.find(g => g.id === sourceUrl.searchParams.get('id'));
     const startPrefix = current?.prefix || discovered[0].prefix;
-    const count = Math.min(5, discovered.filter(g => g.prefix === startPrefix).length);
     const title = current ? doc.title.split(' ' + current.prefix + '-' + current.number)[0] : doc.title;
     $('tournamentTitle').textContent = title;
     document.title = 'Bordslista · ' + title;
-    populatePrefixes(); configureGroups(startPrefix, count); render(); await refresh();
+    populatePrefixes(); await detectGroups(startPrefix, doc, sourceUrl.searchParams.get('id'));
   } catch (error) { $('notice').className = 'warning'; $('notice').textContent = error.message + ' Kör bokmärket igen från turneringens sida.'; }
 }
 if (LIVE) { void initializeLive(); }

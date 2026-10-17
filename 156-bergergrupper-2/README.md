@@ -1,7 +1,7 @@
 # Bergergrupper
 
 Skapa ett bokmärke med valfritt namn och klistra in följande rad som
-**URL/adress**. Öppna sedan [turneringen på schack.se](https://member.schack.se/ShowTournamentServlet?id=19095)
+**URL/adress**. Öppna sedan [första gruppen på schack.se](https://member.schack.se/ShowTournamentServlet?id=19095)
 och klicka på bokmärket. Ingen installation eller inloggning på någon annan
 webbplats behövs. Ersätt det gamla bokmärkets adress om du redan har ett.
 
@@ -14,10 +14,16 @@ javascript:(()=>{if(location.hostname!=='member.schack.se'||location.protocol!==
 Bokmärket hämtar den senaste koden från det publika GitHub-repots `main`-gren
 och öppnar bordslistan i en ny flik. Tillåt popup-fönster för schack.se.
 
-Välj **Prefix** (t.ex. `W2` eller `W1`) och **Antal grupper**, klicka på
-**Visa grupper**. Prefixfältet föreslår grupper som faktiskt finns på
-turneringens sida. Standard är fem grupper; för `W2` blir det W2-1–W2-5,
-så schweizern W2-6 lämnas utanför. Grupp-ID:n läses från källans länkar.
+Bokmärket hittar automatiskt prefix och grupplänkar från första gruppens
+sida och jämför deltagarantalet. **Sista gruppen ingår om den har samma
+antal som den första; annars ignoreras den.** Antalet räknas från aktuell
+bordslista så att ersatta spelare i resultattabellen inte räknas dubbelt.
+Om bordslista saknas används deltagartabellen. Ett misslyckat anrop visas
+som fel och räknas aldrig som en grupp med avvikande storlek.
+
+För W2 väljs W2-1–W2-5 automatiskt; W2-6 har annat deltagarantal.
+Du kan byta **Prefix** och klicka på **Hitta grupper** för att göra samma
+automatiska jämförelse för exempelvis W1. Inget gruppantal behöver anges.
 
 Välj rond, visa alla bord på skärm eller skriv ut listan med tomma
 resultatrutor. Elotal och en gemensam bordsnummerserie ingår.

@@ -18,7 +18,7 @@ function context(live = false) {
     window:{BERGER_LIVE:live, print(){}},
     Option:function(text, value){ this.text = text; this.value = value; },
     fetch:() => Promise.reject(Error('Offline')),
-    AbortSignal, confirm:() => true, console, assert,
+    AbortSignal, URL, URLSearchParams, confirm:() => true, console, assert,
   });
   vm.runInContext(readFileSync('dist/app.js', 'utf8'), result);
   return result;
@@ -74,6 +74,27 @@ async function main() {
     assert.throws(() => configureGroups('W2',0), /1–26/);
     assert.throws(() => parseSource(sourceDoc,'A',1), /Fel källgrupp/);
   `, ctx);
+  ctx.participantDoc = {querySelectorAll:() => [
+    ...Array.from({length:8},(_,i)=>({getAttribute:name=>name==='onclick'?"postshowindtournamentresultform('19095','"+(100+i)+"')":null})),
+    ...Array.from({length:6},(_,i)=>({getAttribute:name=>name==='href'?'./ShowTournamentParticipantResultServlet?id=19095&partid='+(100+i):null})),
+    {getAttribute:name=>name==='href'?'./ShowTournamentParticipantResultServlet?id=19100&partid=999':null},
+    {getAttribute:name=>name==='href'?'./ShowTournamentParticipantResultServlet?id=19095&partid=100':null},
+  ]};
+  vm.runInContext(`
+    assert.equal(participantCount(participantDoc,'19095'),6,'Ignore replaced players and duplicate table cells');
+    const definitions = Array.from({length:6},(_,i)=>({prefix:'W2',number:i+1,id:String(19095+i)}));
+    const different = selectBergerGroups(definitions,[6,6,6,6,6,9]);
+    assert.equal(different.definitions.length,5);
+    assert.equal(different.ignored.number,6);
+    const equal = selectBergerGroups(definitions,[6,6,6,6,6,6]);
+    assert.equal(equal.definitions.length,6,'Equal-sized final group must be included');
+    assert.equal(equal.ignored,null);
+    assert.equal(selectBergerGroups(definitions.slice(0,1),[6]).definitions.length,1);
+    assert.throws(()=>selectBergerGroups(definitions,[6,8,6,6,6,9]),/Kontrollera grupperna/);
+    assert.throws(()=>selectBergerGroups(definitions,[6,6,6,6,6,0]),/saknas/);
+    boardsPerGroup = 2; games = [];
+    assert.equal(boardNumber({group:'B',board:1}),3,'Four-player groups need consecutive table numbers too');
+  `,ctx);
 
   // Start two round requests; the old response must never overwrite the new one.
   const live = context(true);
@@ -107,6 +128,32 @@ async function main() {
     assert.equal(failures.get(2)[0], 'A');
     assert.match($('notice').textContent, /grupp A/);
   `, live);
-  console.log('Passed: source parsing, Elo, group/round validation, board numbering, blank print cells, round request races and partial failures.');
+  vm.runInContext(`
+    availableGroups = Array.from({length:6},(_,i)=>({prefix:'W2',number:i+1,id:String(19095+i)}));
+    let lastGroupCount = 9;
+    loadGroupDocument = async definition => ({querySelectorAll:()=>Array.from({length:definition.number===6?lastGroupCount:6},(_,i)=>({getAttribute:name=>name==='href'?'./ShowTournamentParticipantResultServlet?id='+definition.id+'&partid='+(100+i):null}))});
+    fetchGroup = async (group,selectedRound) => [{group,tournamentId:IDS[group],round:selectedRound,board:1,white:'White',black:'Black',whiteElo:2000,blackElo:1900}];
+    const detection = detectGroups('W2');
+  `,live);
+  await vm.runInContext('detection',live);
+  vm.runInContext(`
+    assert.equal(GROUPS.length,5);
+    assert.match($('detectedGroups').textContent,/W2-6.*9 deltagare.*ignoreras/);
+    lastGroupCount = 6;
+    const includeLast = detectGroups('W2');
+  `,live);
+  await vm.runInContext('includeLast',live);
+  vm.runInContext(`
+    assert.equal(GROUPS.length,6);
+    assert.match($('detectedGroups').textContent,/Sista gruppen ingår/);
+    loadGroupDocument = async () => { throw Error('Network failure'); };
+    const failedDetection = detectGroups('W2');
+  `,live);
+  await assert.rejects(vm.runInContext('failedDetection',live),/Network failure/);
+  vm.runInContext(`
+    assert.equal(GROUPS.length,6,'A failed fetch must not silently exclude the final group');
+    assert.equal(busy,false);
+  `,live);
+  console.log('Passed: source parsing, Elo, numbering, round request races and automatic group discovery (same/different final size, replacements and network failure).');
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });
