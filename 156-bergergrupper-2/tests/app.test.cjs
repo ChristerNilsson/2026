@@ -33,6 +33,24 @@ function sourceDoc(title = 'Festival W2-1', selectedRound = 1) {
 }
 async function main() {
   const ctx = context();
+  ctx.realW1 = require('./fixture-document.cjs')(readFileSync('tests/fixtures/w1.html','utf8'));
+  vm.runInContext(`
+    const actualGroups = discoverGroups(realW1);
+    assert.equal(actualGroups.filter(g => g.prefix==='W1').length,8);
+    assert.equal(actualGroups.filter(g => g.prefix==='W2').length,6);
+    assert.ok(!actualGroups.some(g => /Rond|2026/.test(g.prefix)),'Round dates must never become group names');
+    availableGroups = actualGroups;
+    configureGroups('W1',7);
+    assert.equal(IDS.A,'19022');
+    assert.equal(IDS.G,'19028');
+    assertSourceGroup(realW1,'19022','W1-1');
+    assert.throws(()=>assertSourceGroup(realW1,'19023','W1-2'),/Fel turnerings-ID/);
+    const realGames = parseSource(realW1,'A',5);
+    assert.equal(realGames.length,3);
+    assert.ok(realGames.every(g => g.whiteElo>0 && g.blackElo>0));
+    assert.equal(participantCount(realW1,'19022'),6);
+    configureGroups('W2',5);
+  `,ctx);
   ctx.sourceDoc = sourceDoc();
   vm.runInContext(`
     const rows = parseSource(sourceDoc, 'A', 1);

@@ -47,10 +47,10 @@ function selectBergerGroups(definitions, counts) {
 function discoverGroups(doc) {
   const found = new Map();
   for (const link of doc.querySelectorAll('[onclick], a[href]')) {
-    const name = link.textContent.trim().match(/^(.+?)-(\d+)$/);
+    const name = link.textContent.trim().match(/^([^\s-]+)-([1-9]\d*)$/);
     const target = (link.getAttribute('onclick') || '') + ' ' + (link.getAttribute('href') || '');
     const id = target.match(/ShowTournamentServlet\?[^'"\s]*\bid=(\d+)/);
-    if (!name || !id) continue;
+    if (!name || !id || /[?&]round=\d+/i.test(target)) continue;
     const value = {prefix:name[1].trim(), number:Number(name[2]), id:id[1]};
     found.set(value.prefix + ':' + value.number, value);
   }
@@ -74,9 +74,17 @@ async function loadGroupDocument(definition) {
   const response = await fetch('https://member.schack.se/ShowTournamentServlet?id=' + definition.id, {cache:'no-store', signal:AbortSignal.timeout(20000)});
   if (!response.ok) throw Error('Kunde inte läsa ' + definition.prefix + '-' + definition.number + '.');
   const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
-  const name = (definition.prefix + '-' + definition.number).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  if (!new RegExp('(?:^|\\s)' + name + '(?=\\s|$)').test(doc.title)) throw Error('Fel källgrupp: ' + doc.title);
+  assertSourceGroup(doc, definition.id, definition.prefix + '-' + definition.number);
   return doc;
+}
+function assertSourceGroup(doc, tournamentId, name) {
+  const declaredId = doc.querySelector('#showIndTournamentResult input[name="id"]')?.value || doc.querySelector('#showTournamentTeamResult input[name="id"]')?.value;
+  if (declaredId) {
+    if (String(declaredId) === String(tournamentId)) return;
+    throw Error('Fel turnerings-ID i källsidan: ' + declaredId + '.');
+  }
+  const expected = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  if (!new RegExp('(?:^|\\s)' + expected + '(?=\\s|$)').test(doc.title)) throw Error('Fel källgrupp: ' + doc.title);
 }
 async function detectGroups(value, sourceDoc = null, sourceId = null) {
   const selectedPrefix = value.trim().replace(/-+$/, '').toLocaleLowerCase();
@@ -118,9 +126,10 @@ function validateGames(rows) {
   });
 }
 function parseSource(doc, group, selectedRound) {
-  const expected = groupName(group).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  if (!new RegExp('(?:^|\\s)' + expected + '(?=\\s|$)').test(doc.title)) throw Error('Fel källgrupp: ' + doc.title);
-  const selected = doc.querySelector('.selroundheader')?.textContent.match(/Rond\s+(\d+)/i);
+  assertSourceGroup(doc, IDS[group], groupName(group));
+  const roundHeader = doc.querySelector('.selroundheader');
+  const roundText = roundHeader?.innerHTML?.replace(/<[^>]*>/g, ' ') || roundHeader?.textContent || '';
+  const selected = roundText.match(/Rond\s+(\d+)/i);
   if (selected && Number(selected[1]) !== selectedRound) throw Error('Källan visar en annan rond.');
   const result = [];
   let indexes = null;
@@ -183,14 +192,15 @@ async function refresh() {
   const responses = await Promise.allSettled(GROUPS.map(group => fetchGroup(group, requestedRound)));
   if (request !== requestNumber) return;
   const failed = [];
+  const failureDetails = [];
   responses.forEach((response, i) => {
     const group = GROUPS[i];
     if (response.status === 'fulfilled') games = games.filter(g => !(g.round === requestedRound && g.group === group)).concat(response.value);
-    else failed.push(group);
+    else { failed.push(group); failureDetails.push(groupName(group) + ': ' + (response.reason?.message || 'Hämtningen misslyckades')); }
   });
   failures.set(requestedRound, failed); busy = false; render();
   $('notice').className = failed.length ? 'warning' : '';
-  $('notice').textContent = failed.length ? `Kunde inte uppdatera grupp ${failed.join(', ')}. Eventuella tidigare listor för dessa grupper behålls. Klicka på Uppdatera för att försöka igen.` : 'Hämtad från schack.se · ' + new Date().toLocaleTimeString('sv-SE');
+  $('notice').textContent = failed.length ? `Kunde inte uppdatera grupp ${failed.join(', ')}. ${failureDetails.join('; ')}. Eventuella tidigare listor behålls. Klicka på Uppdatera för att försöka igen.` : 'Hämtad från schack.se · ' + new Date().toLocaleTimeString('sv-SE');
 }
 function selectRound(value) { round = value; render(); if (LIVE) void refresh(); }
 for (let n = 1; n <= 5; n++) $('round').add(new Option('Rond ' + n, String(n)));
