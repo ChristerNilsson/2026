@@ -28,6 +28,8 @@ ut automatiskt från källsidans grupplänkar och deltagarantal.
 
 Välj rond, visa alla bord på skärm eller skriv ut listan med tomma
 resultatrutor. Elotal och en gemensam bordsnummerserie ingår.
+Utskriften har 6 mm radhöjd för cirka 40 bord per A4, med rutor endast
+runt resultatfälten.
 Ingen resultatinmatning, filimport eller Python behövs.
 
 ## Utveckling

@@ -89,24 +89,25 @@ dialog li { margin: 12px 0; line-height: 1.6; font-size: 14px; }
   header, .intro, .toolbar, .prefix-form, .group-summary, #notice, .groupstatus, .help, .install-note, dialog { display: none !important; }
   main, .display-mode main { max-width: none; padding: 0; }
   .boardlist, .tablewrap { overflow: visible; border: 0; border-radius: 0; }
-  .tablehead, .display-mode .tablehead { padding: 0 0 5mm; }
-  .tablehead h2 { font-size: 16pt; color: black; }
+  .tablehead, .display-mode .tablehead { padding: 0 0 3mm; }
+  .tablehead h2 { font-size: 12pt; color: black; }
   .tablehead h2 span { color: black; }
   .tablehead p { display: none; }
   table { white-space: normal; table-layout: fixed; }
-  th { background: white; color: black; font-size: 10pt; letter-spacing: 0; padding: 2mm; border: 1px solid black; }
-  td, .display-mode td { height: 12mm; padding: 2mm; font-size: 11pt; color: black; border: 1px solid black; overflow-wrap: anywhere; }
-  tr.groupstart td { border-top: 2px solid black; }
-  th:nth-child(1) { width: 13%; }
-  th:nth-child(2) { width: 8%; }
-  th:nth-child(3), th:nth-child(5) { width: 25%; }
-  th:nth-child(4), th:nth-child(6) { width: 8%; }
-  th:nth-child(7) { width: 13%; }
+  th { background: white; color: black; font-size: 9pt; letter-spacing: 0; line-height: 1.1; padding: 1mm; border: 0; }
+  td, .display-mode td { height: 6mm; padding: .5mm 1mm; font-size: 9pt; line-height: 1.1; color: black; border: 0; overflow-wrap: anywhere; }
+  tr.groupstart td { border-top: 0; }
+  th:nth-child(1) { width: 11%; }
+  th:nth-child(2) { width: 6%; }
+  th:nth-child(3), th:nth-child(5) { width: 28%; }
+  th:nth-child(4), th:nth-child(6) { width: 6%; }
+  th:nth-child(7) { width: 15%; }
   td.elo, th.elo { color: black; padding-inline: 1mm; font-size: 9pt; white-space: nowrap; }
   .paper-result { display: table-cell; }
+  td.paper-result, .display-mode td.paper-result { border: 1px solid black; }
   .badge { border: 0; background: white; padding: 0; color: black; gap: 4px; }
-  .badge small { color: black; font-size: 8pt; }
-  .display-mode .badge small { font-size: 8pt; }
+  .badge small { color: black; font-size: 7pt; }
+  .display-mode .badge small { font-size: 7pt; }
   td:nth-child(2) { color: black; }
   thead { display: table-header-group; }
   tr { break-inside: avoid; }
