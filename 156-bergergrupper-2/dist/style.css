@@ -93,10 +93,10 @@ dialog li { margin: 12px 0; line-height: 1.6; font-size: 14px; }
   .tablehead h2 { font-size: 12pt; color: black; }
   .tablehead h2 span { color: black; }
   .tablehead p { display: none; }
-  table { white-space: normal; table-layout: fixed; }
+  table { white-space: normal; table-layout: fixed; border: 1px solid black; }
   th { background: white; color: black; font-size: 9pt; letter-spacing: 0; line-height: 1.1; padding: 1mm; border: 0; }
   td, .display-mode td { height: 6mm; padding: .5mm 1mm; font-size: 9pt; line-height: 1.1; color: black; border: 0; overflow-wrap: anywhere; }
-  tr.groupstart td { border-top: 0; }
+  tr.groupstart td { border-top: 1px solid black; }
   th:nth-child(1) { width: 11%; }
   th:nth-child(2) { width: 6%; }
   th:nth-child(3), th:nth-child(5) { width: 28%; }

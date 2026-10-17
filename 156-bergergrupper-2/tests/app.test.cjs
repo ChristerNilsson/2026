@@ -34,6 +34,16 @@ function sourceDoc(title = 'Festival W2-1', selectedRound = 1) {
 }
 async function main() {
   const ctx = context();
+  vm.runInContext(`
+    assert.equal(parseGroupName('W1-1').prefix,'W1');
+    assert.equal(parseGroupName('W2-3').number,3);
+    assert.equal(parseGroupName('A1').prefix,'A');
+    assert.equal(parseGroupName('B12').number,12);
+    assert.equal(parseGroupName('Å3').name,'Å3');
+    assert.equal(parseGroupName('C 2').number,2);
+    assert.equal(parseGroupName('Rond 52026-08-9'),null);
+    assert.equal(parseGroupName('2026-08-09'),null);
+  `,ctx);
   ctx.realW1 = require('./fixture-document.cjs')(readFileSync('tests/fixtures/w1.html','utf8'));
   vm.runInContext(`
     const actualGroups = discoverGroups(realW1);
@@ -94,6 +104,15 @@ async function main() {
     assert.throws(() => configureGroups('W2',0), /1–26/);
     assert.throws(() => parseSource(sourceDoc,'A',1), /Fel källgrupp/);
   `, ctx);
+  ctx.letterGroups = {querySelectorAll:() => ['A1','A2','A10','Å1'].map((textContent,i)=>({textContent,getAttribute:name=>name==='href'?'./ShowTournamentServlet?id='+(300+i):null}))};
+  vm.runInContext(`
+    availableGroups = discoverGroups(letterGroups);
+    configureGroups('A',3);
+    assert.equal(groupName('A'),'A1');
+    assert.equal(groupName('B'),'A2');
+    assert.equal(groupName('C'),'A10');
+    assert.equal(IDS.C,'302');
+  `,ctx);
   ctx.participantDoc = {querySelectorAll:() => [
     ...Array.from({length:8},(_,i)=>({getAttribute:name=>name==='onclick'?"postshowindtournamentresultform('19095','"+(100+i)+"')":null})),
     ...Array.from({length:6},(_,i)=>({getAttribute:name=>name==='href'?'./ShowTournamentParticipantResultServlet?id=19095&partid='+(100+i):null})),

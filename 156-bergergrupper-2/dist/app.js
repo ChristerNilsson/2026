@@ -5,6 +5,7 @@ let IDS = Object.fromEntries(GROUPS.map((group, i) => [group, String(19095 + i)]
 let prefix = 'W2';
 let availableGroups = GROUPS.map((group, i) => ({prefix, number:i + 1, id:IDS[group]}));
 let groupNumbers = Object.fromEntries(GROUPS.map((group, i) => [group, i + 1]));
+let groupNames = Object.fromEntries(GROUPS.map(group => [group, 'W2-' + groupNumbers[group]]));
 let detectionNumber = 0;
 let boardsPerGroup = 3;
 const $ = id => document.getElementById(id);
@@ -14,7 +15,13 @@ if (!Number.isInteger(round) || round < 1 || round > 5) round = 1;
 let busy = false;
 let requestNumber = 0;
 const failures = new Map();
-function groupName(group) { return prefix + '-' + groupNumbers[group]; }
+function groupName(group) { return groupNames[group]; }
+function definitionName(group) { return group.name || group.prefix + '-' + group.number; }
+function parseGroupName(value) {
+  const name = value.trim().replace(/\s+/g, ' ');
+  const match = name.match(/^([\p{L}][\p{L}\d]*)-([1-9]\d*)$/u) || name.match(/^([\p{L}]+)\s*([1-9]\d*)$/u);
+  return match ? {prefix:match[1], number:Number(match[2]), name} : null;
+}
 function participantCount(doc, tournamentId) {
   const ids = new Set();
   const pairedIds = new Set();
@@ -39,7 +46,7 @@ function selectBergerGroups(definitions, counts) {
   if (!definitions.length || counts.length !== definitions.length || counts.some(n => !Number.isInteger(n) || n < 1)) throw Error('Deltagarantal saknas.');
   const last = definitions.length - 1;
   for (let i = 1; i < last; i++) {
-    if (counts[i] !== firstCount) throw Error(definitions[i].prefix + '-' + definitions[i].number + ' har ' + counts[i] + ' deltagare, men första gruppen har ' + firstCount + '. Kontrollera grupperna.');
+    if (counts[i] !== firstCount) throw Error(definitionName(definitions[i]) + ' har ' + counts[i] + ' deltagare, men första gruppen har ' + firstCount + '. Kontrollera grupperna.');
   }
   const ignored = last > 0 && counts[last] !== firstCount ? definitions[last] : null;
   return {definitions:ignored ? definitions.slice(0, -1) : definitions, participantCount:firstCount, ignored, ignoredCount:ignored ? counts[last] : null};
@@ -47,11 +54,11 @@ function selectBergerGroups(definitions, counts) {
 function discoverGroups(doc) {
   const found = new Map();
   for (const link of doc.querySelectorAll('[onclick], a[href]')) {
-    const name = link.textContent.trim().match(/^([^\s-]+)-([1-9]\d*)$/);
+    const name = parseGroupName(link.textContent);
     const target = (link.getAttribute('onclick') || '') + ' ' + (link.getAttribute('href') || '');
     const id = target.match(/ShowTournamentServlet\?[^'"\s]*\bid=(\d+)/);
     if (!name || !id || /[?&]round=\d+/i.test(target)) continue;
-    const value = {prefix:name[1].trim(), number:Number(name[2]), id:id[1]};
+    const value = {...name, id:id[1]};
     found.set(value.prefix + ':' + value.number, value);
   }
   return Array.from(found.values()).sort((a, b) => a.prefix.localeCompare(b.prefix, 'sv', {numeric:true}) || a.number - b.number);
@@ -65,6 +72,7 @@ function configureGroups(value, count) {
   GROUPS = definitions.map((_, i) => String.fromCharCode(65 + i));
   IDS = Object.fromEntries(GROUPS.map((group, i) => [group, definitions[i].id]));
   groupNumbers = Object.fromEntries(GROUPS.map((group, i) => [group, definitions[i].number]));
+  groupNames = Object.fromEntries(GROUPS.map((group, i) => [group, definitionName(definitions[i])]));
   boardsPerGroup = 3;
   games = []; failures.clear(); requestNumber++; busy = false;
   $('prefix').value = prefix;
@@ -72,9 +80,9 @@ function configureGroups(value, count) {
 }
 async function loadGroupDocument(definition) {
   const response = await fetch('https://member.schack.se/ShowTournamentServlet?id=' + definition.id, {cache:'no-store', signal:AbortSignal.timeout(20000)});
-  if (!response.ok) throw Error('Kunde inte läsa ' + definition.prefix + '-' + definition.number + '.');
+  if (!response.ok) throw Error('Kunde inte läsa ' + definitionName(definition) + '.');
   const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
-  assertSourceGroup(doc, definition.id, definition.prefix + '-' + definition.number);
+  assertSourceGroup(doc, definition.id, definitionName(definition));
   return doc;
 }
 function assertSourceGroup(doc, tournamentId, name) {
@@ -109,7 +117,7 @@ async function detectGroups(value, sourceDoc = null, sourceId = null) {
     boardsPerGroup = Math.ceil(selection.participantCount / 2);
     configured = true;
     const ignored = selection.ignored;
-    $('detectedGroups').textContent = selection.definitions.length + ' grupper med ' + selection.participantCount + ' deltagare vardera.' + (ignored ? ' ' + ignored.prefix + '-' + ignored.number + ' (' + selection.ignoredCount + ' deltagare) ignoreras.' : ' Sista gruppen ingår.');
+    $('detectedGroups').textContent = selection.definitions.length + ' grupper med ' + selection.participantCount + ' deltagare vardera.' + (ignored ? ' ' + definitionName(ignored) + ' (' + selection.ignoredCount + ' deltagare) ignoreras.' : ' Sista gruppen ingår.');
     render(); await refresh();
   } finally {
     if (request === detectionNumber) { if (!configured) busy = false; render(); }
@@ -177,8 +185,7 @@ function render() {
     if (g.group !== previousGroup) row.className = 'groupstart';
     previousGroup = g.group;
     const cell = text => { const td = document.createElement('td'); td.textContent = text; row.append(td); return td; };
-    const badge = document.createElement('span'); badge.className = 'badge'; badge.textContent = g.group;
-    const label = document.createElement('small'); label.textContent = groupName(g.group); badge.append(label); cell('').append(badge);
+    const badge = document.createElement('span'); badge.className = 'badge'; badge.textContent = groupName(g.group); cell('').append(badge);
     cell(boardNumber(g)); cell(g.white); cell(g.whiteElo ?? '–').className = 'elo';
     cell(g.black); cell(g.blackElo ?? '–').className = 'elo'; cell('').className = 'paper-result';
     $('games').append(row);
@@ -186,7 +193,7 @@ function render() {
   if (!rows.length) { const row = document.createElement('tr'), td = document.createElement('td'); td.colSpan = 7; td.className = 'empty'; td.textContent = busy ? 'Hämtar bordslistor…' : 'Ingen bordslista för denna rond.'; row.append(td); $('games').append(row); }
   $('groups').replaceChildren();
   GROUPS.forEach(group => { const count = rows.filter(g => g.group === group).length; const label = document.createElement('span'); label.textContent = `${group} / ${groupName(group)} · ${count ? count + ' bord' : 'saknas'}`; if (!count || failures.get(round)?.includes(group)) label.className = 'missing'; $('groups').append(label); });
-  $('scope').textContent = groupName(GROUPS[0]) + '–' + groupNumbers[GROUPS.at(-1)] + ' · ' + rows.length + ' bord';
+  $('scope').textContent = groupName(GROUPS[0]) + '–' + groupName(GROUPS.at(-1)) + ' · ' + rows.length + ' bord';
 }
 async function refresh() {
   if (!LIVE) { $('installation').showModal(); return; }
@@ -256,7 +263,7 @@ async function initializeLive() {
     if (!current) throw Error('Gruppen i URL:en kunde inte identifieras. Öppna första gruppens sida.');
     const startPrefix = current.prefix;
     $('prefix').value = startPrefix;
-    const title = doc.title.split(' ' + current.prefix + '-' + current.number)[0];
+    const title = doc.title.split(' ' + definitionName(current))[0];
     $('tournamentTitle').textContent = title;
     document.title = 'Bordslista · ' + title;
     await detectGroups(startPrefix, doc, sourceUrl.searchParams.get('id'));
