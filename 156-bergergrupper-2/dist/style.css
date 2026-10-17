@@ -101,7 +101,7 @@ dialog li { margin: 12px 0; line-height: 1.6; font-size: 14px; }
   th:nth-child(7) { width: 15%; }
   td.elo, th.elo { color: black; padding-inline: 1mm; font-size: 9pt; white-space: nowrap; }
   .paper-result { display: table-cell; }
-  td.paper-result, .display-mode td.paper-result { border: 1px solid black; }
+  td.paper-result, .display-mode td.paper-result { border: 1px solid black; text-align: center; vertical-align: middle; }
   .badge { border: 0; background: white; padding: 0; color: black; gap: 4px; }
   .badge small { color: black; font-size: 7pt; }
   .display-mode .badge small { font-size: 7pt; }

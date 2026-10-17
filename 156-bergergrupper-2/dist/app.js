@@ -257,7 +257,7 @@ function render() {
       cell(g.played ?? '–').className = 'numeric'; cell(g.pointsText).className = 'points'; cell(g.tie).className = 'numeric';
     } else {
       cell(boardNumber(g)); cell(g.white); cell(g.whiteElo ?? '–').className = 'elo';
-      cell(g.black); cell(g.blackElo ?? '–').className = 'elo'; cell('').className = 'paper-result';
+      cell(g.black); cell(g.blackElo ?? '–').className = 'elo'; cell('-').className = 'paper-result';
     }
     groupBody.append(row);
   }

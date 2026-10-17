@@ -108,7 +108,7 @@ async function main() {
     assert.equal(first[3].textContent, 2136);
     assert.equal(first[5].textContent, 2159);
     assert.equal(first[6].className, 'paper-result');
-    assert.equal(first[6].textContent, '');
+    assert.equal(first[6].textContent, '-');
     assert.equal(first[6].children.length, 0);
   `, ctx);
   ctx.discoveryDoc = {querySelectorAll:() => [
