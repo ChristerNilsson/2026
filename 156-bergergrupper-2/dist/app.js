@@ -210,8 +210,6 @@ function render() {
     $('games').append(row);
   }
   if (!rows.length) { const row = document.createElement('tr'), td = document.createElement('td'); td.colSpan = 7; td.className = 'empty'; td.textContent = busy ? 'Hämtar bordslistor…' : 'Ingen bordslista för denna rond.'; row.append(td); $('games').append(row); }
-  $('groups').replaceChildren();
-  GROUPS.forEach(group => { const count = rows.filter(g => g.group === group).length; const label = document.createElement('span'); label.textContent = `${group} / ${groupName(group)} · ${count ? count + ' bord' : 'saknas'}`; if (!count || failures.get(round)?.includes(group)) label.className = 'missing'; $('groups').append(label); });
   $('scope').textContent = groupName(GROUPS[0]) + '–' + groupName(GROUPS.at(-1)) + ' · ' + rows.length + ' bord';
 }
 async function refresh() {
