@@ -1,0 +1,1 @@
+Kolla att gruppnamnen A B C D osv fungerar. (Tomt prefix)
