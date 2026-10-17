@@ -225,8 +225,12 @@ async function fetchGroup(group, selectedRound) {
   return STANDINGS ? parseStandings(doc, group) : parseSource(doc, group, selectedRound);
 }
 function currentGames() {
-  if (STANDINGS) return games.slice().sort((a, b) => GROUPS.indexOf(a.group) - GROUPS.indexOf(b.group) || b.points - a.points || a.sourceOrder - b.sourceOrder);
+  if (STANDINGS) return games.slice().sort((a, b) => GROUPS.indexOf(a.group) - GROUPS.indexOf(b.group) || b.points - a.points || qualityScore(b) - qualityScore(a) || a.sourceOrder - b.sourceOrder);
   return games.filter(g => g.round === round).sort((a, b) => a.group.localeCompare(b.group) || a.board - b.board);
+}
+function qualityScore(row) {
+  try { return parsePoints(String(row.tie ?? '')); }
+  catch { return -Infinity; }
 }
 function boardNumber(g) {
   return GROUPS.slice(0, GROUPS.indexOf(g.group)).reduce((offset, group) => offset + Math.max(boardsPerGroup, ...games.filter(row => row.group === group).map(row => row.board)), g.board);
@@ -267,7 +271,7 @@ function render() {
     groupBody.append(row);
   }
   if (!rows.length) { const body = document.createElement('tbody'), row = document.createElement('tr'), td = document.createElement('td'); td.colSpan = STANDINGS ? 8 : 7; td.className = 'empty'; td.textContent = STANDINGS ? (busy ? 'Hämtar ställning…' : 'Ingen ställning att visa.') : (busy ? 'Hämtar bordslistor…' : 'Ingen bordslista för denna rond.'); row.append(td); body.append(row); table.append(body); }
-  $('scope').textContent = groupName(GROUPS[0]) + '–' + groupName(GROUPS.at(-1)) + ' · ' + rows.length + (STANDINGS ? ' spelare · Grupp, poäng fallande' : ' bord');
+  $('scope').textContent = groupName(GROUPS[0]) + '–' + groupName(GROUPS.at(-1)) + ' · ' + rows.length + (STANDINGS ? ' spelare · Grupp, poäng och kvalitet fallande' : ' bord');
 }
 async function refresh() {
   if (!LIVE) { $('installation').showModal(); return; }

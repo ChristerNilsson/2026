@@ -23,8 +23,8 @@ javascript:(()=>{if(location.hostname!=='member.schack.se'||location.protocol!==
 <!-- /STANDINGS_BOOKMARKLET -->
 
 Kör det på samma turneringssida. Det visar senast publicerad ställning
-i en gemensam tabell, sorterad på **grupp och poäng fallande**. Vid lika
-poäng behålls källsidans ordning. Grupp, placering, namn, klubb, Elo,
+i en gemensam tabell, sorterad på **grupp, poäng fallande och kvalitet
+fallande**. Vid lika poäng och kvalitet behålls källsidans ordning. Grupp, placering, namn, klubb, Elo,
 spelade partier, poäng och kvalitetspoäng visas. Prefixval, automatisk
 gruppidentifiering, uppdatering, visningsläge och utskrift fungerar som
 för bordslistan. Källans hela ställning visas, även ersatta spelare.
