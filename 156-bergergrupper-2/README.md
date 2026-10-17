@@ -22,8 +22,8 @@ Om bordslista saknas används deltagartabellen. Ett misslyckat anrop visas
 som fel och räknas aldrig som en grupp med avvikande storlek.
 
 För W2 väljs W2-1–W2-5 automatiskt; W2-6 har annat deltagarantal.
-Du kan byta **Prefix** och klicka på **Hitta grupper** för att göra samma
-automatiska jämförelse för exempelvis W1. Inget gruppantal behöver anges.
+För exempelvis W1: öppna W1-1 och kör samma bokmärke. Prefix och grupper
+bestäms helt av källsidans URL och grupplänkar; GUI:t har inga gruppval.
 
 Välj rond, visa alla bord på skärm eller skriv ut listan med tomma
 resultatrutor. Elotal och en gemensam bordsnummerserie ingår.
