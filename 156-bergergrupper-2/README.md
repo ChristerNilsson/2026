@@ -22,15 +22,17 @@ Om bordslista saknas används deltagartabellen. Ett misslyckat anrop visas
 som fel och räknas aldrig som en grupp med avvikande storlek.
 
 För W2 väljs W2-1–W2-5 automatiskt; W2-6 har annat deltagarantal.
-URL:en ger ett förslag på prefix. För att byta: skriv exempelvis **W1**
+URL:en ger ett förslag på prefix. För att byta: skriv exempelvis **W1-**
 i textrutan **Prefix** och tryck **Enter**. Antalet grupper räknas fortfarande
 ut automatiskt från källsidans grupplänkar och deltagarantal.
+Prefix måste sluta med **-** eller **_**, exempelvis `W2-` eller `V6_`.
+Lämna prefixet **tomt** för grupper som heter `A`, `B`, `C` och så vidare.
 
 Välj rond, visa alla bord på skärm eller skriv ut listan med tomma
 resultatrutor. Elotal och en gemensam bordsnummerserie ingår.
 Utskriften har 6 mm radhöjd för cirka 40 bord per A4, med rutor endast
 runt resultatfälten, streck mellan grupperna och en gemensam ytterram.
-Gruppnamn som `W1-1`, `W2-3`, `A1`, `B12` och `Å3` stöds och visas
+Gruppnamn som `W1-1`, `W2-3`, `V6_1` samt `A`, `B`, `C` stöds och visas
 med sina ursprungliga namn.
 Ingen resultatinmatning, filimport eller Python behövs.
 

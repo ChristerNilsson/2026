@@ -2,25 +2,45 @@
 const LIVE = window.BERGER_LIVE === true;
 let GROUPS = ['A', 'B', 'C', 'D', 'E'];
 let IDS = Object.fromEntries(GROUPS.map((group, i) => [group, String(19095 + i)]));
-let prefix = 'W2';
+let prefix = 'W2-';
 let availableGroups = GROUPS.map((group, i) => ({prefix, number:i + 1, id:IDS[group]}));
 let groupNumbers = Object.fromEntries(GROUPS.map((group, i) => [group, i + 1]));
 let groupNames = Object.fromEntries(GROUPS.map(group => [group, 'W2-' + groupNumbers[group]]));
 let detectionNumber = 0;
 let boardsPerGroup = 3;
+let maxRounds = 5;
 const $ = id => document.getElementById(id);
 let games = [];
 let round = Number(window.BERGER_ROUND) || 1;
-if (!Number.isInteger(round) || round < 1 || round > 5) round = 1;
+if (!Number.isInteger(round) || round < 1 || round > 100) round = 1;
 let busy = false;
 let requestNumber = 0;
 const failures = new Map();
 function groupName(group) { return groupNames[group]; }
-function definitionName(group) { return group.name || group.prefix + '-' + group.number; }
+const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
+function definitionName(group) { return group.name || (group.prefix ? group.prefix + group.number : ALPHABET[group.number - 1]); }
+function normalizePrefix(value) {
+  const normalized = value.trim();
+  if (normalized && !/[-_]$/.test(normalized)) throw Error('Prefix måste avslutas med - eller _. Lämna tomt för grupperna A, B, C osv.');
+  return normalized;
+}
+function setRoundsFromSource(doc) {
+  const rounds = Array.from(doc.querySelectorAll('[onclick], a[href]')).map(link => {
+    const target = (link.getAttribute('onclick') || '') + ' ' + (link.getAttribute('href') || '');
+    return Number(target.match(/[?&]round=(\d+)/)?.[1]) || 0;
+  }).filter(n => n >= 1 && n <= 100);
+  maxRounds = rounds.length ? Math.max(...rounds) : 5;
+  round = Math.min(round, maxRounds);
+  $('round').replaceChildren();
+  for (let n = 1; n <= maxRounds; n++) $('round').add(new Option('Rond ' + n, String(n)));
+}
 function parseGroupName(value) {
   const name = value.trim().replace(/\s+/g, ' ');
-  const match = name.match(/^([\p{L}][\p{L}\d]*)-([1-9]\d*)$/u) || name.match(/^([\p{L}]+)\s*([1-9]\d*)$/u);
-  return match ? {prefix:match[1], number:Number(match[2]), name} : null;
+  const match = name.match(/^([\p{L}][\p{L}\d]*[-_])([1-9]\d*)$/u);
+  if (match) return {prefix:match[1], number:Number(match[2]), name};
+  const letter = name.toLocaleUpperCase('sv-SE');
+  const index = ALPHABET.indexOf(letter);
+  return name.length === 1 && index >= 0 ? {prefix:'', number:index + 1, name} : null;
 }
 function participantCount(doc, tournamentId) {
   const ids = new Set();
@@ -64,7 +84,7 @@ function discoverGroups(doc) {
   return Array.from(found.values()).sort((a, b) => a.prefix.localeCompare(b.prefix, 'sv', {numeric:true}) || a.number - b.number);
 }
 function configureGroups(value, count) {
-  const selectedPrefix = value.trim().replace(/-+$/, '');
+  const selectedPrefix = normalizePrefix(value);
   if (!Number.isInteger(count) || count < 1 || count > 26) throw Error('Välj 1–26 grupper.');
   const definitions = availableGroups.filter(g => g.prefix.toLocaleLowerCase() === selectedPrefix.toLocaleLowerCase()).sort((a, b) => a.number - b.number).slice(0, count);
   if (definitions.length !== count) throw Error('Alla ' + count + ' grupper med prefix ' + selectedPrefix + ' finns inte på källsidan.');
@@ -98,7 +118,7 @@ function assertSourceGroup(doc, tournamentId, name) {
   if (!new RegExp('(?:^|\\s)' + expected + '(?=\\s|$)').test(doc.title)) throw Error('Fel källgrupp: ' + doc.title);
 }
 async function detectGroups(value, sourceDoc = null, sourceId = null) {
-  const selectedPrefix = value.trim().replace(/-+$/, '').toLocaleLowerCase();
+  const selectedPrefix = normalizePrefix(value).toLocaleLowerCase();
   const definitions = availableGroups.filter(g => g.prefix.toLocaleLowerCase() === selectedPrefix).sort((a, b) => a.number - b.number);
   if (!definitions.length) throw Error('Inga grupper med prefix ' + value + ' hittades på källsidan.');
   const request = ++detectionNumber;
@@ -107,13 +127,12 @@ async function detectGroups(value, sourceDoc = null, sourceId = null) {
   $('notice').className = '';
   $('notice').textContent = 'Jämför gruppernas deltagarantal…';
   try {
-    const counts = await Promise.all(definitions.map(async definition => {
-      const doc = sourceDoc && definition.id === sourceId ? sourceDoc : await loadGroupDocument(definition);
-      return participantCount(doc, definition.id);
-    }));
+    const docs = await Promise.all(definitions.map(definition => sourceDoc && definition.id === sourceId ? sourceDoc : loadGroupDocument(definition)));
+    const counts = docs.map((doc, i) => participantCount(doc, definitions[i].id));
     if (request !== detectionNumber) return;
     const selection = selectBergerGroups(definitions, counts);
     configureGroups(selection.definitions[0].prefix, selection.definitions.length);
+    setRoundsFromSource(docs[0]);
     boardsPerGroup = Math.ceil(selection.participantCount / 2);
     configured = true;
     const ignored = selection.ignored;
@@ -128,7 +147,7 @@ function validateGames(rows) {
   if (!Array.isArray(rows)) throw Error('Ogiltig bordslista.');
   const seen = new Set();
   return rows.map(g => {
-    if (!GROUPS.includes(g.group) || String(g.tournamentId) !== IDS[g.group] || !Number.isInteger(g.round) || g.round < 1 || g.round > 5 || !Number.isInteger(g.board) || g.board < 1 || g.board > 100 || typeof g.white !== 'string' || !g.white || typeof g.black !== 'string' || !g.black) throw Error('Ogiltig partirad.');
+    if (!GROUPS.includes(g.group) || String(g.tournamentId) !== IDS[g.group] || !Number.isInteger(g.round) || g.round < 1 || g.round > maxRounds || !Number.isInteger(g.board) || g.board < 1 || g.board > 100 || typeof g.white !== 'string' || !g.white || typeof g.black !== 'string' || !g.black) throw Error('Ogiltig partirad.');
     const key = [g.group, g.round, g.board].join(':');
     if (seen.has(key)) throw Error('Dubblerat bord i källistan.');
     seen.add(key);
@@ -174,7 +193,7 @@ function render() {
   document.documentElement.style.setProperty('--board-count', Math.max(1, rows.length));
   $('round').value = String(round);
   $('previous').disabled = round === 1;
-  $('next').disabled = round === 5;
+  $('next').disabled = round === maxRounds;
   $('refresh').disabled = busy;
   $('print').disabled = busy || !rows.length;
   $('roundLabel').textContent = ' / Rond ' + round;
@@ -213,10 +232,10 @@ async function refresh() {
   $('notice').textContent = failed.length ? `Kunde inte uppdatera grupp ${failed.join(', ')}. ${failureDetails.join('; ')}. Eventuella tidigare listor behålls. Klicka på Uppdatera för att försöka igen.` : 'Hämtad från schack.se · ' + new Date().toLocaleTimeString('sv-SE');
 }
 function selectRound(value) { round = value; render(); if (LIVE) void refresh(); }
-for (let n = 1; n <= 5; n++) $('round').add(new Option('Rond ' + n, String(n)));
+for (let n = 1; n <= maxRounds; n++) $('round').add(new Option('Rond ' + n, String(n)));
 $('round').onchange = () => selectRound(Number($('round').value));
 $('previous').onclick = () => { if (round > 1) selectRound(round - 1); };
-$('next').onclick = () => { if (round < 5) selectRound(round + 1); };
+$('next').onclick = () => { if (round < maxRounds) selectRound(round + 1); };
 $('refresh').onclick = refresh;
 $('displayMode').onclick = () => {
   const enabled = document.body.classList.toggle('display-mode');

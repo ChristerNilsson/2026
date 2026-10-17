@@ -35,23 +35,45 @@ function sourceDoc(title = 'Festival W2-1', selectedRound = 1) {
 async function main() {
   const ctx = context();
   vm.runInContext(`
-    assert.equal(parseGroupName('W1-1').prefix,'W1');
+    assert.equal(parseGroupName('W1-1').prefix,'W1-');
     assert.equal(parseGroupName('W2-3').number,3);
-    assert.equal(parseGroupName('A1').prefix,'A');
-    assert.equal(parseGroupName('B12').number,12);
-    assert.equal(parseGroupName('Å3').name,'Å3');
-    assert.equal(parseGroupName('C 2').number,2);
+    assert.equal(parseGroupName('V6_1').prefix,'V6_');
+    assert.equal(parseGroupName('V6_13').number,13);
+    assert.equal(parseGroupName('A').prefix,'');
+    assert.equal(parseGroupName('B').number,2);
+    assert.equal(parseGroupName('Å').name,'Å');
+    assert.equal(parseGroupName('A1'),null);
+    assert.equal(normalizePrefix(''), '');
+    assert.equal(normalizePrefix('  W1-  '),'W1-');
+    assert.equal(normalizePrefix('V6_'),'V6_');
+    assert.throws(()=>normalizePrefix('W1'),/avslutas/);
     assert.equal(parseGroupName('Rond 52026-08-9'),null);
     assert.equal(parseGroupName('2026-08-09'),null);
+  `,ctx);
+  ctx.realV6 = require('./fixture-document.cjs')(readFileSync('tests/fixtures/v6.html','utf8'));
+  vm.runInContext(`
+    availableGroups = discoverGroups(realV6);
+    assert.equal(availableGroups.filter(g => g.prefix==='V6_').length,13);
+    assert.ok(!availableGroups.some(g => g.name==='Vg 14'));
+    configureGroups('V6_',13);
+    assert.equal(IDS.A,'18815');
+    assert.equal(IDS.M,'18827','Sort group 13 numerically despite first position in footer');
+    assert.equal(groupName('M'),'V6_13');
+    assert.equal(participantCount(realV6,'18815'),4);
+    setRoundsFromSource(realV6);
+    assert.equal(maxRounds,3);
+    const realV6Games = parseSource(realV6,'A',3);
+    assert.equal(realV6Games.length,2);
   `,ctx);
   ctx.realW1 = require('./fixture-document.cjs')(readFileSync('tests/fixtures/w1.html','utf8'));
   vm.runInContext(`
     const actualGroups = discoverGroups(realW1);
-    assert.equal(actualGroups.filter(g => g.prefix==='W1').length,8);
-    assert.equal(actualGroups.filter(g => g.prefix==='W2').length,6);
+    assert.equal(actualGroups.filter(g => g.prefix==='W1-').length,8);
+    assert.equal(actualGroups.filter(g => g.prefix==='W2-').length,6);
     assert.ok(!actualGroups.some(g => /Rond|2026/.test(g.prefix)),'Round dates must never become group names');
     availableGroups = actualGroups;
-    configureGroups('W1',7);
+    configureGroups('W1-',7);
+    setRoundsFromSource(realW1);
     assert.equal(IDS.A,'19022');
     assert.equal(IDS.G,'19028');
     assert.equal(realW1.querySelector('#showIndTournamentResult input[name="id"]'),null,'Browser HTML repair moves the inputs outside the form');
@@ -61,7 +83,8 @@ async function main() {
     assert.equal(realGames.length,3);
     assert.ok(realGames.every(g => g.whiteElo>0 && g.blackElo>0));
     assert.equal(participantCount(realW1,'19022'),6);
-    configureGroups('W2',5);
+    configureGroups('W2-',5);
+    setRoundsFromSource(realW1);
   `,ctx);
   ctx.sourceDoc = sourceDoc();
   vm.runInContext(`
@@ -95,23 +118,23 @@ async function main() {
   vm.runInContext(`
     availableGroups = discoverGroups(discoveryDoc);
     assert.equal(availableGroups.length, 4);
-    configureGroups('w1',2);
-    assert.equal(prefix,'W1');
+    configureGroups('w1-',2);
+    assert.equal(prefix,'W1-');
     assert.equal(IDS.B,'19888','Use actual links, not consecutive IDs');
     assert.equal(groupName('B'),'W1-2');
     assert.equal(games.length,0,'Never mix previous prefix data');
-    assert.throws(() => configureGroups('W1',3), /finns inte/);
-    assert.throws(() => configureGroups('W2',0), /1–26/);
+    assert.throws(() => configureGroups('W1-',3), /finns inte/);
+    assert.throws(() => configureGroups('W2-',0), /1–26/);
     assert.throws(() => parseSource(sourceDoc,'A',1), /Fel källgrupp/);
   `, ctx);
-  ctx.letterGroups = {querySelectorAll:() => ['A1','A2','A10','Å1'].map((textContent,i)=>({textContent,getAttribute:name=>name==='href'?'./ShowTournamentServlet?id='+(300+i):null}))};
+  ctx.letterGroups = {querySelectorAll:() => ['C','A','B','Å'].map((textContent,i)=>({textContent,getAttribute:name=>name==='href'?'./ShowTournamentServlet?id='+(300+i):null}))};
   vm.runInContext(`
     availableGroups = discoverGroups(letterGroups);
-    configureGroups('A',3);
-    assert.equal(groupName('A'),'A1');
-    assert.equal(groupName('B'),'A2');
-    assert.equal(groupName('C'),'A10');
-    assert.equal(IDS.C,'302');
+    configureGroups('',3);
+    assert.equal(groupName('A'),'A');
+    assert.equal(groupName('B'),'B');
+    assert.equal(groupName('C'),'C');
+    assert.equal(IDS.C,'300');
   `,ctx);
   ctx.participantDoc = {querySelectorAll:() => [
     ...Array.from({length:8},(_,i)=>({getAttribute:name=>name==='onclick'?"postshowindtournamentresultform('19095','"+(100+i)+"')":null})),
@@ -121,7 +144,7 @@ async function main() {
   ]};
   vm.runInContext(`
     assert.equal(participantCount(participantDoc,'19095'),6,'Ignore replaced players and duplicate table cells');
-    const definitions = Array.from({length:6},(_,i)=>({prefix:'W2',number:i+1,id:String(19095+i)}));
+    const definitions = Array.from({length:6},(_,i)=>({prefix:'W2-',number:i+1,id:String(19095+i)}));
     const different = selectBergerGroups(definitions,[6,6,6,6,6,9]);
     assert.equal(different.definitions.length,5);
     assert.equal(different.ignored.number,6);
@@ -168,44 +191,55 @@ async function main() {
     assert.match($('notice').textContent, /grupp A/);
   `, live);
   vm.runInContext(`
-    availableGroups = Array.from({length:6},(_,i)=>({prefix:'W2',number:i+1,id:String(19095+i)}));
+    availableGroups = Array.from({length:6},(_,i)=>({prefix:'W2-',number:i+1,id:String(19095+i)}));
     let lastGroupCount = 9;
     loadGroupDocument = async definition => ({querySelectorAll:()=>Array.from({length:definition.number===6?lastGroupCount:6},(_,i)=>({getAttribute:name=>name==='href'?'./ShowTournamentParticipantResultServlet?id='+definition.id+'&partid='+(100+i):null}))});
     fetchGroup = async (group,selectedRound) => [{group,tournamentId:IDS[group],round:selectedRound,board:1,white:'White',black:'Black',whiteElo:2000,blackElo:1900}];
-    const detection = detectGroups('W2');
+    const detection = detectGroups('W2-');
   `,live);
   await vm.runInContext('detection',live);
   vm.runInContext(`
     assert.equal(GROUPS.length,5);
     assert.match($('detectedGroups').textContent,/W2-6.*9 deltagare.*ignoreras/);
     lastGroupCount = 6;
-    const includeLast = detectGroups('W2');
+    const includeLast = detectGroups('W2-');
   `,live);
   await vm.runInContext('includeLast',live);
   vm.runInContext(`
     assert.equal(GROUPS.length,6);
     assert.match($('detectedGroups').textContent,/Sista gruppen ingår/);
     loadGroupDocument = async () => { throw Error('Network failure'); };
-    const failedDetection = detectGroups('W2');
+    const failedDetection = detectGroups('W2-');
   `,live);
   await assert.rejects(vm.runInContext('failedDetection',live),/Network failure/);
   vm.runInContext(`
     assert.equal(GROUPS.length,6,'A failed fetch must not silently exclude the final group');
     assert.equal(busy,false);
-    availableGroups.push({prefix:'W1',number:1,id:'19022'},{prefix:'W1',number:2,id:'19023'});
+    availableGroups.push({prefix:'W1-',number:1,id:'19022'},{prefix:'W1-',number:2,id:'19023'});
     loadGroupDocument = async definition => ({querySelectorAll:()=>Array.from({length:6},(_,i)=>({getAttribute:name=>name==='href'?'./ShowTournamentParticipantResultServlet?id='+definition.id+'&partid='+(100+i):null}))});
-    $('prefix').value = 'W1';
+    $('prefix').value = 'W1-';
     let submitPrevented = false;
     const manualPrefix = $('prefixForm').onsubmit({preventDefault(){submitPrevented=true;}});
   `,live);
   await vm.runInContext('manualPrefix',live);
   vm.runInContext(`
     assert.equal(submitPrevented,true);
-    assert.equal(prefix,'W1');
+    assert.equal(prefix,'W1-');
     assert.equal(GROUPS.length,2);
     assert.equal(IDS.A,'19022');
     assert.equal(groupName('B'),'W1-2');
     assert.ok(games.every(g=>g.tournamentId==='19022'||g.tournamentId==='19023'));
+    availableGroups.push(...['A','B','C'].map((name,i)=>({prefix:'',number:i+1,name,id:String(300+i)})));
+    $('prefix').value = '';
+    const emptyPrefix = $('prefixForm').onsubmit({preventDefault(){}});
+  `,live);
+  await vm.runInContext('emptyPrefix',live);
+  vm.runInContext(`
+    assert.equal(prefix,'');
+    assert.equal(GROUPS.length,3);
+    assert.equal(groupName('A'),'A');
+    assert.equal(groupName('C'),'C');
+    assert.equal($('prefix').value,'');
   `,live);
   console.log('Passed: source parsing, Elo, numbering, round request races and automatic group discovery (same/different final size, replacements and network failure).');
 }

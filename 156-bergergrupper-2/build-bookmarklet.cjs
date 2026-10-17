@@ -15,7 +15,7 @@ function start(template) {
   const sourceUrl = window.BERGER_BOOT?.sourceUrl || location.href;
   const parsed = new URL(sourceUrl);
   const value = Number(parsed.searchParams.get('round'));
-  const round = Number.isInteger(value) && value >= 1 && value <= 5 ? value : 1;
+  const round = Number.isInteger(value) && value >= 1 && value <= 100 ? value : 1;
   const config = JSON.stringify({BERGER_LIVE:true, BERGER_ROUND:round, BERGER_SOURCE_URL:sourceUrl}).replace(/</g, '\\u003c');
   document.open();
   document.write(template.replace('__BERGER_CONFIG__', () => config));
