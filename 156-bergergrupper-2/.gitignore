@@ -1,2 +1,3 @@
 .sites-local/
+node_modules/
 site-deploy.tar.gz

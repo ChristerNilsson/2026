@@ -8,7 +8,7 @@ class Element {
   add(option) { this.children.push(option); }
   setAttribute() {}
 }
-function context(live = false) {
+function context(live = false, globals = {}) {
   const elements = new Map();
   const result = vm.createContext({
     document: {
@@ -19,8 +19,9 @@ function context(live = false) {
     Option:function(text, value){ this.text = text; this.value = value; },
     fetch:() => Promise.reject(Error('Offline')),
     AbortSignal, URL, URLSearchParams, confirm:() => true, console, assert,
+    ...globals,
   });
-  vm.runInContext(readFileSync('dist/app.js', 'utf8'), result);
+  vm.runInContext(readFileSync('dist/app.js', 'utf8').replace('if (LIVE) { void initializeLive(); }', 'if (LIVE) { globalThis.ready = initializeLive(); }'), result);
   return result;
 }
 function sourceDoc(title = 'Festival W2-1', selectedRound = 1) {
@@ -43,6 +44,7 @@ async function main() {
     configureGroups('W1',7);
     assert.equal(IDS.A,'19022');
     assert.equal(IDS.G,'19028');
+    assert.equal(realW1.querySelector('#showIndTournamentResult input[name="id"]'),null,'Browser HTML repair moves the inputs outside the form');
     assertSourceGroup(realW1,'19022','W1-1');
     assert.throws(()=>assertSourceGroup(realW1,'19023','W1-2'),/Fel turnerings-ID/);
     const realGames = parseSource(realW1,'A',5);
@@ -188,4 +190,5 @@ async function main() {
   `,live);
   console.log('Passed: source parsing, Elo, numbering, round request races and automatic group discovery (same/different final size, replacements and network failure).');
 }
-main().catch(error => { console.error(error); process.exitCode = 1; });
+module.exports = {context};
+if (require.main === module) main().catch(error => { console.error(error); process.exitCode = 1; });

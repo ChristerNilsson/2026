@@ -1,0 +1,12 @@
+{
+  "name": "bergergrupper-bookmarklet",
+  "private": true,
+  "scripts": {
+    "build": "node build-bookmarklet.cjs",
+    "test": "node tests/app.test.cjs && node tests/bookmarklet.test.cjs"
+  },
+  "devDependencies": {
+    "linkedom": "0.18.12",
+    "parse5": "7.2.1"
+  }
+}

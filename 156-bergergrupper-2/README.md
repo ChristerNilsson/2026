@@ -35,10 +35,14 @@ Ingen resultatinmatning, filimport eller Python behövs.
 Efter ändringar i `dist/app.js`, `dist/style.css` eller `dist/index.html`:
 
 ```sh
+npm ci
 node build-bookmarklet.cjs
 node tests/app.test.cjs
 node tests/bookmarklet.test.cjs
 ```
+
+Testerna använder HTML5-tolkning av sparad käll-HTML. Testpaketen behövs
+bara vid utveckling; bokmärket har inga paketberoenden.
 
 Pusha även den genererade `dist/bergergrupper.js` till GitHub. Bokmärket
 hämtar uppdaterad kod vid varje körning och behöver inte installeras om.

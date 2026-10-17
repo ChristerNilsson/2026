@@ -78,7 +78,10 @@ async function loadGroupDocument(definition) {
   return doc;
 }
 function assertSourceGroup(doc, tournamentId, name) {
-  const declaredId = doc.querySelector('#showIndTournamentResult input[name="id"]')?.value || doc.querySelector('#showTournamentTeamResult input[name="id"]')?.value;
+  // Source forms sit directly inside a table. HTML5 parsing moves their inputs
+  // outside the form, so descendant selectors alone miss W1's tournament ID.
+  const pageIds = Array.from(new Set(Array.from(doc.querySelectorAll('input[name="id"]')).map(input => input.value).filter(value => /^\d+$/.test(value || ''))));
+  const declaredId = doc.querySelector('#showIndTournamentResult input[name="id"]')?.value || doc.querySelector('#showTournamentTeamResult input[name="id"]')?.value || (pageIds.length === 1 ? pageIds[0] : null);
   if (declaredId) {
     if (String(declaredId) === String(tournamentId)) return;
     throw Error('Fel turnerings-ID i källsidan: ' + declaredId + '.');
