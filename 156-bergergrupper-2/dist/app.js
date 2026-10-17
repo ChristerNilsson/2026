@@ -272,6 +272,7 @@ async function initializeLive() {
   try {
     const sourceUrl = new URL(window.BERGER_SOURCE_URL || location.href);
     if (sourceUrl.origin !== 'https://member.schack.se') throw Error('Öppna bokmärket på member.schack.se.');
+    $('sourceLink').href = sourceUrl.href;
     const response = await fetch(sourceUrl.href, {cache:'no-store', signal:AbortSignal.timeout(20000)});
     if (!response.ok) throw Error('Kunde inte läsa turneringens grupplänkar.');
     const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
@@ -282,8 +283,9 @@ async function initializeLive() {
     if (!current) throw Error('Gruppen i URL:en kunde inte identifieras. Öppna första gruppens sida.');
     const startPrefix = current.prefix;
     $('prefix').value = startPrefix;
-    const title = doc.title.split(' ' + definitionName(current))[0];
+    const title = doc.querySelector('#footer .header')?.textContent.trim() || doc.title.split(' ' + definitionName(current))[0];
     $('tournamentTitle').textContent = title;
+    $('headerTournamentTitle').textContent = title;
     document.title = 'Bordslista · ' + title;
     await detectGroups(startPrefix, doc, sourceUrl.searchParams.get('id'));
   } catch (error) { $('notice').className = 'warning'; $('notice').textContent = error.message + ' Ange prefixet i textrutan, eller kör bokmärket igen från turneringens sida.'; }
