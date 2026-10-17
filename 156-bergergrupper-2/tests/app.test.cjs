@@ -153,6 +153,20 @@ async function main() {
   vm.runInContext(`
     assert.equal(GROUPS.length,6,'A failed fetch must not silently exclude the final group');
     assert.equal(busy,false);
+    availableGroups.push({prefix:'W1',number:1,id:'19022'},{prefix:'W1',number:2,id:'19023'});
+    loadGroupDocument = async definition => ({querySelectorAll:()=>Array.from({length:6},(_,i)=>({getAttribute:name=>name==='href'?'./ShowTournamentParticipantResultServlet?id='+definition.id+'&partid='+(100+i):null}))});
+    $('prefix').value = 'W1';
+    let submitPrevented = false;
+    const manualPrefix = $('prefixForm').onsubmit({preventDefault(){submitPrevented=true;}});
+  `,live);
+  await vm.runInContext('manualPrefix',live);
+  vm.runInContext(`
+    assert.equal(submitPrevented,true);
+    assert.equal(prefix,'W1');
+    assert.equal(GROUPS.length,2);
+    assert.equal(IDS.A,'19022');
+    assert.equal(groupName('B'),'W1-2');
+    assert.ok(games.every(g=>g.tournamentId==='19022'||g.tournamentId==='19023'));
   `,live);
   console.log('Passed: source parsing, Elo, numbering, round request races and automatic group discovery (same/different final size, replacements and network failure).');
 }

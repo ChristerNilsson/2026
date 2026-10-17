@@ -22,6 +22,10 @@ h3 { font-size: 16px; }
 .toolbar > div:first-child { display: flex; align-items: center; gap: 8px; margin-right: auto; }
 .toolbar label { font-size: 12px; font-weight: 600; }
 .group-summary { margin: 0 0 8px; font-size: 12px; color: #586c50; }
+.prefix-form { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 13px; }
+.prefix-form input { width: 90px; padding: 5px 8px; border: 1px solid #d3dcd0; border-radius: 5px; font: inherit; }
+.prefix-form small { color: #63735d; }
+.display-mode .prefix-form { display: none; }
 .roundpicker { display: flex; gap: 6px; }
 .roundpicker button, .roundpicker select { border: 1px solid #d3dcd0; border-radius: 5px; background: white; padding: 4px 10px; color: #263e32; }
 .roundpicker select { font-weight: 600; }
@@ -82,7 +86,7 @@ dialog li { margin: 12px 0; line-height: 1.6; font-size: 14px; }
 @page { size: A4 portrait; margin: 12mm; }
 @media print {
   body { background: white; color: black; }
-  header, .intro, .toolbar, .group-summary, #notice, .groupstatus, .help, .install-note, dialog { display: none !important; }
+  header, .intro, .toolbar, .prefix-form, .group-summary, #notice, .groupstatus, .help, .install-note, dialog { display: none !important; }
   main, .display-mode main { max-width: none; padding: 0; }
   .boardlist, .tablewrap { overflow: visible; border: 0; border-radius: 0; }
   .tablehead, .display-mode .tablehead { padding: 0 0 5mm; }

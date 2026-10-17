@@ -67,6 +67,7 @@ function configureGroups(value, count) {
   groupNumbers = Object.fromEntries(GROUPS.map((group, i) => [group, definitions[i].number]));
   boardsPerGroup = 3;
   games = []; failures.clear(); requestNumber++; busy = false;
+  $('prefix').value = prefix;
   $('detectedGroups').textContent = count + ' grupper';
 }
 async function loadGroupDocument(definition) {
@@ -219,8 +220,15 @@ if (typeof BOOKMARKLET_URL !== 'undefined') {
   };
 }
 render();
+$('prefixForm').onsubmit = async event => {
+  event.preventDefault();
+  if (!LIVE) { $('installation').showModal(); return; }
+  try { await detectGroups($('prefix').value); }
+  catch (error) { $('notice').className = 'warning'; $('notice').textContent = error.message; }
+};
 async function initializeLive() {
   document.body.classList.add('live-mode');
+  $('prefix').disabled = true;
   $('notice').textContent = 'Läser turneringens grupper…';
   try {
     const sourceUrl = new URL(window.BERGER_SOURCE_URL || location.href);
@@ -234,11 +242,13 @@ async function initializeLive() {
     const current = discovered.find(g => g.id === sourceUrl.searchParams.get('id'));
     if (!current) throw Error('Gruppen i URL:en kunde inte identifieras. Öppna första gruppens sida.');
     const startPrefix = current.prefix;
+    $('prefix').value = startPrefix;
     const title = doc.title.split(' ' + current.prefix + '-' + current.number)[0];
     $('tournamentTitle').textContent = title;
     document.title = 'Bordslista · ' + title;
     await detectGroups(startPrefix, doc, sourceUrl.searchParams.get('id'));
-  } catch (error) { $('notice').className = 'warning'; $('notice').textContent = error.message + ' Kör bokmärket igen från turneringens sida.'; }
+  } catch (error) { $('notice').className = 'warning'; $('notice').textContent = error.message + ' Ange prefixet i textrutan, eller kör bokmärket igen från turneringens sida.'; }
+  finally { $('prefix').disabled = false; }
 }
 if (LIVE) { void initializeLive(); }
 else {
