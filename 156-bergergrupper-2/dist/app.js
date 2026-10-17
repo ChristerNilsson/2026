@@ -237,11 +237,18 @@ function render() {
   $('refresh').disabled = busy;
   $('print').disabled = busy || !rows.length;
   $('roundLabel').textContent = STANDINGS ? '' : ' / Rond ' + round;
-  $('games').replaceChildren();
+  const table = $('gamesTable');
+  for (const body of table.querySelectorAll('tbody')) body.remove();
   let previousGroup = '';
+  let groupBody;
   for (const g of rows) {
     const row = document.createElement('tr');
-    if (g.group !== previousGroup) row.className = 'groupstart';
+    if (g.group !== previousGroup) {
+      row.className = 'groupstart';
+      groupBody = document.createElement('tbody');
+      groupBody.className = 'print-group';
+      table.append(groupBody);
+    }
     previousGroup = g.group;
     const cell = text => { const td = document.createElement('td'); td.textContent = text; row.append(td); return td; };
     const badge = document.createElement('span'); badge.className = 'badge'; badge.textContent = groupName(g.group); cell('').append(badge);
@@ -252,9 +259,9 @@ function render() {
       cell(boardNumber(g)); cell(g.white); cell(g.whiteElo ?? '–').className = 'elo';
       cell(g.black); cell(g.blackElo ?? '–').className = 'elo'; cell('').className = 'paper-result';
     }
-    $('games').append(row);
+    groupBody.append(row);
   }
-  if (!rows.length) { const row = document.createElement('tr'), td = document.createElement('td'); td.colSpan = STANDINGS ? 8 : 7; td.className = 'empty'; td.textContent = STANDINGS ? (busy ? 'Hämtar ställning…' : 'Ingen ställning att visa.') : (busy ? 'Hämtar bordslistor…' : 'Ingen bordslista för denna rond.'); row.append(td); $('games').append(row); }
+  if (!rows.length) { const body = document.createElement('tbody'), row = document.createElement('tr'), td = document.createElement('td'); td.colSpan = STANDINGS ? 8 : 7; td.className = 'empty'; td.textContent = STANDINGS ? (busy ? 'Hämtar ställning…' : 'Ingen ställning att visa.') : (busy ? 'Hämtar bordslistor…' : 'Ingen bordslista för denna rond.'); row.append(td); body.append(row); table.append(body); }
   $('scope').textContent = groupName(GROUPS[0]) + '–' + groupName(GROUPS.at(-1)) + ' · ' + rows.length + (STANDINGS ? ' spelare · Grupp, poäng fallande' : ' bord');
 }
 async function refresh() {

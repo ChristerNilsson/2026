@@ -34,7 +34,12 @@ async function main() {
     assert.equal(sorted[2].name,'Later tie');
     assert.equal(sorted[3].group,'B','Group takes priority over points');
     render();
-    const first = $('games').children[0].children;
+    const bodies = $('gamesTable').querySelectorAll('tbody');
+    assert.equal(bodies.length,2,'Each group must have a separate printable row group');
+    assert.equal(bodies[0].children.length,3);
+    assert.equal(bodies[1].children.length,1);
+    assert.ok(bodies.every(body=>body.className==='print-group'));
+    const first = $('gamesTable').querySelectorAll('tr')[0].children;
     assert.equal(first.length,8);
     assert.equal(first[2].textContent,'Ten');
     assert.equal(first[6].textContent,'10');

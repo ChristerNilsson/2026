@@ -3,7 +3,9 @@ const vm = require('node:vm');
 const assert = require('node:assert/strict');
 class Element {
   constructor(tag = '') { this.tag = tag; this.children = []; this.value = ''; }
-  append(...nodes) { this.children.push(...nodes); }
+  append(...nodes) { for (const node of nodes) { node.parentElement = this; this.children.push(node); } }
+  querySelectorAll(tag) { return this.children.flatMap(node => [...(node.tag === tag ? [node] : []), ...(node.querySelectorAll?.(tag) || [])]); }
+  remove() { if (this.parentElement) this.parentElement.children = this.parentElement.children.filter(node => node !== this); }
   replaceChildren(...nodes) { this.children = nodes; }
   add(option) { this.children.push(option); }
   setAttribute() {}
@@ -99,8 +101,9 @@ async function main() {
     assert.equal(boardNumber({...rows[0],group:'B'}), 4);
     assert.equal(boardNumber({...rows[0],group:'E',board:3}), 15);
     games = [rows[1],rows[0]]; round = 1; render();
-    assert.equal($('games').children.length, 2);
-    const first = $('games').children[0].children;
+    assert.equal($('gamesTable').querySelectorAll('tr').length, 2);
+    assert.equal($('gamesTable').querySelectorAll('tbody').length,1);
+    const first = $('gamesTable').querySelectorAll('tr')[0].children;
     assert.equal(first[1].textContent, 1);
     assert.equal(first[3].textContent, 2136);
     assert.equal(first[5].textContent, 2159);

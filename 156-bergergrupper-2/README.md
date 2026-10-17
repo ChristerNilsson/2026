@@ -52,6 +52,8 @@ Välj rond, visa alla bord på skärm eller skriv ut listan med tomma
 resultatrutor. Elotal och en gemensam bordsnummerserie ingår.
 Utskriften har 6 mm radhöjd för cirka 40 bord per A4, med rutor endast
 runt resultatfälten, streck mellan grupperna och en gemensam ytterram.
+I båda bookmarklets hålls varje grupp samman vid utskrift. Om gruppen
+inte ryms på återstående del av sidan börjar den på nästa sida.
 Gruppnamn som `W1-1`, `W2-3`, `V6_1` samt `A`, `B`, `C` stöds och visas
 med sina ursprungliga namn.
 Ingen resultatinmatning, filimport eller Python behövs.

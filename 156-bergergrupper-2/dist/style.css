@@ -108,6 +108,7 @@ dialog li { margin: 12px 0; line-height: 1.6; font-size: 14px; }
   td:nth-child(2) { color: black; }
   thead { display: table-header-group; }
   tr { break-inside: avoid; }
+  tbody.print-group { break-inside: avoid; page-break-inside: avoid; }
   .standings th:nth-child(1) { width: 12%; }
   .standings th:nth-child(2) { width: 7%; }
   .standings th:nth-child(3) { width: 29%; }
