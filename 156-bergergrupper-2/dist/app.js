@@ -1,5 +1,6 @@
 'use strict';
 const LIVE = window.BERGER_LIVE === true;
+const STANDINGS = window.BERGER_VIEW === 'standings';
 let GROUPS = ['A', 'B', 'C', 'D', 'E'];
 let IDS = Object.fromEntries(GROUPS.map((group, i) => [group, String(19095 + i)]));
 let prefix = 'W2-';
@@ -31,6 +32,7 @@ function setRoundsFromSource(doc) {
   }).filter(n => n >= 1 && n <= 100);
   maxRounds = rounds.length ? Math.max(...rounds) : 5;
   round = Math.min(round, maxRounds);
+  if (STANDINGS) return;
   $('round').replaceChildren();
   for (let n = 1; n <= maxRounds; n++) $('round').add(new Option('Rond ' + n, String(n)));
 }
@@ -179,24 +181,62 @@ function parseSource(doc, group, selectedRound) {
   if (!result.length) throw Error('Ingen bordslista publicerad.');
   return validateGames(result);
 }
-async function fetchGroup(group, selectedRound) {
-  const response = await fetch('https://member.schack.se/ShowTournamentServlet?id=' + IDS[group] + '&round=' + selectedRound, {cache:'no-store', signal:AbortSignal.timeout(20000)});
-  if (!response.ok) throw Error('Källan svarade inte.');
-  return parseSource(new DOMParser().parseFromString(await response.text(), 'text/html'), group, selectedRound);
+function parsePoints(value) {
+  const text = value.trim().replace(/\s+/g, '').replace(',', '.').replace('½', '.5');
+  if (!/^(?:\d+(?:\.\d+)?|\.\d+)$/.test(text)) throw Error('Ogiltig poäng: ' + value);
+  return Number(text);
 }
-function currentGames() { return games.filter(g => g.round === round).sort((a, b) => a.group.localeCompare(b.group) || a.board - b.board); }
+function parseStandings(doc, group) {
+  assertSourceGroup(doc, IDS[group], groupName(group));
+  const cellsOf = row => Array.from(row.children).filter(cell => cell.matches('td, th'));
+  const header = Array.from(doc.querySelectorAll('tr')).find(row => {
+    const labels = cellsOf(row).map(cell => cell.textContent.trim().toLocaleUpperCase('sv-SE'));
+    return labels.includes('NAMN') && labels.includes('POÄNG');
+  });
+  if (!header) throw Error('Ingen ställning publicerad för ' + groupName(group) + '.');
+  const table = header.closest('table');
+  const labels = cellsOf(header).map(cell => cell.textContent.trim().toLocaleUpperCase('sv-SE'));
+  const indexes = {name:labels.indexOf('NAMN'), club:labels.indexOf('KLUBB'), played:labels.indexOf('SP'), points:labels.indexOf('POÄNG'), tie:labels.findIndex(label => /^KV\.?P\.?$/.test(label)), elo:labels.findIndex(label => label === 'ELO' || label.startsWith('RANKING'))};
+  const rows = [];
+  for (const row of table.querySelectorAll('tr')) {
+    if (row === header || row.closest('table') !== table) continue;
+    const cells = cellsOf(row), values = cells.map(cell => cell.textContent.trim().replace(/\s+/g, ' '));
+    if (values.length <= indexes.points || !values[indexes.name]) continue;
+    const rank = values.slice(0, indexes.name).find(value => /^\d+$/.test(value));
+    if (!rank) continue;
+    rows.push({group, tournamentId:IDS[group], rank:Number(rank), sourceOrder:rows.length,
+      name:values[indexes.name], club:values[indexes.club] || '',
+      elo:/^\d+$/.test(values[indexes.elo] || '') ? Number(values[indexes.elo]) : null,
+      played:/^\d+$/.test(values[indexes.played] || '') ? Number(values[indexes.played]) : null,
+      points:parsePoints(values[indexes.points]), pointsText:values[indexes.points], tie:values[indexes.tie] || '–'});
+  }
+  if (!rows.length) throw Error('Ställningen saknar spelarrader.');
+  return rows;
+}
+async function fetchGroup(group, selectedRound) {
+  const response = await fetch('https://member.schack.se/ShowTournamentServlet?id=' + IDS[group] + (STANDINGS ? '' : '&round=' + selectedRound), {cache:'no-store', signal:AbortSignal.timeout(20000)});
+  if (!response.ok) throw Error('Källan svarade inte.');
+  const doc = new DOMParser().parseFromString(await response.text(), 'text/html');
+  return STANDINGS ? parseStandings(doc, group) : parseSource(doc, group, selectedRound);
+}
+function currentGames() {
+  if (STANDINGS) return games.slice().sort((a, b) => GROUPS.indexOf(a.group) - GROUPS.indexOf(b.group) || b.points - a.points || a.sourceOrder - b.sourceOrder);
+  return games.filter(g => g.round === round).sort((a, b) => a.group.localeCompare(b.group) || a.board - b.board);
+}
 function boardNumber(g) {
   return GROUPS.slice(0, GROUPS.indexOf(g.group)).reduce((offset, group) => offset + Math.max(boardsPerGroup, ...games.filter(row => row.group === group).map(row => row.board)), g.board);
 }
 function render() {
   const rows = currentGames();
   document.documentElement.style.setProperty('--board-count', Math.max(1, rows.length));
-  $('round').value = String(round);
-  $('previous').disabled = round === 1;
-  $('next').disabled = round === maxRounds;
+  if (!STANDINGS) {
+    $('round').value = String(round);
+    $('previous').disabled = round === 1;
+    $('next').disabled = round === maxRounds;
+  }
   $('refresh').disabled = busy;
   $('print').disabled = busy || !rows.length;
-  $('roundLabel').textContent = ' / Rond ' + round;
+  $('roundLabel').textContent = STANDINGS ? '' : ' / Rond ' + round;
   $('games').replaceChildren();
   let previousGroup = '';
   for (const g of rows) {
@@ -205,24 +245,29 @@ function render() {
     previousGroup = g.group;
     const cell = text => { const td = document.createElement('td'); td.textContent = text; row.append(td); return td; };
     const badge = document.createElement('span'); badge.className = 'badge'; badge.textContent = groupName(g.group); cell('').append(badge);
-    cell(boardNumber(g)); cell(g.white); cell(g.whiteElo ?? '–').className = 'elo';
-    cell(g.black); cell(g.blackElo ?? '–').className = 'elo'; cell('').className = 'paper-result';
+    if (STANDINGS) {
+      cell(g.rank); cell(g.name); cell(g.club); cell(g.elo ?? '–').className = 'elo';
+      cell(g.played ?? '–').className = 'numeric'; cell(g.pointsText).className = 'points'; cell(g.tie).className = 'numeric';
+    } else {
+      cell(boardNumber(g)); cell(g.white); cell(g.whiteElo ?? '–').className = 'elo';
+      cell(g.black); cell(g.blackElo ?? '–').className = 'elo'; cell('').className = 'paper-result';
+    }
     $('games').append(row);
   }
-  if (!rows.length) { const row = document.createElement('tr'), td = document.createElement('td'); td.colSpan = 7; td.className = 'empty'; td.textContent = busy ? 'Hämtar bordslistor…' : 'Ingen bordslista för denna rond.'; row.append(td); $('games').append(row); }
-  $('scope').textContent = groupName(GROUPS[0]) + '–' + groupName(GROUPS.at(-1)) + ' · ' + rows.length + ' bord';
+  if (!rows.length) { const row = document.createElement('tr'), td = document.createElement('td'); td.colSpan = STANDINGS ? 8 : 7; td.className = 'empty'; td.textContent = STANDINGS ? (busy ? 'Hämtar ställning…' : 'Ingen ställning att visa.') : (busy ? 'Hämtar bordslistor…' : 'Ingen bordslista för denna rond.'); row.append(td); $('games').append(row); }
+  $('scope').textContent = groupName(GROUPS[0]) + '–' + groupName(GROUPS.at(-1)) + ' · ' + rows.length + (STANDINGS ? ' spelare · Grupp, poäng fallande' : ' bord');
 }
 async function refresh() {
   if (!LIVE) { $('installation').showModal(); return; }
   const requestedRound = round, request = ++requestNumber;
-  busy = true; render(); $('notice').className = ''; $('notice').textContent = 'Hämtar rond ' + requestedRound + ' från schack.se…';
+  busy = true; render(); $('notice').className = ''; $('notice').textContent = STANDINGS ? 'Hämtar aktuell ställning från schack.se…' : 'Hämtar rond ' + requestedRound + ' från schack.se…';
   const responses = await Promise.allSettled(GROUPS.map(group => fetchGroup(group, requestedRound)));
   if (request !== requestNumber) return;
   const failed = [];
   const failureDetails = [];
   responses.forEach((response, i) => {
     const group = GROUPS[i];
-    if (response.status === 'fulfilled') games = games.filter(g => !(g.round === requestedRound && g.group === group)).concat(response.value);
+    if (response.status === 'fulfilled') games = games.filter(g => !(g.group === group && (STANDINGS || g.round === requestedRound))).concat(response.value);
     else { failed.push(group); failureDetails.push(groupName(group) + ': ' + (response.reason?.message || 'Hämtningen misslyckades')); }
   });
   failures.set(requestedRound, failed); busy = false; render();
@@ -230,10 +275,12 @@ async function refresh() {
   $('notice').textContent = failed.length ? `Kunde inte uppdatera grupp ${failed.join(', ')}. ${failureDetails.join('; ')}. Eventuella tidigare listor behålls. Klicka på Uppdatera för att försöka igen.` : 'Hämtad från schack.se · ' + new Date().toLocaleTimeString('sv-SE');
 }
 function selectRound(value) { round = value; render(); if (LIVE) void refresh(); }
-for (let n = 1; n <= maxRounds; n++) $('round').add(new Option('Rond ' + n, String(n)));
-$('round').onchange = () => selectRound(Number($('round').value));
-$('previous').onclick = () => { if (round > 1) selectRound(round - 1); };
-$('next').onclick = () => { if (round < maxRounds) selectRound(round + 1); };
+if (!STANDINGS) {
+  for (let n = 1; n <= maxRounds; n++) $('round').add(new Option('Rond ' + n, String(n)));
+  $('round').onchange = () => selectRound(Number($('round').value));
+  $('previous').onclick = () => { if (round > 1) selectRound(round - 1); };
+  $('next').onclick = () => { if (round < maxRounds) selectRound(round + 1); };
+}
 $('refresh').onclick = refresh;
 $('displayMode').onclick = () => {
   const enabled = document.body.classList.toggle('display-mode');
@@ -242,7 +289,7 @@ $('displayMode').onclick = () => {
 };
 $('print').onclick = () => {
   const missing = GROUPS.filter(group => !currentGames().some(g => g.group === group));
-  if ((missing.length || failures.get(round)?.length) && !confirm('Bordslistan är ofullständig eller kunde inte uppdateras helt. Skriv ut ändå?')) return;
+  if ((missing.length || failures.get(round)?.length) && !confirm('Listan är ofullständig eller kunde inte uppdateras helt. Skriv ut ändå?')) return;
   window.print();
 };
 $('installButton').onclick = () => $('installation').showModal();
@@ -284,7 +331,7 @@ async function initializeLive() {
     const title = doc.querySelector('#footer .header')?.textContent.trim() || doc.title.split(' ' + definitionName(current))[0];
     $('tournamentTitle').textContent = title;
     $('headerTournamentTitle').textContent = title;
-    document.title = 'Bordslista · ' + title;
+    document.title = (STANDINGS ? 'Ställning · ' : 'Bordslista · ') + title;
     await detectGroups(startPrefix, doc, sourceUrl.searchParams.get('id'));
   } catch (error) { $('notice').className = 'warning'; $('notice').textContent = error.message + ' Ange prefixet i textrutan, eller kör bokmärket igen från turneringens sida.'; }
   finally { $('prefix').disabled = false; }
@@ -292,8 +339,8 @@ async function initializeLive() {
 if (LIVE) { void initializeLive(); }
 else {
   $('refresh').textContent = 'Installera bokmärke';
-  fetch('initial.json').then(response => { if (!response.ok) throw Error(); return response.json(); }).then(data => {
-    games = validateGames(data.games); render();
+  fetch(STANDINGS ? 'initial-standings.json' : 'initial.json').then(response => { if (!response.ok) throw Error(); return response.json(); }).then(data => {
+    games = STANDINGS ? data.players : validateGames(data.games); render();
     $('notice').textContent = 'Förhandsvisning från ' + new Date(data.fetchedAt).toLocaleString('sv-SE') + '. Använd bokmärket på schack.se för aktuella bordslistor.';
   }).catch(() => { $('notice').textContent = 'Installera bokmärket ovan och kör det på schack.se för att öppna bordslistan.'; });
 }

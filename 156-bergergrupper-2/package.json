@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "node build-bookmarklet.cjs",
-    "test": "node tests/app.test.cjs && node tests/bookmarklet.test.cjs"
+    "test": "node tests/app.test.cjs && node tests/bookmarklet.test.cjs && node tests/standings.test.cjs"
   },
   "devDependencies": {
     "linkedom": "0.18.12",

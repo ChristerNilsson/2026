@@ -11,6 +11,26 @@ javascript:(()=>{if(location.hostname!=='member.schack.se'||location.protocol!==
 ```
 <!-- /BOOKMARKLET -->
 
+## Ställning – bergergrupper-standings
+
+Skapa ett **separat bokmärke** med namnet **bergergrupper-standings**
+och denna adress:
+
+<!-- STANDINGS_BOOKMARKLET -->
+```javascript
+javascript:(()=>{if(location.hostname!=='member.schack.se'||location.protocol!=='https:'){alert('Kör bokmärket på member.schack.se');return}const u=location.href,w=open('','_blank');if(!w){alert('Tillåt popup-fönster för member.schack.se');return}w.document.body.textContent='Hämtar ställningen från GitHub…';fetch('https://raw.githubusercontent.com/ChristerNilsson/2026/main/156-bergergrupper-2/dist/bergergrupper-standings.js?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('GitHub HTTP '+r.status);return r.text()}).then(c=>{if(w.closed)return;w.BERGER_BOOT={sourceUrl:u};const s=w.document.createElement('script');s.textContent=c;w.document.head.append(s)}).catch(e=>{if(!w.closed)w.document.body.textContent='Kunde inte hämta ställningen: '+e.message})})();void 0;
+```
+<!-- /STANDINGS_BOOKMARKLET -->
+
+Kör det på samma turneringssida. Det visar senast publicerad ställning
+i en gemensam tabell, sorterad på **grupp och poäng fallande**. Vid lika
+poäng behålls källsidans ordning. Grupp, placering, namn, klubb, Elo,
+spelade partier, poäng och kvalitetspoäng visas. Prefixval, automatisk
+gruppidentifiering, uppdatering, visningsläge och utskrift fungerar som
+för bordslistan. Källans hela ställning visas, även ersatta spelare.
+
+## Gemensamma inställningar
+
 Bokmärket hämtar den senaste koden från det publika GitHub-repots `main`-gren
 och öppnar bordslistan i en ny flik. Tillåt popup-fönster för schack.se.
 

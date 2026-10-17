@@ -43,6 +43,8 @@ tr.groupstart td { border-top: 2px solid #dbe3d5; }
 td:nth-child(2) { color: #53634e; font-variant-numeric: tabular-nums; font-weight: 600; }
 .elo { color: #687864; font-variant-numeric: tabular-nums; text-align: right; }
 th.elo { text-align: right; }
+.standings .numeric, .standings .points { text-align: right; font-variant-numeric: tabular-nums; }
+.standings .points { font-weight: 700; }
 .paper-result { display: none; }
 #notice { font-size: 12px; line-height: 1.35; margin-bottom: 8px; color: #716344; }
 #notice:empty { display: none; }
@@ -106,4 +108,10 @@ dialog li { margin: 12px 0; line-height: 1.6; font-size: 14px; }
   td:nth-child(2) { color: black; }
   thead { display: table-header-group; }
   tr { break-inside: avoid; }
+  .standings th:nth-child(1) { width: 12%; }
+  .standings th:nth-child(2) { width: 7%; }
+  .standings th:nth-child(3) { width: 29%; }
+  .standings th:nth-child(4) { width: 20%; }
+  .standings th:nth-child(5), .standings th:nth-child(6) { width: 7%; }
+  .standings th:nth-child(7), .standings th:nth-child(8) { width: 9%; }
 }
