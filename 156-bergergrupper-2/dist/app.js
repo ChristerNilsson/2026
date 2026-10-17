@@ -21,8 +21,10 @@ function groupName(group) { return groupNames[group]; }
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ';
 function definitionName(group) { return group.name || (group.prefix ? group.prefix + group.number : ALPHABET[group.number - 1]); }
 function normalizePrefix(value) {
-  const normalized = value.trim();
-  if (normalized && !/[-_]$/.test(normalized)) throw Error('Prefix måste avslutas med - eller _. Lämna tomt för grupperna A, B, C osv.');
+  const normalized = value.trimStart().replace(/\s+/g, ' ');
+  if (!normalized.trim()) return '';
+  if (/[-_] $/.test(normalized)) return normalized.trimEnd();
+  if (!/[-_ ]$/.test(normalized)) throw Error('Prefix måste avslutas med -, _ eller mellanslag. Lämna tomt för grupperna A, B, C osv.');
   return normalized;
 }
 function setRoundsFromSource(doc) {
@@ -38,8 +40,11 @@ function setRoundsFromSource(doc) {
 }
 function parseGroupName(value) {
   const name = value.trim().replace(/\s+/g, ' ');
-  const match = name.match(/^([\p{L}][\p{L}\d]*[-_])([1-9]\d*)$/u);
-  if (match) return {prefix:match[1], number:Number(match[2]), name};
+  const match = name.match(/^([\p{L}][\p{L}\d]*[-_ ])([1-9]\d*|[\p{L}])$/u);
+  if (match) {
+    const number = /^\d+$/.test(match[2]) ? Number(match[2]) : ALPHABET.indexOf(match[2].toLocaleUpperCase('sv-SE')) + 1;
+    return number > 0 ? {prefix:match[1], number, name} : null;
+  }
   const letter = name.toLocaleUpperCase('sv-SE');
   const index = ALPHABET.indexOf(letter);
   return name.length === 1 && index >= 0 ? {prefix:'', number:index + 1, name} : null;

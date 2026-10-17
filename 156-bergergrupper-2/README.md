@@ -45,7 +45,10 @@ För W2 väljs W2-1–W2-5 automatiskt; W2-6 har annat deltagarantal.
 URL:en ger ett förslag på prefix. För att byta: skriv exempelvis **W1-**
 i textrutan **Prefix** och tryck **Enter**. Antalet grupper räknas fortfarande
 ut automatiskt från källsidans grupplänkar och deltagarantal.
-Prefix måste sluta med **-** eller **_**, exempelvis `W2-` eller `V6_`.
+Prefix måste sluta med **-**, **_** eller **mellanslag**, exempelvis `W2-`,
+`V6_` eller `Grupp ` (med ett mellanslag sist).
+Efter prefixet kan både tal och bokstäver användas: `Grupp 1`, `Grupp 2`
+eller `Grupp A`, `Grupp B` osv. Skriv `Grupp ` inklusive sista mellanslaget.
 Lämna prefixet **tomt** för grupper som heter `A`, `B`, `C` och så vidare.
 
 Välj rond, visa alla bord på skärm eller skriv ut listan med tomma
