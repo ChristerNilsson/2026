@@ -1,0 +1,2596 @@
+{
+  "formatVersion": 1,
+  "engineVersion": "2026-dubov-v3-corrected",
+  "name": "FIDE Dubov Open 2026",
+  "totalRounds": 5,
+  "initialColor": "W",
+  "winPoints": 1,
+  "drawPoints": 0.5,
+  "lossPoints": 0,
+  "pabPoints": 1,
+  "settingsFrozen": true,
+  "listClosed": true,
+  "highestPairedRound": 5,
+  "currentRound": 5,
+  "players": [
+    {
+      "id": "P_t9pzpcnu",
+      "tpn": 1,
+      "name": "Carl Magnusen",
+      "rating": 2448,
+      "title": "IM",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 2.5,
+      "opponents": [
+        "P_vydfb157",
+        "P_ox7v9at3",
+        "P_fvniz2iz",
+        "P_qkiqp7bx",
+        "P_ez32ngfq"
+      ],
+      "playedOpponents": [
+        "P_vydfb157",
+        "P_ox7v9at3",
+        "P_fvniz2iz",
+        "P_qkiqp7bx",
+        "P_ez32ngfq"
+      ],
+      "playedColors": [
+        "W",
+        "B",
+        "W",
+        "B",
+        "W"
+      ],
+      "roundColors": [
+        "w",
+        "b",
+        "w",
+        "b",
+        "w"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "U",
+        "-",
+        "U"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2180
+    },
+    {
+      "id": "P_o02ggqqg",
+      "tpn": 2,
+      "name": "Elena Rostova",
+      "rating": 2435,
+      "title": "IM",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 2.5,
+      "opponents": [
+        "P_i7psy8p9",
+        "P_1fgcikw9",
+        "P_z9qlddxj",
+        "P_cvqo075s",
+        "P_jyz3ca4k"
+      ],
+      "playedOpponents": [
+        "P_i7psy8p9",
+        "P_1fgcikw9",
+        "P_z9qlddxj",
+        "P_cvqo075s",
+        "P_jyz3ca4k"
+      ],
+      "playedColors": [
+        "B",
+        "W",
+        "B",
+        "W",
+        "B"
+      ],
+      "roundColors": [
+        "b",
+        "w",
+        "b",
+        "w",
+        "b"
+      ],
+      "floats": [
+        "-",
+        "U",
+        "-",
+        "-",
+        "U"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2178
+    },
+    {
+      "id": "P_3j6o4p2q",
+      "tpn": 3,
+      "name": "David Lindqvist",
+      "rating": 2412,
+      "title": "IM",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 2,
+      "opponents": [
+        "P_qkiqp7bx",
+        "P_bpfkvym0",
+        "P_88c7g3t5",
+        "P_8q7acwyu",
+        "P_0okmdwip"
+      ],
+      "playedOpponents": [
+        "P_qkiqp7bx",
+        "P_bpfkvym0",
+        "P_88c7g3t5",
+        "P_8q7acwyu",
+        "P_0okmdwip"
+      ],
+      "playedColors": [
+        "W",
+        "B",
+        "W",
+        "B",
+        "W"
+      ],
+      "roundColors": [
+        "w",
+        "b",
+        "w",
+        "b",
+        "w"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2149
+    },
+    {
+      "id": "P_cl89wign",
+      "tpn": 4,
+      "name": "Sophie van Dijk",
+      "rating": 2395,
+      "title": "WIM",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 0.5,
+      "opponents": [
+        "P_c23tj9xn",
+        "P_i7psy8p9",
+        "P_91ahcoob",
+        "P_z9qlddxj",
+        "P_b3dsc7xq"
+      ],
+      "playedOpponents": [
+        "P_c23tj9xn",
+        "P_i7psy8p9",
+        "P_91ahcoob",
+        "P_z9qlddxj",
+        "P_b3dsc7xq"
+      ],
+      "playedColors": [
+        "B",
+        "W",
+        "B",
+        "W",
+        "B"
+      ],
+      "roundColors": [
+        "b",
+        "w",
+        "b",
+        "w",
+        "b"
+      ],
+      "floats": [
+        "-",
+        "U",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2177
+    },
+    {
+      "id": "P_clurvjq5",
+      "tpn": 5,
+      "name": "Lars-Göran Månsson",
+      "rating": 2380,
+      "title": "FM",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 3,
+      "opponents": [
+        "P_88c7g3t5",
+        "P_fu0m1ush",
+        "P_0okmdwip",
+        "P_bpfkvym0",
+        "P_8q7acwyu"
+      ],
+      "playedOpponents": [
+        "P_88c7g3t5",
+        "P_fu0m1ush",
+        "P_0okmdwip",
+        "P_bpfkvym0",
+        "P_8q7acwyu"
+      ],
+      "playedColors": [
+        "W",
+        "B",
+        "W",
+        "B",
+        "W"
+      ],
+      "roundColors": [
+        "w",
+        "b",
+        "w",
+        "b",
+        "w"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2165
+    },
+    {
+      "id": "P_0edupigb",
+      "tpn": 6,
+      "name": "Adrian Popescu",
+      "rating": 2364,
+      "title": "FM",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 3.5,
+      "opponents": [
+        "P_f7ywgqi1",
+        "P_cmzeduqj",
+        "P_04c5452n",
+        "P_vufqz8zt",
+        "P_1fgcikw9"
+      ],
+      "playedOpponents": [
+        "P_f7ywgqi1",
+        "P_cmzeduqj",
+        "P_04c5452n",
+        "P_vufqz8zt",
+        "P_1fgcikw9"
+      ],
+      "playedColors": [
+        "B",
+        "W",
+        "B",
+        "W",
+        "B"
+      ],
+      "roundColors": [
+        "b",
+        "w",
+        "b",
+        "w",
+        "b"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "U",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2113
+    },
+    {
+      "id": "P_cmzeduqj",
+      "tpn": 7,
+      "name": "Anna Lindgren",
+      "rating": 2345,
+      "title": "WIM",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 3.5,
+      "opponents": [
+        "P_skb2m1q1",
+        "P_0edupigb",
+        "P_fu0m1ush",
+        "P_agyw997i",
+        "P_ox7v9at3"
+      ],
+      "playedOpponents": [
+        "P_skb2m1q1",
+        "P_0edupigb",
+        "P_fu0m1ush",
+        "P_agyw997i",
+        "P_ox7v9at3"
+      ],
+      "playedColors": [
+        "W",
+        "B",
+        "W",
+        "B",
+        "W"
+      ],
+      "roundColors": [
+        "w",
+        "b",
+        "w",
+        "b",
+        "w"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2164
+    },
+    {
+      "id": "P_8q7acwyu",
+      "tpn": 8,
+      "name": "Viktor Horvath",
+      "rating": 2330,
+      "title": "FM",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 2,
+      "opponents": [
+        "P_91ahcoob",
+        "P_cvqo075s",
+        "P_c23tj9xn",
+        "P_3j6o4p2q",
+        "P_clurvjq5"
+      ],
+      "playedOpponents": [
+        "P_91ahcoob",
+        "P_cvqo075s",
+        "P_c23tj9xn",
+        "P_3j6o4p2q",
+        "P_clurvjq5"
+      ],
+      "playedColors": [
+        "B",
+        "W",
+        "B",
+        "W",
+        "B"
+      ],
+      "roundColors": [
+        "b",
+        "w",
+        "b",
+        "w",
+        "b"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "U",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2252
+    },
+    {
+      "id": "P_b3dsc7xq",
+      "tpn": 9,
+      "name": "Julian Mercier",
+      "rating": 2315,
+      "title": "FM",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 1,
+      "opponents": [
+        "P_xg6wj055",
+        "P_ez32ngfq",
+        "P_bpfkvym0",
+        "P_vydfb157",
+        "P_cl89wign"
+      ],
+      "playedOpponents": [
+        "P_xg6wj055",
+        "P_ez32ngfq",
+        "P_bpfkvym0",
+        "P_vydfb157",
+        "P_cl89wign"
+      ],
+      "playedColors": [
+        "W",
+        "B",
+        "W",
+        "B",
+        "W"
+      ],
+      "roundColors": [
+        "w",
+        "b",
+        "w",
+        "b",
+        "w"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "U"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2223
+    },
+    {
+      "id": "P_ez32ngfq",
+      "tpn": 10,
+      "name": "Oskar Bergman",
+      "rating": 2298,
+      "title": "FM",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 2,
+      "opponents": [
+        "P_04c5452n",
+        "P_b3dsc7xq",
+        "P_cvqo075s",
+        "P_91ahcoob",
+        "P_t9pzpcnu"
+      ],
+      "playedOpponents": [
+        "P_04c5452n",
+        "P_b3dsc7xq",
+        "P_cvqo075s",
+        "P_91ahcoob",
+        "P_t9pzpcnu"
+      ],
+      "playedColors": [
+        "B",
+        "W",
+        "B",
+        "W",
+        "B"
+      ],
+      "roundColors": [
+        "b",
+        "w",
+        "b",
+        "w",
+        "b"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2226
+    },
+    {
+      "id": "P_cvqo075s",
+      "tpn": 11,
+      "name": "Katarina Novak",
+      "rating": 2280,
+      "title": "WIM",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 1.5,
+      "opponents": [
+        "P_fvniz2iz",
+        "P_8q7acwyu",
+        "P_ez32ngfq",
+        "P_o02ggqqg",
+        "P_qkiqp7bx"
+      ],
+      "playedOpponents": [
+        "P_fvniz2iz",
+        "P_8q7acwyu",
+        "P_ez32ngfq",
+        "P_o02ggqqg",
+        "P_qkiqp7bx"
+      ],
+      "playedColors": [
+        "W",
+        "B",
+        "W",
+        "B",
+        "W"
+      ],
+      "roundColors": [
+        "w",
+        "b",
+        "w",
+        "b",
+        "w"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2243
+    },
+    {
+      "id": "P_ox7v9at3",
+      "tpn": 12,
+      "name": "Lucas Silva",
+      "rating": 2265,
+      "title": "FM",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 3.5,
+      "opponents": [
+        "P_jyz3ca4k",
+        "P_t9pzpcnu",
+        "P_vufqz8zt",
+        "P_fb2ii6fp",
+        "P_cmzeduqj"
+      ],
+      "playedOpponents": [
+        "P_jyz3ca4k",
+        "P_t9pzpcnu",
+        "P_vufqz8zt",
+        "P_fb2ii6fp",
+        "P_cmzeduqj"
+      ],
+      "playedColors": [
+        "B",
+        "W",
+        "B",
+        "W",
+        "B"
+      ],
+      "roundColors": [
+        "b",
+        "w",
+        "b",
+        "w",
+        "b"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2109
+    },
+    {
+      "id": "P_1fgcikw9",
+      "tpn": 13,
+      "name": "Stefan Blomqvist",
+      "rating": 2248,
+      "title": "FM",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 4.5,
+      "opponents": [
+        "P_0okmdwip",
+        "P_o02ggqqg",
+        "P_agyw997i",
+        "P_fvniz2iz",
+        "P_0edupigb"
+      ],
+      "playedOpponents": [
+        "P_0okmdwip",
+        "P_o02ggqqg",
+        "P_agyw997i",
+        "P_fvniz2iz",
+        "P_0edupigb"
+      ],
+      "playedColors": [
+        "W",
+        "B",
+        "W",
+        "B",
+        "W"
+      ],
+      "roundColors": [
+        "w",
+        "b",
+        "w",
+        "b",
+        "w"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2129
+    },
+    {
+      "id": "P_fu0m1ush",
+      "tpn": 14,
+      "name": "Maria Santos",
+      "rating": 2230,
+      "title": "WFM",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 1.5,
+      "opponents": [
+        "P_fb2ii6fp",
+        "P_clurvjq5",
+        "P_cmzeduqj",
+        "P_04c5452n",
+        "P_f7ywgqi1"
+      ],
+      "playedOpponents": [
+        "P_fb2ii6fp",
+        "P_clurvjq5",
+        "P_cmzeduqj",
+        "P_04c5452n",
+        "P_f7ywgqi1"
+      ],
+      "playedColors": [
+        "B",
+        "W",
+        "B",
+        "W",
+        "B"
+      ],
+      "roundColors": [
+        "b",
+        "w",
+        "b",
+        "w",
+        "b"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2153
+    },
+    {
+      "id": "P_z9qlddxj",
+      "tpn": 15,
+      "name": "Alexander Berg",
+      "rating": 2215,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 2,
+      "opponents": [
+        "P_agyw997i",
+        "P_0okmdwip",
+        "P_o02ggqqg",
+        "P_cl89wign",
+        "P_bpfkvym0"
+      ],
+      "playedOpponents": [
+        "P_agyw997i",
+        "P_0okmdwip",
+        "P_o02ggqqg",
+        "P_cl89wign",
+        "P_bpfkvym0"
+      ],
+      "playedColors": [
+        "W",
+        "B",
+        "W",
+        "B",
+        "W"
+      ],
+      "roundColors": [
+        "w",
+        "b",
+        "w",
+        "b",
+        "w"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2174
+    },
+    {
+      "id": "P_bpfkvym0",
+      "tpn": 16,
+      "name": "Tariq Al-Mansoor",
+      "rating": 2198,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 1.5,
+      "opponents": [
+        "P_vufqz8zt",
+        "P_3j6o4p2q",
+        "P_b3dsc7xq",
+        "P_clurvjq5",
+        "P_z9qlddxj"
+      ],
+      "playedOpponents": [
+        "P_vufqz8zt",
+        "P_3j6o4p2q",
+        "P_b3dsc7xq",
+        "P_clurvjq5",
+        "P_z9qlddxj"
+      ],
+      "playedColors": [
+        "B",
+        "W",
+        "B",
+        "W",
+        "B"
+      ],
+      "roundColors": [
+        "b",
+        "w",
+        "b",
+        "w",
+        "b"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "U"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2235
+    },
+    {
+      "id": "P_vydfb157",
+      "tpn": 17,
+      "name": "Jan Jansen",
+      "rating": 2182,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 2,
+      "opponents": [
+        "P_t9pzpcnu",
+        "P_jyz3ca4k",
+        "P_f7ywgqi1",
+        "P_b3dsc7xq",
+        "P_i7psy8p9"
+      ],
+      "playedOpponents": [
+        "P_t9pzpcnu",
+        "P_jyz3ca4k",
+        "P_f7ywgqi1",
+        "P_b3dsc7xq",
+        "P_i7psy8p9"
+      ],
+      "playedColors": [
+        "B",
+        "W",
+        "B",
+        "W",
+        "B"
+      ],
+      "roundColors": [
+        "b",
+        "w",
+        "b",
+        "w",
+        "b"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2201
+    },
+    {
+      "id": "P_i7psy8p9",
+      "tpn": 18,
+      "name": "Karin Wallin",
+      "rating": 2165,
+      "title": "WFM",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 1,
+      "opponents": [
+        "P_o02ggqqg",
+        "P_cl89wign",
+        "P_skb2m1q1",
+        "P_88c7g3t5",
+        "P_vydfb157"
+      ],
+      "playedOpponents": [
+        "P_o02ggqqg",
+        "P_cl89wign",
+        "P_skb2m1q1",
+        "P_88c7g3t5",
+        "P_vydfb157"
+      ],
+      "playedColors": [
+        "W",
+        "B",
+        "W",
+        "B",
+        "W"
+      ],
+      "roundColors": [
+        "w",
+        "b",
+        "w",
+        "b",
+        "w"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2240
+    },
+    {
+      "id": "P_qkiqp7bx",
+      "tpn": 19,
+      "name": "Oliver Schmidt",
+      "rating": 2148,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 2.5,
+      "opponents": [
+        "P_3j6o4p2q",
+        "P_vufqz8zt",
+        "P_jyz3ca4k",
+        "P_t9pzpcnu",
+        "P_cvqo075s"
+      ],
+      "playedOpponents": [
+        "P_3j6o4p2q",
+        "P_vufqz8zt",
+        "P_jyz3ca4k",
+        "P_t9pzpcnu",
+        "P_cvqo075s"
+      ],
+      "playedColors": [
+        "B",
+        "W",
+        "B",
+        "W",
+        "B"
+      ],
+      "roundColors": [
+        "b",
+        "w",
+        "b",
+        "w",
+        "b"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2195
+    },
+    {
+      "id": "P_c23tj9xn",
+      "tpn": 20,
+      "name": "Dmitry Sokolov",
+      "rating": 2130,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 3,
+      "opponents": [
+        "P_cl89wign",
+        "P_agyw997i",
+        "P_8q7acwyu",
+        "P_xg6wj055",
+        "P_04c5452n"
+      ],
+      "playedOpponents": [
+        "P_cl89wign",
+        "P_agyw997i",
+        "P_8q7acwyu",
+        "P_xg6wj055",
+        "P_04c5452n"
+      ],
+      "playedColors": [
+        "W",
+        "B",
+        "W",
+        "B",
+        "W"
+      ],
+      "roundColors": [
+        "w",
+        "b",
+        "w",
+        "b",
+        "w"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2135
+    },
+    {
+      "id": "P_88c7g3t5",
+      "tpn": 21,
+      "name": "Frederik Hansen",
+      "rating": 2112,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 2.5,
+      "opponents": [
+        "P_clurvjq5",
+        "P_fb2ii6fp",
+        "P_3j6o4p2q",
+        "P_i7psy8p9",
+        "P_91ahcoob"
+      ],
+      "playedOpponents": [
+        "P_clurvjq5",
+        "P_fb2ii6fp",
+        "P_3j6o4p2q",
+        "P_i7psy8p9",
+        "P_91ahcoob"
+      ],
+      "playedColors": [
+        "B",
+        "W",
+        "B",
+        "W",
+        "B"
+      ],
+      "roundColors": [
+        "b",
+        "w",
+        "b",
+        "w",
+        "b"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "U",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2187
+    },
+    {
+      "id": "P_f7ywgqi1",
+      "tpn": 22,
+      "name": "Yuki Tanaka",
+      "rating": 2095,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 2.5,
+      "opponents": [
+        "P_0edupigb",
+        "P_skb2m1q1",
+        "P_vydfb157",
+        "P_0okmdwip",
+        "P_fu0m1ush"
+      ],
+      "playedOpponents": [
+        "P_0edupigb",
+        "P_skb2m1q1",
+        "P_vydfb157",
+        "P_0okmdwip",
+        "P_fu0m1ush"
+      ],
+      "playedColors": [
+        "W",
+        "B",
+        "W",
+        "B",
+        "W"
+      ],
+      "roundColors": [
+        "w",
+        "b",
+        "w",
+        "b",
+        "w"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2162
+    },
+    {
+      "id": "P_skb2m1q1",
+      "tpn": 23,
+      "name": "Nathalie Dubois",
+      "rating": 2078,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 3,
+      "opponents": [
+        "P_cmzeduqj",
+        "P_f7ywgqi1",
+        "P_i7psy8p9",
+        "P_jyz3ca4k",
+        "P_fb2ii6fp"
+      ],
+      "playedOpponents": [
+        "P_cmzeduqj",
+        "P_f7ywgqi1",
+        "P_i7psy8p9",
+        "P_jyz3ca4k",
+        "P_fb2ii6fp"
+      ],
+      "playedColors": [
+        "B",
+        "W",
+        "B",
+        "W",
+        "B"
+      ],
+      "roundColors": [
+        "b",
+        "w",
+        "b",
+        "w",
+        "b"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2101
+    },
+    {
+      "id": "P_91ahcoob",
+      "tpn": 24,
+      "name": "Mikael Petersson",
+      "rating": 2060,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 2.5,
+      "opponents": [
+        "P_8q7acwyu",
+        "P_fvniz2iz",
+        "P_cl89wign",
+        "P_ez32ngfq",
+        "P_88c7g3t5"
+      ],
+      "playedOpponents": [
+        "P_8q7acwyu",
+        "P_fvniz2iz",
+        "P_cl89wign",
+        "P_ez32ngfq",
+        "P_88c7g3t5"
+      ],
+      "playedColors": [
+        "W",
+        "B",
+        "W",
+        "B",
+        "W"
+      ],
+      "roundColors": [
+        "w",
+        "b",
+        "w",
+        "b",
+        "w"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2228
+    },
+    {
+      "id": "P_xg6wj055",
+      "tpn": 25,
+      "name": "Gabriel Rossi",
+      "rating": 2042,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 3.5,
+      "opponents": [
+        "P_b3dsc7xq",
+        "P_04c5452n",
+        "P_fb2ii6fp",
+        "P_c23tj9xn",
+        "P_fvniz2iz"
+      ],
+      "playedOpponents": [
+        "P_b3dsc7xq",
+        "P_04c5452n",
+        "P_fb2ii6fp",
+        "P_c23tj9xn",
+        "P_fvniz2iz"
+      ],
+      "playedColors": [
+        "B",
+        "W",
+        "B",
+        "W",
+        "B"
+      ],
+      "roundColors": [
+        "b",
+        "w",
+        "b",
+        "w",
+        "b"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2079
+    },
+    {
+      "id": "P_04c5452n",
+      "tpn": 26,
+      "name": "Sarah Jenkins",
+      "rating": 2025,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 3,
+      "opponents": [
+        "P_ez32ngfq",
+        "P_xg6wj055",
+        "P_0edupigb",
+        "P_fu0m1ush",
+        "P_c23tj9xn"
+      ],
+      "playedOpponents": [
+        "P_ez32ngfq",
+        "P_xg6wj055",
+        "P_0edupigb",
+        "P_fu0m1ush",
+        "P_c23tj9xn"
+      ],
+      "playedColors": [
+        "W",
+        "B",
+        "W",
+        "B",
+        "B"
+      ],
+      "roundColors": [
+        "w",
+        "b",
+        "w",
+        "b",
+        "b"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2213
+    },
+    {
+      "id": "P_fvniz2iz",
+      "tpn": 27,
+      "name": "Arno De Smet",
+      "rating": 2005,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 2.5,
+      "opponents": [
+        "P_cvqo075s",
+        "P_91ahcoob",
+        "P_t9pzpcnu",
+        "P_1fgcikw9",
+        "P_xg6wj055"
+      ],
+      "playedOpponents": [
+        "P_cvqo075s",
+        "P_91ahcoob",
+        "P_t9pzpcnu",
+        "P_1fgcikw9",
+        "P_xg6wj055"
+      ],
+      "playedColors": [
+        "B",
+        "W",
+        "B",
+        "W",
+        "W"
+      ],
+      "roundColors": [
+        "b",
+        "w",
+        "b",
+        "w",
+        "w"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2216
+    },
+    {
+      "id": "P_jyz3ca4k",
+      "tpn": 28,
+      "name": "Lukas Weber",
+      "rating": 1982,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 4,
+      "opponents": [
+        "P_ox7v9at3",
+        "P_vydfb157",
+        "P_qkiqp7bx",
+        "P_skb2m1q1",
+        "P_o02ggqqg"
+      ],
+      "playedOpponents": [
+        "P_ox7v9at3",
+        "P_vydfb157",
+        "P_qkiqp7bx",
+        "P_skb2m1q1",
+        "P_o02ggqqg"
+      ],
+      "playedColors": [
+        "W",
+        "B",
+        "W",
+        "B",
+        "W"
+      ],
+      "roundColors": [
+        "w",
+        "b",
+        "w",
+        "b",
+        "w"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2222
+    },
+    {
+      "id": "P_0okmdwip",
+      "tpn": 29,
+      "name": "Hanna Lind",
+      "rating": 1955,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 2,
+      "opponents": [
+        "P_1fgcikw9",
+        "P_z9qlddxj",
+        "P_clurvjq5",
+        "P_f7ywgqi1",
+        "P_3j6o4p2q"
+      ],
+      "playedOpponents": [
+        "P_1fgcikw9",
+        "P_z9qlddxj",
+        "P_clurvjq5",
+        "P_f7ywgqi1",
+        "P_3j6o4p2q"
+      ],
+      "playedColors": [
+        "B",
+        "W",
+        "B",
+        "W",
+        "B"
+      ],
+      "roundColors": [
+        "b",
+        "w",
+        "b",
+        "w",
+        "b"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2270
+    },
+    {
+      "id": "P_fb2ii6fp",
+      "tpn": 30,
+      "name": "Marco Bellini",
+      "rating": 1920,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 2,
+      "opponents": [
+        "P_fu0m1ush",
+        "P_88c7g3t5",
+        "P_xg6wj055",
+        "P_ox7v9at3",
+        "P_skb2m1q1"
+      ],
+      "playedOpponents": [
+        "P_fu0m1ush",
+        "P_88c7g3t5",
+        "P_xg6wj055",
+        "P_ox7v9at3",
+        "P_skb2m1q1"
+      ],
+      "playedColors": [
+        "W",
+        "B",
+        "W",
+        "B",
+        "W"
+      ],
+      "roundColors": [
+        "w",
+        "b",
+        "w",
+        "b",
+        "w"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2145
+    },
+    {
+      "id": "P_agyw997i",
+      "tpn": 31,
+      "name": "Per-Olof Sjöberg",
+      "rating": 1885,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 4,
+      "opponents": [
+        "P_z9qlddxj",
+        "P_c23tj9xn",
+        "P_1fgcikw9",
+        "P_cmzeduqj",
+        "P_vufqz8zt"
+      ],
+      "playedOpponents": [
+        "P_z9qlddxj",
+        "P_c23tj9xn",
+        "P_1fgcikw9",
+        "P_cmzeduqj",
+        "P_vufqz8zt"
+      ],
+      "playedColors": [
+        "B",
+        "W",
+        "B",
+        "W",
+        "B"
+      ],
+      "roundColors": [
+        "b",
+        "w",
+        "b",
+        "w",
+        "b"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2158
+    },
+    {
+      "id": "P_vufqz8zt",
+      "tpn": 32,
+      "name": "Tobias Holm",
+      "rating": 1852,
+      "title": "",
+      "active": true,
+      "nextRoundStatus": "pair",
+      "score": 3,
+      "opponents": [
+        "P_bpfkvym0",
+        "P_qkiqp7bx",
+        "P_ox7v9at3",
+        "P_0edupigb",
+        "P_agyw997i"
+      ],
+      "playedOpponents": [
+        "P_bpfkvym0",
+        "P_qkiqp7bx",
+        "P_ox7v9at3",
+        "P_0edupigb",
+        "P_agyw997i"
+      ],
+      "playedColors": [
+        "W",
+        "B",
+        "W",
+        "B",
+        "W"
+      ],
+      "roundColors": [
+        "w",
+        "b",
+        "w",
+        "b",
+        "w"
+      ],
+      "floats": [
+        "-",
+        "-",
+        "-",
+        "-",
+        "-"
+      ],
+      "hadPAB": false,
+      "hadUnplayedWin": false,
+      "unplayedCount": 0,
+      "aro": 2172
+    }
+  ],
+  "rounds": [
+    {
+      "roundNumber": 1,
+      "pairings": [
+        {
+          "kind": "game",
+          "board": 1,
+          "whiteId": "P_t9pzpcnu",
+          "blackId": "P_vydfb157",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 2,
+          "whiteId": "P_i7psy8p9",
+          "blackId": "P_o02ggqqg",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 3,
+          "whiteId": "P_3j6o4p2q",
+          "blackId": "P_qkiqp7bx",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 4,
+          "whiteId": "P_c23tj9xn",
+          "blackId": "P_cl89wign",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 5,
+          "whiteId": "P_clurvjq5",
+          "blackId": "P_88c7g3t5",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 6,
+          "whiteId": "P_f7ywgqi1",
+          "blackId": "P_0edupigb",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 7,
+          "whiteId": "P_cmzeduqj",
+          "blackId": "P_skb2m1q1",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 8,
+          "whiteId": "P_91ahcoob",
+          "blackId": "P_8q7acwyu",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 9,
+          "whiteId": "P_b3dsc7xq",
+          "blackId": "P_xg6wj055",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 10,
+          "whiteId": "P_04c5452n",
+          "blackId": "P_ez32ngfq",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 11,
+          "whiteId": "P_cvqo075s",
+          "blackId": "P_fvniz2iz",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 12,
+          "whiteId": "P_jyz3ca4k",
+          "blackId": "P_ox7v9at3",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 13,
+          "whiteId": "P_1fgcikw9",
+          "blackId": "P_0okmdwip",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 14,
+          "whiteId": "P_fb2ii6fp",
+          "blackId": "P_fu0m1ush",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 15,
+          "whiteId": "P_z9qlddxj",
+          "blackId": "P_agyw997i",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 16,
+          "whiteId": "P_vufqz8zt",
+          "blackId": "P_bpfkvym0",
+          "result": "1-0"
+        }
+      ],
+      "upfloaterIds": [],
+      "audit": {
+        "engineVersion": "2026-dubov-v3-corrected",
+        "stats": {
+          "nodes": 2,
+          "elapsedMs": 1.0999999642372131
+        },
+        "brackets": [
+          {
+            "score": 0,
+            "residents": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32
+            ],
+            "upfloaters": [],
+            "shifters": [],
+            "C7_violations": 16
+          }
+        ]
+      }
+    },
+    {
+      "roundNumber": 2,
+      "pairings": [
+        {
+          "kind": "game",
+          "board": 1,
+          "whiteId": "P_ox7v9at3",
+          "blackId": "P_t9pzpcnu",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 2,
+          "whiteId": "P_0edupigb",
+          "blackId": "P_cmzeduqj",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 3,
+          "whiteId": "P_qkiqp7bx",
+          "blackId": "P_vufqz8zt",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 4,
+          "whiteId": "P_agyw997i",
+          "blackId": "P_c23tj9xn",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 5,
+          "whiteId": "P_xg6wj055",
+          "blackId": "P_04c5452n",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 6,
+          "whiteId": "P_o02ggqqg",
+          "blackId": "P_1fgcikw9",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 7,
+          "whiteId": "P_fu0m1ush",
+          "blackId": "P_clurvjq5",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 8,
+          "whiteId": "P_8q7acwyu",
+          "blackId": "P_cvqo075s",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 9,
+          "whiteId": "P_88c7g3t5",
+          "blackId": "P_fb2ii6fp",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 10,
+          "whiteId": "P_fvniz2iz",
+          "blackId": "P_91ahcoob",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 11,
+          "whiteId": "P_cl89wign",
+          "blackId": "P_i7psy8p9",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 12,
+          "whiteId": "P_bpfkvym0",
+          "blackId": "P_3j6o4p2q",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 13,
+          "whiteId": "P_ez32ngfq",
+          "blackId": "P_b3dsc7xq",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 14,
+          "whiteId": "P_0okmdwip",
+          "blackId": "P_z9qlddxj",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 15,
+          "whiteId": "P_vydfb157",
+          "blackId": "P_jyz3ca4k",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 16,
+          "whiteId": "P_skb2m1q1",
+          "blackId": "P_f7ywgqi1",
+          "result": "1-0"
+        }
+      ],
+      "upfloaterIds": [
+        "P_o02ggqqg",
+        "P_cl89wign"
+      ],
+      "audit": {
+        "engineVersion": "2026-dubov-v3-corrected",
+        "stats": {
+          "nodes": 104,
+          "elapsedMs": 6
+        },
+        "brackets": [
+          {
+            "score": 1,
+            "residents": [
+              1,
+              6,
+              7,
+              12,
+              13,
+              19,
+              20,
+              25,
+              26,
+              31,
+              32
+            ],
+            "upfloaters": [
+              2
+            ],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 0.5,
+            "residents": [
+              5,
+              8,
+              11,
+              14,
+              18,
+              21,
+              24,
+              27,
+              30
+            ],
+            "upfloaters": [
+              4
+            ],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 0,
+            "residents": [
+              3,
+              9,
+              10,
+              15,
+              16,
+              17,
+              22,
+              23,
+              28,
+              29
+            ],
+            "upfloaters": [],
+            "shifters": [],
+            "C7_violations": 0
+          }
+        ]
+      }
+    },
+    {
+      "roundNumber": 3,
+      "pairings": [
+        {
+          "kind": "game",
+          "board": 1,
+          "whiteId": "P_vufqz8zt",
+          "blackId": "P_ox7v9at3",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 2,
+          "whiteId": "P_1fgcikw9",
+          "blackId": "P_agyw997i",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 3,
+          "whiteId": "P_04c5452n",
+          "blackId": "P_0edupigb",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 4,
+          "whiteId": "P_cmzeduqj",
+          "blackId": "P_fu0m1ush",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 5,
+          "whiteId": "P_fb2ii6fp",
+          "blackId": "P_xg6wj055",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 6,
+          "whiteId": "P_t9pzpcnu",
+          "blackId": "P_fvniz2iz",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 7,
+          "whiteId": "P_c23tj9xn",
+          "blackId": "P_8q7acwyu",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 8,
+          "whiteId": "P_cvqo075s",
+          "blackId": "P_ez32ngfq",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 9,
+          "whiteId": "P_i7psy8p9",
+          "blackId": "P_skb2m1q1",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 10,
+          "whiteId": "P_jyz3ca4k",
+          "blackId": "P_qkiqp7bx",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 11,
+          "whiteId": "P_3j6o4p2q",
+          "blackId": "P_88c7g3t5",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 12,
+          "whiteId": "P_z9qlddxj",
+          "blackId": "P_o02ggqqg",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 13,
+          "whiteId": "P_91ahcoob",
+          "blackId": "P_cl89wign",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 14,
+          "whiteId": "P_clurvjq5",
+          "blackId": "P_0okmdwip",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 15,
+          "whiteId": "P_b3dsc7xq",
+          "blackId": "P_bpfkvym0",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 16,
+          "whiteId": "P_f7ywgqi1",
+          "blackId": "P_vydfb157",
+          "result": "1-0"
+        }
+      ],
+      "upfloaterIds": [
+        "P_t9pzpcnu",
+        "P_88c7g3t5"
+      ],
+      "audit": {
+        "engineVersion": "2026-dubov-v3-corrected",
+        "stats": {
+          "nodes": 78,
+          "elapsedMs": 5.300000011920929
+        },
+        "brackets": [
+          {
+            "score": 2,
+            "residents": [
+              12,
+              13,
+              31,
+              32
+            ],
+            "upfloaters": [],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 1.5,
+            "residents": [
+              6,
+              7,
+              14,
+              25,
+              26,
+              27,
+              30
+            ],
+            "upfloaters": [
+              1
+            ],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 1,
+            "residents": [
+              3,
+              8,
+              10,
+              11,
+              18,
+              19,
+              20,
+              23,
+              28
+            ],
+            "upfloaters": [
+              21
+            ],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 0.5,
+            "residents": [
+              2,
+              4,
+              5,
+              15,
+              24,
+              29
+            ],
+            "upfloaters": [],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 0,
+            "residents": [
+              9,
+              16,
+              17,
+              22
+            ],
+            "upfloaters": [],
+            "shifters": [],
+            "C7_violations": 0
+          }
+        ]
+      }
+    },
+    {
+      "roundNumber": 4,
+      "pairings": [
+        {
+          "kind": "game",
+          "board": 1,
+          "whiteId": "P_0edupigb",
+          "blackId": "P_vufqz8zt",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 2,
+          "whiteId": "P_agyw997i",
+          "blackId": "P_cmzeduqj",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 3,
+          "whiteId": "P_fvniz2iz",
+          "blackId": "P_1fgcikw9",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 4,
+          "whiteId": "P_ox7v9at3",
+          "blackId": "P_fb2ii6fp",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 5,
+          "whiteId": "P_xg6wj055",
+          "blackId": "P_c23tj9xn",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 6,
+          "whiteId": "P_skb2m1q1",
+          "blackId": "P_jyz3ca4k",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 7,
+          "whiteId": "P_o02ggqqg",
+          "blackId": "P_cvqo075s",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 8,
+          "whiteId": "P_ez32ngfq",
+          "blackId": "P_91ahcoob",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 9,
+          "whiteId": "P_fu0m1ush",
+          "blackId": "P_04c5452n",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 10,
+          "whiteId": "P_8q7acwyu",
+          "blackId": "P_3j6o4p2q",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 11,
+          "whiteId": "P_qkiqp7bx",
+          "blackId": "P_t9pzpcnu",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 12,
+          "whiteId": "P_bpfkvym0",
+          "blackId": "P_clurvjq5",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 13,
+          "whiteId": "P_88c7g3t5",
+          "blackId": "P_i7psy8p9",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 14,
+          "whiteId": "P_0okmdwip",
+          "blackId": "P_f7ywgqi1",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 15,
+          "whiteId": "P_cl89wign",
+          "blackId": "P_z9qlddxj",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 16,
+          "whiteId": "P_vydfb157",
+          "blackId": "P_b3dsc7xq",
+          "result": "1-0"
+        }
+      ],
+      "upfloaterIds": [
+        "P_0edupigb",
+        "P_8q7acwyu"
+      ],
+      "audit": {
+        "engineVersion": "2026-dubov-v3-corrected",
+        "stats": {
+          "nodes": 65,
+          "elapsedMs": 4.300000011920929
+        },
+        "brackets": [
+          {
+            "score": 3,
+            "residents": [
+              32
+            ],
+            "upfloaters": [
+              6
+            ],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 2.5,
+            "residents": [
+              7,
+              13,
+              27,
+              31
+            ],
+            "upfloaters": [],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 2,
+            "residents": [
+              12,
+              20,
+              23,
+              25,
+              28,
+              30
+            ],
+            "upfloaters": [],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 1.5,
+            "residents": [
+              2,
+              3,
+              10,
+              11,
+              14,
+              24,
+              26
+            ],
+            "upfloaters": [
+              8
+            ],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 1,
+            "residents": [
+              1,
+              5,
+              16,
+              18,
+              19,
+              21,
+              22,
+              29
+            ],
+            "upfloaters": [],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 0.5,
+            "residents": [
+              4,
+              15
+            ],
+            "upfloaters": [],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 0,
+            "residents": [
+              9,
+              17
+            ],
+            "upfloaters": [],
+            "shifters": [],
+            "C7_violations": 0
+          }
+        ]
+      }
+    },
+    {
+      "roundNumber": 5,
+      "pairings": [
+        {
+          "kind": "game",
+          "board": 1,
+          "whiteId": "P_1fgcikw9",
+          "blackId": "P_0edupigb",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 2,
+          "whiteId": "P_cmzeduqj",
+          "blackId": "P_ox7v9at3",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 3,
+          "whiteId": "P_vufqz8zt",
+          "blackId": "P_agyw997i",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 4,
+          "whiteId": "P_jyz3ca4k",
+          "blackId": "P_o02ggqqg",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 5,
+          "whiteId": "P_c23tj9xn",
+          "blackId": "P_04c5452n",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 6,
+          "whiteId": "P_fvniz2iz",
+          "blackId": "P_xg6wj055",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 7,
+          "whiteId": "P_clurvjq5",
+          "blackId": "P_8q7acwyu",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 8,
+          "whiteId": "P_91ahcoob",
+          "blackId": "P_88c7g3t5",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 9,
+          "whiteId": "P_fb2ii6fp",
+          "blackId": "P_skb2m1q1",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 10,
+          "whiteId": "P_t9pzpcnu",
+          "blackId": "P_ez32ngfq",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 11,
+          "whiteId": "P_3j6o4p2q",
+          "blackId": "P_0okmdwip",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 12,
+          "whiteId": "P_cvqo075s",
+          "blackId": "P_qkiqp7bx",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 13,
+          "whiteId": "P_f7ywgqi1",
+          "blackId": "P_fu0m1ush",
+          "result": "1-0"
+        },
+        {
+          "kind": "game",
+          "board": 14,
+          "whiteId": "P_z9qlddxj",
+          "blackId": "P_bpfkvym0",
+          "result": "½-½"
+        },
+        {
+          "kind": "game",
+          "board": 15,
+          "whiteId": "P_i7psy8p9",
+          "blackId": "P_vydfb157",
+          "result": "0-1"
+        },
+        {
+          "kind": "game",
+          "board": 16,
+          "whiteId": "P_b3dsc7xq",
+          "blackId": "P_cl89wign",
+          "result": "1-0"
+        }
+      ],
+      "upfloaterIds": [
+        "P_o02ggqqg",
+        "P_t9pzpcnu",
+        "P_bpfkvym0",
+        "P_b3dsc7xq"
+      ],
+      "audit": {
+        "engineVersion": "2026-dubov-v3-corrected",
+        "stats": {
+          "nodes": 77,
+          "elapsedMs": 4.5
+        },
+        "brackets": [
+          {
+            "score": 3.5,
+            "residents": [
+              6,
+              13
+            ],
+            "upfloaters": [],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 3,
+            "residents": [
+              7,
+              12,
+              28,
+              31,
+              32
+            ],
+            "upfloaters": [
+              2
+            ],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 2.5,
+            "residents": [
+              20,
+              25,
+              26,
+              27
+            ],
+            "upfloaters": [],
+            "shifters": [
+              20,
+              25
+            ],
+            "C7_violations": 2
+          },
+          {
+            "score": 2,
+            "residents": [
+              5,
+              8,
+              10,
+              21,
+              23,
+              24,
+              30
+            ],
+            "upfloaters": [
+              1
+            ],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 1.5,
+            "residents": [
+              3,
+              11,
+              14,
+              15,
+              19,
+              22,
+              29
+            ],
+            "upfloaters": [
+              16
+            ],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 1,
+            "residents": [
+              17,
+              18
+            ],
+            "upfloaters": [],
+            "shifters": [],
+            "C7_violations": 0
+          },
+          {
+            "score": 0.5,
+            "residents": [
+              4
+            ],
+            "upfloaters": [
+              9
+            ],
+            "shifters": [],
+            "C7_violations": 0
+          }
+        ]
+      }
+    }
+  ],
+  "activePairings": [],
+  "activeUpfloaterIds": [],
+  "activeAudit": null
+}
