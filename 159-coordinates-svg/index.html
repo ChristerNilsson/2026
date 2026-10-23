@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Koordinater till schackbräde</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 32px; color: #000; background: #f3f3f3; font-family: Arial, sans-serif; }
+    h1 { font-size: 24px; }
+    p { line-height: 1.5; }
+    main { width: fit-content; max-width: 100%; }
+    .parts { overflow-x: auto; padding: 16px; background: white; }
+    svg { display: block; width: 240mm; height: 12mm; margin: 12px 0; overflow: visible; }
+    svg text { font-family: Arial, sans-serif; font-size: 6px; fill: #000; text-anchor: middle; dominant-baseline: central; }
+    button { padding: 10px 18px; font: inherit; cursor: pointer; }
+    @page { size: A4 landscape; margin: 15mm; }
+    @media print {
+      body { margin: 0; background: white; }
+      h1, p, button { display: none; }
+      main { max-width: none; }
+      .parts { overflow: visible; padding: 0; }
+      svg { margin: 0 0 10mm; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Koordinater till schackbräde</h1>
+    <p>Fyra separata remsor. Arial, svart, rutstorlek 30 mm och teckenstorlek 20 % (6 mm).<br>
+      Varje remsa är 240 mm lång. Skriv ut i faktisk storlek (100 %), utan sidhuvud och sidfot.
+      Sifferremsorna kan placeras längs brädets sidor.</p>
+    <button type="button" onclick="window.print()">Skriv ut</button>
+    <div class="parts" id="parts"></div>
+  </main>
+  <script>
+    const ns = 'http://www.w3.org/2000/svg';
+    const sequences = ['abcdefgh', 'hgfedcba', '12345678', '87654321'];
+    for (const sequence of sequences) {
+      const svg = document.createElementNS(ns, 'svg');
+      svg.setAttribute('xmlns', ns);
+      svg.setAttribute('width', '240mm');
+      svg.setAttribute('height', '12mm');
+      svg.setAttribute('viewBox', '0 0 240 12');
+      svg.setAttribute('role', 'img');
+      svg.setAttribute('aria-label', sequence);
+      // En SVG-enhet motsvarar 1 mm. Tecknens centrum ligger 30 mm isär.
+      [...sequence].forEach((character, index) => {
+        const text = document.createElementNS(ns, 'text');
+        text.setAttribute('x', 15 + index * 30);
+        text.setAttribute('y', '6');
+        if (/^[0-9]+$/.test(sequence)) {
+          text.setAttribute('transform', `rotate(90 ${15 + index * 30} 6)`);
+        }
+        text.textContent = character;
+        svg.appendChild(text);
+      });
+      document.getElementById('parts').appendChild(svg);
+    }
+  </script>
+</body>
+</html>
