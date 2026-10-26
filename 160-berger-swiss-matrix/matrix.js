@@ -19,13 +19,39 @@ function buildMeetings(data) {
   return meetings;
 }
 
-if (typeof module !== 'undefined') module.exports = { buildMeetings };
+function averageDistances(data) {
+  const players = new Map(data.players.map(player => [player.id, player]));
+  let games = 0, cardinalSum = 0, eloSum = 0, eloGames = 0;
+  for (const round of data.rounds) {
+    for (const game of round.pairings) {
+      const white = players.get(game.whiteId ?? game.white);
+      const black = players.get(game.blackId ?? game.black);
+      if ((game.kind && game.kind !== 'game') || !white || !black) continue;
+      games++;
+      cardinalSum += Math.abs(white.tpn - black.tpn);
+      if (Number.isFinite(white.rating) && Number.isFinite(black.rating)) {
+        eloSum += Math.abs(white.rating - black.rating);
+        eloGames++;
+      }
+    }
+  }
+  return { games, cardinal: games ? cardinalSum / games : null,
+    elo: eloGames ? eloSum / eloGames : null, eloGames };
+}
+
+if (typeof module !== 'undefined') module.exports = { buildMeetings, averageDistances };
 async function startMatrix() {
   const response = await fetch('./Berger-Swiss_Championship_final.json', { cache: 'no-store' });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   const data = await response.json();
   const players = [...data.players].sort((a, b) => a.tpn - b.tpn);
   const meetings = buildMeetings(data);
+  const distances = averageDistances(data);
+  const format = (value, decimals) => value == null ? '–' : value.toLocaleString('sv-SE', {
+    minimumFractionDigits: decimals, maximumFractionDigits: decimals
+  });
+  document.getElementById('distances').textContent =
+    `Medelavstånd för alla ${distances.games} partier: kardinaltal (startnummer) ${format(distances.cardinal, 1)} · Elo ${format(distances.elo, 0)}${distances.eloGames !== distances.games ? ` (${distances.eloGames} partier med Elo)` : ''}.`;
   const search = document.getElementById('search');
   const roundSelect = document.getElementById('round');
   document.getElementById('title').textContent = data.name;
