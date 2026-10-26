@@ -20,14 +20,16 @@ function buildMeetings(data) {
 }
 
 if (typeof module !== 'undefined') module.exports = { buildMeetings };
-if (typeof document !== 'undefined') {
-  const data = JSON.parse(document.getElementById('tournament-data').textContent);
+async function startMatrix() {
+  const response = await fetch('./Berger-Swiss_Championship_final.json', { cache: 'no-store' });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const data = await response.json();
   const players = [...data.players].sort((a, b) => a.tpn - b.tpn);
   const meetings = buildMeetings(data);
   const search = document.getElementById('search');
   const roundSelect = document.getElementById('round');
   document.getElementById('title').textContent = data.name;
-  document.title = `M?tesmatris ? ${data.name}`;
+  document.title = `Mötesmatris · ${data.name}`;
   for (const number of [...new Set(data.rounds.map(r => r.roundNumber ?? r.number))].sort((a, b) => a - b)) {
     roundSelect.add(new Option(`Rond ${number}`, number));
   }
@@ -80,4 +82,16 @@ if (typeof document !== 'undefined') {
     link.href = url; link.download = 'motesmatris.csv'; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
   });
   render();
+}
+
+if (typeof document !== 'undefined') {
+  const controls = ['search', 'round', 'export'].map(id => document.getElementById(id));
+  controls.forEach(control => { control.disabled = true; });
+  startMatrix().then(() => {
+    controls.forEach(control => { control.disabled = false; });
+  }).catch(error => {
+    document.getElementById('summary').textContent =
+      'Kunde inte ladda JSON-filen. Kontrollera att filen finns och att sidan visas via en webbserver (t.ex. GitHub Pages eller localhost).';
+    console.error('Kunde inte ladda turneringen:', error);
+  });
 }

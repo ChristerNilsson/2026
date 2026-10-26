@@ -243,45 +243,45 @@
     {
       "kind": "berger",
       "members": [
+        5,
         3,
         1,
         11,
-        5,
-        7,
-        9
+        9,
+        7
       ]
     },
     {
       "kind": "berger",
       "members": [
-        2,
-        8,
-        6,
         10,
+        12,
         4,
-        12
+        6,
+        8,
+        2
       ]
     },
     {
       "kind": "berger",
       "members": [
-        15,
+        19,
+        13,
         21,
         23,
         17,
-        13,
-        19
+        15
       ]
     },
     {
       "kind": "berger",
       "members": [
-        18,
-        14,
-        16,
         22,
         20,
-        24
+        14,
+        24,
+        18,
+        16
       ]
     },
     {
@@ -305,74 +305,74 @@
       "closed": true,
       "pairings": [
         {
+          "white": 5,
+          "black": 7,
+          "result": "1-0"
+        },
+        {
           "white": 3,
           "black": 9,
           "result": "1-0"
         },
         {
           "white": 1,
-          "black": 7,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 11,
-          "black": 5,
-          "result": "0-1"
-        },
-        {
-          "white": 2,
-          "black": 12,
+          "black": 11,
           "result": "1-0"
         },
         {
-          "white": 8,
-          "black": 4,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 6,
-          "black": 10,
+          "white": 10,
+          "black": 2,
           "result": "0-1"
         },
         {
-          "white": 15,
-          "black": 19,
+          "white": 12,
+          "black": 8,
+          "result": "0-1"
+        },
+        {
+          "white": 4,
+          "black": 6,
+          "result": "1-0"
+        },
+        {
+          "white": 19,
+          "black": 15,
+          "result": "0-1"
+        },
+        {
+          "white": 13,
+          "black": 17,
           "result": "1-0"
         },
         {
           "white": 21,
-          "black": 13,
-          "result": "0.5-0.5"
+          "black": 23,
+          "result": "1-0"
         },
         {
-          "white": 23,
-          "black": 17,
+          "white": 22,
+          "black": 16,
           "result": "0-1"
         },
         {
-          "white": 18,
+          "white": 20,
+          "black": 18,
+          "result": "0-1"
+        },
+        {
+          "white": 14,
           "black": 24,
           "result": "1-0"
         },
         {
-          "white": 14,
-          "black": 20,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 16,
-          "black": 22,
-          "result": "0-1"
-        },
-        {
           "white": 26,
           "black": 25,
-          "result": "1-0"
+          "result": "0-1"
         },
         {
           "white": 28,
           "black": 27,
-          "result": "0.5-0.5"
+          "result": "0-1"
         },
         {
           "white": 30,
@@ -382,7 +382,7 @@
         {
           "white": 32,
           "black": 31,
-          "result": "1-0"
+          "result": "0-1"
         },
         {
           "white": 33,
@@ -396,59 +396,54 @@
       "closed": true,
       "pairings": [
         {
-          "white": 9,
-          "black": 5,
+          "white": 7,
+          "black": 11,
           "result": "1-0"
         },
         {
-          "white": 7,
-          "black": 11,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 3,
+          "white": 9,
           "black": 1,
           "result": "0-1"
         },
         {
-          "white": 12,
-          "black": 10,
-          "result": "1-0"
-        },
-        {
-          "white": 4,
-          "black": 6,
-          "result": "0.5-0.5"
+          "white": 5,
+          "black": 3,
+          "result": "0-1"
         },
         {
           "white": 2,
-          "black": 8,
-          "result": "0-1"
-        },
-        {
-          "white": 19,
-          "black": 17,
+          "black": 6,
           "result": "1-0"
         },
         {
-          "white": 13,
-          "black": 23,
-          "result": "0.5-0.5"
+          "white": 8,
+          "black": 4,
+          "result": "0-1"
+        },
+        {
+          "white": 10,
+          "black": 12,
+          "result": "1-0"
         },
         {
           "white": 15,
-          "black": 21,
-          "result": "0-1"
-        },
-        {
-          "white": 24,
-          "black": 22,
+          "black": 23,
           "result": "1-0"
         },
         {
-          "white": 20,
-          "black": 16,
-          "result": "0.5-0.5"
+          "white": 17,
+          "black": 21,
+          "result": "1-0"
+        },
+        {
+          "white": 19,
+          "black": 13,
+          "result": "0-1"
+        },
+        {
+          "white": 16,
+          "black": 24,
+          "result": "1-0"
         },
         {
           "white": 18,
@@ -456,27 +451,32 @@
           "result": "0-1"
         },
         {
-          "white": 29,
-          "black": 26,
-          "result": "1-0"
-        },
-        {
-          "white": 33,
-          "black": 32,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 27,
-          "black": 30,
+          "white": 22,
+          "black": 20,
           "result": "0-1"
         },
         {
           "white": 25,
-          "black": 28,
+          "black": 33,
           "result": "1-0"
         },
         {
+          "white": 29,
+          "black": 27,
+          "result": "0-1"
+        },
+        {
           "white": 31,
+          "black": 26,
+          "result": "0-1"
+        },
+        {
+          "white": 30,
+          "black": 28,
+          "result": "0-1"
+        },
+        {
+          "white": 32,
           "black": null,
           "result": "BYE"
         }
@@ -487,87 +487,87 @@
       "closed": true,
       "pairings": [
         {
+          "white": 3,
+          "black": 7,
+          "result": "1-0"
+        },
+        {
           "white": 1,
-          "black": 9,
+          "black": 5,
           "result": "1-0"
         },
         {
           "white": 11,
-          "black": 3,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 5,
-          "black": 7,
+          "black": 9,
           "result": "0-1"
         },
         {
-          "white": 8,
-          "black": 12,
+          "white": 12,
+          "black": 2,
+          "result": "0-1"
+        },
+        {
+          "white": 4,
+          "black": 10,
           "result": "1-0"
         },
         {
           "white": 6,
-          "black": 2,
-          "result": "0.5-0.5"
+          "black": 8,
+          "result": "1-0"
         },
         {
-          "white": 10,
-          "black": 4,
-          "result": "0-1"
+          "white": 13,
+          "black": 15,
+          "result": "1-0"
         },
         {
           "white": 21,
           "black": 19,
-          "result": "1-0"
+          "result": "0-1"
         },
         {
           "white": 23,
-          "black": 15,
-          "result": "0.5-0.5"
+          "black": 17,
+          "result": "0-1"
         },
         {
-          "white": 17,
-          "black": 13,
+          "white": 20,
+          "black": 16,
           "result": "0-1"
         },
         {
           "white": 14,
-          "black": 24,
+          "black": 22,
           "result": "1-0"
         },
         {
-          "white": 16,
+          "white": 24,
           "black": 18,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 22,
-          "black": 20,
           "result": "0-1"
         },
         {
-          "white": 29,
-          "black": 33,
-          "result": "1-0"
-        },
-        {
-          "white": 32,
+          "white": 27,
           "black": 25,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 30,
-          "black": 26,
           "result": "0-1"
         },
         {
-          "white": 31,
-          "black": 27,
+          "white": 26,
+          "black": 32,
           "result": "1-0"
+        },
+        {
+          "white": 33,
+          "black": 31,
+          "result": "0-1"
         },
         {
           "white": 28,
+          "black": 29,
+          "result": "1-0"
+        },
+        {
+          "white": 30,
           "black": null,
           "result": "BYE"
         }
@@ -578,39 +578,34 @@
       "closed": true,
       "pairings": [
         {
-          "white": 9,
-          "black": 7,
+          "white": 7,
+          "black": 9,
+          "result": "1-0"
+        },
+        {
+          "white": 5,
+          "black": 11,
           "result": "1-0"
         },
         {
           "white": 3,
-          "black": 5,
+          "black": 1,
           "result": "0.5-0.5"
         },
         {
-          "white": 1,
-          "black": 11,
+          "white": 2,
+          "black": 8,
+          "result": "1-0"
+        },
+        {
+          "white": 10,
+          "black": 6,
           "result": "0-1"
         },
         {
           "white": 12,
           "black": 4,
-          "result": "1-0"
-        },
-        {
-          "white": 2,
-          "black": 10,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 8,
-          "black": 6,
           "result": "0-1"
-        },
-        {
-          "white": 19,
-          "black": 13,
-          "result": "1-0"
         },
         {
           "white": 15,
@@ -618,47 +613,52 @@
           "result": "0.5-0.5"
         },
         {
-          "white": 21,
+          "white": 19,
           "black": 23,
-          "result": "0-1"
-        },
-        {
-          "white": 24,
-          "black": 20,
-          "result": "1-0"
-        },
-        {
-          "white": 18,
-          "black": 22,
           "result": "0.5-0.5"
         },
         {
-          "white": 14,
-          "black": 16,
-          "result": "0-1"
-        },
-        {
-          "white": 31,
-          "black": 29,
+          "white": 13,
+          "black": 21,
           "result": "1-0"
         },
         {
-          "white": 26,
-          "black": 32,
+          "white": 16,
+          "black": 18,
           "result": "0.5-0.5"
+        },
+        {
+          "white": 22,
+          "black": 24,
+          "result": "1-0"
+        },
+        {
+          "white": 20,
+          "black": 14,
+          "result": "0-1"
         },
         {
           "white": 25,
-          "black": 33,
-          "result": "0-1"
-        },
-        {
-          "white": 28,
-          "black": 30,
-          "result": "1-0"
+          "black": 28,
+          "result": "0.5-0.5"
         },
         {
           "white": 27,
+          "black": 26,
+          "result": "0.5-0.5"
+        },
+        {
+          "white": 31,
+          "black": 30,
+          "result": "0.5-0.5"
+        },
+        {
+          "white": 32,
+          "black": 33,
+          "result": "1-0"
+        },
+        {
+          "white": 29,
           "black": null,
           "result": "BYE"
         }
@@ -669,18 +669,23 @@
       "closed": true,
       "pairings": [
         {
-          "white": 11,
-          "black": 9,
+          "white": 1,
+          "black": 7,
           "result": "1-0"
         },
         {
-          "white": 5,
-          "black": 1,
-          "result": "0.5-0.5"
+          "white": 11,
+          "black": 3,
+          "result": "0-1"
         },
         {
-          "white": 7,
-          "black": 3,
+          "white": 9,
+          "black": 5,
+          "result": "0-1"
+        },
+        {
+          "white": 4,
+          "black": 2,
           "result": "0-1"
         },
         {
@@ -689,67 +694,62 @@
           "result": "1-0"
         },
         {
-          "white": 10,
-          "black": 8,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 4,
-          "black": 2,
-          "result": "0-1"
-        },
-        {
-          "white": 23,
-          "black": 19,
+          "white": 8,
+          "black": 10,
           "result": "1-0"
         },
         {
-          "white": 17,
-          "black": 21,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 13,
+          "white": 21,
           "black": 15,
           "result": "0-1"
         },
         {
-          "white": 16,
-          "black": 24,
+          "white": 23,
+          "black": 13,
+          "result": "0-1"
+        },
+        {
+          "white": 17,
+          "black": 19,
           "result": "1-0"
         },
         {
-          "white": 22,
-          "black": 14,
+          "white": 14,
+          "black": 16,
           "result": "0.5-0.5"
         },
         {
-          "white": 20,
-          "black": 18,
+          "white": 24,
+          "black": 20,
           "result": "0-1"
+        },
+        {
+          "white": 18,
+          "black": 22,
+          "result": "1-0"
+        },
+        {
+          "white": 29,
+          "black": 25,
+          "result": "0-1"
+        },
+        {
+          "white": 28,
+          "black": 26,
+          "result": "0.5-0.5"
         },
         {
           "white": 32,
-          "black": 29,
-          "result": "1-0"
-        },
-        {
-          "white": 33,
-          "black": 31,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 26,
-          "black": 28,
+          "black": 27,
           "result": "0-1"
         },
         {
-          "white": 27,
-          "black": 25,
-          "result": "1-0"
+          "white": 33,
+          "black": 30,
+          "result": "0-1"
         },
         {
-          "white": 30,
+          "white": 31,
           "black": null,
           "result": "BYE"
         }
@@ -760,87 +760,87 @@
       "closed": true,
       "pairings": [
         {
-          "white": 28,
-          "black": 32,
-          "result": "1-0"
-        },
-        {
-          "white": 31,
-          "black": 6,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 29,
-          "black": 11,
-          "result": "0-1"
-        },
-        {
-          "white": 33,
-          "black": 16,
-          "result": "1-0"
-        },
-        {
-          "white": 1,
-          "black": 23,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 14,
-          "black": 8,
-          "result": "0-1"
-        },
-        {
-          "white": 21,
-          "black": 2,
-          "result": "1-0"
-        },
-        {
-          "white": 15,
-          "black": 3,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 27,
-          "black": 18,
-          "result": "0-1"
-        },
-        {
-          "white": 9,
-          "black": 26,
-          "result": "1-0"
-        },
-        {
-          "white": 5,
-          "black": 30,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 19,
-          "black": 10,
-          "result": "0-1"
-        },
-        {
-          "white": 12,
-          "black": 17,
-          "result": "1-0"
-        },
-        {
-          "white": 22,
-          "black": 4,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 24,
-          "black": 7,
-          "result": "0-1"
-        },
-        {
-          "white": 20,
+          "white": 2,
           "black": 13,
           "result": "1-0"
         },
         {
           "white": 25,
+          "black": 14,
+          "result": "0-1"
+        },
+        {
+          "white": 16,
+          "black": 1,
+          "result": "0-1"
+        },
+        {
+          "white": 3,
+          "black": 4,
+          "result": "1-0"
+        },
+        {
+          "white": 27,
+          "black": 31,
+          "result": "1-0"
+        },
+        {
+          "white": 15,
+          "black": 18,
+          "result": "0.5-0.5"
+        },
+        {
+          "white": 17,
+          "black": 28,
+          "result": "1-0"
+        },
+        {
+          "white": 26,
+          "black": 5,
+          "result": "0-1"
+        },
+        {
+          "white": 30,
+          "black": 6,
+          "result": "0-1"
+        },
+        {
+          "white": 7,
+          "black": 29,
+          "result": "1-0"
+        },
+        {
+          "white": 8,
+          "black": 20,
+          "result": "1-0"
+        },
+        {
+          "white": 19,
+          "black": 32,
+          "result": "1-0"
+        },
+        {
+          "white": 9,
+          "black": 21,
+          "result": "1-0"
+        },
+        {
+          "white": 33,
+          "black": 10,
+          "result": "0-1"
+        },
+        {
+          "white": 23,
+          "black": 22,
+          "result": "0.5-0.5"
+        },
+        {
+          "white": 11,
+          "black": 12,
+          "result": "0.5-0.5"
+        },
+        {
+          "white": 24,
           "black": null,
           "result": "BYE"
         }
@@ -851,87 +851,87 @@
       "closed": true,
       "pairings": [
         {
-          "white": 11,
-          "black": 28,
-          "result": "1-0"
-        },
-        {
-          "white": 8,
-          "black": 31,
+          "white": 1,
+          "black": 2,
           "result": "0.5-0.5"
         },
         {
-          "white": 18,
-          "black": 21,
-          "result": "0-1"
-        },
-        {
-          "white": 6,
-          "black": 33,
-          "result": "1-0"
-        },
-        {
-          "white": 32,
-          "black": 1,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 3,
-          "black": 23,
-          "result": "0-1"
-        },
-        {
-          "white": 2,
-          "black": 15,
-          "result": "1-0"
-        },
-        {
-          "white": 10,
-          "black": 29,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 7,
-          "black": 14,
-          "result": "0-1"
-        },
-        {
-          "white": 16,
-          "black": 9,
-          "result": "1-0"
-        },
-        {
-          "white": 12,
-          "black": 20,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 25,
-          "black": 5,
-          "result": "0-1"
-        },
-        {
-          "white": 4,
-          "black": 27,
-          "result": "1-0"
-        },
-        {
-          "white": 30,
-          "black": 22,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 17,
-          "black": 26,
+          "white": 14,
+          "black": 3,
           "result": "0-1"
         },
         {
           "white": 13,
-          "black": 24,
+          "black": 25,
           "result": "1-0"
         },
         {
-          "white": 19,
+          "white": 27,
+          "black": 17,
+          "result": "0-1"
+        },
+        {
+          "white": 18,
+          "black": 4,
+          "result": "0-1"
+        },
+        {
+          "white": 5,
+          "black": 16,
+          "result": "1-0"
+        },
+        {
+          "white": 6,
+          "black": 15,
+          "result": "1-0"
+        },
+        {
+          "white": 31,
+          "black": 7,
+          "result": "0-1"
+        },
+        {
+          "white": 26,
+          "black": 8,
+          "result": "0-1"
+        },
+        {
+          "white": 28,
+          "black": 19,
+          "result": "0-1"
+        },
+        {
+          "white": 20,
+          "black": 30,
+          "result": "1-0"
+        },
+        {
+          "white": 29,
+          "black": 9,
+          "result": "0-1"
+        },
+        {
+          "white": 10,
+          "black": 32,
+          "result": "1-0"
+        },
+        {
+          "white": 22,
+          "black": 33,
+          "result": "1-0"
+        },
+        {
+          "white": 24,
+          "black": 23,
+          "result": "0-1"
+        },
+        {
+          "white": 21,
+          "black": 11,
+          "result": "0-1"
+        },
+        {
+          "white": 12,
           "black": null,
           "result": "BYE"
         }
@@ -942,87 +942,87 @@
       "closed": true,
       "pairings": [
         {
-          "white": 21,
-          "black": 11,
-          "result": "1-0"
-        },
-        {
-          "white": 23,
-          "black": 6,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 28,
-          "black": 8,
-          "result": "0-1"
-        },
-        {
-          "white": 31,
-          "black": 2,
-          "result": "1-0"
-        },
-        {
-          "white": 14,
-          "black": 32,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 33,
-          "black": 1,
-          "result": "0-1"
-        },
-        {
-          "white": 29,
-          "black": 16,
-          "result": "1-0"
-        },
-        {
-          "white": 5,
-          "black": 18,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 10,
+          "white": 2,
           "black": 3,
-          "result": "0-1"
-        },
-        {
-          "white": 4,
-          "black": 15,
-          "result": "1-0"
-        },
-        {
-          "white": 26,
-          "black": 12,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 20,
-          "black": 19,
-          "result": "0-1"
-        },
-        {
-          "white": 22,
-          "black": 7,
-          "result": "1-0"
-        },
-        {
-          "white": 9,
-          "black": 30,
           "result": "0.5-0.5"
         },
         {
           "white": 13,
-          "black": 25,
+          "black": 1,
           "result": "0-1"
         },
         {
           "white": 17,
+          "black": 14,
+          "result": "0.5-0.5"
+        },
+        {
+          "white": 4,
+          "black": 5,
+          "result": "0.5-0.5"
+        },
+        {
+          "white": 6,
           "black": 27,
           "result": "1-0"
         },
         {
-          "white": 24,
+          "white": 25,
+          "black": 18,
+          "result": "0-1"
+        },
+        {
+          "white": 16,
+          "black": 15,
+          "result": "0.5-0.5"
+        },
+        {
+          "white": 8,
+          "black": 7,
+          "result": "0.5-0.5"
+        },
+        {
+          "white": 31,
+          "black": 19,
+          "result": "0-1"
+        },
+        {
+          "white": 9,
+          "black": 26,
+          "result": "1-0"
+        },
+        {
+          "white": 28,
+          "black": 20,
+          "result": "0-1"
+        },
+        {
+          "white": 30,
+          "black": 10,
+          "result": "0-1"
+        },
+        {
+          "white": 32,
+          "black": 22,
+          "result": "0-1"
+        },
+        {
+          "white": 23,
+          "black": 29,
+          "result": "1-0"
+        },
+        {
+          "white": 11,
+          "black": 24,
+          "result": "1-0"
+        },
+        {
+          "white": 12,
+          "black": 33,
+          "result": "1-0"
+        },
+        {
+          "white": 21,
           "black": null,
           "result": "BYE"
         }
@@ -1033,87 +1033,87 @@
       "closed": true,
       "pairings": [
         {
-          "white": 8,
-          "black": 21,
-          "result": "1-0"
+          "white": 14,
+          "black": 2,
+          "result": "0-1"
         },
         {
-          "white": 11,
-          "black": 31,
-          "result": "0.5-0.5"
+          "white": 3,
+          "black": 13,
+          "result": "1-0"
         },
         {
           "white": 1,
           "black": 6,
-          "result": "0-1"
-        },
-        {
-          "white": 23,
-          "black": 28,
           "result": "1-0"
         },
         {
-          "white": 32,
+          "white": 5,
+          "black": 17,
+          "result": "1-0"
+        },
+        {
+          "white": 15,
           "black": 4,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 3,
-          "black": 29,
           "result": "0-1"
-        },
-        {
-          "white": 19,
-          "black": 14,
-          "result": "1-0"
         },
         {
           "white": 18,
-          "black": 33,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 2,
-          "black": 5,
+          "black": 8,
           "result": "0-1"
         },
         {
-          "white": 12,
-          "black": 22,
+          "white": 7,
+          "black": 16,
           "result": "1-0"
         },
         {
-          "white": 16,
-          "black": 26,
-          "result": "0.5-0.5"
+          "white": 19,
+          "black": 25,
+          "result": "1-0"
         },
         {
-          "white": 25,
+          "white": 27,
+          "black": 9,
+          "result": "0-1"
+        },
+        {
+          "white": 20,
           "black": 10,
           "result": "0-1"
         },
         {
-          "white": 15,
-          "black": 9,
+          "white": 22,
+          "black": 31,
+          "result": "1-0"
+        },
+        {
+          "white": 26,
+          "black": 23,
+          "result": "0-1"
+        },
+        {
+          "white": 12,
+          "black": 28,
           "result": "1-0"
         },
         {
           "white": 30,
-          "black": 20,
-          "result": "0.5-0.5"
-        },
-        {
-          "white": 7,
-          "black": 17,
+          "black": 21,
           "result": "0-1"
         },
         {
-          "white": 27,
-          "black": 24,
-          "result": "1-0"
+          "white": 29,
+          "black": 32,
+          "result": "0.5-0.5"
         },
         {
-          "white": 13,
+          "white": 33,
+          "black": 24,
+          "result": "0-1"
+        },
+        {
+          "white": 11,
           "black": null,
           "result": "BYE"
         }
