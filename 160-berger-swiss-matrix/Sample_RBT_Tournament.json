@@ -1,0 +1,1458 @@
+{
+  "fileSignature": "RBT_CHESS_SAVE",
+  "version": 3,
+  "savedAt": "2026-10-30T15:38:09.884Z",
+  "data": {
+    "name": "Sample RBT Tournament",
+    "players": [
+      {
+        "id": 0,
+        "tpn": 1,
+        "name": "Erik Andersson",
+        "rating": 2400,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 1,
+        "tpn": 2,
+        "name": "Anna Johansson",
+        "rating": 2385,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 2,
+        "tpn": 3,
+        "name": "Karin Nilsson",
+        "rating": 2355,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 3,
+        "tpn": 4,
+        "name": "Johan Eriksson",
+        "rating": 2340,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 4,
+        "tpn": 5,
+        "name": "Anders Larsson",
+        "rating": 2325,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 5,
+        "tpn": 6,
+        "name": "Sofia Olsson",
+        "rating": 2310,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 6,
+        "tpn": 7,
+        "name": "Per Persson",
+        "rating": 2295,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 7,
+        "tpn": 8,
+        "name": "Emma Svensson",
+        "rating": 2280,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 8,
+        "tpn": 9,
+        "name": "Ingrid Gustafsson",
+        "rating": 2265,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 9,
+        "tpn": 10,
+        "name": "Oskar Jansson",
+        "rating": 2205,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 10,
+        "tpn": 11,
+        "name": "Elin Hansson",
+        "rating": 2190,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 11,
+        "tpn": 12,
+        "name": "Thomas Bengtsson",
+        "rating": 2175,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 12,
+        "tpn": 13,
+        "name": "Fatima Hassan",
+        "rating": 2160,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 13,
+        "tpn": 14,
+        "name": "Aisha Rahman",
+        "rating": 2145,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 14,
+        "tpn": 15,
+        "name": "Linnea Lindberg",
+        "rating": 2115,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 15,
+        "tpn": 16,
+        "name": "Karl Jakobsson",
+        "rating": 2100,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 16,
+        "tpn": 17,
+        "name": "Leo Magnusson",
+        "rating": 2085,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 17,
+        "tpn": 18,
+        "name": "Johanna Lindström",
+        "rating": 2070,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 18,
+        "tpn": 19,
+        "name": "Bengt Lindqvist",
+        "rating": 2055,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 19,
+        "tpn": 20,
+        "name": "Lilly Lindgren",
+        "rating": 2040,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 20,
+        "tpn": 21,
+        "name": "Eva Berg",
+        "rating": 2025,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 21,
+        "tpn": 22,
+        "name": "Kofi Mensah",
+        "rating": 2010,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 22,
+        "tpn": 23,
+        "name": "Daniel Axelsson",
+        "rating": 1995,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 23,
+        "tpn": 24,
+        "name": "Lukas Lundberg",
+        "rating": 1980,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 24,
+        "tpn": 25,
+        "name": "Adam Bergström",
+        "rating": 1965,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 25,
+        "tpn": 26,
+        "name": "Ella Lundgren",
+        "rating": 1950,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 26,
+        "tpn": 27,
+        "name": "Samuel Lundqvist",
+        "rating": 1935,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 27,
+        "tpn": 28,
+        "name": "Hanna Mattsson",
+        "rating": 1920,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 28,
+        "tpn": 29,
+        "name": "Freya Patel",
+        "rating": 1905,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 29,
+        "tpn": 30,
+        "name": "Alexander Berglund",
+        "rating": 1890,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 30,
+        "tpn": 31,
+        "name": "Amara Diallo",
+        "rating": 1875,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 31,
+        "tpn": 32,
+        "name": "Mia Fredriksson",
+        "rating": 1860,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 32,
+        "tpn": 33,
+        "name": "Sven Karlsson",
+        "rating": 1850,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 33,
+        "tpn": 34,
+        "name": "Noah Sandberg",
+        "rating": 1845,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 34,
+        "tpn": 35,
+        "name": "Liam Henriksson",
+        "rating": 1830,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 35,
+        "tpn": 36,
+        "name": "Astrid Sjöberg",
+        "rating": 1815,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 36,
+        "tpn": 37,
+        "name": "Alva Forsberg",
+        "rating": 1800,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 37,
+        "tpn": 38,
+        "name": "Gustav Jönsson",
+        "rating": 1790,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 38,
+        "tpn": 39,
+        "name": "Emil Lind",
+        "rating": 1785,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 39,
+        "tpn": 40,
+        "name": "Arthur Wallin",
+        "rating": 1770,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 40,
+        "tpn": 41,
+        "name": "Klara Engström",
+        "rating": 1755,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 41,
+        "tpn": 42,
+        "name": "Yusuf Al-Mansoor",
+        "rating": 1750,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 42,
+        "tpn": 43,
+        "name": "Maria Pettersson",
+        "rating": 1745,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 43,
+        "tpn": 44,
+        "name": "Felix Eklund",
+        "rating": 1740,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 44,
+        "tpn": 45,
+        "name": "Nina Holm",
+        "rating": 1725,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 45,
+        "tpn": 46,
+        "name": "Adrian Söderström",
+        "rating": 1710,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 46,
+        "tpn": 47,
+        "name": "Priya Shah",
+        "rating": 1695,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 47,
+        "tpn": 48,
+        "name": "Elena Rossi",
+        "rating": 1680,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 48,
+        "tpn": 49,
+        "name": "David Okafor",
+        "rating": 1665,
+        "withdrawnFrom": null
+      },
+      {
+        "id": 49,
+        "tpn": 50,
+        "name": "Nils Jonsson",
+        "rating": 1660,
+        "withdrawnFrom": null
+      }
+    ],
+    "rounds": [
+      {
+        "games": [
+          {
+            "w": 4,
+            "b": 0,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 10,
+            "b": 1,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 21,
+            "b": 2,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 3,
+            "b": 9,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 5,
+            "b": 19,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 23,
+            "b": 6,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 14,
+            "b": 7,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 16,
+            "b": 8,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 20,
+            "b": 11,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 12,
+            "b": 13,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 18,
+            "b": 15,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 17,
+            "b": 32,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 22,
+            "b": 26,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 29,
+            "b": 24,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 25,
+            "b": 35,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 27,
+            "b": 28,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 33,
+            "b": 30,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 31,
+            "b": 39,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 36,
+            "b": 34,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 48,
+            "b": 37,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 38,
+            "b": 41,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 40,
+            "b": 44,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 43,
+            "b": 42,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 45,
+            "b": 47,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 49,
+            "b": 46,
+            "result": null,
+            "auto": false
+          }
+        ],
+        "bye": null
+      },
+      {
+        "games": [
+          {
+            "w": 0,
+            "b": 10,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 1,
+            "b": 4,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 2,
+            "b": 6,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 7,
+            "b": 3,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 5,
+            "b": 12,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 8,
+            "b": 18,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 9,
+            "b": 15,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 11,
+            "b": 14,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 13,
+            "b": 17,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 16,
+            "b": 31,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 19,
+            "b": 20,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 21,
+            "b": 29,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 22,
+            "b": 33,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 24,
+            "b": 23,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 27,
+            "b": 25,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 26,
+            "b": 45,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 28,
+            "b": 30,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 32,
+            "b": 36,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 34,
+            "b": 44,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 35,
+            "b": 38,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 37,
+            "b": 46,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 41,
+            "b": 39,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 42,
+            "b": 40,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 49,
+            "b": 43,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 47,
+            "b": 48,
+            "result": null,
+            "auto": false
+          }
+        ],
+        "bye": null
+      },
+      {
+        "games": [
+          {
+            "w": 17,
+            "b": 0,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 2,
+            "b": 1,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 3,
+            "b": 16,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 11,
+            "b": 4,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 9,
+            "b": 5,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 6,
+            "b": 8,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 10,
+            "b": 7,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 15,
+            "b": 12,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 14,
+            "b": 13,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 18,
+            "b": 22,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 19,
+            "b": 24,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 20,
+            "b": 23,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 46,
+            "b": 21,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 30,
+            "b": 25,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 26,
+            "b": 27,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 29,
+            "b": 28,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 31,
+            "b": 32,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 33,
+            "b": 40,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 39,
+            "b": 34,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 48,
+            "b": 35,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 36,
+            "b": 38,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 43,
+            "b": 37,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 47,
+            "b": 41,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 42,
+            "b": 49,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 44,
+            "b": 45,
+            "result": null,
+            "auto": false
+          }
+        ],
+        "bye": null
+      },
+      {
+        "games": [
+          {
+            "w": 0,
+            "b": 11,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 1,
+            "b": 5,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 8,
+            "b": 2,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 4,
+            "b": 3,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 6,
+            "b": 14,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 7,
+            "b": 9,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 12,
+            "b": 10,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 13,
+            "b": 18,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 15,
+            "b": 26,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 16,
+            "b": 17,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 37,
+            "b": 19,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 20,
+            "b": 33,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 25,
+            "b": 21,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 27,
+            "b": 22,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 23,
+            "b": 44,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 38,
+            "b": 24,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 28,
+            "b": 43,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 32,
+            "b": 29,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 30,
+            "b": 31,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 34,
+            "b": 35,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 41,
+            "b": 36,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 40,
+            "b": 39,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 45,
+            "b": 42,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 46,
+            "b": 47,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 49,
+            "b": 48,
+            "result": null,
+            "auto": false
+          }
+        ],
+        "bye": null
+      },
+      {
+        "games": [
+          {
+            "w": 13,
+            "b": 0,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 1,
+            "b": 8,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 5,
+            "b": 2,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 3,
+            "b": 20,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 14,
+            "b": 4,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 9,
+            "b": 6,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 12,
+            "b": 7,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 10,
+            "b": 16,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 19,
+            "b": 11,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 24,
+            "b": 15,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 22,
+            "b": 17,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 49,
+            "b": 18,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 21,
+            "b": 41,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 28,
+            "b": 23,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 29,
+            "b": 25,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 32,
+            "b": 26,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 37,
+            "b": 27,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 48,
+            "b": 30,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 34,
+            "b": 31,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 36,
+            "b": 33,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 35,
+            "b": 42,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 38,
+            "b": 46,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 39,
+            "b": 44,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 47,
+            "b": 40,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 43,
+            "b": 45,
+            "result": null,
+            "auto": false
+          }
+        ],
+        "bye": null
+      },
+      {
+        "games": [
+          {
+            "w": 0,
+            "b": 3,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 18,
+            "b": 1,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 2,
+            "b": 10,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 9,
+            "b": 4,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 6,
+            "b": 5,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 7,
+            "b": 8,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 11,
+            "b": 12,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 15,
+            "b": 13,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 17,
+            "b": 14,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 16,
+            "b": 21,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 23,
+            "b": 19,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 22,
+            "b": 20,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 27,
+            "b": 24,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 25,
+            "b": 28,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 26,
+            "b": 35,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 42,
+            "b": 29,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 30,
+            "b": 34,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 31,
+            "b": 36,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 45,
+            "b": 32,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 33,
+            "b": 48,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 40,
+            "b": 37,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 39,
+            "b": 38,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 41,
+            "b": 49,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 46,
+            "b": 43,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 44,
+            "b": 47,
+            "result": null,
+            "auto": false
+          }
+        ],
+        "bye": null
+      },
+      {
+        "games": [
+          {
+            "w": 0,
+            "b": 7,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 1,
+            "b": 21,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 2,
+            "b": 15,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 3,
+            "b": 6,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 4,
+            "b": 25,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 13,
+            "b": 5,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 8,
+            "b": 11,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 26,
+            "b": 9,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 10,
+            "b": 30,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 12,
+            "b": 22,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 14,
+            "b": 47,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 24,
+            "b": 16,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 19,
+            "b": 17,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 28,
+            "b": 18,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 20,
+            "b": 34,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 23,
+            "b": 27,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 29,
+            "b": 31,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 32,
+            "b": 43,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 35,
+            "b": 33,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 37,
+            "b": 36,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 38,
+            "b": 40,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 42,
+            "b": 39,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 48,
+            "b": 41,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 44,
+            "b": 49,
+            "result": null,
+            "auto": false
+          },
+          {
+            "w": 45,
+            "b": 46,
+            "result": null,
+            "auto": false
+          }
+        ],
+        "bye": null
+      }
+    ],
+    "current": 0,
+    "scope": "all",
+    "tb": "wnt",
+    "byePoints": 1,
+    "finished": false,
+    "engine": {
+      "effort": "thorough",
+      "createdAt": "2026-10-30T15:36:33.310Z",
+      "model": "personal-groups-games-v2",
+      "legacySchedule": false
+    }
+  }
+}

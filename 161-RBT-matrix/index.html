@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="sv">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mötesmatris · Berger-Swiss Championship</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 32px; background: #f4f5f1; color: #202b27; font: 15px system-ui, sans-serif; }
+  main { max-width: 1800px; margin: auto; }
+  .eyebrow { color: #527261; text-transform: uppercase; letter-spacing: .14em; font-size: 12px; font-weight: 700; }
+  h1 { font-size: clamp(26px, 4vw, 40px); margin: 8px 0; letter-spacing: -.04em; }
+  p { color: #58665e; line-height: 1.6; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; margin: 24px 0 16px; }
+  label { display: grid; gap: 6px; font-size: 13px; font-weight: 600; }
+  input, select, button { font: inherit; padding: 10px 12px; border: 1px solid #cbd4cd; border-radius: 6px; background: white; color: inherit; }
+  button { cursor: pointer; }
+  input:focus, select:focus, button:focus-visible { outline: 2px solid #25835c; outline-offset: 2px; }
+  #summary { margin-left: auto; font-size: 13px; }
+  .matrix { overflow: auto; max-height: 73vh; background: white; border: 1px solid #ccd5ce; border-radius: 8px; }
+  table { border-collapse: separate; border-spacing: 0; font-variant-numeric: tabular-nums; }
+  th, td { min-width: 35px; height: 34px; text-align: center; border-right: 1px solid #e6eae6; border-bottom: 1px solid #e6eae6; font-size: 12px; }
+  thead th { position: sticky; top: 0; z-index: 2; background: #e9eee9; height: 44px; }
+  tbody th, .corner { position: sticky; left: 0; text-align: left; padding: 0 12px; min-width: 235px; background: #fafbf8; z-index: 1; white-space: nowrap; }
+  .corner { z-index: 3; background: #e9eee9; }
+  .number { display: inline-block; width: 26px; color: #758178; font-weight: 400; }
+  .rating { display: inline-block; margin-left: 12px; color: #58665e; font-weight: 400; font-variant-numeric: tabular-nums; }
+  td.met { background: #dceee2; color: #145237; font-weight: 750; }
+  td.self { background: repeating-linear-gradient(135deg, #f0f2ee, #f0f2ee 3px, #e7ebe5 3px, #e7ebe5 4px); color: #839083; }
+  tbody tr:hover th, tbody tr:hover td:not(.met):not(.self) { background-color: #f1f6f0; }
+  .legend { font-size: 13px; }
+  .swatch { display: inline-block; background: #dceee2; padding: 2px 8px; border-radius: 3px; color: #145237; font-weight: 700; margin-right: 5px; }
+  @media(max-width: 600px) { body { padding: 16px; } tbody th, .corner { min-width: 180px; } #summary { margin-left: 0; } }
+</style>
+<main>
+  <div class="eyebrow">Schack · mötesöversikt</div>
+  <h1 id="title">Mötesmatris</h1>
+  <p>Rad och kolumn anger spelare. Siffran i cellen är ronden då de möttes. Tom cell betyder att de inte mötts.</p>
+  <p id="distances" aria-live="polite" title="Medelvärdet av den absoluta skillnaden mellan motståndarnas startnummer respektive Elo. Varje parti räknas en gång; frironder utesluts. Värdena gäller alla ronder oavsett filter."></p>
+  <div class="toolbar">
+    <label>Sök spelare<input id="search" type="search" placeholder="Namn eller startnummer"></label>
+    <label>Visa rond<select id="round"><option value="">Alla ronder</option></select></label>
+    <button id="export" type="button">Ladda ner CSV</button>
+    <p id="summary" aria-live="polite">Laddar turneringen...</p>
+  </div>
+  <div class="matrix" tabindex="0" role="region" aria-label="Mötesmatris, rulla för att se alla spelare"><table id="matrix" aria-label="Rondnummer för möten mellan spelare"></table></div>
+  <p class="legend"><span class="swatch">3</span> Mötet skedde i rond 3. Kolumnnumret är spelarens startnummer. Håll pekaren över en cell för namn och rond.</p>
+</main>
+<script src="matrix.js"></script>
+</html>

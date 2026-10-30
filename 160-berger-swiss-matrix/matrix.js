@@ -41,7 +41,8 @@ function averageDistances(data) {
 
 if (typeof module !== 'undefined') module.exports = { buildMeetings, averageDistances };
 async function startMatrix() {
-  const response = await fetch('./Berger-Swiss_Championship_final.json', { cache: 'no-store' });
+//  const response = await fetch('./Berger-Swiss_Championship_final.json', { cache: 'no-store' });
+  const response = await fetch('./Sample_RBT_Tournament.json', { cache: 'no-store' });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   const data = await response.json();
   const players = [...data.players].sort((a, b) => a.tpn - b.tpn);
