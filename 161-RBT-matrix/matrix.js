@@ -1,5 +1,21 @@
 'use strict';
 
+function normalizeTournament(file) {
+  const data = file.data ?? file;
+  return {
+    ...data,
+    rounds: data.rounds.map((round, index) => ({
+      ...round,
+      roundNumber: round.roundNumber ?? round.number ?? index + 1,
+      pairings: (round.pairings ?? round.games).map(game => ({
+        ...game,
+        whiteId: game.whiteId ?? game.white ?? game.w,
+        blackId: game.blackId ?? game.black ?? game.b
+      }))
+    }))
+  };
+}
+
 function buildMeetings(data) {
   const meetings = new Map();
   const ids = new Set(data.players.map(player => player.id));
@@ -39,13 +55,13 @@ function averageDistances(data) {
     elo: eloGames ? eloSum / eloGames : null, eloGames };
 }
 
-if (typeof module !== 'undefined') module.exports = { buildMeetings, averageDistances };
+if (typeof module !== 'undefined') module.exports = { normalizeTournament, buildMeetings, averageDistances };
 async function startMatrix() {
 //  const response = await fetch('./Berger-Swiss_Championship_final.json', { cache: 'no-store' });
   const response = await fetch('./Sample_RBT_Tournament.json', { cache: 'no-store' });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  const data = await response.json();
-  const players = [...data.players].sort((a, b) => a.tpn - b.tpn);
+  const data = normalizeTournament(await response.json());
+  const players = [...data.players].sort((a, b) => (b.rating ?? -Infinity) - (a.rating ?? -Infinity) || a.tpn - b.tpn);
   const meetings = buildMeetings(data);
   const distances = averageDistances(data);
   const format = (value, decimals) => value == null ? '–' : value.toLocaleString('sv-SE', {
