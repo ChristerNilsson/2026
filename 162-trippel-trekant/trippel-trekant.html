@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trippel Trekant</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: #000;
+      background: #fff;
+      font-family: Arial, sans-serif;
+    }
+    main { width: 180mm; margin: 10mm auto; }
+    h1 { margin: 0; font-size: 14pt; }
+    p { margin: 0; font-size: 9pt; }
+    .squares {
+      display: grid;
+      grid-template-columns: repeat(3, 60mm);
+      grid-template-rows: repeat(3, 60mm);
+    }
+    .square {
+      width: 60mm;
+      height: 60mm;
+      border: 0.3mm solid #000;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      place-items: center;
+      padding: 5mm 2mm;
+      font-size: 48pt;
+      break-inside: avoid;
+    }
+    .square > span { font-size: 72pt; }
+    @page { size: A4 portrait; margin: 15mm; }
+    @media print {
+      main { margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="squares" aria-label="Nio kvadrater, 60 gånger 60 millimeter">
+      <div class="square"><h1>Trippel Trekant</h1><span>A</span><p>Christer Nilsson 2026</p></div>
+      <div class="square"><h1>Trippel Trekant</h1><span>B</span><p>Christer Nilsson 2026</p></div>
+      <div class="square"><h1>Trippel Trekant</h1><span>C</span><p>Christer Nilsson 2026</p></div>
+      <div class="square"><h1>Trippel Trekant</h1><span>D</span><p>Christer Nilsson 2026</p></div>
+      <div class="square"><h1>Trippel Trekant</h1><span>E</span><p>Christer Nilsson 2026</p></div>
+      <div class="square"><h1>Trippel Trekant</h1><span>F</span><p>Christer Nilsson 2026</p></div>
+      <div class="square"><h1>Trippel Trekant</h1><span>G</span><p>Christer Nilsson 2026</p></div>
+      <div class="square"><h1>Trippel Trekant</h1><span>H</span><p>Christer Nilsson 2026</p></div>
+      <div class="square"><h1>Trippel Trekant</h1><span>I</span><p>Christer Nilsson 2026</p></div>
+    </div>
+  </main>
+</body>
+</html>
