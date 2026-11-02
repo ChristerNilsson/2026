@@ -1,5 +1,7 @@
 # Bord & rond
 
+[Try it!](https://christernilsson.github.io/2026/163-berger-bordsnummer/)
+
 Öppna index.html i webbläsaren. Välj 4–20 deltagare och skriv ut eller spara PDF.
 Blanketten har en rad per spelare och en kolumn per rond, på A4 liggande.
 Ingen inmatning av namn eller resultat behövs.
