@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bord & rond – alternativa bergertabeller</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="toolbar"><a class="brand" href="./">♜ <span>Bord & rond</span></a><span class="tagline">Alternativa bergertabeller</span><button id="print" type="button">Skriv ut / spara PDF <span aria-hidden="true">↗</span></button></header>
+  <main>
+    <section class="intro">
+      <div><p class="eyebrow">SCHACK · ALLA MÖTER ALLA</p><h1>Ett bord.<br>Alla möten.</h1><p class="lead">Fasta platser, nya motståndare. Utskrivbara rondblanketter för ett långbord.</p></div>
+      <div class="settings"><label for="count">Antal deltagare</label><select id="count"></select><p id="summary"></p><div class="ticket-controls"><label for="group">Gruppbeteckning</label><input id="group" type="text" value="A" maxlength="12" placeholder="T.ex. A eller B"><button id="print-tickets" type="button">Bordsbrickor</button></div><div class="rule"><strong>1 stannar vid första brädet.</strong><p>Spelare 1 byter sida och färg varje rond. Övriga följer rotationen medurs, med sidbyte vid första brädet. Platsbokstäverna och deras färger är fasta.</p></div></div>
+    </section>
+    <section class="guide"><div><h2>Så läser du blanketten</h2><p>En rad per spelare, en kolumn per rond. I cellens övre hörn står egen plats och motståndarnummer. Bokstaven till vänster betyder vit; till höger betyder svart.</p></div><div class="legend"><span><i class="white-dot"></i> Vit plats</span><span><i class="black-dot"></i> Svart plats</span><span>↻ Flyttriktning</span></div></section>
+    <div class="round-heading"><h2>Berger-blankett</h2><p>Alla spelare och ronder · A4 liggande</p></div>
+    <div id="rounds" aria-live="polite"></div>
+    <footer>Fasta vita platser: a, c, e … · Fasta svarta platser: b, d, f … · Alla möter alla en gång.</footer>
+  </main>
+  <div id="tickets" aria-label="Bordsbrickor"></div>
+</body>
+</html>
