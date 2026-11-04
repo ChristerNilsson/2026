@@ -2,6 +2,10 @@
 
 [Bordsbokstäver](https://christernilsson.github.io/2026/162-trippel-trekant/trippel-trekant.html)
 
+[Resultatblad – fyra ronder](trippel-trekant.pdf)
+
+`trippel-trekant.pdf` är resultatbladet. Återskapa det med `python generate-results.py` (kräver ReportLab och Windows-teckensnittet Arial). Stjärnan ritas som vektorgrafik. Diagrammet finns i `trippel-trekant.svg` och visas av `index.html`.
+
 Platserna ligger **A H C G F D B E medurs**. **★ sitter still**.
 Mellan ronderna flyttar spelarna **A → B → C → D → E → F → G → H → A**.
 
