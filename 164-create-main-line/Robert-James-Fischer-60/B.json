@@ -1,0 +1,209 @@
+[
+  {
+    "White": "Fridrik Olafsson",
+    "Black": "Robert James Fischer",
+    "Result": "0-1",
+    "Date": "1959.05.21",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/6ni20UeY",
+    "moves": "c4 Nf6 Nc3 g6 d4 Bg7 e4 d6 Nf3 O-O Be2 e5 d5 Nbd7 Bg5 h6 Bh4 a6 Nd2 Qe8 g4 Nh7 Qc2 Ng5 h3 Nc5 O-O-O Bd7 f3 Na4 Nxa4 Bxa4 b3 Bd7 Bf2 c5 h4 Nh7 Be3 b5 Nb1 f5 gxf5 gxf5 exf5 Bxf5 Qd2 e4 Rdg1 exf3 Bxh6 Ra7 Bxg7 Rxg7 Rxg7+ Kxg7 Bd3 bxc4 Rg1+ Kh8 Qc3+ Qe5 Qxe5+ dxe5 Bxf5 Rxf5 bxc4 Nf6 Nd2 f2 Rh1 e4 Kd1 e3 Nf1 Re5 Ke2 Nh5 Kf3 e2",
+    "evals": "11 14 12 48 18 46 40 55 45 44 45 51 39 58 46 35 12 69 75 74 83 85 87 107 127 110 95 89 100 107 62 62 58 65 62 61 54 64 61 63 33 46 51 59 57 62 68 70 0 37 0 4 0 0 0 0 -164 -85 -86 -91 -109 -108 -117 -112 -116 -106 -194 -190 -189 -161 -145 -90 -369 -369 -354 -348 -330 -313 -999992 -999993"
+  },
+  {
+    "White": "Tigran Vartanovich Petrosian",
+    "Black": "Robert James Fischer",
+    "Result": "1/2-1/2",
+    "Date": "1958.08.27",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/bNPeYCGX",
+    "moves": "c4 Nf6 Nc3 g6 g3 Bg7 Bg2 O-O Nf3 d6 O-O Nc6 d3 Nh5 d4 e5 d5 Ne7 e4 f5 exf5 gxf5 Nxe5 Nxg3 hxg3 Bxe5 f4 Bg7 Be3 Bd7 Bd4 Ng6 Re1 Rf7 Bf3 Qf8 Kf2 Re8 Rxe8 Qxe8 Bxg7 Rxg7 Qd4 b6 Rh1 a5 Nd1 Qf8 Ne3 Rf7 b3 Qg7 Qxg7+ Kxg7 a3 Rf8 Be2 Ne7 Bd3 h6 Rh5 Be8 Rh2 Bd7 Rh1 Rh8 Nc2 Kf6 Nd4 Kg7 Be2 Ng8 b4 Nf6 Bd3 axb4 axb4 Kg6 Ra1 Ng4+ Ke2 Re8+ Kd2 Nf6 Ra6 Rb8 Ra7 Rc8 c5 bxc5 bxc5 dxc5 Nf3 Kf7 Ne5+ Ke7 Nxd7 Nxd7 Bxf5 Rf8 g4 Kd6 Bxd7 Kxd7 Ke3 Re8+ Kf3 Kd6 Ra6+ Kxd5 Rxh6 c4 Rh1 c3 g5 c5 Rd1+ Kc4 g6 c2 Rc1 Kd3 f5 Rg8 Kf4 Kd2 Rxc2+ Kxc2 Kg5 c4 f6 c3 f7",
+    "evals": "12 25 17 41 24 27 12 28 6 27 22 47 31 56 50 45 42 66 68 87 87 84 82 88 50 119 119 121 143 124 82 145 43 106 108 134 120 128 153 155 161 149 149 146 112 118 92 90 89 101 79 83 77 79 74 70 66 57 50 59 42 62 47 59 56 62 69 80 56 72 75 71 67 57 6 5 14 55 62 102 99 90 82 114 95 107 95 102 11 26 7 8 10 4 8 15 0 3 0 1 0 1 3 0 0 0 0 0 0 37 49 67 35 9 17 25 1 20 0 0 0 0 8 0 0 0 0 0 0 0 0 0 0"
+  },
+  {
+    "White": "Samuel Reshevsky",
+    "Black": "Robert James Fischer",
+    "Result": "1/2-1/2",
+    "Date": "1961.08.10",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/ZmDy7PyK",
+    "moves": "c4 Nf6 d4 g6 Nc3 Bg7 e4 O-O Be2 d6 Nf3 e5 O-O Nc6 d5 Ne7 Ne1 Nd7 Nd3 f5 exf5 Nxf5 f3 Nd4 Ne4 b6 Bg5 Qe8 Bd2 a5 Re1 Nxe2+ Qxe2 h6 b3 g5 a3 Qg6 b4 Nf6 bxa5 g4 Ndf2 gxf3 Qxf3 Nh5 Qe3 bxa5 Rac1 Bf5 c5 Nf4 Qg3 Bxe4 Rxe4 Qxe4 Nxe4 Ne2+ Kh1 Nxg3+ hxg3 Ra6 cxd6 cxd6 a4 Rf7 g4 Bf8 Kh2 Kh7 Rc8 Rb6 Ra8 Rb3 Bxa5 Rf4 Bc7 Rxe4 Rxf8 Rd3 Rf6 Rxg4 Rxd6 Rg7 Rc6 Rxd5 Rc2 e4 a5 Rd3 Bf4 Rf7 g3 e3 Rc1 Re7 Re1 Ra3 Re2 Kg6 Kg2 Rxa5 Rxe3 Ra2+ Kf3 Rb7 Re6+ Kf5 Re5+ Kf6 Rd5 Rb3+ Kg4",
+    "evals": "11 14 16 28 18 46 40 53 49 47 45 51 40 54 67 62 62 65 58 46 7 15 22 17 -5 13 12 15 -3 1 -10 33 28 39 33 43 36 52 -4 -8 -27 -28 -29 -28 -33 -37 -33 -36 -38 -36 -36 -26 -182 -166 -216 -201 -220 -211 -222 -212 -209 -181 -167 -146 -174 -162 -141 -157 -225 -168 -201 -117 -204 -228 -253 -263 -251 -254 -255 -268 -256 -291 -238 -193 -191 -190 -221 -203 -231 -213 -214 -205 -190 -14 -83 -61 -120 -42 -29 -20 -71 -40 -46 -38 -210 -9 0 -11 -12 -10 -19 -14 -11"
+  },
+  {
+    "White": "Mikhail Botvinnik",
+    "Black": "Robert James Fischer",
+    "Result": "1/2-1/2",
+    "Date": "1962.10.07",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/ae6m6ZtD",
+    "moves": "c4 g6 d4 Nf6 Nc3 d5 Nf3 Bg7 Qb3 dxc4 Qxc4 O-O e4 Bg4 Be3 Nfd7 Be2 Nc6 Rd1 Nb6 Qc5 Qd6 h3 Bxf3 gxf3 Rfd8 d5 Ne5 Nb5 Qf6 f4 Ned7 e5 Qxf4 Bxf4 Nxc5 Nxc7 Rac8 d6 exd6 exd6 Bxb2 O-O Nbd7 Rd5 b6 Bf3 Ne6 Nxe6 fxe6 Rd3 Nc5 Re3 e5 Bxe5 Bxe5 Rxe5 Rxd6 Re7 Rd7 Rxd7 Nxd7 Bg4 Rc7 Re1 Kf7 Kg2 Nc5 Re3 Re7 Rf3+ Kg7 Rc3 Re4 Bd1 Rd4 Bc2 Kf6 Kf3 Kg5 Kg3 Ne4+ Bxe4 Rxe4 Ra3 Re7 Rf3 Rc7 a4 Rc5 Rf7 Ra5 Rxh7 Rxa4 h4+ Kf5 Rf7+ Ke5 Rg7 Ra1 Kf3 b5 h5 Ra3+ Kg2 gxh5 Rg5+ Kd6 Rxb5 h4 f4 Kc6 Rb8 h3+ Kh2 a5 f5 Kc7 Rb5 Kd6 f6 Ke6 Rb6+ Kf7 Ra6 Kg6 Rc6 a4 Ra6 Kf7 Rc6 Rd3 Ra6 a3 Kg1",
+    "evals": "12 22 29 19 21 28 27 19 4 18 24 20 21 37 48 45 34 51 18 22 24 25 21 20 23 23 24 9 -27 73 64 57 2 0 -2 0 2 4 3 3 -1 33 43 45 56 62 -18 -27 -56 -56 -79 -77 -73 -74 -115 -112 -112 -117 -114 -123 -113 -112 -128 -131 -150 -136 -159 -163 -159 -168 -164 -146 -187 -191 -193 -180 -193 -196 -194 -177 -183 -34 -33 -39 -182 -101 -68 -58 -130 -49 -23 -24 -24 -42 -49 -4 -14 -14 -20 -20 -53 0 0 0 -5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+  },
+  {
+    "White": "Arinbjorn Gudmundsson",
+    "Black": "Robert James Fischer",
+    "Result": "0-1",
+    "Date": "1960.10.06",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/mLG0fZb4",
+    "moves": "d4 Nf6 Nf3 d5 e3 g6 c4 Bg7 Nc3 O-O Qb3 e6 Be2 Nc6 Qc2 dxc4 Bxc4 e5 dxe5 Ng4 O-O Ncxe5 Nxe5 Nxe5 Be2 c6 f4 Ng4 h3 Bf5 e4 Qd4+ Kh1 Nf2+ Rxf2 Qxf2 exf5 Bxc3 bxc3 Rae8 Bd3 Re1+ Kh2 Qg1+ Kg3 Rfe8 Rb1 gxf5 Bd2 Rxb1 Qxb1 Qxb1 Bxb1 Re2",
+    "evals": "15 15 11 11 0 32 40 49 8 15 0 0 0 23 -11 -11 -8 0 0 0 0 -5 -6 -13 -19 0 0 0 -6 -1 -88 -77 -87 -97 -97 -90 -73 -95 -83 -82 -89 -92 -80 -77 -95 -79 -308 -246 -490 -529 -523 -523 -499 -492"
+  },
+  {
+    "White": "Ratmir Kholmov",
+    "Black": "Robert James Fischer",
+    "Result": "0-1",
+    "Date": "1967.08.28",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/4UePFIrk",
+    "moves": "d4 Nf6 Nf3 g6 g3 Bg7 Bg2 O-O O-O d6 Nc3 Nbd7 b3 e5 dxe5 dxe5 e4 Re8 Ba3 c6 Bd6 Qa5 Qd3 Re6 b4 Qa3 Bc7 Qxb4 Rab1 Qe7 Rfd1 Ne8 Ba5 Rd6 Qe2 Rxd1+ Qxd1 Bf8 Nd2 Qa3 Nc4 Qc5 Bf1 b5 Nd2 Qa3 Nb3 Nc5 Bxb5 cxb5 Nxb5 Qa4 Nxc5 Qxa5 Qd5 Rb8 a4 Bh3 Qxe5 Rc8 Nd3 Qxa4 Ne1 a6",
+    "evals": "15 15 11 22 0 20 9 6 11 31 15 35 6 16 18 10 -1 5 -13 0 0 0 -132 -129 -150 -130 -135 -121 -141 -142 -178 -175 -172 -136 -178 -166 -164 -135 -245 -277 -289 -240 -229 -253 -249 -241 -233 -215 -470 -475 -477 -483 -550 -540 -573 -575 -584 -566 -590 -596 -579 -569 -704 -670"
+  },
+  {
+    "White": "Lajos Portisch",
+    "Black": "Robert James Fischer",
+    "Result": "0-1",
+    "Date": "1966.08.03",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/Ab0sL7Dw",
+    "moves": "d4 Nf6 c4 e6 Nc3 Bb4 e3 b6 Ne2 Ba6 Ng3 Bxc3+ bxc3 d5 Qf3 O-O e4 dxe4 Nxe4 Nxe4 Qxe4 Qd7 Ba3 Re8 Bd3 f5 Qxa8 Nc6 Qxe8+ Qxe8 O-O Na5 Rae1 Bxc4 Bxc4 Nxc4 Bc1 c5 dxc5 bxc5 Bf4 h6 Re2 g5 Be5 Qd8 Rfe1 Kf7 h3 f4 Kh2 a6 Re4 Qd5 h4 Ne3 R1xe3 fxe3 Rxe3 Qxa2 Rf3+ Ke8 Bg7 Qc4 hxg5 hxg5 Rf8+ Kd7 Ra8 Kc6",
+    "evals": "15 15 16 14 9 15 6 29 21 30 23 29 28 34 32 30 10 16 12 12 10 18 -24 -26 -26 -32 -150 -137 -130 -111 -130 -130 -128 -129 -119 -107 -125 -109 -109 -103 -129 -125 -125 -114 -118 -119 -149 -145 -134 -129 -168 -150 -239 -249 -339 -341 -350 -328 -338 -336 -349 -353 -395 -398 -390 -405 -423 -414 -421 -406"
+  },
+  {
+    "White": "Samuel Reshevsky",
+    "Black": "Robert James Fischer",
+    "Result": "0-1",
+    "Date": "1961.07.27",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/iiI2Uhws",
+    "moves": "d4 Nf6 c4 e6 Nc3 d5 cxd5 Nxd5 Nf3 c5 e3 Nc6 Bd3 Be7 O-O O-O a3 cxd4 exd4 Nf6 Bc2 b6 Qd3 Bb7 Bg5 g6 Rfe1 Re8 h4 Rc8 Rac1 Nd5 Ne4 f5 Nc3 Bxg5 Nxg5 Nf4 Qe3 Qxd4 Nb5 Qxe3 fxe3 Nxg2 Kxg2 Nd4+ Be4 Bxe4+ Nxe4 Nxb5 Nf6+ Kf7 Nxe8 Rxe8 a4 Nd6 Rc7+ Kf6 Rec1 h6 Rxa7 Ne4 Ra6 Rd8 Rc2 Rd3 Rxb6 Rxe3 a5 f4 Rf2 Nxf2 Kxf2 Re4 b4 Re3 a6 Ra3 Rc6 g5 hxg5+ hxg5 b5 g4 Rc8 Kf5 b6 g3+ Ke1 Ra1+ Ke2 g2 Rf8+ Ke4 Rxf4+ Kxf4 b7 g1=Q b8=Q+ Kf5 Qf8+ Ke4 Qa8+ Kd4 Qd8+ Kc4 Qd3+ Kc5 Qc3+ Kd6 Qd2+ Ke5 Qb2+ Kf5",
+    "evals": "15 15 16 14 9 24 22 22 29 26 0 8 12 14 17 21 20 20 18 53 15 13 16 78 30 40 59 84 82 113 71 98 88 119 122 103 108 112 39 13 12 25 22 34 57 176 166 163 154 169 164 148 148 132 160 174 174 177 144 280 278 364 300 315 48 361 307 308 242 237 0 0 0 9 0 0 0 0 -338 -328 -415 -438 -433 -323 -613 -600 -725 -684 -591 -604 -604 -579 -1422 -1171 -999994 -999995 -999995 -759 -784 -1030 -732 -946 -891 -754 -1038 -619 -1045 -896 -810 -1135 -1326 -1181 -1237 -1143"
+  },
+  {
+    "White": "Laszlo Szabo",
+    "Black": "Robert James Fischer",
+    "Result": "0-1",
+    "Date": "1960.11.02",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/6nYCh9g5",
+    "moves": "d4 Nf6 c4 g6 Nc3 Bg7 e4 O-O Bg5 d6 Qd2 c5 d5 e6 Bd3 exd5 Nxd5 Be6 Ne2 Bxd5 exd5 Nbd7 O-O Ne5 f4 Nxd3 Qxd3 h6 Bh4 Re8 Rae1 Qb6 Bxf6 Bxf6 f5 g5 b3 Qa5 Rc1 Qxa2 Rc2 Re3 Qxe3 Qxc2 Kh1 a5 h4 a4",
+    "evals": "15 15 16 28 18 46 40 53 34 27 21 26 33 46 37 32 37 38 20 25 24 25 23 15 -43 -44 -40 -45 -38 -38 -54 -54 -123 -131 -151 -160 -148 -160 -269 -271 -276 -250 -317 -337 -337 -332 -490 -489"
+  },
+  {
+    "White": "Rene Letelier Martner",
+    "Black": "Robert James Fischer",
+    "Result": "0-1",
+    "Date": "1960.10.24",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/nUgIAh0U",
+    "moves": "d4 Nf6 c4 g6 Nc3 Bg7 e4 O-O e5 Ne8 f4 d6 Be3 c5 dxc5 Nc6 cxd6 exd6 Ne4 Bf5 Ng3 Be6 Nf3 Qc7 Qb1 dxe5 f5 e4 fxe6 exf3 gxf3 f5 f4 Nf6 Be2 Rfe8 Kf2 Rxe6 Re1 Rae8 Bf3 Rxe3 Rxe3 Rxe3 Kxe3 Qxf4+",
+    "evals": "15 15 16 28 18 46 40 53 10 15 0 12 0 0 2 3 7 10 -106 -100 -140 -128 -173 -116 -222 -200 -198 -128 -272 -260 -259 -271 -271 -232 -327 -325 -528 -524 -577 -582 -626 -654 -665 -604 -974 -883"
+  },
+  {
+    "White": "Bent Larsen",
+    "Black": "Robert James Fischer",
+    "Result": "0-1",
+    "Date": "1967.03.28",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/lCK3X7H6",
+    "moves": "d4 Nf6 c4 g6 Nc3 Bg7 e4 d6 Be2 O-O Nf3 e5 O-O Nc6 Be3 Re8 dxe5 dxe5 Qxd8 Nxd8 Nb5 Ne6 Ng5 Re7 Rfd1 b6 c5 Nxc5 Rd8+ Bf8 Nxa7 Rxa7 Rxc8 Kg7 f3 Ne8 a3 Nd6 Rd8 h6 Nh3 Ne6 Rb8 Re8 Rxe8 Nxe8 Bb5 Nd6 Bf1 Nb7 Nf2 Bc5 Bxc5 Nbxc5 Rd1 h5 Rd5 Kf6 h4 Ke7 Bc4 c6 Rd2 Nd4 Kf1 f5 b4 b5 Bg8 fxe4 fxe4 Nd7 Rd3 Ra6 Rc3 c5 g4 c4 gxh5 gxh5 Bd5 Nf6 Rg3 Nxd5 exd5 Rf6 Kg2 Nf5 Rh3 Rg6+ Kf3 Nd4+ Ke3 Rg2 Rh1 Kd6 Ne4+ Kxd5 Nc3+ Ke6 Rc1 Rh2 a4 Rh3+ Kf2 Nb3 Kg2 Nxc1 Kxh3 bxa4 Nxa4 Ne2 b5 c3 b6 c2 Nc5+ Kd5 Nb3 Kc6 Kg2 Kxb6",
+    "evals": "15 15 16 28 18 46 40 55 51 47 45 51 40 54 34 36 34 37 15 26 2 11 15 22 23 24 -11 -10 -6 -11 0 0 -8 -8 -17 39 0 0 0 1 -7 3 0 0 0 -3 -21 -14 -26 -28 -18 -15 -35 -36 -44 -51 -75 -61 -58 -69 -67 -68 -72 -74 -89 -62 -123 -126 -124 -136 -128 -107 -172 -157 -220 -153 -241 -290 -275 -255 -270 -273 -303 -303 -284 -279 -284 -302 -297 -272 -363 -322 -511 -507 -514 -512 -510 -584 -565 -560 -550 -553 -609 -590 -585 -579 -612 -651 -649 -613 -689 -683 -735 -704 -862 -881 -776 -8115 -8113 -8115 -1268 -933"
+  },
+  {
+    "White": "Svetozar Gligoric",
+    "Black": "Robert James Fischer",
+    "Result": "1/2-1/2",
+    "Date": "1961.09.03",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/4N19t9K4",
+    "moves": "d4 Nf6 c4 g6 Nc3 Bg7 e4 d6 Nf3 O-O Be2 e5 O-O Nc6 d5 Ne7 Ne1 Nd7 Nd3 f5 exf5 Nxf5 f3 Nf6 Nf2 Nd4 Nfe4 Nh5 Bg5 Qd7 g3 h6 Be3 c5 Bxd4 exd4 Nb5 a6 Nbxd6 d3 Qxd3 Bd4+ Kg2 Nxg3 Nxc8 Nxf1 Nb6 Qc7 Rxf1 Qxb6 b4 Qxb4 Rb1 Qa5 Nxc5 Qxc5 Qxg6+ Bg7 Rxb7 Qd4 Bd3 Rf4 Qe6+ Kh8 Qg6",
+    "evals": "15 15 16 28 18 46 40 55 45 44 45 51 40 54 57 73 67 64 62 67 9 23 26 25 29 33 7 32 34 40 31 40 39 95 31 36 34 141 140 131 113 112 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+  },
+  {
+    "White": "Robert Eugene Byrne",
+    "Black": "Robert James Fischer",
+    "Result": "0-1",
+    "Date": "1963.12.18",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/1mv6Vr44",
+    "moves": "d4 Nf6 c4 g6 g3 c6 Bg2 d5 cxd5 cxd5 Nc3 Bg7 e3 O-O Nge2 Nc6 O-O b6 b3 Ba6 Ba3 Re8 Qd2 e5 dxe5 Nxe5 Rfd1 Nd3 Qc2 Nxf2 Kxf2 Ng4+ Kg1 Nxe3 Qd2 Nxg2 Kxg2 d4 Nxd4 Bb7+ Kf1 Qd7",
+    "evals": "15 15 16 28 10 21 15 14 14 12 13 10 -9 -14 0 -8 -15 -3 -30 -27 -37 -32 -35 -40 -45 -51 -101 -104 -360 -339 -416 -407 -433 -410 -430 -407 -410 -437 -434 -346 -444 -443"
+  },
+  {
+    "White": "Mario Bertok",
+    "Black": "Robert James Fischer",
+    "Result": "0-1",
+    "Date": "1962.03.04",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/neIqibCY",
+    "moves": "d4 d5 c4 e6 Nc3 Be7 Nf3 Nf6 Bg5 O-O e3 h6 Bh4 b6 cxd5 Nxd5 Bxe7 Qxe7 Nxd5 exd5 Be2 Be6 O-O c5 dxc5 bxc5 Qa4 Qb7 Qa3 Nd7 Ne1 a5 Nd3 c4 Nf4 Rfb8 Rab1 Bf5 Rbd1 Nf6 Rd2 g5 Nxd5 Nxd5 Bxc4 Be6 Rfd1 Nxe3 Qxe3 Bxc4 h4 Re8 Qg3 Qe7 b3 Be6 f4 g4 h5 Qc5+ Rf2 Bf5",
+    "evals": "15 27 22 17 22 28 27 14 9 12 9 0 9 5 3 4 7 6 0 0 0 0 0 0 -6 -2 -13 -4 -11 -13 -35 -42 -58 -41 -41 -45 -141 -137 -132 -124 -191 -167 -231 -252 -264 -281 -400 -422 -428 -409 -423 -419 -445 -472 -445 -449 -478 -519 -589 -571 -684 -629"
+  },
+  {
+    "White": "Paul Keres",
+    "Black": "Robert James Fischer",
+    "Result": "1/2-1/2",
+    "Date": "1962.05.24",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/hIYYyFoJ",
+    "moves": "e4 c5 Ne2 d6 g3 g6 Bg2 Bg7 O-O Nc6 c3 e5 d3 Nge7 a3 O-O b4 b6 f4 exf4 gxf4 d5 e5 Bg4 h3 Bxe2 Qxe2 f6 b5 Na5 Nd2 fxe5 fxe5 Rxf1+ Nxf1 Nb3 Rb1 Nxc1 Rxc1 Qc7 Re1 Rd8 Nh2 d4 cxd4 cxd4 Nf3 Bh6 Qa2+ Kh8 Qe6 Nd5 Nh2 Ne3 Bc6 Rf8 Nf3 Bf4 Nxd4 Bxe5 Nf3 Bd4 Rxe3 Bxe3+ Qxe3 Qg3+ Kf1 Qxh3+ Ke1 Qf5 d4 Kg7 Kf2 h5 Kg3 Qg4+ Kh2 Rf4 Qe7+ Kh6 Qe2 Qf5 Qe3 g5 Kg2 Rg4+ Kf2 Rf4 Kg2 Qc2+ Kh1 Qb1+ Kh2 Qa2+ Kh3 Qf7 Kh2 Qf6 Kg2 Kg7 Kg3 h4+ Kg2 Rg4+ Kh1 Rg3 Qe4 g4 Nh2 Qg5 Nf1 Rh3+ Kg1 Rxa3 d5 g3 Bd7 Ra1 Bf5 Qf6 Qf4 Re1 d6 Re5 Qg4+ Kf8 d7 Rd5 Kg2 Rxd7 Bxd7 Qf2+ Kh3 Qxf1+ Kxh4 g2 Qb4+ Kf7 Qb3+ Kg7 Qg3+ Kh7 Qe5 Qh1+ Bh3 Qxh3+ Kxh3 g1=Q Qe7+ Kh8 Qf8+ Kh7 Qf7+",
+    "evals": "18 32 0 26 -11 37 16 38 0 6 0 0 0 3 4 9 6 56 -66 -59 -57 -62 -98 -84 -88 -74 -71 -74 -65 -48 -64 -50 -48 -49 -39 -46 -42 -47 -42 -42 -35 -39 -116 -48 -51 -50 -88 -87 -70 -78 -93 -19 -21 -21 -31 -31 -38 -27 -116 55 56 62 52 66 72 69 67 62 53 61 41 46 10 48 22 33 -6 157 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -25 -34 -71 -21 -23 -22 -24 -18 -19 -27 -113 -20 -18 -11 -25 0 -60 -14 -24 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -5 0 0 0 0 0 0 0 -11 0 0"
+  },
+  {
+    "White": "Wolfgang Unzicker",
+    "Black": "Robert James Fischer",
+    "Result": "0-1",
+    "Date": "1962.10.04",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/Gs4UDoS2",
+    "moves": "e4 c5 Nf3 d6 d4 cxd4 Nxd4 Nf6 Nc3 a6 Be2 e5 Nb3 Be6 O-O Nbd7 f4 Qc7 f5 Bc4 a4 Be7 Be3 O-O a5 b5 axb6 Nxb6 Bxb6 Qxb6+ Kh1 Bb5 Bxb5 axb5 Nd5 Nxd5 Qxd5 Ra4 c3 Qa6 h3 Rc8 Rfe1 h6 Kh2 Bg5 g3 Qa7 Kg2 Ra2 Kf1 Rxc3",
+    "evals": "18 32 20 31 22 19 18 31 32 25 19 14 9 18 28 35 25 36 21 29 9 47 22 24 0 -8 -3 0 -19 -25 -25 -23 -44 -44 -49 -51 -55 -46 -51 0 -42 -41 -63 -38 -65 -62 -180 -190 -278 -288 -629 -620"
+  },
+  {
+    "White": "Herman Pilnik",
+    "Black": "Robert James Fischer",
+    "Result": "0-1",
+    "Date": "1959.04.03",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/wTMhm6Ou",
+    "moves": "e4 c5 Nf3 d6 d4 cxd4 Nxd4 Nf6 Nc3 a6 Be2 e5 Nb3 Be7 O-O O-O Be3 Be6 f3 Qc7 Qe1 Nbd7 Rd1 b5 Rd2 Nb6 Qf2 Rab8 Bxb6 Rxb6 Nd5 Nxd5 exd5 Bd7 f4 Bf6 c3 Rbb8 fxe5 Bxe5 Nd4 g6 a3 a5 Kh1 b4 cxb4 axb4 Rc2 Qb6 Nc6 bxa3 Qxb6 Rxb6 bxa3 Ra8 Nxe5 dxe5 Rc3 Rb2 Rc7 Bf5 g4 Be4+ Bf3 Bd3 d6 Rd8 Re1 Rxd6 Rxe5 Rf6 Re3 Rxf3 Rxf3 Be4 Rxf7 Rf2 Rf8+ Kg7",
+    "evals": "18 25 20 22 22 19 18 25 32 32 14 14 16 12 19 18 18 19 -5 14 -39 -36 -69 -67 -131 -131 -160 -111 -118 -101 -139 -123 -115 -115 -120 -53 -81 -54 -63 -59 -60 -44 -58 -21 -51 -58 -62 -62 -62 -52 -93 -14 -25 -33 -61 -74 -56 -61 -88 -45 -52 -67 -142 -142 -136 -151 -259 -251 -296 -281 -339 -358 -416 -407 -413 -403 -404 -403 -409 -397"
+  },
+  {
+    "White": "Edgar Walther",
+    "Black": "Robert James Fischer",
+    "Result": "1/2-1/2",
+    "Date": "1959.05.19",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/gWOjdDNw",
+    "moves": "e4 c5 Nf3 d6 d4 cxd4 Nxd4 Nf6 Nc3 a6 Bg5 e6 f4 Be7 Qf3 Nbd7 O-O-O Qc7 Bd3 b5 Bxf6 Nxf6 Rhe1 Bb7 Kb1 Rc8 g4 Nd7 g5 Nb6 f5 e5 f6 gxf6 gxf6 Bf8 Nd5 Nxd5 exd5 Kd8 Nc6+ Bxc6 dxc6 Qxc6 Be4 Qb6 Qh5 Kc7 Bf5 Rd8 Qxf7+ Kb8 Qe6 Qc7 Re3 Bh6 Rc3 Qb7 f7 Bg7 Rcd3 Bf8 Qxe5 dxe5 Rxd8+ Ka7 R1d7 h5 Rxb7+ Kxb7 c3 Kc7 Ra8 Kd6 Rxa6+ Ke7 Re6+ Kxf7 Rxe5 b4 cxb4 Bxb4 h3 Kf6 Rb5 Bd6 Be4 Re8 Rf5+ Kg7 Bf3 Re1+ Kc2 Rf1 Rd5 Rf2+ Rd2 Rxd2+ Kxd2 h4 Kd3 Kf6 Kc4 Ke7 Kb5 Kd7 a4 Kc7 b4 Kb8 a5 Ka7 Kc4 Bg3 b5 Bf2 Be2 Be3 Kb3 Bd2 b6+ Kb7 Ka4 Kc6 Bb5+ Kc5",
+    "evals": "18 32 20 31 22 19 18 31 32 25 0 17 4 34 58 60 66 67 23 41 12 18 -79 -27 -27 16 23 43 52 223 226 302 299 299 293 246 303 307 294 388 375 390 372 373 375 402 372 429 388 394 380 388 385 401 387 415 393 494 446 591 533 541 533 549 553 547 552 552 533 537 537 530 525 499 394 381 330 335 214 214 214 236 233 214 219 221 243 232 234 224 221 278 279 347 310 354 281 492 472 483 452 510 450 491 47 428 11 65 71 38 35 52 61 66 0 49 0 64 61 58 5 0 0 0 0 0"
+  },
+  {
+    "White": "Paul Keres",
+    "Black": "Robert James Fischer",
+    "Result": "0-1",
+    "Date": "1959.09.07",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/nIjkFCR8",
+    "moves": "e4 c5 Nf3 d6 d4 cxd4 Nxd4 Nf6 Nc3 a6 Bg5 e6 f4 Be7 Qf3 Qc7 O-O-O Nbd7 Be2 b5 Bxf6 Nxf6 e5 Bb7 exf6 Bxf3 Bxf3 Bxf6 Bxa8 d5 Bxd5 Bxd4 Rxd4 exd5 Nxd5 Qc5 Re1+ Kf8 c3 h5 f5 Rh6 f6 gxf6 Nf4 h4 Rd8+ Kg7 Ree8 Qg1+ Kd2 Qf2+ Ne2 Rg6 g3 f5 Rg8+ Kf6 Rxg6+ fxg6 gxh4 Qxh2 Rd4 Qh1 Kc2 Ke5 a4 Qf1 Nc1 Qg2+ Kb3 bxa4+ Ka3 Qc2 Nd3+ Kf6 Nc5 Qc1 Rxa4 Qe3 Nxa6 f4 Rd4 Kf5 Nb4 Qe7 Kb3 Qxh4 Nd3 g5 c4 Qg3 c5 f3 Kc4 f2 Nxf2 Qxf2 c6 Qxb2 Kc5 Qc3+ Kd5 g4 Rc4 Qe5#",
+    "evals": "18 32 20 31 22 19 18 31 32 25 0 17 4 34 51 58 24 36 2 -8 -87 -66 -93 -89 -126 -136 -134 -130 -115 -3 -17 -16 -9 -9 -7 -12 -10 -13 -14 -12 -34 -27 -36 -42 -41 -45 -77 -83 -239 -237 -262 -299 -276 -229 -416 -461 -472 -457 -512 -503 -474 -267 -241 -212 -214 -140 -181 -183 -132 -34 -313 -381 -374 -334 -353 -338 -237 -259 -219 -246 -243 -270 -255 -226 -333 -311 -382 -313 -405 -349 -342 -408 -460 -304 -655 -611 -688 -648 -711 -681 -632 -638 -1259 -928 -999999 ?"
+  },
+  {
+    "White": "Vasily Smyslov",
+    "Black": "Robert James Fischer",
+    "Result": "0-1",
+    "Date": "1959.10.29",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/vkImc891",
+    "moves": "e4 c5 Nf3 d6 d4 cxd4 Nxd4 Nf6 Nc3 a6 Bg5 e6 f4 Be7 Qf3 Qc7 O-O-O Nbd7 g4 b5 Bxf6 Nxf6 g5 Nd7 Bh3 b4 Nce2 Bb7 Kb1 Nc5 Ng3 d5 f5 dxe4 Qg4 exf5 Ndxf5 g6 Nxe7 Qxe7 Qf4 O-O Rd6 Rad8 Rf6 Rd5 Bg4 Nd7 Rf1 e3 b3 Rd2 Bxd7 Rxd7 Re1 Re8 h4 Qc5 Qc4 Qxc4 bxc4 Rd4 c5 Rxh4 c6 Bc8 Rd6 Rc4 Kb2 Kg7 Kb3 Rg4 Ne2 Re6 Red1 Rg2 Nf4 Rxd6 Rxd6 Rd2 Rd3 Rf2 Rd4 e2 Nd3 Bf5 c7 Rf3 c8=Q Bxc8 Re4 Bf5 Rxe2 Bxd3 cxd3 Rxd3+ Kxb4 Rd5 Rg2 h6 gxh6+ Kxh6 a4 g5 Rc2 Rd6 Kc5 Re6",
+    "evals": "18 32 20 31 22 19 18 31 32 25 0 17 4 34 53 52 53 55 47 55 62 44 49 51 -50 -51 -59 107 -64 -58 -61 -34 -39 -23 -23 5 -153 -118 -170 -170 -198 -197 -243 -240 -335 -269 -247 -183 -181 -141 -273 -274 -369 -350 -319 -306 -356 -355 -389 -387 -381 -391 -388 -392 -383 -383 -400 -405 -431 -434 -432 -422 -417 -424 -466 -440 -434 -424 -483 -477 -488 -488 -477 -473 -643 -613 -717 -475 -550 -549 -550 -531 -515 -537 -522 -525 -516 -502 -496 -495 -484 -479 -476 -521 -532 -513 -497 -472"
+  },
+  {
+    "White": "Svetozar Gligoric",
+    "Black": "Robert James Fischer",
+    "Result": "1/2-1/2",
+    "Date": "1959.10.22",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/yzt9JioC",
+    "moves": "e4 c5 Nf3 d6 d4 cxd4 Nxd4 Nf6 Nc3 a6 Bg5 e6 f4 Be7 Qf3 Qc7 O-O-O Nbd7 g4 b5 Bxf6 gxf6 f5 Ne5 Qh3 O-O Nce2 Kh8 Nf4 Rg8 Rg1 d5 fxe6 dxe4 Nd5 Qc5 Nxe7 Qxe7 Nf5 Qxe6 Qh6 Bd7 Rd6 Nxg4 Rxg4 Qxf5 Rxg8+ Rxg8 Rxf6 Qd5 Rd6 Qf5 Rf6 Qg5+ Qxg5 Rxg5 Rxf7 Bg4 Kd2 Bf3 Ke3 Rg1 Bh3 Re1+ Kf4 Bd1 Ke5 e3 Bf5 Rg1 Rxh7+ Kg8 Rc7 Bg4 Bxg4 Rxg4 Rc3 e2 Re3 Rg2 Kd4 e1=Q Rxe1 Rxc2 Rb1 Kf7 a3 Ke6 b3 Rxh2 Kc5 Kd7 Kb6 Ra2 Kxa6 Rxa3+ Kb7 Kd6 Kb6 Kd7 b4 Rh3 Rc1 Rh8 Kxb5 Rb8+ Ka4 Ra8+ Kb3 Rc8 Rxc8 Kxc8 Kc4 Kb8",
+    "evals": "18 32 20 31 22 19 18 31 32 25 0 17 4 34 46 49 47 56 65 51 49 126 118 116 110 108 115 121 111 121 70 76 70 51 65 55 0 0 0 0 -47 -44 -53 -50 -50 -30 -74 0 0 0 0 0 0 2 3 0 0 0 5 9 0 2 0 7 4 15 -18 0 0 0 0 0 0 0 0 0 0 7 21 0 0 0 0 0 5 2 0 7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 451 0 0 0 0 0 0 0 0 0 0"
+  },
+  {
+    "White": "William James Lombardy",
+    "Black": "Robert James Fischer",
+    "Result": "0-1",
+    "Date": "1960.12.19",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/ftzbmkOO",
+    "moves": "e4 c5 Nf3 d6 d4 cxd4 Nxd4 Nf6 f3 Nc6 c4 e6 Nc3 Be7 Be3 O-O Nc2 d5 cxd5 exd5 Nxd5 Nxd5 Qxd5 Qc7 Qb5 Bd7 Rc1 Nb4 Nxb4 Qxc1+ Bxc1 Bxb5 Nd5 Bh4+ g3 Bxf1 Kxf1 Bd8 Bd2 Rc8 Bc3 f5 e5 Rc5 Nb4 Ba5 a3 Bxb4 axb4 Rd5 Ke2 Kf7 h4 Ke6 Ke3 Rc8 Rg1 Rc4 Re1 Rxc3+ bxc3 Rxe5+ Kd2 Rxe1 Kxe1 Kd5 Kd2 Kc4 h5 b6 Kc2 g5 h6 f4 g4 a5 bxa5 bxa5 Kb2 a4 Ka3 Kxc3 Kxa4 Kd4 Kb4 Ke3",
+    "evals": "18 32 20 31 22 19 18 31 0 21 6 9 17 13 17 28 -10 -16 -22 -41 -80 -76 -78 -82 -99 -110 -121 -74 -72 -75 -74 -63 -106 -119 -120 -112 -118 -131 -135 -116 -119 -124 -189 -158 -235 -228 -215 -185 -214 -210 -209 -190 -193 -174 -188 -194 -203 -186 -489 -486 -451 -501 -483 -488 -463 -474 -523 -505 -520 -513 -525 -524 -773 -676 -837 -791 -8115 -8087 -8115 -1300 -1036 -5533 -2634 -1239 -8115 -8115"
+  },
+  {
+    "White": "Boris Spassky",
+    "Black": "Robert James Fischer",
+    "Result": "1-0",
+    "Date": "1960.03.30",
+    "ChapterURL": "https://lichess.org/study/ND5T7A6E/ayBoaD6q",
+    "moves": "e4 e5 f4 exf4 Nf3 g5 h4 g4 Ne5 Nf6 d4 d6 Nd3 Nxe4 Bxf4 Bg7 Nc3 Nxc3 bxc3 c5 Be2 cxd4 O-O Nc6 Bxg4 O-O Bxc8 Rxc8 Qg4 f5 Qg3 dxc3 Rae1 Kh8 Kh1 Rg8 Bxd6 Bf8 Be5+ Nxe5 Qxe5+ Rg7 Rxf5 Qxh4+ Kg1 Qg4 Rf2 Be7 Re4 Qg5 Qd4 Rf8 Re5 Rd8 Qe4 Qh4 Rf4 Qh6 Rxe7 Rxe7 Qxe7 Rxd3 Rf8+",
+    "evals": "18 22 -34 -39 -39 -13 -36 -15 -17 -12 -77 -97 -65 -54 -86 -101 -92 -97 -86 -78 -72 -51 -54 -49 -48 -52 -53 -68 -63 -74 -69 -61 -63 -37 -57 -51 -56 -43 -53 -53 -51 -16 -17 -9 -27 -9 -13 -2 -10 0 0 619 609 640 648 723 716 726 712 887 822 999998 999999"
+  }
+]

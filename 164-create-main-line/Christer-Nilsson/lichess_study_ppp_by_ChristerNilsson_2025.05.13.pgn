@@ -1,0 +1,52 @@
+[Event "PPP: Lars-Åke Pettersson"]
+[Date "2025.05.13"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "C47"]
+[Opening "Four Knights Game: Gunsberg Variation"]
+[StudyName "PPP"]
+[ChapterName "Lars-Åke Pettersson"]
+[ChapterURL "https://lichess.org/study/LtzvGeZk/R21wDyxp"]
+[Annotator "https://lichess.org/@/ChristerNilsson"]
+[UTCDate "2025.05.13"]
+[UTCTime "08:17:23"]
+
+1. e4 { [%eval 0.18] } 1... e5 { [%eval 0.21] } 2. Nf3 { [%eval 0.13] } 2... Nc6 { [%eval 0.21] } 3. Nc3 { [%eval 0.06] } 3... Nf6 { [%eval 0.07] } 4. a3 { [%eval 0.0] } 4... Be7 { [%eval 0.35] } 5. d4 { [%eval 0.27] } 5... exd4 { [%eval 0.28] } 6. Nxd4 { [%eval 0.28] } 6... O-O { [%eval 0.26] } 7. Bf4 { [%eval 0.08] } 7... Re8 { [%eval 0.29] } 8. Nxc6 { [%eval -0.1] } 8... bxc6 { [%eval 0.02] } 9. Bd3 { [%eval -0.04] } 9... d5 { [%eval -0.05] } 10. O-O { [%eval -0.05] } 10... Bc5 { [%eval 0.35] } 11. e5?! { [%eval -0.37] } { Inaccuracy. Re1 was best. } (11. Re1 Bb6) 11... Ng4 { [%eval -0.31] } 12. Bg3?! { [%eval -0.9] } { Inaccuracy. h3 was best. } (12. h3 Nxe5 13. Bxh7+ Kxh7 14. Qh5+ Kg8 15. Bxe5 Re6 16. b4 Bf8 17. Na4 Bd6) 12... Nxe5 { [%eval -0.89] } 13. Bxh7+ { [%eval -0.92] } 13... Kxh7 { [%eval -0.79] } 14. Qh5+ { [%eval -0.88] } 14... Kg8 { [%eval -0.9] } 15. Bxe5 { [%eval -0.92] } 15... Bd6 { [%eval -0.39] } 16. Rfe1 { [%eval -0.62] } 16... Bxe5?! { [%eval 0.0] } { Inaccuracy. Qe7 was best. } (16... Qe7 17. f4 Bxe5 18. fxe5 Qc5+ 19. Kh1 Re6 20. Qh4 Rh6 21. Qf4 Rb8 22. Rf1) 17. Rxe5 { [%eval 0.0] } 17... Ba6?! { [%eval 0.75] } { Inaccuracy. Rxe5 was best. } (17... Rxe5 18. Qxe5 f6 19. Qe3 Bf5 20. Ne2 Qd6 21. Nd4 Bg6 22. b4 a5 23. Rd1) 18. Rae1 { [%eval 0.87] } 18... Rxe5 { [%eval 0.86] } 19. Qxe5 { [%eval 0.85] } 19... Qd7?! { [%eval 1.76] } { Inaccuracy. Qd6 was best. } (19... Qd6 20. h4) 20. Na4 { [%eval 1.91] } 20... Qd6 { [%eval 1.74] } 21. b4? { [%eval 0.09] } { Mistake. Qd4 was best. } (21. Qd4 Qf8 22. h3 Re8 23. Re3 Bc4 24. Nc5 Rxe3 25. Qxe3 a5 26. b3 Be2) 21... Qxe5 { [%eval 0.03] } 22. Rxe5 { [%eval 0.0] } 22... Kf8 { [%eval 0.36] } 23. Nc5 { [%eval 0.4] } 23... Bc8 { [%eval 0.69] } 24. f3 { [%eval 0.17] } 24... g6?! { [%eval 1.25] } { Inaccuracy. a5 was best. } (24... a5 25. Kf2) 25. Kf2?! { [%eval 0.26] } { Inaccuracy. Nb3 was best. } (25. Nb3 f6) 25... f6?! { [%eval 0.86] } { Inaccuracy. a5 was best. } (25... a5 26. Re2) 26. Re3 { [%eval 0.95] } 26... a5 { [%eval 1.22] } 27. Ne6+?! { [%eval 0.18] } { Inaccuracy. c3 was best. } (27. c3) 27... Bxe6 { [%eval 0.26] } 28. Rxe6 { [%eval 0.29] } 28... axb4 { [%eval 0.39] } 29. axb4 { [%eval 0.29] } 29... Kf7?? { [%eval 3.89] } { Blunder. c5 was best. } (29... c5 30. Rxf6+ Ke7 31. Rc6 cxb4 32. Rxc7+ Kd6 33. Rb7 Ra4 34. Rb6+) 30. Rxc6 { [%eval 3.51] } 30... Rc8?! { [%eval 4.47] } { Inaccuracy. Rb8 was best. } (30... Rb8 31. Rxc7+) 31. Ke3 { [%eval 4.94] } 31... Re8+ { [%eval 4.94] } 32. Kd3 { [%eval 4.75] } 32... Re7 { [%eval 4.7] } 33. Kd4 { [%eval 4.38] } 33... Rd7?! { [%eval 5.56] } { Inaccuracy. Re2 was best. } (33... Re2 34. Rxc7+ Ke6 35. Rc6+ Ke7 36. Kxd5 Rd2+ 37. Ke4 Rxg2 38. b5 Re2+ 39. Kd3) 34. h4 { [%eval 5.49] } 34... Re7 { [%eval 5.6] } 35. Kxd5 { [%eval 5.43] } 35... Rd7+ { [%eval 5.33] } 36. Kc4 { [%eval 5.31] } 36... Re7 { [%eval 5.63] } 37. g4 { [%eval 5.68] } 37... f5 { [%eval 5.56] } 38. h5 { [%eval 5.54] } 38... fxg4 { [%eval 6.14] } 39. hxg6+ { [%eval 5.8] } 39... Kg7 { [%eval 6.75] } 40. fxg4 { [%eval 6.68] } 40... Re4+ { [%eval 6.84] } 41. Kb5 { [%eval 6.65] } 41... Rxg4 { [%eval 7.71] } 42. Rxc7+ { [%eval 7.58] } 42... Kxg6 { [%eval 7.25] } 43. c4 { [%eval 7.5] } 43... Kf6 { [%eval 7.77] } 44. c5 { [%eval 7.72] } 44... Ke6 { [%eval 7.6] } 45. Ka5 { [%eval 7.2] } 45... Rc4 { [%eval 7.41] } 46. Kb5 { [%eval 7.71] } 46... Rf4 { [%eval 7.69] } 47. Rh7 { [%eval 7.67] } 47... Rf5 { [%eval 7.63] } 48. Kb6 { [%eval 7.33] } 48... Kd5 { [%eval 7.93] } 49. b5 { [%eval 7.75] } 49... Rf6+ { [%eval 7.75] } 50. c6 { [%eval 7.6] } 50... Kc4 { [%eval 7.66] } 51. Rh5 { [%eval 7.54] } 51... Kb4 { [%eval 9.27] } 52. Kb7 { [%eval 7.84] } 52... Rf7+ { [%eval 9.21] } 53. c7 { [%eval 7.96] } *
+
+
+[Event "PPP: Thomas Paulin vs Christer Nilsson"]
+[Date "2025-06-10"]
+[White "Thomas Paulin"]
+[Black "Christer Nilsson"]
+[Result "0-1"]
+[WhiteElo "1504"]
+[BlackElo "1653"]
+[Variant "Standard"]
+[ECO "C20"]
+[Opening "King's Pawn Game: Leonardis Variation"]
+[StudyName "PPP"]
+[ChapterName "Thomas Paulin vs Christer Nilsson"]
+[ChapterURL "https://lichess.org/study/LtzvGeZk/FFovTYh5"]
+[Annotator "https://lichess.org/@/ChristerNilsson"]
+
+1. e4 { [%eval 0.18] } 1... e5 { [%eval 0.22] } 2. d3 { [%eval 0.0] } 2... Nf6 { [%eval 0.0] } 3. g3 { [%eval -0.35] } 3... Bc5 { [%eval 0.0] } 4. Nf3 { [%eval -0.28] } 4... Ng4 { [%eval 0.0] } 5. d4 { [%eval 0.0] } 5... exd4 { [%eval 0.0] } 6. Nxd4? { [%eval -1.54] } { Mistake. h3 was best. } (6. h3 Nf6 7. e5 Qe7 8. Bg2 d6 9. O-O dxe5 10. Nxe5 O-O) 6... Nxf2?! { [%eval -0.71] } { Inaccuracy. Qf6 was best. } (6... Qf6 7. Be3 Nxe3 8. fxe3 Nc6 9. c3 Ne5 10. Qe2 O-O 11. Nd2) 7. Kxf2 { [%eval -0.52] } 7... Qf6+ { [%eval -0.69] } 8. Kg2? { [%eval -2.43] } { Mistake. Ke3 was best. } (8. Ke3 Nc6 9. c3 d5 10. Bb5 O-O 11. Bxc6 bxc6 12. Qf3 Qg6) 8... Bxd4 { [%eval -2.48] } 9. c3?? { [%eval -11.36] } { Blunder. Bb5 was best. } (9. Bb5 Qf2+ 10. Kh3 c6 11. Rf1 d6+ 12. g4 h5 13. Rxf2 Bxg4+ 14. Kg2 Bxd1) 9... Qf2+ { [%eval -11.09] } 10. Kh3 { [%eval -10.31] } 10... d5+ { [%eval -9.68] } 11. g4? { [%eval #-5] } { Checkmate is now unavoidable. Qg4 was best. } (11. Qg4 Bxg4+ 12. Kxg4 h5+ 13. Kh3 h4 14. Kg4 hxg3 15. hxg3 Rxh1 16. Bb5+ c6) 11... Bf6?? { [%eval -4.27] } { Lost forced checkmate sequence. h5 was best. } (11... h5 12. Bb5+ c6 13. Bxc6+ bxc6 14. Bh6 hxg4+ 15. Qxg4 Rxh6#) 12. Qd2?? { [%eval #-1] } { Checkmate is now unavoidable. Qe2 was best. } (12. Qe2 Qh4+ 13. Kg2 Bxg4 14. Qe3 Be6 15. Be2 O-O 16. Nd2 Nc6 17. Qg3 dxe4) 12... Qf3# 0-1
+
+
+[Event "PPP: Thomas Paulin vs Christer Nilsson 2"]
+[Date "2025-06-09"]
+[White "Thomas Paulin"]
+[Black "Christer Nilsson"]
+[Result "0-1"]
+[WhiteElo "1504"]
+[BlackElo "1653"]
+[Variant "Standard"]
+[ECO "C20"]
+[Opening "King's Pawn Game"]
+[StudyName "PPP"]
+[ChapterName "Thomas Paulin vs Christer Nilsson 2"]
+[ChapterURL "https://lichess.org/study/LtzvGeZk/VaaE0d4W"]
+[Annotator "https://lichess.org/@/ChristerNilsson"]
+
+1. e4 { [%eval 0.18] } 1... e5 { [%eval 0.22] } 2. g3?! { [%eval -0.34] } { Inaccuracy. Nf3 was best. } (2. Nf3 Nc6 3. Bb5 Nf6 4. O-O Nxe4 5. Re1 Nd6 6. Nxe5 Nxe5) 2... Nf6 { [%eval 0.0] } 3. Bg2 { [%eval 0.04] } 3... Bc5 { [%eval 0.0] } 4. d3 { [%eval -0.06] } 4... d5 { [%eval 0.0] } 5. Bg5?! { [%eval -1.04] } { Inaccuracy. exd5 was best. } (5. exd5 Nxd5 6. Nf3 Nc6 7. O-O O-O 8. a3 a5 9. Nc3 a4) 5... Bxf2+?? { [%eval 1.97] } { Blunder. dxe4 was best. } (5... dxe4 6. Nc3 exd3 7. Nf3 Nc6 8. O-O Bb6 9. Re1 O-O 10. Bxf6) 6. Kxf2 { [%eval 2.05] } 6... Ng4+? { [%eval 3.79] } { Mistake. dxe4 was best. } (6... dxe4 7. Ke1 h6 8. Bxf6 Qxf6 9. Bxe4 Qb6 10. Nc3 O-O 11. a4) 7. Kf1?? { [%eval -3.02] } { Blunder. Qxg4 was best. } (7. Qxg4 f6 (7... Bxg4 8. Bxd8 Kxd8) 8. Qh5+ g6 9. Qh6 fxg5 10. Ke1 Rf8 11. Ne2 Be6) 7... Qxg5 { [%eval -2.98] } 8. Qd2 { [%eval -3.03] } 8... Qe3?! { [%eval -2.27] } { Inaccuracy. Ne3+ was best. } (8... Ne3+ 9. Kf2 d4 10. c3 Qe7 11. cxd4 exd4 12. Na3 c5 13. Nc2 Nxg2 14. Kxg2) 9. Qe2?? { [%eval -4.96] } { Blunder. exd5 was best. } (9. exd5 Qb6) 9... Qc1+ { [%eval -4.9] } 10. Qe1 { [%eval -4.79] } 10... Ne3+ { [%eval -5.11] } 11. Kf2 { [%eval -5.06] } 11... Qxe1+ { [%eval -5.07] } 12. Kxe1 { [%eval -4.87] } 12... Nxc2+ { [%eval -4.03] } 0-1
+
+
