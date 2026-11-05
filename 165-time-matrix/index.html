@@ -65,7 +65,7 @@
   <main>
     <div class="eyebrow">Schack / Turneringsplanering</div>
     <h1>Hur lång tid tar turneringen?</h1>
-    <p class="intro">Hitta rätt kombination av betänketid och antal ronder.<br>Matrisen visar sammanlagd speltid upp till fyra timmar.</p>
+    <p class="intro">Hitta rätt kombination av betänketid och antal ronder.<br>Matrisen visar sammanlagd speltid upp till åtta timmar.</p>
     <div class="toolbar">
       <label for="moves">Beräknat antal drag per parti <input id="moves" type="number" min="1" max="200" value="60" step="1"></label>
       <div class="legend"><span>Kortare</span><span class="gradient" aria-hidden="true"></span><span>Längre</span></div>
@@ -79,11 +79,11 @@
     </div>
     <footer>
       <p id="formula"></p>
-      <p>Tom cell = över 4h. Pauser ingår inte. Tider avrundas uppåt till hela minuter.</p>
+      <p>Tom cell = över 8h. Pauser ingår inte. Tider avrundas uppåt till hela minuter.</p>
     </footer>
   </main>
   <script>
-    const controls = [[3,2],[10,5],[15,10],[20,10],[30,10],[38,12],[45,15],[60,20],[75,25],[90,30]];
+    const controls = [[3,2],[10,5],[15,10],[20,10],[30,10],[35,10],[45,15],[60,20],[75,25],[90,30]];
     const input = document.getElementById('moves');
     function formatTime(seconds) {
       const minutes = Math.ceil(seconds / 60);
@@ -98,8 +98,8 @@
         const gameSeconds = 2 * (base * 60 + moves * increment);
         const cells = Array.from({length: 10}, (_, i) => {
           const seconds = gameSeconds * (i + 1);
-          if (seconds > 14400) return '<td class="empty" aria-label="Över fyra timmar"></td>';
-          const lightness = 97 - (seconds / 14400) * 26;
+          if (seconds > 28800) return '<td class="empty" aria-label="Över åtta timmar"></td>';
+          const lightness = 97 - (seconds / 28800) * 26;
           return `<td style="background:hsl(143 24% ${lightness}%)" title="${base}+${increment} · ${i + 1} ronder · ${moves} drag per parti">${formatTime(seconds)}</td>`;
         }).join('');
         return `<tr><th scope="row">${base}+${increment}</th>${cells}</tr>`;
