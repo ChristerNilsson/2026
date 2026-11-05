@@ -19,10 +19,10 @@
     .legend { display: flex; align-items: center; gap: 9px; font-size: 12px; color: #6c7770; }
     .gradient { width: 90px; height: 8px; border-radius: 10px; background: linear-gradient(90deg, #f1f5ec, #81b59b); }
     .matrix { overflow-x: auto; border: 1px solid #d9ded4; border-radius: 12px; background: #fffefa; }
-    table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 14px; font-variant-numeric: tabular-nums; white-space: nowrap; }
-    caption { text-align: left; padding: 19px 22px; font-size: 12px; color: #778178; letter-spacing: .07em; text-transform: uppercase; border-bottom: 1px solid #e1e5dc; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 28px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    caption { text-align: left; padding: 19px 22px; font-size: 24px; color: #778178; letter-spacing: .07em; text-transform: uppercase; border-bottom: 1px solid #e1e5dc; }
     th, td { height: 58px; padding: 12px 14px; text-align: center; border-bottom: 1px solid #e6e9e0; border-right: 1px solid #e6e9e0; }
-    thead th { background: #f0f2eb; color: #596b60; font-size: 12px; font-weight: 600; height: 48px; }
+    thead th { background: #f0f2eb; color: #596b60; font-size: 24px; font-weight: 600; height: 48px; }
     th:first-child { position: sticky; left: 0; z-index: 1; background: #fffefa; text-align: left; padding-left: 22px; min-width: 135px; }
     thead th:first-child { background: #f0f2eb; }
     tbody th { font-weight: 650; }
@@ -34,6 +34,31 @@
     footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 20px; font-size: 12px; line-height: 1.7; color: #778178; }
     footer p { margin: 0; }
     @media (max-width: 600px) { body { padding: 32px 16px; } .toolbar { margin-top: 24px; } th, td { padding: 10px 13px; height: 52px; } }
+    @page { size: A4 landscape; margin: 10mm; }
+    @media print {
+      :root { background: white; color: #182c24; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      body { padding: 0; }
+      main { max-width: none; width: 100%; }
+      .eyebrow { font-size: 8pt; }
+      h1 { font-size: 25pt; margin: 2mm 0; }
+      .intro { font-size: 9pt; line-height: 1.35; }
+      .intro br { display: none; }
+      .toolbar { margin: 3mm 0; gap: 3mm; }
+      label { font-size: 9pt; gap: 2mm; }
+      input { width: 15mm; padding: 0; border: 0; border-radius: 0; background: transparent; appearance: textfield; -moz-appearance: textfield; }
+      input::-webkit-inner-spin-button, input::-webkit-outer-spin-button { appearance: none; margin: 0; }
+      .legend { font-size: 8pt; }
+      .matrix { overflow: visible; border-radius: 0; break-inside: avoid; }
+      table { table-layout: fixed; font-size: 20pt; }
+      caption { padding: 2mm 3mm; font-size: 16pt; white-space: normal; }
+      th, td { height: 10mm; padding: 1mm; }
+      thead th { height: 8mm; font-size: 16pt; }
+      th:first-child { position: static; min-width: 0; width: 44mm; padding-left: 3mm; }
+      thead th:first-child { white-space: normal; }
+      tr { break-inside: avoid; }
+      td:not(.empty):hover { outline: none; }
+      footer { margin-top: 3mm; gap: 1mm; font-size: 8pt; line-height: 1.35; }
+    }
   </style>
 </head>
 <body>
