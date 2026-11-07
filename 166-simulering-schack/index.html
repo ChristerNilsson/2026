@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="sv">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Schackstudion · Gissa draget</title>
+<link rel="stylesheet" href="style.css?v=11">
+<main>
+  <header><span class="eyebrow">SCHACKSTUDION / PGN-TRÄNING</span><h1>Hitta nästa drag.</h1><p>Studera ett parti. Välj det starkaste draget. Du har tio liv.</p></header>
+  <div class="layout">
+    <div class="board-column"><section class="play"><div class="board-top"><strong id="turn">Ladda en analys för att börja</strong><span id="progress">0 / 0</span></div><div id="board" role="group" aria-label="Schackbräde"></div><div class="board-bottom"><span id="last">Senaste drag: —</span><strong id="lives">♥ 10</strong></div></section>
+    <section class="card feedback"><span class="eyebrow">02 / VID BRÄDET</span><p id="message" role="status" aria-live="polite">Välj en JSON-fil som skapats av analyze.py.</p><div id="promotion" hidden><label>Förvandla bonde till<select id="piece"><option value="q">Dam</option><option value="r">Torn</option><option value="b">Löpare</option><option value="n">Springare</option></select></label><button id="promote">Bekräfta drag</button></div><button id="next" hidden>Fortsätt →</button><button id="settings" class="secondary">Inst&#228;llningar</button></section></div><div class="side-column">
+      <section id="setup" class="card"><span class="eyebrow">01 / DIN ÖVNING</span><label>Analysfil (.json)<input id="file" type="file" accept=".json,application/json"></label><label>Parti<select id="game" disabled></select></label><div class="pair"><label>Jag spelar<select id="color"><option value="white">Vit</option><option value="black">Svart</option></select></label><label>Tillåten förlust<input id="threshold" type="number" min="0" step="0.1" value="1.0"></label></div><p class="hint">Motst&#229;ndaren f&#246;ljer alltid PGN-partiet.</p><button id="start" disabled>Starta övning ↗</button></section>
+      
+    
+<section id="results" class="card protocol" aria-label="Partiprotokoll"><span class="eyebrow">03 / PROTOKOLL</span><h2>Partiets g&#229;ng</h2><p class="hint">Drag = ditt val eller motst&#229;ndarens drag. PGN = partiets drag. Utv. = dragets v&#228;rdering. B&#228;sta = starkaste draget med dess utv&#228;rdering.</p><div id="protocol-scroll" class="table-scroll"><table><thead><tr><th rowspan="2" scope="col">Nr</th><th colspan="6" scope="colgroup">Vit</th><th colspan="6" scope="colgroup">Svart</th></tr><tr><th scope="col">Drag</th><th scope="col">Utv</th><th scope="col">PGN</th><th scope="col">Utv</th><th scope="col">B&#228;st</th><th scope="col">Utv</th><th scope="col">Drag</th><th scope="col">Utv</th><th scope="col">PGN</th><th scope="col">Utv</th><th scope="col">B&#228;st</th><th scope="col">Utv</th></tr></thead><tbody id="moves"></tbody></table></div><p id="protocol-empty" class="hint">Protokollet fylls p&#229; n&#228;r dragen spelas.</p></section>
+  </div></div><footer>Klicka på en pjäs och sedan målrutan. Utvärderingar visas alltid ur vits perspektiv, i bondenheter: positivt för vit, negativt för svart.</footer>
+</main><script src="app.js?v=11"></script>
+</html>

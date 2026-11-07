@@ -1,0 +1,14 @@
+[Event "Bent Larsen: Kapitel 1"]
+[Date "2026.11.02"]
+[Result "*"]
+[Variant "Standard"]
+[ECO "C89"]
+[Opening "Ruy Lopez: Marshall Attack, Steiner Variation"]
+[StudyName "Bent Larsen"]
+[ChapterName "Kapitel 1"]
+[ChapterURL "https://lichess.org/study/EwiBxTxi/4Rdi4HPG"]
+[Annotator "https://lichess.org/@/ChristerNilsson"]
+[UTCDate "2026.11.02"]
+[UTCTime "16:53:51"]
+
+1. e4 { [%eval 0.18] } 1... e5 { [%eval 0.22] } 2. Nf3 { [%eval 0.18] } 2... Nc6 { [%eval 0.22] } 3. Bb5 { [%eval 0.15] } 3... a6 { [%eval 0.21] } 4. Ba4 { [%eval 0.11] } 4... Nf6 { [%eval 0.28] } 5. O-O { [%eval 0.16] } 5... Be7 { [%eval 0.24] } 6. Re1 { [%eval 0.19] } 6... b5 { [%eval 0.14] } 7. Bb3 { [%eval 0.18] } 7... O-O { [%eval 0.26] } 8. c3 { [%eval 0.24] } 8... d5 { [%eval 0.25] } 9. exd5 { [%eval 0.33] } 9... e4? { [%eval 1.49] } { Mistake. Nxd5 was best. } (9... Nxd5 10. Nxe5 Nxe5 11. Rxe5 c6 12. Re1 Bd6 13. d3 Bf5 14. Nd2 Bxd3 15. Ne4) 10. dxc6 { [%eval 1.32] } 10... exf3 11. Qxf3 Bg4 12. Qe3 Re8 13. d4 Bd6 14. Qd2 Bf4 15. Rxe8+ Qxe8 16. Qd3 Qe1+ 17. Qf1 Bxh2+ 18. Kxh2 Qxf1 *
