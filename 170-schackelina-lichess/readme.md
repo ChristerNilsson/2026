@@ -5,4 +5,4 @@ Utgå från
 
 Detta schackparti ska vara spelbart även på en mobiltelefon.
 
-[Try it!](https://github.com/ChristerNilsson/2026/tree/main/170-schackelina-lichess)
+[Try it!](https://christernilsson.github.io/2026/170-schackelina-lichess/)
