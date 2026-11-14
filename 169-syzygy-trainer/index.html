@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Syzygy · Slutspelsträning</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header><a href="./" class="brand">◈ SYZYGY<span>SLUTSPELSTRÄNING</span></a><span class="tag">Ett drag närmare matt.</span></header>
+  <main>
+    <section class="intro"><p class="eyebrow">TRÄNA MED TABLEBASE</p><h1>Gör vinsten till en vana.</h1><p>Hitta matten. Datorn ger dig bästa möjliga motstånd.</p></section>
+    <div class="workspace">
+      <section class="board-panel" aria-label="Schackbräde"><div class="board-heading"><span id="turn">Laddar position…</span><button id="flip" class="text-button">Vänd brädet ↻</button></div><div id="board" class="board" role="group" aria-label="Klicka på en pjäs och sedan en målruta"></div><div class="board-footer"><span id="position-label">Problem —</span><span>Klicka på pjäs → målruta</span></div></section>
+      <aside>
+        <section class="card"><p class="eyebrow">DIN TRÄNING</p><h2>Vägen till matt</h2>
+          <label for="problem-set">Välj problem</label><select id="problem-set" disabled><option>Läser problems.json…</option></select>
+          <p id="available-problems" class="muted"></p>
+          <p id="generation-status" role="status" aria-live="polite">Delproblemen skapas automatiskt i webbläsaren.</p>
+          <button id="regenerate" class="text-button" disabled>Skapa en ny variant ↻</button>
+          <label for="problem">Välj delproblem</label><select id="problem" disabled></select><p id="source" class="muted">Startar med matt i ett drag.</p>
+          <div class="stats"><div><span id="played">0</span><small>Dina drag</small></div><div><span id="minimum">—</span><small>Minst till matt</small></div></div>
+          <label class="check"><input id="show-count" type="checkbox" checked> Visa minsta antal drag</label>
+          <p id="metric-note" class="muted">Antal egna drag från startpositionen.</p>
+          <div id="status" role="status" aria-live="polite">Hämtar problem…</div><button id="retry" class="text-button" hidden>Försök ansluta igen ↻</button>
+          <div class="difficulty"><button id="easier">Easier<small>−1</small></button><button id="same">Same<small>0</small></button><button id="harder">Harder<small>+1</small></button></div><p class="muted center">Välj nästa utmaning eller försök igen.</p>
+        </section>
+        <section class="card history"><p class="eyebrow">PARTIET</p><div id="history">Dina drag visas här.</div></section>
+      </aside>
+    </div>
+    <footer>SYZYGY TRAINER <span>Lagliga drag med chess.js · Tablebase via Lichess · Internet krävs</span></footer>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
