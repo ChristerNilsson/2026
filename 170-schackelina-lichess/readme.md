@@ -13,3 +13,5 @@ https://lichess.org/study/TsCoD5zF
 
 https://lichess.org/study/embed/TsCoD5zF/icPIFRqp
 
+https://lichess.org/study/embed/yS1qfB74/XWF7JUgs
+
