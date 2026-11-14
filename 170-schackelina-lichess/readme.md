@@ -6,3 +6,10 @@ Utgå från
 Detta schackparti ska vara spelbart även på en mobiltelefon.
 
 [Try it!](https://christernilsson.github.io/2026/170-schackelina-lichess/)
+
+https://lichess.org/study/TsCoD5zF/icPIFRqp
+
+https://lichess.org/study/TsCoD5zF
+
+https://lichess.org/study/embed/TsCoD5zF/icPIFRqp
+
