@@ -1,56 +1,613 @@
-<!doctype html>
-<html lang="sv">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#243b32">
-    <title>Schackelina – spela igenom partiet</title>
-    <style>
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        background: #f3f1e9;
-        color: #243b32;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        line-height: 1.5;
-      }
-      main { width: min(100%, 1000px); margin: auto; padding: 28px 16px; }
-      header { margin-bottom: 20px; }
-      .eyebrow { margin: 0 0 4px; font-size: .8rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
-      h1 { margin: 0 0 8px; font-size: clamp(1.6rem, 5vw, 2.5rem); line-height: 1.2; }
-      p { margin: 0; }
-      .board { width: 50%; height: 300px; margin-inline: auto; overflow: hidden; border-radius: 12px; background: #262421; box-shadow: 0 8px 30px #243b3218; }
-      footer { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center; margin-top: 16px; font-size: .9rem; }
-      a { color: inherit; text-underline-offset: 3px; }
-      a:focus-visible { outline: 3px solid #876323; outline-offset: 5px; }
-      @media (max-width: 600px) {
-        main { padding: 20px 8px; }
-        header, footer { padding-inline: 8px; }
-        .board { height: calc(50vw + 120px); min-height: 275px; border-radius: 6px; }
-        iframe { height: calc(100vw + 240px); min-height: 550px; }
-      }
-    </style>
-  </head>
-  <body>
-    <main>
-      <header>
-        <p class="eyebrow">Schackelina</p>
-        <h1>Spela igenom partiet</h1>
-        <p>Följ partiet drag för drag med pilarna under brädet.</p>
-      </header>
-      <section class="board" aria-label="Interaktivt schackparti från Lichess">
-        <iframe
-          src="https://lichess.org/study/embed/TsCoD5zF/icPIFRqp"
-          title="Schackparti – interaktiv Lichess-studie"
-          width="100%"
-          height="100%"
-          allowfullscreen>
-        </iframe>
-      </section>
-      <footer>
-        <p>Tryck på helskärmsknappen för ett större bräde.</p>
-        <a href="https://lichess.org/study/TsCoD5zF/icPIFRqp" target="_blank" rel="noopener noreferrer">Öppna på Lichess ↗</a>
-      </footer>
-    </main>
-  </body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="content-language" content="sv">
+<meta name="description" content="Inför ordinarie ronden av sjunde ronden av Stockholmsmästerskapet för veteraner fick jag lämna återbud då jag blev kraftigt förkyld. Som var tur var så varade det inte så länge. Jag hade vit mot Tomas LIndblad och vi spelade en onsdag på Schacksalongerna. Trevligt nog var det full verksam...   ">
+<link rel="alternate" href="https://schackelina.bloggo.nu/feed/" type="application/rss+xml" title="Schackelina   ">
+<link rel="alternate" href="https://schackelina.bloggo.nu/Rond-7-Stockholmsmasterskapet---man-ska-spela-det-basta-draget-/feed/" type="application/rss+xml" title="Schackelina - Kommentarer på Rond 7 Stockholmsmästerskapet - man ska spela det bästa draget   ">
+<link rel="alternate" href="https://schackelina.bloggo.nu/2026/11/feed/" type="application/rss+xml" title="Schackelina - november 2026   ">
+<link rel="shortcut icon" href="https://static.bloggo.nu/favicon.ico">
+<link rel="canonical" href="https://schackelina.bloggo.nu/Rond-7-Stockholmsmasterskapet---man-ska-spela-det-basta-draget-/">
+<title>Rond 7 Stockholmsmästerskapet - man ska spela det bästa draget - Schackelina   </title>
+<style type="text/css">
+<!--
+
+@import url(https://static.bloggo.nu/fonts/euphoria-script.css);
+#header h1, #header a {
+	font-family: 'Euphoria Script', cursive;
+	font-size: 64px !important;
+}
+#header p {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+@import url(https://static.bloggo.nu/fonts/arimo.css);
+
+html {
+	overflow-y: scroll;
+}
+
+body {
+	margin-left: 0;
+	margin-right: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	background-color: #D8D8D8;
+	font-size: 11pt;
+	font-family: 'Helvetica Neue', HelveticaNeue, TeXGyreHeros, FreeSans, 'Nimbus Sans L', 'Liberation Sans', Arimo, Helvetica, Arial, sans-serif;
+	-moz-box-sizing:border-box;box-sizing:border-box;-webkit-box-sizing:border-box;
+}
+input, textarea, select, checkbox, radio {font: inherit;}
+ 
+#container {
+	padding: 0;
+	margin:0 auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	width: 100%;
+	max-width: 1020px;
+	background-color: #FFFFFF;	/* Same as sidepanel background */
+	border-color: #c0c0c0;
+	border-style: solid;
+	border-width: 1px;
+	-webkit-box-shadow: 0 0 8px rgba(0,0,0,0.8);-moz-box-shadow: 0 0 8px rgba(0,0,0,0.8); box-shadow: 0 0 8px rgba(0,0,0,0.8);
+}
+ 
+#header {
+	padding-bottom: 0.5em;
+	padding-top: 1em;
+	padding-left: 1.5%;
+	padding-right: 1.5%;
+	margin: 0;
+	margin-left: 0;
+	margin-right: 0;
+	text-align: left;
+	color: #000000;
+	background-color: #FFFFFF;
+	width: 97%;
+}
+#header p, #header h1 {display: inline;}
+#header h1, #header a {font-size: 40px; text-shadow: 2px 2px 2px #808080; text-decoration: none; color: #000000;}
+#header a:hover {color: #505050;}
+ 
+#menu {
+	padding-bottom: 0%;
+	padding-top: 0%;
+	padding-left: 1.5%;
+	padding-right: 1.5%;
+	margin: 0;
+	margin-left: 1.5%;
+	margin-right: 1.5%;
+	margin-top: 0.5em;
+	text-align: left;
+	color: #BBBBBB;
+	background-color: #000000;
+	width: 94%;
+	font-weight: normal;
+	font-size: 12pt;
+	border-color: #c0c0c0;
+	border-width: 0px;
+	margin-bottom: 1em;
+	-webkit-border-radius: 5px 5px 5px 5px;-moz-border-radius: 5px 5px 5px 5px;-khtml-border-radius: 5px 5px 5px 5px;border-radius: 5px 5px 5px 5px;
+	background-image: linear-gradient(to bottom, #000000 0%, #404040 100%);
+}
+#menu ul {float: left; margin: 0; padding: 0; border-style: solid; border-width: 0px;}
+#menu li {display: inline;}
+#menu ul a {border-style: solid; border-width: 0px; float: left; text-decoration: none; padding: 0.5em 1em;} 
+#menu a:link {color: #ffffff;}
+#menu a:visited {color: #ffffff;}
+#menu a:hover {background-color: #404040; color: #ffffff;}
+#menu a#current {background-color: #000000; color: #ffffff;}
+#menu ul ul, #menu ul ul #current {background-color: #3B3B3B;}
+#menu ul ul a:hover {background-color: #606060;}
+#menu ul ul a {padding-right: 2em; padding-left: 1.4em;}
+
+#content {
+    background: #FFFFFF;	/* Same as mainpanel background */
+    margin-right: 260px;
+}
+ 
+#mainpanel {
+	float: left;
+	padding-left: 1%;
+	padding-right: 2%;
+	padding-top: 0em;
+	padding-bottom: 0em;
+	margin: 0;
+	text-align: left;
+	color: #000000;
+	background-color: #FFFFFF;
+	width: 90%;
+	margin-right:-1px;
+	 padding-left: 1.6em;
+}
+#mainpanel A:link {text-decoration: underline; color: #505050;}
+#mainpanel A:visited {text-decoration: underline; color: #505050;}
+#mainpanel A:active {text-decoration: underline; color: #505050;}
+#mainpanel A:hover {text-decoration: underline; color: #000099;}
+#mainpanel .post-title, #mainpanel .post-title a {display: inline; text-decoration: none; color: #000000; font-size: 17pt; font-weight: bold; text-shadow: 1px 1px 2px #808080;}
+#mainpanel .post-title a:hover {color: #505050;}
+#page {padding-top: 1.2em;}
+#page-title {padding-top: 0em; margin-top: 0em; text-shadow: 1px 1px 2px #c0c0c0;}
+.post {background-color: #ffffff; padding: 1.2em;  padding-left: 0; padding-top: 1.2em; margin-bottom: 1em;}
+.post-delimiter {}
+.post-meta {font-size: 10pt; color: #505050; padding-top: 0.2em; margin-top: 0.4em; padding-bottom: 0.2em;}
+.post-content {text-align: left; line-height: 1.4; margin-bottom: 1.5em;}
+#mainpanel .post-content A:link {text-decoration: underline; color: #19729B;}
+#mainpanel .post-content A:visited {text-decoration: underline; color: #19729B;}
+#mainpanel .post-content A:active {text-decoration: underline; color: #19729B;}
+#mainpanel .post-content A:hover {text-decoration: underline; color: #505050;}
+.post-previous-next {margin-left: 2.5%;}
+.post-previous {}
+.post-next {}
+.post-older-newer {float: left; margin-left: 1%; margin-bottom: 2em; width: 95%;}
+.post-older {float: left;}
+.post-newer {float: right;}
+.tag-box {font-size: 10pt; color: #505050; margin-bottom: 0.5em; margin-top: 0;}
+.tag-title {font-weight: normal; display: inline;}
+.tag-text {display: inline;}
+.share-box {font-size: 10pt; color: #505050; margin-bottom: 0.5em; margin-top: 0;}
+.share-title {font-weight: normal; display: inline;}
+.share-text {display: inline;}
+.share-entry {}
+.share-entry img {margin-right: 0.3em; margin-left: 0.2em;}
+.share-rss, .share-rss-comments {float: right;}
+.share-rss img, .share-rss-comments img {margin-left: 0.3em; margin-right: 0.3em;}
+.share-textdelimiter, .share-rss-textdelimiter {margin-left: 0.2em; margin-right: 0.2em;}
+.share-rss-textdelimiter {float: right;}
+.poll {width: 95%; max-width: 350px; padding: 0.8em; border-style: solid; border-width: 1px; border-color: #c0c0c0; margin-bottom: 1em;}
+.poll-title {display: inline;}
+.comments-introbox {font-size: 10pt; color: #505050; margin-bottom: 0.5em; margin-top: 0;}
+.comments-introtext {display: inline;}
+#comment-list {}
+#comment-list .comment-reply-link {font-size: 10pt; }
+#comment-list .comment-reply-link A:visited, #comment-list .comment-reply-link A:active {color: #19729B;}
+.comment-replies {margin-top: 0.3em;}
+.comment {font-size: 11pt; background-color: #ffffff; margin-left: 0em;}
+.comment-even {}
+.comment-reply {}
+.comment-reply-even {}
+.comment-head {margin-top: 1.3em; border: #c0c0c0; border-style: solid; border-width: 0px; font-size: 10pt; padding: 5px; padding-left: 10px;}
+.comment-date {color: #999999;}
+.comment-body {padding: 5px; margin-bottom: 0em; padding-bottom: 1.3em; padding-left: 10px; border-color: #c0c0c0; border-bottom-style: solid; border-bottom-width: 1px;}
+.comment-body .comment-reply {border-bottom-style: none;}
+.comment-head .comment-reply, .comment-body .comment-reply {max-width: 90%;}
+.comment-text {margin-top: 0em; padding-top: 0.4em; padding-bottom: 0.4em; margin-bottom: 0.2em;}
+.comment-number, .comment-date, .comment-name {margin-right: 0.4em;}
+.comment-number {font-size: 10pt; font-weight: bold;}
+#comment-list .comment-number A {text-decoration: none;}
+.comment-body .comment-reply {margin-bottom: 0em; padding-bottom: 0em;}
+.comment-reply .comment-text {margin-bottom: 0em; padding-bottom: 0em;}
+.comment-body .comment-head {padding-bottom: 5px;}
+#comments-post {background-color: #FFFFFF; padding-top: 1em; padding-bottom: 1em; padding-left: 2em; margin-bottom: 2.0em; margin-top: 2.5em;}
+#comments-post-form {}
+#comments-post-title {color: #303030; text-shadow: 1px 1px 2px #c0c0c0;}
+.form-input-field {margin: 0em; padding: 0.1em; padding-left: 0em;}
+.form-input-field textarea {margin: 0em; padding: 0em; margin-top: 0em; margin-bottom: 0em;}
+.form-input-field input {width: 35%;}
+.form-input-name, .form-input-email, .form-input-url, .form-input-comment {}
+.form-input-name-error, .form-input-email-error, .form-input-url-error, .form-input-comment-error {color: #ffffff; background-color: #dd0000; padding-left: 1em;}
+#form-comment {width: 90%;}
+#form-remember-box {float: right; margin: 0px; padding: 0.1em;}
+#form-commentinfo {}
+.form-buttons {padding-top: 0.4em; padding-bottom: 0.4em; margin-top: 0em; margin-bottom: 0em;}
+.form-buttons input {}
+.form-buttons #form-send {font-weight: bold;}
+.form-buttons #form-reset {visibility: hidden;}
+ 
+#sidepanel {
+	float: right;
+	padding-left: 0;
+	padding-right: 2%;
+	padding-top: 0%;
+	padding-bottom: 2%;
+	margin: 0;
+	text-align: left;
+	color: #444444;
+	background-color: #FFFFFF;
+	font-size: 11pt;
+	position: relative;
+	right: -1px;
+	margin-right: -259px; /*must be 1 pixel less than width */
+	width: 260px;
+	border: #e0e0e0;
+	border-style: solid;
+	border-width: 0px;
+	border-right-width: 0px;
+}
+#sidepanel A:link {text-decoration: underline; color: #19729B;}
+#sidepanel A:visited {text-decoration: underline; color: #19729B;}
+#sidepanel A:active {text-decoration: underline; color: #19729B;}
+#sidepanel A:hover {text-decoration: underline; color: #505050;}
+#sidepanel .sidepanel-archive li {margin-left: 2em;}
+#sidepanel .sidepanel-list-sub {margin-left: 2em;}
+#sidepanel .sidepanel-list-subsub {margin-left: 3em;}
+#sidepanel .sidepanel-archive .sidepanel-archive-year, #sidepanel .sidepanel-archive .sidepanel-archive-longlist, #sidepanel li {margin: 0px; padding: 0px; margin-left: 1em;}
+#sidepanel ul {margin-left: 0px; padding-left: 0em;}
+.sidepanel-about-me {overflow: hidden; background-color: #FFFFFF; margin-bottom: 1em; padding-top: 1em; padding-left: 1em; margin-right: 1em;}
+.sidepanel-categories, .sidepanel-promotion, .sidepanel-logout, .sidepanel-links, .sidepanel-archive, .sidepanel-latest-posts, .sidepanel-pages, .sidepanel-poll, .sidepanel-tags, .sidepanel-search {background-color: #FFFFFF; margin-bottom: 1em; padding-top: 0em; padding-left: 1em;  margin-right: 1em;}
+#sidepanel .sidepanel-logout {padding-top: 15px;}
+.sidepanel-archive select, .sidepanel-search form {margin-top: 15px; margin-bottom: 15px;}
+#sidepanel h4 {display: inline; padding: 0; margin: 0; font-size: 12pt; color: #303030; text-shadow: 1px 1px 2px #c0c0c0;}
+.sidepanel-poll .poll {width: 99%; border-width: 0px; padding: 0; margin-bottom: 15px;}
+
+#footer {
+	position: relative;
+	padding-bottom: 1em;
+	padding-top: 1em;
+	padding-left: 1.5%;
+	padding-right: 1.5%;
+	margin: 0;
+	margin-left: 1.5%;
+	margin-right: 1.5%;
+	margin-top: 0.5em;
+	text-align: left;
+	color: #000000;
+	background-color: #ffffff;
+	border-style: none;
+	width: 94%;
+	border-top-color: #000000;
+	border-top-width: 3px;
+	border-top-style: solid;
+	clear: both;
+}
+#footer A:link {text-decoration: underline; color: #000000;}
+#footer A:visited {text-decoration: underline; color: #000000;}
+#footer A:active {text-decoration: underline; color: #000000;}
+#footer A:hover {text-decoration: underline; color: #000099;}
+#footer p {margin-bottom: 0; margin-top: 0;}
+ 
+ 
+/* start - attach right hand sidepanel
+PLEASE DO NOT EDIT UNLESS YOU KNOW WHAT YOU ARE DOING */
+ 
+.clearfix:after {
+    content: ;
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+.clearfix {
+    display: inline-block;
+}
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+ 
+/* end - attach right hand sidepanel
+PLEASE DO NOT EDIT UNLESS YOU KNOW WHAT YOU ARE DOING */  
+
+a {text-decoration-skip-ink: none;}
+
+	#header {
+		background: none;
+		background-color: #ffffff;
+	}
+	#header-imageborder {
+		margin-top: 20px;
+		margin-bottom: 10px;
+		max-width: 900px;
+	}
+	#header-image {
+		background: url('https://img.bloggo.nu/5/schackelina/478ba/8444742s.jpg') repeat-x;
+		background-position: top left;
+		min-height: 550px;
+	}
+	#header h1, #header a {color: #202020;}
+
+.share-icons {display: inline-block; vertical-align: middle; width: 27px; height: 27px; margin-right: 0.3em; margin-left: 0.2em; background-repeat: no-repeat; background:url(https://static.bloggo.nu/r/srall_m.png?20170619);}
+.share-icons-facebook {background-position: 0px 0px;}
+.share-icons-twitter {background-position: -27px 0px;}
+.share-icons-pusha {background-position: -54px 0px;}
+.share-icons-google {background-position: -189px 0px;}
+.share-icons-whatsapp {background-position: -216px 0px;}
+.share-icons-email {background-position: -81px 0px;}
+.share-icons-print {background-position: -108px 0px;}
+.share-icons-rss-comments {background-position: -135px 0px; margin-left: 0.3em;}
+.share-icons-rss {background-position: -162px 0px; margin-left: 0.3em;}
+#mainpanel .share-icons:hover {background-color: transparent;}
+	#header {width: auto;}
+#menu {width: auto;}
+#footer {width: auto;}
+#footer-wrapper {overflow: hidden; clear: both;}
+#header {padding-left: 1.5%; width: auto;}
+#header {padding-right: 1.5%; width: auto;}
+.form-input-field textarea {padding: 3px;}
+
+.error, .notice, .success {
+	border: 1px solid #DDD;
+	margin-bottom: 1em;
+	padding: 0.6em 0.8em;
+}
+.error {background: #FBE3E4; color: #8A1F11; border-color: #FBC2C4;}
+.error a {color: #8A1F11;}
+.notice {background: #FFF6BF; color: #514721; border-color: #FFD324;}
+.notice a {color: #514721;}
+.success {background: #E6EFC2; color: #264409; border-color: #C6D880;}
+.success a {color: #264409;}
+label {cursor: pointer; user-select: none;}
+label.form-label {cursor: auto;}
+
+-->
+</style>
+<style media="print">
+@media print {
+	#container {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+	#header-imageborder, #header-image {
+		min-height: 0;
+		height: auto;
+		border-width: 0;
+		margin-bottom: 0;
+	}
+	#sidepanel, #menu, #footer, #mobile-switch, .post-previous-next, #comments-post {
+		display: none;
+	}
+	#container {
+		border-width: 0;
+	}
+}
+</style>
+</head>
+<body class="blog post-id-1531744"><img src="https://img.bloggo.nu/5/schackelina/478ba/8444742s.jpg" style="display: none;">
+
+<div id="container">
+
+<div id="header">
+<h1><a href="/">Schackelina</a></h1>
+	<p><span style="line-height: 0.3em; font-size: 0.5em; display: block;"><br><br></span>Schack är magiskt !</p>
+<div id="header-imageborder"><div id="header-image">&nbsp;</div></div></div>
+
+<div id="menu">
+<ul>
+<li><a href="/">Start</a></li>
+</ul>
+<div style="clear: both;"></div>
+</div>
+
+
+<div id="content" class="clearfix">
+
+
+<div id="sidepanel">
+<div class="sidepanel-about-me">
+		<h4>Om</h4>
+		<p>Varje dag går det att upptäcka nya saker !&nbsp; Både på schackbrädet och livet i övrigt.&nbsp;</p>&nbsp; &nbsp;&nbsp;&nbsp;<br>&nbsp;<p></p><p>&nbsp;</p><p><img src="https://img.bloggo.nu/5/schackelina/a0b93/36474602s.jpg" width="180" height="121" alt="" border=""></p><p><br></p><p></p><p><br></p><p></p><p>&nbsp;</p><p></p><p>&nbsp;</p><p></p><p><br></p><p></p><p><br></p>&nbsp;<p></p><p><br></p><p></p>&nbsp;<p></p><p><br></p><p></p>&nbsp;<p><br></p><div><p></p>&nbsp;<p></p><p><br></p><p>&nbsp;<span style="font-size: 11pt;">&nbsp;</span><span style="font-size: 11pt;">&nbsp;</span></p><p><br></p><p><br></p><p><span style="font-size: 11pt;">&nbsp;</span></p><p></p><p><br></p><p></p><p><br></p>&nbsp;<p></p>&nbsp;&nbsp;<p></p><p><br></p><p></p><p><br></p><p>&nbsp;</p><p></p><p><br></p><p><span style="font-size: 11pt;">&nbsp;</span></p><p></p><p><br></p><p><br></p><p></p><p><br></p><p><br></p><p>&nbsp; &nbsp;</p>
+</div></p>
+</div>
+
+<div class="sidepanel-pages" style="overflow: hidden;">
+<h4>Sidor</h4>
+<ul><li><a href="/about/" title="Presentation">Presentation</a></li></ul>
+</div>
+
+<div class="sidepanel-latest-posts" style="overflow: hidden;">
+<h4>Senaste inlägg</h4>
+<ul style="width: 90%;"><li><a href="/Test/" title="Test">Test</a><span style="display: block; padding-top: 0; margin-top: 0; margin-bottom: 0.5em; padding-bottom: 0;"><small>2026-11-14</small></span></li><li><a href="/Rond-7-Stockholmsmasterskapet---man-ska-spela-det-basta-draget-/" title="Rond 7 Stockholmsmästerskapet - man ska spela det bästa draget">Rond 7 Stockholmsmästerskapet - man ska spela det bästa draget</a><span style="display: block; padding-top: 0; margin-top: 0; margin-bottom: 0.5em; padding-bottom: 0;"><small>2026-11-13</small></span></li><li><a href="/Sa-fint-att-vara-med-och-fira-Ulf-Andersson--1/" title="Så fint att vara med och fira Ulf Andersson">Så fint att vara med och fira Ulf Andersson</a><span style="display: block; padding-top: 0; margin-top: 0; margin-bottom: 0.5em; padding-bottom: 0;"><small>2026-11-02</small></span></li><li><a href="/Stockholmsmasterskapet-rond-6---en-lomsk-bonde-holl-pa-att-fa-mig-pa-fall-/" title="Stockholmsmästerskapet rond 6 - en lömsk bonde höll på att få mig på fall">Stockholmsmästerskapet rond 6 - en lömsk bonde höll på att få mig på fall</a><span style="display: block; padding-top: 0; margin-top: 0; margin-bottom: 0.5em; padding-bottom: 0;"><small>2026-10-19</small></span></li><li><a href="/Damsnabben--pa-Svarta-Hasten---en-tavling-som-inspirerar/" title="Damsnabben  på Svarta Hästen - en tävling som inspirerar">Damsnabben  på Svarta Hästen - en tävling som inspirerar</a><span style="display: block; padding-top: 0; margin-top: 0; margin-bottom: 0.5em; padding-bottom: 0;"><small>2026-10-17</small></span></li></ul>
+</div>
+<div class="sidepanel-archive" style="overflow: hidden;">
+<h4>Arkiv</h4>
+<ul><li class="sidepanel-archive-year"><a href="#" onclick="if (document.getElementById && document.getElementById('sidepanel-archive-year-2026')) {var item = document.getElementById('sidepanel-archive-year-2026'); if (item.style.display == 'none') {item.style.display = 'block';} else {item.style.display = 'none';}} return(false);">2026</a></li><span id="sidepanel-archive-year-2026" style=""><li class="sidepanel-list-sub"><a title="Visa inlägg från januari 2026" href="/2026/01/">januari</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från februari 2026" href="/2026/02/">februari</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från mars 2026" href="/2026/03/">mars</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från april 2026" href="/2026/04/">april</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från maj 2026" href="/2026/05/">maj</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från juni 2026" href="/2026/06/">juni</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från juli 2026" href="/2026/07/">juli</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från augusti 2026" href="/2026/08/">augusti</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från september 2026" href="/2026/09/">september</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från oktober 2026" href="/2026/10/">oktober</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från november 2026" href="/2026/11/">november</a></li></span><li class="sidepanel-archive-year"><a href="#" onclick="if (document.getElementById && document.getElementById('sidepanel-archive-year-2025')) {var item = document.getElementById('sidepanel-archive-year-2025'); if (item.style.display == 'none') {item.style.display = 'block';} else {item.style.display = 'none';}} return(false);">2025</a></li><span id="sidepanel-archive-year-2025" style="display: none;"><li class="sidepanel-list-sub"><a title="Visa inlägg från januari 2025" href="/2025/01/">januari</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från februari 2025" href="/2025/02/">februari</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från mars 2025" href="/2025/03/">mars</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från april 2025" href="/2025/04/">april</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från maj 2025" href="/2025/05/">maj</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från juni 2025" href="/2025/06/">juni</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från juli 2025" href="/2025/07/">juli</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från augusti 2025" href="/2025/08/">augusti</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från september 2025" href="/2025/09/">september</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från oktober 2025" href="/2025/10/">oktober</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från november 2025" href="/2025/11/">november</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från december 2025" href="/2025/12/">december</a></li></span><li class="sidepanel-archive-year"><a href="#" onclick="if (document.getElementById && document.getElementById('sidepanel-archive-year-2024')) {var item = document.getElementById('sidepanel-archive-year-2024'); if (item.style.display == 'none') {item.style.display = 'block';} else {item.style.display = 'none';}} return(false);">2024</a></li><span id="sidepanel-archive-year-2024" style="display: none;"><li class="sidepanel-list-sub"><a title="Visa inlägg från januari 2024" href="/2024/01/">januari</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från februari 2024" href="/2024/02/">februari</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från mars 2024" href="/2024/03/">mars</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från april 2024" href="/2024/04/">april</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från maj 2024" href="/2024/05/">maj</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från juni 2024" href="/2024/06/">juni</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från juli 2024" href="/2024/07/">juli</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från augusti 2024" href="/2024/08/">augusti</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från september 2024" href="/2024/09/">september</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från oktober 2024" href="/2024/10/">oktober</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från november 2024" href="/2024/11/">november</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från december 2024" href="/2024/12/">december</a></li></span><li class="sidepanel-archive-year"><a href="#" onclick="if (document.getElementById && document.getElementById('sidepanel-archive-year-2023')) {var item = document.getElementById('sidepanel-archive-year-2023'); if (item.style.display == 'none') {item.style.display = 'block';} else {item.style.display = 'none';}} return(false);">2023</a></li><span id="sidepanel-archive-year-2023" style="display: none;"><li class="sidepanel-list-sub"><a title="Visa inlägg från januari 2023" href="/2023/01/">januari</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från februari 2023" href="/2023/02/">februari</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från mars 2023" href="/2023/03/">mars</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från april 2023" href="/2023/04/">april</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från maj 2023" href="/2023/05/">maj</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från juni 2023" href="/2023/06/">juni</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från juli 2023" href="/2023/07/">juli</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från augusti 2023" href="/2023/08/">augusti</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från september 2023" href="/2023/09/">september</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från oktober 2023" href="/2023/10/">oktober</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från november 2023" href="/2023/11/">november</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från december 2023" href="/2023/12/">december</a></li></span><li class="sidepanel-archive-year"><a href="#" onclick="if (document.getElementById && document.getElementById('sidepanel-archive-year-2022')) {var item = document.getElementById('sidepanel-archive-year-2022'); if (item.style.display == 'none') {item.style.display = 'block';} else {item.style.display = 'none';}} return(false);">2022</a></li><span id="sidepanel-archive-year-2022" style="display: none;"><li class="sidepanel-list-sub"><a title="Visa inlägg från januari 2022" href="/2022/01/">januari</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från februari 2022" href="/2022/02/">februari</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från mars 2022" href="/2022/03/">mars</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från april 2022" href="/2022/04/">april</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från maj 2022" href="/2022/05/">maj</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från juni 2022" href="/2022/06/">juni</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från juli 2022" href="/2022/07/">juli</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från augusti 2022" href="/2022/08/">augusti</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från september 2022" href="/2022/09/">september</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från oktober 2022" href="/2022/10/">oktober</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från november 2022" href="/2022/11/">november</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från december 2022" href="/2022/12/">december</a></li></span><li class="sidepanel-archive-year"><a href="#" onclick="if (document.getElementById && document.getElementById('sidepanel-archive-year-2021')) {var item = document.getElementById('sidepanel-archive-year-2021'); if (item.style.display == 'none') {item.style.display = 'block';} else {item.style.display = 'none';}} return(false);">2021</a></li><span id="sidepanel-archive-year-2021" style="display: none;"><li class="sidepanel-list-sub"><a title="Visa inlägg från januari 2021" href="/2021/01/">januari</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från februari 2021" href="/2021/02/">februari</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från mars 2021" href="/2021/03/">mars</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från april 2021" href="/2021/04/">april</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från maj 2021" href="/2021/05/">maj</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från juni 2021" href="/2021/06/">juni</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från juli 2021" href="/2021/07/">juli</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från augusti 2021" href="/2021/08/">augusti</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från september 2021" href="/2021/09/">september</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från oktober 2021" href="/2021/10/">oktober</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från november 2021" href="/2021/11/">november</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från december 2021" href="/2021/12/">december</a></li></span><li class="sidepanel-archive-year"><a href="#" onclick="if (document.getElementById && document.getElementById('sidepanel-archive-year-2020')) {var item = document.getElementById('sidepanel-archive-year-2020'); if (item.style.display == 'none') {item.style.display = 'block';} else {item.style.display = 'none';}} return(false);">2020</a></li><span id="sidepanel-archive-year-2020" style="display: none;"><li class="sidepanel-list-sub"><a title="Visa inlägg från juni 2020" href="/2020/06/">juni</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från juli 2020" href="/2020/07/">juli</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från augusti 2020" href="/2020/08/">augusti</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från september 2020" href="/2020/09/">september</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från oktober 2020" href="/2020/10/">oktober</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från november 2020" href="/2020/11/">november</a></li><li class="sidepanel-list-sub"><a title="Visa inlägg från december 2020" href="/2020/12/">december</a></li></span></ul>
+</div>
+
+<div class="sidepanel-links" style="overflow: hidden;">
+<h4>Länkar</h4>
+<ul><li><a rel="external" title="Besök Jag pratar om Schack-VM på TV4 (extern länk)" target="_blank" href="https://www.tv4play.se/klipp/8f9fa5e607877cb3b87a/video-schack-vm-det-kan-ga-sa-langt-som-till-armageddon">Jag pratar om Schack-VM på TV4</a></li><li><a rel="external" title="Besök Kristallens Schackklubb (extern länk)" target="_blank" href="https://www.kristallen.org/display/overview">Kristallens Schackklubb</a></li><li><a rel="external" title="Besök Schacksnack (extern länk)" target="_blank" href="http://www.schacksnack.se/">Schacksnack</a></li><li><a rel="external" title="Besök Sveriges Schackförbund (extern länk)" target="_blank" href="http://schack.se">Sveriges Schackförbund</a></li><li><a rel="external" title="Besök Intervju The queen´s gambit (extern länk)" target="_blank" href="https://schack.se/nyhet/sverige/2020/11/sveriges-radio-intervjuar-susanna-berg-laachiri-om-the-queens-gambit/">Intervju The queen´s gambit</a></li><li><a rel="external" title="Besök Chessmood (extern länk)" target="_blank" href="https://chessmood.com/">Chessmood</a></li></ul>
+</div>
+
+
+</div>
+
+
+<div id="mainpanel">
+
+<div class="post">
+<h2 class="post-title">Rond 7 Stockholmsmästerskapet - man ska spela det bästa draget</h2>
+<p class="post-meta"><span class="post-meta-date">2026-11-13. </span><span class="post-meta-author">Publicerat av Susanna.</span></p>
+
+<div class="post-content">
+<p>Inför ordinarie ronden av sjunde ronden av Stockholmsmästerskapet för veteraner fick jag lämna återbud då jag blev kraftigt förkyld. Som var tur var så varade det inte så länge. Jag hade vit mot Tomas LIndblad och vi spelade en onsdag på Schacksalongerna. Trevligt nog var det full verksamhet där med Seniorschack och det kändes bra. Det är alltid tråkigt att spela ett uppskjutet parti i en nästan tom lokal.&nbsp;</p><p>Förra gången vi möttes fick jag ett starkt angrepp som vit men missade att jag kunde få in ogarderbar matt och partiet slutade så småningom remi. Jag misstänkte att min motståndare skulle spela en annan variant denna gång och jag hade rått i detta. Partiet fick en lugn mittspelskaraktär och här är en viktig nyckelställning.&nbsp;</p><p>&nbsp;Svart: Tomas Lindblad&nbsp;</p><p><img src="https://img.bloggo.nu/5/schackelina/6715e/27855976s.png" width="450" height="450" alt="" border=""></p><p>Vit Susanna Berg Laachiri&nbsp;</p><p>Vit har precis spelat 16. Sf5 och svart svarade snabbt med ett misstag, nämligen 16. -f6, Nu är det bara att spela 17. Sxd4 med vinstspel för vit. Jag tänkte faktiskt denna tanke direkt når det hände&nbsp; under partiet. "Nu vinner jag! "Det är farligt att göra det. Vet inte hur många gånger jag gjort det och inte vunnit. Bättre att fokusera på vad ställningen kräver.&nbsp;</p><p>Här kan jag vinna pjäs. Fortsättningen blev 17.-&nbsp; exd4 18. Dxe6 + Kh8&nbsp; Här fortsatte jag med 19. Dxd5 då jag var lockad att vinna ett bekvämt slutspel men 19. Lxd5 är bästa draget. Jag måste erkänna att jag såg spöken och trodde att svart skulle få massa motspel men vi konstaterade båda när vi pratade om partiet efteråt att det finns inget&nbsp; för svart. Nedan en analys av vad jag var rädd för men det är som sagt inget att frukta. Svart hade mer chanser i slutspelet som jag valde.<iframe width="600" height="371" src="https://lichess.org/study/embed/TsCoD5zF/jTFplFXt" frameborder="0"></iframe></p> 
+Som sagt,  inget att vara rädd för och något jag måste jobba med i mina partier. Jag kom dock bra och hade vinstspel i slutspelet men svart försvarade sig bra. Det blev ganska odramatiskt. Det enda dramatiska var att jag höll på att sätta bort ett torn men som var tur var tog jag en extra titt och upptäckte vad jag höll på att göra. Det hade inte varit ett roligt slut för mig !<p></p><p></p><p><br></p><p>Här går det att spela igenom hela partiet med mina kommentarer.<iframe width="600" height="371" src="https://lichess.org/study/embed/TsCoD5zF/icPIFRqp" frameborder="0"></iframe> Ett långt parti men finns inga vinstchanser trots två merbönder och vi enades om remi.&nbsp;</p><p>Det finns ingen regel utan undantag, men lärdomen jag tar med mig från detta parti är att alltid sträva efter bästa draget i schack ! Jag försökte en genväg utan att riskera något och det straffade sig.&nbsp;</p><p>Två ronder till har spelats i Stockholmsmästerskapet och jag återkommer snart med de två partier jag har spelat. Bland annat ett intressant slutspel som var lärorikt.&nbsp;</p></div>
+
+
+<div class="share-box">
+	<h4 class="share-title">Dela:&nbsp; </h4><p class="share-text"><span class="share-entry share-entry-facebook"><a class="share-icons share-icons-facebook" target="_blank" title="Dela via Facebook" rel="nofollow" href="https://www.facebook.com/sharer.php?u=https%3A%2F%2Fschackelina.bloggo.nu%2FRond-7-Stockholmsmasterskapet---man-ska-spela-det-basta-draget-%2F&amp;t=Rond%207%20Stockholmsm%C3%A4sterskapet%20-%20man%20ska%20spela%20det%20b%C3%A4sta%20draget"></a></span><span class="share-entry share-entry-twitter"><a class="share-icons share-icons-twitter" target="_blank" title="Dela via Twitter" rel="nofollow" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fschackelina.bloggo.nu%2FRond-7-Stockholmsmasterskapet---man-ska-spela-det-basta-draget-%2F"></a></span><span class="share-entry share-entry-print"><a class="share-icons share-icons-print" title="Skriv ut sidan" rel="nofollow" href="javascript:window.print();"></a></span><span class="share-entry share-entry-email"><a class="share-icons share-icons-email" title="Skicka via e-post" rel="nofollow" href="mailto:?subject=Rond%207%20Stockholmsm%C3%A4sterskapet%20-%20man%20ska%20spela%20det%20b%C3%A4sta%20draget&amp;body=https%3A%2F%2Fschackelina.bloggo.nu%2FRond-7-Stockholmsmasterskapet---man-ska-spela-det-basta-draget-%2F"></a></span><span class="share-rss"><a class="share-icons share-icons-rss" rel="nofollow" title="Prenumerera på inlägg via RSS" href="/feed/"></a></span><span class="share-rss-comments"><a class="share-icons share-icons-rss-comments" rel="nofollow" title="Prenumerera på kommentarer via RSS" href="/Rond-7-Stockholmsmasterskapet---man-ska-spela-det-basta-draget-/feed/"></a></span></p>
+</div>
+
+
+
+<div class="comments" id="comments">
+
+<div class="comments-introbox">
+	<p class="comments-introtext">0 kommentarer | <a rel="nofollow" title="Skriv en kommentar" href="#comments-post">Skriv en kommentar</a> | <a rel="nofollow" title="Prenumerera på kommentarer via RSS" href="/Rond-7-Stockholmsmasterskapet---man-ska-spela-det-basta-draget-/feed/">Kommentarer RSS</a></p>
+</div>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function replyfocus (s,n) {
+	if (document.getElementById && document.getElementById("form-comment") && document.getElementById("comments-post-title") && document.getElementById("form-reply")) {
+		document.getElementById("form-reply").value = s;
+		if(document.all) {
+			document.getElementById("comments-post-title").innerText = "Skriv ett svar på kommentaren från " + n;
+		} else {
+			document.getElementById("comments-post-title").textContent = "Skriv ett svar på kommentaren från " + n;
+		}
+		if (document.getElementById && document.getElementById("comments-post-subtitle") && document.getElementById("comment-text-"+s)) {
+			document.getElementById("comments-post-subtitle").innerHTML = n + ":<br><i>" + document.getElementById("comment-text-"+s).innerHTML + "</i>";
+		}
+		setTimeout('document.getElementById("form-comment").focus();', 100);
+	}
+	return(true);
+}
+//-->
+</script>
+	
+<script language="JavaScript" type="text/javascript">
+<!--
+
+function check_email(e) {
+ ok = "1234567890qwertyuiop[]asdfghjklzxcvbnm.@-_QWERTYUIOPASDFGHJKLZXCVBNM#~!&'()*+,;=:";
+ for(i=0; i < e.length ;i++){
+  if(ok.indexOf(e.charAt(i))<0){
+   return (false);
+  }
+ }
+ if (document.images) {
+  re = /(@.*@)|(\.\.)|(^\.)|(^@)|(@$)|(\.$)|(@\.)/;
+  re_two = /^.+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z]{2,8}|[0-9]{1,3})(\]?)$/;
+  if (!e.match(re) && e.match(re_two)) {
+   return (true);
+  }
+  return (false);
+ }
+ return (true);
+}
+
+function checkform () {
+ if (document.getElementById && document.getElementById("form-comment")) {
+  if (document.getElementById("form-input-name")) {document.getElementById("form-input-name").className = 'form-input-field form-input-name';}
+  if (document.getElementById("form-remember-box") && document.getElementById("form-remember-box").style) {document.getElementById("form-remember-box").style.display = '';}
+  if (document.getElementById("form-input-email")) {document.getElementById("form-input-email").className = 'form-input-field form-input-email';}
+  if (document.getElementById("form-input-url")) {document.getElementById("form-input-url").className = 'form-input-field form-input-url';}
+  if (document.getElementById("form-input-comment")) {document.getElementById("form-input-comment").className = 'form-input-field form-input-comment';}
+  if (document.getElementById("form-name")) {
+   if (document.getElementById("form-name").value.length < 2) {
+    if (document.getElementById("form-input-name")) {document.getElementById("form-input-name").className = 'form-input-field form-input-name-error';}
+    if (document.getElementById("form-remember-box") && document.getElementById("form-remember-box").style) {document.getElementById("form-remember-box").style.display = 'none';}
+    alert("Du har inte angett ett korrekt värde för fältet namn.");
+    document.getElementById("form-name").focus();
+    return(false);
+   }
+  }
+  if (document.getElementById("form-email")) {
+   if (document.getElementById("form-email").value != "" && (check_email("ok.email@okhost.tld") && !check_email(document.getElementById("form-email").value.trim()))) {
+    if (document.getElementById("form-input-email")) {document.getElementById("form-input-email").className = 'form-input-field form-input-email-error';}
+    alert("Du har inte angett ett korrekt värde för fältet e-post.");
+    document.getElementById("form-email").focus();
+    return(false);
+   }
+  }
+  if (document.getElementById("form-url")) {
+   if (document.getElementById("form-url").value != "" && document.getElementById("form-url").value != "http://" && document.getElementById("form-url").value.length < 12) {
+    if (document.getElementById("form-input-url")) {document.getElementById("form-input-url").className = 'form-input-field form-input-url-error';}
+    alert("Du har inte angett ett korrekt värde för fältet hemsida.");
+    document.getElementById("form-url").focus();
+    return(false);
+   }
+  }
+  if (document.getElementById("form-comment")) {
+   if (document.getElementById("form-comment").value.length < 2 || document.getElementById("form-comment").value.length > 10000) {
+    if (document.getElementById("form-input-comment")) {document.getElementById("form-input-comment").className = 'form-input-field form-input-comment-error';}
+    alert("Du har inte angett ett korrekt värde för fältet meddelande.");
+    document.getElementById("form-comment").focus();
+    return(false);
+  }
+  var messtext = document.getElementById("form-comment").value.toLowerCase();
+  if (messtext && (messtext.indexOf("[url")>-1 || messtext.indexOf("<a ")>-1)) {
+   if (document.getElementById("form-input-comment")) {document.getElementById("form-input-comment").className = 'form-input-field form-input-comment-error';}
+    alert("Var vänlig skriv en normal meddelandetext.\n\nMeddelandefältet får ej innehålla HTML-taggar.");
+    document.getElementById("form-comment").focus();
+    return(false);
+   }
+  }
+ }
+}
+//-->
+</script>
+	
+<div id="comments-post">
+<h3 id="comments-post-title">Skriv en kommentar</h3>
+<p id="comments-post-subtitle"></p>
+<table style="display: none; position: absolute; visibility: hidden; left: -487px; top: -1103px;"><tr><td>
+<form name="post-from" id="post-form" method="post" action="//schackelina.bloggo.nu/postcomment/post.php" style="display: none; position: absolute; visibility: hidden; left: -566px; top: -914px;">
+<input type="checkbox" name="post-remember" id="post-remember" tabindex="7">
+<input type="text" name="post-name" id="post-name" tabindex="1" size="30" maxlength="40"><br>
+<input type="text" name="post-email" id="post-email" tabindex="2" size="30" maxlength="64"><br>
+<input type="text" name="post-url" id="post-url" tabindex="3" size="30" maxlength="128"><br>
+<textarea maxlength="2000" name="post-comment" id="post-comment" tabindex="4" rows="10" cols="50"></textarea><br>
+<input type="hidden" name="post-text" id="post-text" size="30" value="">
+<input type="hidden" name="post-website" id="post-website" size="30" maxlength="64" value="">
+<input type="hidden" name="post-post" id="post-post" value="1531744">
+<input type="hidden" name="post-reply" id="post-reply" value="">
+<input type="hidden" name="post-lang" id="post-lang" value="sv">
+<input type="submit" name="post-form-send" id="post-form-send" tabindex="5" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Skicka&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">
+<input type="reset" name="post-form-reset" id="post-form-reset" tabindex="6" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nollställ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"><input type="hidden" name="539a7fbe9913b814f6e22de1b6d989fc" value="d93177bde7035c7fbed591f66fdad1d0">
+</form></td></tr></table>
+<form method="post" action="//schackelina.bloggo.nu/post.php" onsubmit="return checkform();" name="comments-post-form" id="comments-post-form">
+<p id="form-remember-box"><label><input type="checkbox" name="form-remember" id="form-remember" tabindex="8">Kom ihåg mig</label></p>
+	<p class="form-input-field form-input-name" id="form-input-name"><input type="text" name="form-name" id="form-name" tabindex="1" size="30" maxlength="40"> <label for="form-input-name" class="form-label">Namn<span class="form-label-info">*</span></label></p>
+<p class="form-input-field form-input-email" id="form-input-email"><input type="text" name="form-email" id="form-email" tabindex="2" size="30" maxlength="64"> <label for="form-input-email" class="form-label">E-post<span class="form-label-info"> (visas ej)</span></label></p>
+<p class="form-input-field form-input-url" id="form-input-url"><input type="text" name="form-url" id="form-url" tabindex="3" size="30" maxlength="128" value="http://"> <label for="form-input-url" class="form-label">Hemsida</label></p>
+<p class="form-input-field form-input-comment" id="form-input-comment">
+<textarea maxlength="4000" name="form-comment" id="form-comment" tabindex="5" rows="10" cols="50"></textarea>
+</p>
+<input type="hidden" name="form-text" id="form-text" size="30" value="">
+<input type="hidden" name="form-website" id="form-website" size="30" maxlength="128" value="">
+<input type="hidden" name="form-post" id="form-post" value="1531744">
+<input type="hidden" name="form-reply" id="form-reply" value="">
+<input type="hidden" name="form-lang" id="form-lang" value="sv">
+<input type="hidden" value="1794671061" name="form-td">
+<input type="hidden" value="d0fc00a45de396fd76cda2ba6b2603bc" name="form-29aea770e9">
+<input type="hidden" value="f013bb0475bc8f9d83e375e551dc1bb6" name="form-e0b66e1f9b">
+<input type="hidden" value="56f8e65f6b962a4ac76f9581b6153acd" name="form-adaa95512d">
+<input type="hidden" value="c21ce2179e6d3838ee7fd1f966495fb5" name="form-ea6866e2fa">
+<input type="hidden" value="0f2f0cc80996ce7387cba4edb825498a" name="form-28514ed83c">
+<input type="hidden" value="7583ec658e024d50744fbd6bca18f63f" name="form-d5bea4797b">
+<input type="hidden" value="99ddfcb3a4f161fde241c5674a246b6a" name="form-d3597cdc3a">
+<p class="form-buttons">
+<input type="submit" name="form-send" id="form-send" tabindex="6" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Skicka&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">
+<input type="reset" name="form-reset" id="form-reset" tabindex="7" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nollställ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">
+</p>
+</form>
+</div>
+
+</div>
+
+
+<div class="post-previous-next">
+	<p class="post-previous">Föregående inlägg: <a title="Visa föregående inlägg" rel="prev" href="/Sa-fint-att-vara-med-och-fira-Ulf-Andersson--1/">Så fint att vara med och fira Ulf Andersson</a></p>
+	<p class="post-next">Nästa inlägg: <a title="Visa nästa inlägg" rel="next" href="/Test/">Test</a></p>
+</div>
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+<div id="footer-wrapper">
+	<div id="footer" class="footer-content">
+		<p><a href="/">Tillbaka till bloggens startsida</a> <span class="footer-login" style="float: right;"><a rel="nofollow" href="https://admin.bloggo.nu">Logga in</a></span></p>
+	</div>
+</div>
+
+</div>
+
+
+<script type="text/javascript">
+<!--
+function printPage(u) {
+	if (confirm('Vill du skriva ut alla inlägg på den här sidan? Klicka på Ok.\n\nVill du endast skriva ut det aktuella inlägget? Klicka på Avbryt.')) {
+		window.print();
+	}
+	else {
+		window.location.href = u + '?print';
+	}
+}
+//-->
+</script>
+	
+<!-- EZSdqCtrJdv6SQEPzDhusGMnmWWOtBM7BEk1hOs01Y7TPMIop0SSHFg3BcS4OEcqjwrBlUCmTJfIwY6WZZOHE4KfhDk6iwwC3YdoSPKLz0t5ZA1ZzQGdUqtc4NimkPYoNbMF0xrAyVFyvHx4xdisELFIzX4UM2iAd4feCHObCuJ7bgcJtub7gQPPOTKBW2b97roJ8cVLHETSU5BoANvQElGtfq5bthlAIJkRWfDDTwwNC8ccVH3A3K4ia9tDqOe9yy1vNE8GbFuNNGZIo3jrNnKYwdCX2Q6Bo86cMeSXTnKH4KptOJUB6EADScAU2HvrPCDCQwzKTkrY5RrTBmuH14lThWOkDkLtWo5NVEyOZ0N4SeXtAsbBxwvOsk86EUzBiFoejX3jXQnQ4ljFNuhl1N9u7iALcamvPLJ9JMsGCQxHbQnZlFknsuRzMslYDIutudDd05UDWrk7hI7Dnr1PVSpIlKHZtbsXp5apb4 -->
+
+<!-- all was ok -->
+
+</body>
 </html>
+
