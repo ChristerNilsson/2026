@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Berger · Tävlingsledare</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="tournament.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+  <header><a class="brand" href="index.html">♜ <span>BERGER<small>TÄVLINGSLEDARE</small></span></a><div class="actions"><label class="button">Öppna JSON<input id="file" type="file" accept=".json,application/json"></label><button id="restore" hidden>Återställ lokalt utkast</button><button id="save" disabled>Spara JSON</button><button id="print" disabled>Skriv ut</button></div></header>
+  <main>
+    <div class="eyebrow">DYNAMISK BERGER · TURNERINGSBORD</div>
+    <section class="heading"><div><h1 id="title">Från lottning till sista draget.</h1><p id="subtitle">Öppna turnering.json för att börja eller fortsätta en turnering.</p></div><button id="draw" class="primary" disabled>Lotta rond 1</button></section>
+    <p id="message" role="status" aria-live="polite"></p>
+    <nav id="rounds" aria-label="Ronder"></nav>
+    <section id="workspace" hidden>
+      <div class="summary"><div><small>AKTIVA SPELARE</small><strong id="active">0</strong></div><div><small>RAPPORTERADE PARTIER</small><strong id="progress">0 / 0</strong></div><div><small>VÄNTAR PÅ SCHWEIZER</small><strong id="pendingCount">0</strong></div><div class="keyboard"><kbd>1</kbd> vit vinner <kbd>R</kbd> remi <kbd>0</kbd> svart vinner<br><kbd>↑</kbd><kbd>↓</kbd> byt bord · <kbd>mellanslag</kbd> ospelat</div></div>
+      <div class="table-heading"><h2>Bordslista <span id="roundLabel"></span></h2><span id="phase"></span></div>
+      <div class="table-wrap"><table><thead><tr><th>Bord</th><th>ID</th><th class="player">Vit</th><th>Elo</th><th>Resultat</th><th>Elo</th><th class="player">Svart</th><th>ID</th></tr></thead><tbody id="boards"></tbody></table></div>
+      <section class="pending" id="pending" hidden><h3>Inväntar Schweizerlottning</h3><p>Spelarna nedan har ännu inga bord eller färger. Schweizerlottningen läggs till senare i samma bordslista.</p><div id="pendingPlayers" class="chips"></div></section>
+      <div class="absence"><div><h3>Avhoppade</h3><p id="withdrawn"></p></div><div><h3>Personlig frirond</h3><p id="byes"></p></div></div>
+    </section>
+    <footer>Resultat anges från vits perspektiv. Ändringar sparas som lokalt utkast; använd Spara JSON för en portabel fil.</footer>
+  </main>
+</body>
+</html>

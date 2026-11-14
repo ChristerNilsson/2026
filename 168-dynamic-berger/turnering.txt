@@ -1,0 +1,87 @@
+# spelare
+1919 Wes
+1902 Kar
+1862 Sil
+1828 Kem
+1802 Kår
+1775 Kri
+1765 Pet
+1762 Hol
+1755 Hel
+1752 Zir
+1749 Ein
+1739 Leh
+1731 Gus
+1718 Sto
+1716 And
+1711 Mod
+1697 Wen
+1691 Raz
+1673 Stu
+1669 Sch
+1660 Aik
+1660 Kon
+1660 Lun
+1660 Öhm
+1698 Hed
+1645 Eri
+1639 Fas
+1639 Viv
+1626 Hål
+1599 Nil
+1598 Fra
+1594 Ziv
+1587 Nys
+1582 Ste
+1580 AFr
+1571 Gor
+1554 Höö
+1553 Jun
+1552 Gra
+1544 Hök
+1517 Eld
+1514 Gru
+1505 Sel
+1503 Ryd
+1499 Flä
+1499 Lis
+1496 Jan
+1487 Pau
+1462 Had
+1459 Koc
+1454 Lin
+1453 Lun
+1403 Rad
+0 Eke
+0 Foc
+0 Går
+0 Hen
+0 Ivm
+0 JKa
+0 Rol
+0 Seg
+0 TLi
+0 Tör
+0 Win
+0 YEl
+0 Örn
+
+# personliga-frironder
+15 01
+17 02 03
+19 03 04
+22 05 09
+25 05 01
+31 05 07
+35 04 
+40 07 08
+45 03 06
+50 02 08
+55 07 09
+60 01 02
+65 06 08
+
+# avhopp
+08 01
+19 03
+20 04
