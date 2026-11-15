@@ -15,7 +15,7 @@
         <div class="board-stage">
           <div id="board" class="board" role="group" aria-label="Klicka på en pjäs och sedan en målruta"></div>
         </div>
-        <div class="board-footer"><span id="position-label">Problem —</span><button id="syzygy" class="text-button" aria-expanded="false" aria-controls="analysis-panel" title="Visa eller dölj Syzygy-analys på sidan" disabled>Visa Syzygy</button></div>
+        <div class="board-footer"><span id="position-label">Problem —</span><div class="syzygy-links"><button id="syzygy" class="text-button" aria-expanded="false" aria-controls="analysis-panel" title="Visa eller dölj Syzygy-analys på sidan" disabled>Visa Syzygy</button><a id="syzygy-external" class="text-button" target="_blank" rel="noopener noreferrer" title="Öppna aktuell ställning på syzygy-tables.info i en ny flik">Riktiga Syzygy ↗</a></div></div>
         <div class="difficulty"><button id="easier">Back</button><button id="same">Repeat</button><button id="hint" disabled>Hint</button><button id="harder">Next</button></div>
         <div id="game-result" class="game-result" role="status" aria-live="polite" hidden><strong id="result-title"></strong><p id="result-detail"></p></div>
       </section>
@@ -50,8 +50,8 @@
           <p id="generation-status" role="status" aria-live="polite">Delproblemen skapas automatiskt i webbläsaren.</p>
           <button id="regenerate" class="text-button" disabled>Skapa en ny variant ↻</button>
           <label for="problem">Välj delproblem</label><select id="problem" disabled></select><p id="source" class="muted">Startar med matt i ett drag.</p>
-          <div class="stats"><div><span id="played">0</span><small>Dina drag</small></div><div><span id="minimum">—</span><small>Minst till matt</small></div><div><span id="elapsed">0:00</span><small>Använd tid</small></div></div>
-          <label class="check"><input id="show-count" type="checkbox" checked> Visa minsta antal drag</label>
+          <div class="stats"><div><span id="remaining">—</span><small>Drag kvar</small></div><div><span id="elapsed">0:00</span><small>Använd tid</small></div></div>
+          <label class="check"><input id="show-count" type="checkbox" checked> Visa återstående drag</label>
           <label class="check"><input id="repeat-continuation" type="checkbox"> Repetera hela fortsättningen</label>
           <p id="metric-note" class="muted">Antal egna drag från startpositionen.</p>
           <div id="status" role="status" aria-live="polite">Hämtar problem…</div><button id="retry" class="text-button" hidden>Försök ansluta igen ↻</button>

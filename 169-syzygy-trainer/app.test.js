@@ -32,7 +32,14 @@ test('all file caches start offline and a mate lights Next without tablebase cal
     stageProbes.set(fen, {category:index % 2 ? 'loss' : 'win', dtz:index % 2 ? -2 : 1,
       moves:[{uci, category:index % 2 ? 'win' : 'loss', dtz:index % 2 ? 1 : -2, checkmate:stageGame.isCheckmate()}]});
   }
-  const stageCache = createProblemCache({name:'PAWNSTAGES', fen:stageSeed}, stagePositions, stageProbes, 3);
+  const slowStage = new Chess(stageSeed);
+  for (const [index, uci] of ['e5d5', 'h8h7', 'd5e5', 'h7h8', 'f6f7', 'h8h7', 'f7f8q'].entries()) {
+    const fen = slowStage.fen();
+    slowStage.move({from:uci.slice(0,2), to:uci.slice(2,4), promotion:uci[4]});
+    if (!stageProbes.has(fen)) stageProbes.set(fen, {category:index % 2 ? 'loss' : 'win', dtz:index % 2 ? -2 : 1,
+      moves:[{uci, category:index % 2 ? 'win' : 'loss', dtz:index % 2 ? 1 : -2}]});
+  }
+  const stageCache = createProblemCache({name:'PAWNSTAGES', fen:stageSeed}, stagePositions, stageProbes, stageProbes.size);
   const progressSeed = '7k/5p2/8/8/8/P7/1P6/2K5 w - - 0 1';
   const progressGame = new Chess(progressSeed), progressProbes = new Map(), progressPositions = [];
   const progressLine = ['a3a4', 'h8h7', 'a4a5', 'h7h8', 'a5a6', 'h8h7', 'a6a7', 'h7h8', 'a7a8q'];
@@ -82,7 +89,7 @@ test('all file caches start offline and a mate lights Next without tablebase cal
       assert.equal(element('hint').disabled, false);
       await element('hint').events.click();
       assert.match(element('status').textContent, /^Hint: .+\(.+ → .+\)/);
-      assert.equal(element('played').textContent, 0);
+      assert.equal(element('remaining').textContent, 1);
       assert.equal(element('game-result').hidden, true);
       assert.equal(element('board').children.filter(child=>child.classList.contains('hint-from')).length, 1);
       assert.equal(element('board').children.filter(child=>child.classList.contains('hint-to')).length, 1);
@@ -91,11 +98,13 @@ test('all file caches start offline and a mate lights Next without tablebase cal
       assert.equal(element('hint').attributes['aria-pressed'], 'false');
       assert.doesNotMatch(element('status').textContent, /^Hint:/);
       assert.equal(element('board').children.some(child=>child.classList.contains('hint-from') || child.classList.contains('hint-to')), false);
-      assert.equal(element('played').textContent, 0);
+      assert.equal(element('remaining').textContent, 1);
       await element('hint').events.click();
       assert.match(element('status').textContent, /^Hint:/);
       const stored = JSON.parse(await readFile(new URL(`./problem-cache/${name.toLowerCase()}.json`, import.meta.url)));
       const game = new Chess(stored.positions.at(-1));
+      assert.equal(new URL(element('syzygy-external').href).hostname, 'syzygy-tables.info');
+      assert.equal(new URL(element('syzygy-external').href).searchParams.get('fen'), game.fen());
       assert.equal(element('syzygy').attributes['aria-expanded'], 'false');
       const promotion = isPromotionProblem(stored.seed) || isPawnEndgame(stored.seed);
       const capture = isRookCaptureProblem(stored.seed);
@@ -104,6 +113,7 @@ test('all file caches start offline and a mate lights Next without tablebase cal
       await square(mate.from).events.click();
       await square(mate.to).events.click();
       game.move(mate);
+      assert.equal(new URL(element('syzygy-external').href).searchParams.get('fen'), game.fen());
       assert.equal(element('game-result').hidden, false);
       assert.equal(element('hint').disabled, true);
       assert.equal(element('board').children.some(child=>child.classList.contains('hint-from') || child.classList.contains('hint-to')), false);
@@ -138,9 +148,20 @@ test('all file caches start offline and a mate lights Next without tablebase cal
     assert.equal(element('game-result').hidden, false);
     assert.match(element('result-title').textContent, /Promovering.*löst/);
     assert.equal(element('milestone-list').children.length, 1);
-    assert.equal(element('played').textContent, 2);
+    assert.equal(element('remaining').textContent, 0);
     now = 30000; tick();
     assert.equal(element('elapsed').textContent, '0:12');
+    element('repeat-continuation').checked = true;
+    element('repeat-continuation').events.change();
+    element('same').events.click(); await Promise.resolve();
+    for (const [index, [from, to]] of [['e5','d5'], ['d5','e5'], ['f6','f7'], ['f7','f8']].entries()) {
+      await click(from); await click(to);
+      assert.equal(element('remaining').textContent, 1 - index);
+    }
+    assert.equal(element('remaining').textContent, -2);
+    assert.equal(element('game-result').hidden, false);
+    element('repeat-continuation').checked = false;
+    element('repeat-continuation').events.change();
     element('same').events.click();
     await Promise.resolve();
     assert.equal(element('milestone-list').children.length, 0);
@@ -154,7 +175,7 @@ test('all file caches start offline and a mate lights Next without tablebase cal
       const uci = level === 4 ? 'b2b3' : progressProbes.get(start.fen()).moves[0].uci;
       now += 2000; tick();
       await click(uci.slice(0,2)); await click(uci.slice(2,4));
-      assert.equal(element('played').textContent, 1);
+      assert.equal(element('remaining').textContent, 0);
       assert.equal(element('game-result').hidden, false);
       assert.match(element('result-title').textContent, level === 1 ? /Promovering/ : /fortsättningen är redan avklarad/);
       assert.equal(element('harder').classList.contains('next-ready'), true);
@@ -188,18 +209,27 @@ test('all file caches start offline and a mate lights Next without tablebase cal
     element('repeat-continuation').events.change(); await Promise.resolve();
     assert.equal(storage.get('syzygy:repeat-continuation'), 'true');
     assert.equal(element('game-result').hidden, true);
+    assert.equal(element('remaining').textContent, 4);
     for (let rank = 4; rank <= 7; rank++) {
       await click(`a${rank}`); await click(`a${rank + 1}`);
+      assert.equal(element('remaining').textContent, 7 - rank);
       assert.equal(element('game-result').hidden, rank < 7);
     }
-    assert.equal(element('played').textContent, 4);
+    assert.equal(element('remaining').textContent, 0);
     assert.match(element('result-title').textContent, /Promovering/);
+    element('problem').events.change({target:{value:'0'}}); await Promise.resolve();
+    assert.equal(element('remaining').textContent, 5);
+    for (let rank = 3; rank <= 7; rank++) {
+      await click(`a${rank}`); await click(`a${rank + 1}`);
+      assert.equal(element('remaining').textContent, 7 - rank);
+    }
+    element('problem').events.change({target:{value:'1'}}); await Promise.resolve();
     element('repeat-continuation').checked = false;
     element('repeat-continuation').events.change();
     assert.equal(storage.get('syzygy:repeat-continuation'), 'false');
     element('same').events.click(); await Promise.resolve();
     await click('a4'); await click('a5');
-    assert.equal(element('played').textContent, 1);
+    assert.equal(element('remaining').textContent, 0);
     assert.match(element('result-title').textContent, /fortsättningen är redan avklarad/);
     // Without a saved solved level, jumping ahead does not grant credit.
     storage.delete('syzygy-progress:PROGRESS');
@@ -210,18 +240,31 @@ test('all file caches start offline and a mate lights Next without tablebase cal
     assert.equal(element('harder').classList.contains('next-ready'), false);
     assert.equal(networkCalls, 0);
     allowAnalysis = true;
-    const played = element('played').textContent;
+    const played = element('remaining').textContent;
     const history = element('history').textContent;
     await element('syzygy').events.click();
     assert.equal(element('analysis-panel').hidden, false);
     assert.equal(element('syzygy').attributes['aria-expanded'], 'true');
     assert.equal(networkCalls, 1); // Full analysis is fetched despite compact cached training data.
-    assert.equal(element('played').textContent, played);
+    assert.equal(element('remaining').textContent, played);
     assert.equal(element('history').textContent, history);
     await element('syzygy').events.click();
     assert.equal(element('analysis-panel').hidden, true);
     await element('syzygy').events.click();
     assert.equal(networkCalls, 1); // Reopening reuses the full response.
     await element('syzygy').events.click();
+    // The regeneration button bypasses stored variants, generates from the
+    // seed, saves the result locally and starts with the easiest problem.
+    element('problem-set').value = Object.keys(catalog).length;
+    await element('problem-set').events.change();
+    await element('regenerate').events.click();
+    assert.equal(element('regenerate').disabled, false);
+    assert.match(element('generation-status').textContent, /2 delproblem klara/);
+    assert.match(element('position-label').textContent, /^Delproblem 1 av 2/);
+    const regenerated = JSON.parse(storage.get('syzygy:PAWNSTAGES'));
+    assert.equal(regenerated.seed, stageSeed);
+    assert.deepEqual(regenerated.positions, stagePositions);
+    assert.equal(regenerated.requests, 0);
+    assert.equal(networkCalls, 1);
   } finally { Object.assign(globalThis, originals); }
 });

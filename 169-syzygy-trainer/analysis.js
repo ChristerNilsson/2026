@@ -134,7 +134,7 @@ export class AnalysisBoard {
     const best = data?.moves[0];
     const bestMove = legal.find(move => move.from + move.to + (move.promotion ?? '') === best?.uci);
     this.$('analysis-turn').textContent = `${turn === 'w' ? 'Vit' : 'Svart'} vid draget${this.game.isCheck() ? ' · schack' : ''}`;
-    this.$('analysis-status').textContent = this.error ? this.error : this.loading ? 'Syzygy analyserar…' : this.game.isCheckmate() ? 'Schackmatt.' : this.game.isGameOver() ? 'Remi.' : outcomeForWhite(data?.category, turn);
+    this.$('analysis-status').textContent = this.error ? this.error : this.loading ? 'Syzygy analyserar…' : this.game.isCheckmate() ? 'Schackmatt.' : this.game.isStalemate() ? 'Remi - Patt' : this.game.isGameOver() ? 'Remi.' : outcomeForWhite(data?.category, turn);
     this.$('analysis-retry').hidden = !this.error;
     this.$('analysis-dtz').textContent = distanceForWhite(data?.precise_dtz ?? data?.dtz, turn, !Number.isInteger(data?.precise_dtz) && Number.isInteger(data?.dtz));
     this.$('analysis-dtm').textContent = distanceForWhite(data?.dtm, turn);

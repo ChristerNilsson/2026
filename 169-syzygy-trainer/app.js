@@ -80,7 +80,7 @@ function render() {
   $('game-result').hidden = !complete;
   $('board').classList.toggle('finished', complete);
   if (complete) {
-    $('result-title').textContent = knownContinuation ? 'Rätt drag – fortsättningen är redan avklarad!' : rookCaptured() ? 'Tornet slaget – problemet är löst!' : promoted() ? 'Promovering – problemet är löst!' : game.isCheckmate() ? (game.turn() !== player ? 'Schack-Matt du vann' : 'Schackmatt – du förlorade') : 'Remi – partiet är slut';
+    $('result-title').textContent = knownContinuation ? 'Rätt drag – fortsättningen är redan avklarad!' : rookCaptured() ? 'Tornet slaget – problemet är löst!' : promoted() ? 'Promovering – problemet är löst!' : game.isCheckmate() ? (game.turn() !== player ? 'Schack-Matt du vann' : 'Schackmatt – du förlorade') : game.isStalemate() ? 'Remi - Patt' : 'Remi – partiet är slut';
     $('result-detail').textContent = `${count} egna drag · Använd tid ${$('elapsed').textContent}. Välj Next för nästa utmaning eller Repeat för att försöka igen.`;
   }
   $('board').replaceChildren();
@@ -112,8 +112,9 @@ function render() {
     button.addEventListener('click', () => play(square));
     $('board').append(button);
   }
-  $('played').textContent = count;
-  $('minimum').textContent = $('show-count').checked ? minimum?.moves ?? '—' : '••';
+  const solved = knownContinuation || promoted() || rookCaptured() || (game.isCheckmate() && game.turn() !== player);
+  const remaining = problems.length ? knownContinuation ? 0 : (minimum?.moves ?? problems.length - index) - count : '—';
+  $('remaining').textContent = $('show-count').checked ? remaining : '••';
   $('position-label').textContent = problems.length ? `Delproblem ${problems.length - index} av ${problems.length}` : 'Skapar delproblem…';
   $('turn').textContent = complete ? 'Problemet är avslutat' : busy ? 'Tablebase analyserar…' : `${game.turn() === 'w' ? 'Vit' : 'Svart'} vid draget${game.isCheck() ? ' · schack' : ''}`;
   $('easier').disabled = !problems.length || index === problems.length - 1;
@@ -123,6 +124,7 @@ function render() {
   $('harder').classList.toggle('next-ready', complete && !$('harder').disabled);
   $('same').disabled = !problems.length;
   $('syzygy').disabled = false;
+  $('syzygy-external').href = `https://syzygy-tables.info/?fen=${encodeURIComponent(game.fen())}`;
   $('hint').disabled = busy || !ready || complete || game.turn() !== player;
   $('hint').setAttribute('aria-pressed', String(hint !== null));
   const history = game.history();
@@ -143,7 +145,7 @@ function ended() {
   if (rookCaptured()) { message(`Tornet är slaget! Problemet är löst på ${count} drag.`); return true; }
   if (game.isCheckmate()) {
     const success = game.turn() !== player;
-    message(success ? `Schackmatt! Du använde ${count} drag.${minimum ? ` Minsta antal: ${minimum.moves}.` : ''}` : 'Du blev schackmatt. Välj Repeat för att försöka igen.');
+    message(success ? `Schackmatt! Du använde ${count} drag.` : 'Du blev schackmatt. Välj Repeat för att försöka igen.');
   } else message(`Remi${game.isStalemate() ? ' genom patt' : ''}. Du använde ${count} drag. Välj Repeat för att försöka igen.`);
   return true;
 }

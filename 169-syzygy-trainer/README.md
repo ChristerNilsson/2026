@@ -1,5 +1,7 @@
 # Syzygy Trainer
 
+[Try it!](https://christernilsson.github.io/2026/169-syzygy-trainer/index.html)
+
 Lokalt träningsprogram i HTML, CSS och JavaScript. Starta med `npm start`
 och öppna **http://localhost:8080**. Node.js 20+ behövs för utvecklingsservern.
 Schackbiblioteket finns med i `vendor/`; installation behövs inte för att köra.
@@ -29,11 +31,17 @@ När det sista delproblemet är avslutat är Next fortfarande tänd och
 fortsätter du från första i listan. Knappens hjälptext visar vilket
 problem som kommer härnäst.
 
-”Dina drag” räknar spelarens egna drag, inte datorns. ”Minst till matt”
-avser startpositionens antal drag mot optimalt försvar, beräknat från DTM
+”Drag kvar” visar ett enda tal: startpositionens dragantal minus antalet
+egna drag. En uppgift med fem drag räknar ned 5, 4, 3, 2, 1, 0.
+Behövs fler egna drag fortsätter räknaren till -1, -2 och så vidare;
+överdraget finns kvar även när målet nås.
+Datorns drag och Hint minskar inte räknaren. Repeat nollställer försöket
+och återställer starttalet. När en tidigare klarad fortsättning hoppas
+över visas 0 direkt. För mattuppgifter bestäms starttalet från DTM
 (halvdrag) som `ceil(abs(DTM) / 2)`. För KQK/KRK/KBBK/KBNK används även exakt
 `precise_dtz`: på en vunnen linje är nästa nollställande händelse matt.
-Generellt DTZ är **inte** mattavstånd; när exakt värde saknas visas ett streck.
+Generellt DTZ är **inte** mattavstånd; när exakt värde saknas utgår
+nedräkningen från variantens dragantal.
 Datorn använder tjänstens ordning för bästa utfall och förlänger matt med
 DTM när samtliga förlorande svar har DTM. Annars används tjänstens bästa
 drag enligt dess DTZ-baserade ordning. Därmed garanteras inte längsta
@@ -79,8 +87,9 @@ API:ets DTZ-baserade dragordning till matt. Detta fungerar även genom
 bondedrag, slag och promoveringar. Varje position före vinnarens drag blir
 ett delproblem, numrerat bakifrån så att 1 alltid är matt i ett drag.
 Dragantal längs DTZ-varianten är inte garanterat kortaste vägen till matt.
-Där exakt mattavstånd saknas visas minsta antal drag som ett streck och
-delproblemets etikett anger i stället antal egna drag till matt i varianten.
+Där exakt mattavstånd saknas används antalet egna drag i den genererade
+varianten som starttal. Det är en nedräkning av uppgiften, ingen ny
+tablebase-analys av återstående mattavstånd efter varje drag.
 Om försvararen står vid draget spelas först ett tablebase-svar.
 
 ## Cachade problemfiler
@@ -159,7 +168,9 @@ ett nytt försök startas. Hint kan användas när det är spelarens tur i en
 pågående uppgift.
 Tryck på Hint igen för att dölja dragförslaget och markeringarna.
 
-**Visa Syzygy** under brädet öppnar ett separat analysbräde på samma sida;
+**Visa Syzygy** under brädet öppnar ett separat analysbräde på samma sida.
+**Riktiga Syzygy ↗** öppnar dessutom `syzygy-tables.info` i en ny flik
+med träningsbrädets aktuella FEN-ställning.
 **Dölj Syzygy** stänger det. Analysen utgår från den aktuella
 träningsställningen och följer med när träningsställningen ändras.
 Du spelar båda sidor på analysbrädet, via rutorna eller genom att klicka
