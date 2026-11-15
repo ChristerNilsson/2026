@@ -16,7 +16,7 @@
           <div id="board" class="board" role="group" aria-label="Klicka på en pjäs och sedan en målruta"></div>
         </div>
         <div class="board-footer"><span id="position-label">Problem —</span><div class="syzygy-links"><button id="syzygy" class="text-button" aria-expanded="false" aria-controls="analysis-panel" title="Visa eller dölj Syzygy-analys på sidan" disabled>Visa Syzygy</button><a id="syzygy-external" class="text-button" target="_blank" rel="noopener noreferrer" title="Öppna aktuell ställning på syzygy-tables.info i en ny flik">Riktiga Syzygy ↗</a></div></div>
-        <div class="difficulty"><button id="easier">Back</button><button id="same">Repeat</button><button id="hint" disabled>Hint</button><button id="harder">Next</button></div>
+        <div class="difficulty"><button id="easier">Back</button><button id="same">Repeat</button><button id="undo" disabled>Undo</button><button id="hint" disabled>Hint</button><button id="harder">Next</button></div>
         <div id="game-result" class="game-result" role="status" aria-live="polite" hidden><strong id="result-title"></strong><p id="result-detail"></p></div>
       </section>
       <aside>
@@ -43,13 +43,11 @@
           <details class="analysis-explanation"><summary>FEN</summary><code id="analysis-fen"></code></details>
           <p class="muted">Analysdragen ändrar inte ditt träningsparti. Från träningen återställer analysbrädet.</p>
         </section>
-        <section class="card"><p class="eyebrow">DIN TRÄNING</p><h2>Vägen till matt</h2>
-          <label for="problem-set">Välj problem</label><select id="problem-set" disabled><option>Läser problems.json…</option></select>
-          <p id="available-problems" class="muted"></p>
-          <p id="request-count" class="muted" aria-live="polite">Tablebase-anrop denna session: 0.</p>
+        <section class="card">
+          <select id="problem-set" aria-label="Välj problem" disabled><option>Läser problems.json…</option></select>
           <p id="generation-status" role="status" aria-live="polite">Delproblemen skapas automatiskt i webbläsaren.</p>
           <button id="regenerate" class="text-button" disabled>Skapa en ny variant ↻</button>
-          <label for="problem">Välj delproblem</label><select id="problem" disabled></select><p id="source" class="muted">Startar med matt i ett drag.</p>
+          <select id="problem" aria-label="Välj delproblem" disabled></select>
           <div class="stats"><div><span id="remaining">—</span><small>Drag kvar</small></div><div><span id="elapsed">0:00</span><small>Använd tid</small></div></div>
           <label class="check"><input id="show-count" type="checkbox" checked> Visa återstående drag</label>
           <label class="check"><input id="repeat-continuation" type="checkbox"> Repetera hela fortsättningen</label>
@@ -65,7 +63,6 @@
         <section class="card history"><p class="eyebrow">PARTIET</p><div id="history">Dina drag visas här.</div></section>
       </aside>
     </div>
-    <footer>SYZYGY TRAINER <span>Lagliga drag med chess.js · Tablebase via Lichess · Internet krävs</span></footer>
   </main>
   <script type="module" src="app.js"></script>
 </body>

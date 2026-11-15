@@ -20,10 +20,11 @@ main{max-width:1060px;padding:12px 20px}
 .square.hint-from{box-shadow:inset 0 0 0 4px #f2bc3e}.square.hint-to{box-shadow:inset 0 0 0 4px #2970a5}
 .board-footer{margin-top:8px;min-height:16px;gap:8px}
 .board-footer>.text-button{padding:0;font-size:11px;line-height:16px}
+#generation-status:empty{display:none}
 .syzygy-links{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}.syzygy-links>.text-button{padding:0;font-size:11px;line-height:16px;text-decoration:none;white-space:nowrap}.syzygy-links>a:hover{text-decoration:underline}
 .analysis-panel{margin-bottom:16px}.analysis-panel[hidden]{display:none}.analysis-heading{display:flex;justify-content:space-between;align-items:center;gap:8px}.analysis-heading h2{font-size:17px;margin:0}.analysis-panel p{font-size:12px;line-height:1.5;margin:10px 0}.analysis-controls{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}.analysis-controls button,.analysis-best{border:1px solid #dce2d8;border-radius:5px;background:#f8f9f5;color:#294d3e;padding:8px;font:inherit;font-size:12px;cursor:pointer}.analysis-best{background:#294d3e;color:#fff;width:100%}.analysis-distances{display:flex;gap:20px;padding:8px 0;font-size:12px}.analysis-distances strong{font:700 20px Manrope,sans-serif;font-variant-numeric:tabular-nums}.analysis-explanation{font-size:11px;margin:12px 0}.analysis-explanation summary{cursor:pointer;color:#45633d}.analysis-explanation code{display:block;overflow-wrap:anywhere;margin-top:8px}.analysis-table{max-height:210px;overflow:auto;margin-top:12px}.analysis-table table{width:100%;border-collapse:collapse;font-size:11px}.analysis-table caption{text-align:left;margin-bottom:6px;color:#78847d}.analysis-table th,.analysis-table td{text-align:left;border-bottom:1px solid #e3e7de;padding:5px 3px}.analysis-table th{position:sticky;top:0;background:#fff}.analysis-table .text-button{white-space:nowrap;padding:4px 0;font-weight:600}.analysis-table td:nth-child(n+3){font-variant-numeric:tabular-nums;white-space:nowrap}
 .board-panel>.difficulty{margin-top:8px;position:sticky;bottom:8px;z-index:3;background:#f4f5ef}
-.difficulty{grid-template-columns:repeat(4,minmax(0,1fr))}
+.difficulty{grid-template-columns:repeat(5,minmax(0,1fr))}
 .difficulty button{min-height:44px;padding:8px 5px;font-size:14px}
 .game-result{position:static;margin:10px 0 0;padding:12px}
 .game-result strong{font-size:18px}.game-result p{font-size:12px;margin-top:5px}

@@ -7,6 +7,8 @@ import { createProblemCache } from './problem-cache.js';
 import { isPawnEndgame } from './milestones.js';
 
 test('all file caches start offline and a mate lights Next without tablebase calls', async () => {
+  const originalRandom = Math.random;
+  Math.random = () => 0;
   class Element {
     constructor() {
       this.children = []; this.events = {}; this.attributes = {}; this.textContent = ''; this.value = '0'; this.checked = true;
@@ -81,9 +83,8 @@ test('all file caches start offline and a mate lights Next without tablebase cal
     for (const [index, name] of Object.keys(catalog).entries()) {
       element('problem-set').value = index;
       await element('problem-set').events.change();
-      assert.match(element('generation-status').textContent, /cachade delproblem/);
+      assert.equal(element('generation-status').textContent, '');
       assert.match(element('position-label').textContent, /^Delproblem 1 av/);
-      assert.match(element('request-count').textContent, /denna session: 0/);
       assert.equal(element('elapsed').textContent, '0:00');
       assert.ok(!element('harder').classList.contains('next-ready'));
       assert.equal(element('hint').disabled, false);
@@ -133,6 +134,13 @@ test('all file caches start offline and a mate lights Next without tablebase cal
     await click('f6'); await click('f7');
     assert.equal(element('game-result').hidden, true);
     assert.equal(element('milestone-list').children.length, 0);
+    assert.equal(element('remaining').textContent, 1);
+    await element('undo').events.click();
+    assert.equal(element('remaining').textContent, 2);
+    assert.equal(element('undo').disabled, true);
+    assert.equal(element('elapsed').textContent, '0:05');
+    assert.equal(new URL(element('syzygy-external').href).searchParams.get('fen'), stageSeed);
+    await click('f6'); await click('f7');
     now = 12000; tick();
     await click('f7'); await click('f8');
     assert.equal(element('game-result').hidden, false);
@@ -151,6 +159,14 @@ test('all file caches start offline and a mate lights Next without tablebase cal
     assert.equal(element('remaining').textContent, 0);
     now = 30000; tick();
     assert.equal(element('elapsed').textContent, '0:12');
+    await element('undo').events.click();
+    assert.equal(element('game-result').hidden, true);
+    assert.equal(element('remaining').textContent, 1);
+    assert.equal(element('milestone-list').children.length, 0);
+    assert.equal(element('elapsed').textContent, '0:12');
+    await click('f7'); await click('f8');
+    assert.equal(element('remaining').textContent, 0);
+    assert.match(element('result-title').textContent, /Promovering/);
     element('repeat-continuation').checked = true;
     element('repeat-continuation').events.change();
     element('same').events.click(); await Promise.resolve();
@@ -193,7 +209,6 @@ test('all file caches start offline and a mate lights Next without tablebase cal
     assert.match(element('harder').title, /KQK/);
     await element('harder').events.click();
     assert.equal(Number(element('problem-set').value), 0);
-    assert.match(element('source').textContent, /^KQK/);
     assert.match(element('position-label').textContent, /^Delproblem 1 av/);
     assert.equal(element('game-result').hidden, true);
     element('problem-set').value = Object.keys(catalog).length + 1;
@@ -266,5 +281,22 @@ test('all file caches start offline and a mate lights Next without tablebase cal
     assert.deepEqual(regenerated.positions, stagePositions);
     assert.equal(regenerated.requests, 0);
     assert.equal(networkCalls, 1);
-  } finally { Object.assign(globalThis, originals); }
+    // Choosing another seed uses that seed's file and progress, not the
+    // first seed's cache under the same problem name.
+    Math.random = () => .999;
+    element('problem-set').value = Object.keys(catalog).indexOf('KBBK');
+    await element('problem-set').events.change();
+    const secondSeed = JSON.parse(await readFile(new URL('./problem-cache/kbbk-2.json', import.meta.url)));
+    assert.equal(new URL(element('syzygy-external').href).searchParams.get('fen'), secondSeed.positions.at(-1));
+    const secondGame = new Chess(secondSeed.positions.at(-1));
+    const mate = secondGame.moves({verbose:true}).find(move=>move.san.endsWith('#'));
+    await click(mate.from); await click(mate.to);
+    assert.ok(storage.has('syzygy-progress:KBBK-2'));
+    assert.ok(storage.has('syzygy-progress:KBBK'));
+    Math.random = () => 0;
+    await element('problem-set').events.change();
+    const firstSeed = JSON.parse(await readFile(new URL('./problem-cache/kbbk.json', import.meta.url)));
+    assert.equal(new URL(element('syzygy-external').href).searchParams.get('fen'), firstSeed.positions.at(-1));
+    assert.equal(networkCalls, 1);
+  } finally { Object.assign(globalThis, originals); Math.random = originalRandom; }
 });

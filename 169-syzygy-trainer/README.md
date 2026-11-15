@@ -24,6 +24,9 @@ omfattas av tjänstens tablebases (högst sju pjäser, utan rockadrättigheter).
 
 - **Back:** gå tillbaka till ett enklare delproblem.
 - **Repeat:** starta om aktuell position.
+- **Undo:** ta tillbaka senaste egna draget och datorns eventuella svar,
+  så att samma sida får försöka igen. Återstående drag återställs; använd
+  tid behålls och klockan återupptas om uppgiften var avslutad.
 - **Next:** gå vidare till ett svårare delproblem.
 
 När det sista delproblemet är avslutat är Next fortfarande tänd och
@@ -56,8 +59,10 @@ mattavstånd och datorns dragprioritering.
 
 ## Generera delproblem i webbläsaren
 
-`problems.json` är ett objekt med problemnamn som nycklar och den svåraste
-startpositionens FEN som värde. Lägg till fler poster för fler val; listan
+`problems.json` är ett objekt med problemnamn som nycklar och listor av
+startpositioners FEN som värden. När en problemtyp väljs slumpas en av
+dess startpositioner. Även **Skapa en ny variant** gör ett nytt slumpval.
+En ensam FEN-sträng stöds också för äldre filer. Lägg till fler poster för fler val; listan
 i gränssnittet hämtas från filen. Första valet laddas när sidan öppnas.
 När en ny variant genereras hämtar JavaScript i webbläsaren tablebase-värden
 och spelar en optimal variant till matt: vinnaren minimerar mattavståndet,
@@ -97,6 +102,8 @@ Om försvararen står vid draget spelas först ett tablebase-svar.
 Färdiga varianter med tablebase-svar finns i `problem-cache/`, exempelvis
 `problem-cache/krk.json`. Filen innehåller startposition, delproblem,
 skapandetid och antal tablebase-anrop (inklusive eventuella återförsök).
+För flera startpositioner används exempelvis `kbbk.json`, `kbbk-2.json`
+och `kbbk-3.json`. Varje startposition har egen cache och egna framsteg.
 En cache används bara om startpositionen fortfarande matchar `problems.json`.
 Att läsa en cache kräver inga tablebase-anrop. Drag utanför den cachade
 varianten kan fortfarande kräva internet.

@@ -2,14 +2,20 @@ import { parseProblems } from './trainer.js';
 
 export function parseCatalog(data) {
   if (!data || typeof data !== 'object' || Array.isArray(data) || !Object.keys(data).length) {
-    throw new Error('problems.json ska vara ett objekt med problemnamn och FEN-strängar.');
+    throw new Error('problems.json ska vara ett objekt med problemnamn och listor av FEN-strängar.');
   }
-  return Object.entries(data).map(([name, fen]) => {
+  return Object.entries(data).map(([name, value]) => {
     if (!name.trim()) throw new Error('Ett problem saknar namn.');
-    try { parseProblems([fen]); }
+    let fens;
+    try { fens = parseProblems(Array.isArray(value) ? value : [value]); }
     catch (error) { throw new Error(`${name}: ${error.message}`); }
-    return { name, fen };
+    return { name, fen:fens[0], fens };
   });
+}
+
+export function chooseProblem(entry, random = Math.random) {
+  const problemIndex = Math.floor(random() * entry.fens.length);
+  return {...entry, fen:entry.fens[problemIndex], problemIndex};
 }
 
 export function problemLabel(name) {

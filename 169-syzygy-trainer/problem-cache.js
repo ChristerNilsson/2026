@@ -36,9 +36,10 @@ export function serializeProblemCache(data) {
   return JSON.stringify(compactProblemCache(data)) + '\n';
 }
 
-export function cacheFilename(name) {
+export function cacheFilename(name, index = 0) {
   if (!/^[a-z0-9_-]+$/i.test(name)) throw new Error('Ogiltigt filnamn för problemcache.');
-  return `${name.toLowerCase()}.json`;
+  if (!Number.isInteger(index) || index < 0) throw new Error('Ogiltigt problemindex.');
+  return `${name.toLowerCase()}${index ? `-${index + 1}` : ''}.json`;
 }
 
 export function parseProblemCache(data, entry) {

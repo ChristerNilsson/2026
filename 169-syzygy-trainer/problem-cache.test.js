@@ -13,8 +13,8 @@ test('compacting every cache preserves accepted moves, replies, distances and me
   const scored = (fen, data, winning) => {
     try { return optimalMoves(fen, data, winning); } catch (error) { return error.message; }
   };
-  for (const entry of catalog) {
-    const original = JSON.parse(await readFile(new URL(`./problem-cache/${cacheFilename(entry.name)}`, import.meta.url)));
+  for (const entry of catalog.flatMap(group => group.fens.map((fen, problemIndex) => ({...group, fen, problemIndex})))) {
+    const original = JSON.parse(await readFile(new URL(`./problem-cache/${cacheFilename(entry.name, entry.problemIndex)}`, import.meta.url)));
     const compact = compactProblemCache(original);
     parseProblemCache(compact, entry);
     assert.deepEqual(compact.positions, original.positions);
@@ -48,6 +48,8 @@ test('compaction removes unused fields and slower moves without hiding missing d
 
 test('cache filenames cannot escape the cache directory', () => {
   assert.equal(cacheFilename('KRK'), 'krk.json');
+  assert.equal(cacheFilename('KBBK', 1), 'kbbk-2.json');
+  assert.throws(() => cacheFilename('KBBK', -1));
   for (const name of ['../krk', 'a/b', 'a\\b', '']) assert.throws(() => cacheFilename(name));
 });
 
@@ -69,8 +71,8 @@ test('pawn ending cache rejects the previous mate-only goal and promoted subprob
 
 test('every catalog entry has a matching cache ending with mate in one', async () => {
   const catalog = parseCatalog(JSON.parse(await readFile(new URL('./problems.json', import.meta.url))));
-  for (const entry of catalog) {
-    const data = parseProblemCache(JSON.parse(await readFile(new URL(`./problem-cache/${cacheFilename(entry.name)}`, import.meta.url))), entry);
+  for (const entry of catalog.flatMap(group => group.fens.map((fen, problemIndex) => ({...group, fen, problemIndex})))) {
+    const data = parseProblemCache(JSON.parse(await readFile(new URL(`./problem-cache/${cacheFilename(entry.name, entry.problemIndex)}`, import.meta.url))), entry);
     assert.ok(data.requests >= Object.keys(data.probes).length);
     const game = new Chess(data.positions.at(-1));
     assert.ok(game.moves({verbose:true}).some(move => move.san.endsWith('#') || ((isPromotionProblem(entry.fen) || isPawnEndgame(entry.fen)) && move.promotion) || (isRookCaptureProblem(entry.fen) && move.captured === 'r')), `${entry.name}: easiest must reach the goal in one move`);

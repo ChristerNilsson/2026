@@ -1,7 +1,7 @@
 import { Chess } from './vendor/chess.js';
 import { parseProblems, nextIndex, mateDistance, defenseMove, isPromotionProblem, isRookCaptureProblem } from './trainer.js';
 import { generateProblems, optimalMoves } from './generator.js';
-import { parseCatalog, problemLabel } from './catalog.js';
+import { parseCatalog, problemLabel, chooseProblem } from './catalog.js';
 import { cacheFilename, parseProblemCache, createProblemCache } from './problem-cache.js';
 import { Milestones, isPawnEndgame, formatTime } from './milestones.js';
 import { ContinuationProgress } from './progress.js';
@@ -23,9 +23,6 @@ const rookCaptured = () => captureGoal && last?.captured === 'r' && last.color =
 const finished = () => Boolean(knownContinuation || promoted() || rookCaptured() || game.isGameOver());
 const turnMessage = () => pawnStages ? 'Din tur. Vinn bönder på vägen till promovering eller matt.' : promotionGoal ? 'Din tur. För bonden till promovering.' : captureGoal ? 'Din tur. Slå tornet eller sätt matt.' : 'Din tur. Hitta vägen till matt.';
 let requests = 0, savedRequests = null;
-function showRequests() {
-  $('request-count').textContent = `Tablebase-anrop denna session: ${requests}${savedRequests === null ? '' : ` · Anrop när varianten skapades: ${savedRequests}`}.`;
-}
 const message = text => { $('status').textContent = text; };
 let startedAt = null, elapsed = 0;
 const elapsedTime = () => elapsed + (startedAt === null ? 0 : performance.now() - startedAt);
@@ -59,7 +56,7 @@ function recordMilestones(category) {
 async function probe(fen, signal, full = false) {
   if (fullCache.has(fen)) return fullCache.get(fen);
   if (!full && cache.has(fen)) return cache.get(fen);
-  requests++; showRequests();
+  requests++;
   const response = await fetch(`https://tablebase.lichess.ovh/standard?fen=${encodeURIComponent(fen)}`, {
     signal: AbortSignal.any([signal, AbortSignal.timeout(15000)])
   });
@@ -123,6 +120,7 @@ function render() {
   $('harder').title = nextSet ? `Nästa problem: ${catalog[(Number($('problem-set').value) + 1) % catalog.length].name}` : 'Nästa delproblem';
   $('harder').classList.toggle('next-ready', complete && !$('harder').disabled);
   $('same').disabled = !problems.length;
+  $('undo').disabled = !game.history().length;
   $('syzygy').disabled = false;
   $('syzygy-external').href = `https://syzygy-tables.info/?fen=${encodeURIComponent(game.fen())}`;
   $('hint').disabled = busy || !ready || complete || game.turn() !== player;
@@ -221,10 +219,10 @@ function start(newIndex) {
   message('Hämtar tablebase…'); sync(generation);
 }
 
-function load(data, name) {
+function load(data, name, problemIndex = 0) {
   const parsed = parseProblems(data);
   progress = new ContinuationProgress();
-  progressStorageKey = `syzygy-progress:${name}`;
+  progressStorageKey = `syzygy-progress:${name}${problemIndex ? `-${problemIndex + 1}` : ''}`;
   try {
     const saved = JSON.parse(localStorage.getItem(progressStorageKey));
     if (JSON.stringify(saved?.positions) === JSON.stringify(parsed) && Array.isArray(saved.levels)) {
@@ -232,13 +230,11 @@ function load(data, name) {
     }
   } catch {}
   problems = parsed;
-  const exact = problems.every(fen => mateDistance(fen, cache.get(fen) ?? {}));
   $('problem').replaceChildren(...problems.map((fen, i) => {
     const distance = mateDistance(fen, cache.get(fen) ?? {});
-    return new Option(`Delproblem ${problems.length - i} · ${pawnStages ? `${problems.length - i} drag till promovering eller matt i varianten` : isRookCaptureProblem(fen) ? `${problems.length - i} drag till tornslag eller matt i varianten` : isPromotionProblem(fen) ? `${problems.length - i} drag till promovering i varianten` : distance ? `Matt i ${distance.moves} drag` : `${problems.length - i} drag till matt i varianten`}`, i);
+    return new Option(pawnStages ? `${problems.length - i} drag till promovering eller matt` : isRookCaptureProblem(fen) ? `${problems.length - i} drag till tornslag eller matt` : isPromotionProblem(fen) ? `${problems.length - i} drag till promovering` : `${distance?.moves ?? problems.length - i} drag till matt`, i);
   }).reverse());
   $('problem').disabled = false;
-  $('source').textContent = pawnStages ? `${name} · ${problems.length} delproblem · närmast promovering eller matt först` : isRookCaptureProblem(problems[0]) ? `${name} · ${problems.length} delproblem · närmast tornslag eller matt först` : isPromotionProblem(problems[0]) ? `${name} · ${problems.length} delproblem · närmast promovering först` : exact ? `${name} · ${problems.length} delproblem · lättast först` : `${name} · ${problems.length} delproblem längs en DTZ-variant · närmast matt först`;
   start(problems.length - 1);
 }
 $('problem').addEventListener('change', e => start(Number(e.target.value)));
@@ -252,6 +248,17 @@ $('harder').addEventListener('click', () => {
   }
 });
 $('flip').addEventListener('click', () => { if (game) { flipped = !flipped; render(); } });
+$('undo').addEventListener('click', () => {
+  if (!game?.history().length) return;
+  controller?.abort(); controller = new AbortController(); generation++;
+  do { game.undo(); } while (game.history().length && game.turn() !== player);
+  count = Math.max(0, count - 1);
+  knownContinuation = false; hint = null; selected = null;
+  last = game.history({verbose:true}).at(-1) ?? null;
+  milestones.rewind(game, player, count);
+  if (startedAt === null) startedAt = performance.now();
+  return sync(generation);
+});
 $('show-count').addEventListener('change', () => { if (game) render(); });
 $('hint').addEventListener('click', async () => {
   if (busy || !ready || finished() || game.turn() !== player) return;
@@ -287,13 +294,16 @@ async function selectProblemSet(force = false) {
   const task = new AbortController();
   generationController = task;
   controller?.abort(); generation++;
-  const entry = catalog[Number($('problem-set').value)];
-  if (!entry) return;
+  const group = catalog[Number($('problem-set').value)];
+  if (!group) return;
+  const entry = chooseProblem(group);
+  const cacheName = cacheFilename(entry.name, entry.problemIndex);
+  const storageKey = `syzygy:${entry.name}${entry.problemIndex ? `-${entry.problemIndex + 1}` : ''}`;
   knownContinuation = false;
   progress = new ContinuationProgress();
   pawnStages = isPawnEndgame(entry.fen);
   milestones = new Milestones();
-  savedRequests = null; showRequests();
+  savedRequests = null;
   problems = []; index = 0; ready = false; busy = true;
   game = new Chess(entry.fen); player = game.turn(); flipped = player === 'b';
   promotionGoal = pawnStages || isPromotionProblem(entry.fen);
@@ -301,16 +311,15 @@ async function selectProblemSet(force = false) {
   count = 0; minimum = null; selected = null; last = null;
   $('problem').replaceChildren(); $('problem').disabled = true;
   $('retry').hidden = true; $('regenerate').disabled = true;
-  $('source').textContent = `${entry.name} · skapar delproblem…`;
   $('metric-note').textContent = 'Förbereder delproblem utifrån tillgängliga tablebase-värden.';
   $('generation-status').textContent = `Skapar ${entry.name}…`;
   message('Förbereder träningen…'); render();
   try {
     if (!force) {
       let stored;
-      try { stored = parseProblemCache(JSON.parse(localStorage.getItem(`syzygy:${entry.name}`)), entry); } catch {}
+      try { stored = parseProblemCache(JSON.parse(localStorage.getItem(storageKey)), entry); } catch {}
       if (!stored) {
-        const response = await fetch(`./problem-cache/${cacheFilename(entry.name)}`, {signal:task.signal});
+        const response = await fetch(`./problem-cache/${cacheName}`, {signal:task.signal});
         if (response.ok) {
           try { stored = parseProblemCache(await response.json(), entry); } catch {}
         } else if (response.status !== 404) throw new Error(`Kunde inte läsa problemcachen (HTTP ${response.status}).`);
@@ -318,9 +327,9 @@ async function selectProblemSet(force = false) {
       if (generationController !== task || task.signal.aborted) return;
       if (stored) {
         for (const [fen, data] of Object.entries(stored.probes)) cache.set(fen, data);
-        savedRequests = stored.requests; showRequests();
-        load(stored.positions, entry.name);
-        $('generation-status').textContent = `${entry.name}: ${stored.positions.length} cachade delproblem laddade utan tablebase-anrop.`;
+        savedRequests = stored.requests;
+        load(stored.positions, entry.name, entry.problemIndex);
+        $('generation-status').textContent = '';
         return;
       }
     }
@@ -339,9 +348,9 @@ async function selectProblemSet(force = false) {
       }
     });
     if (generationController !== task || task.signal.aborted) return;
-    savedRequests = requests - before; showRequests();
-    try { localStorage.setItem(`syzygy:${entry.name}`, JSON.stringify(createProblemCache(entry, generated, probes, savedRequests))); } catch {}
-    load(generated, entry.name);
+    savedRequests = requests - before;
+    try { localStorage.setItem(storageKey, JSON.stringify(createProblemCache(entry, generated, probes, savedRequests))); } catch {}
+    load(generated, entry.name, entry.problemIndex);
     const exact = generated.every(fen => mateDistance(fen, cache.get(fen) ?? {}));
     $('generation-status').textContent = pawnStages ? `${entry.name}: ${generated.length} delproblem klara. Målet är promovering eller matt.` : captureGoal ? `${entry.name}: ${generated.length} delproblem klara. Målet är tornslag eller matt.` : promotionGoal ? `${entry.name}: ${generated.length} delproblem klara. Målet är promovering.` : exact ? `${entry.name}: ${generated.length} delproblem klara, matt i 1–${generated.length} drag.` : `${entry.name}: ${generated.length} delproblem klara. Dragantalet i DTZ-varianten är inte garanterat kortaste vägen till matt.`;
   } catch (error) {
@@ -367,7 +376,6 @@ try {
   catalog = parseCatalog(await response.json());
   $('problem-set').replaceChildren(...catalog.map((entry, i) => new Option(problemLabel(entry.name), i)));
   $('problem-set').disabled = false;
-  $('available-problems').textContent = `Tillgängliga problem: ${catalog.map(entry => entry.name).join(', ')}.`;
   await selectProblemSet();
 } catch (error) {
   $('problem-set').replaceChildren(new Option('Kunde inte läsa problem', ''));

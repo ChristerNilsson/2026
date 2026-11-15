@@ -41,4 +41,17 @@ export class Milestones {
     this.previousCount = count;
     return entry;
   }
+
+  rewind(game, player, count) {
+    this.entries = this.entries.filter(entry => entry.totalMoves <= count);
+    this.observedPly = game.history().length;
+    const previous = this.entries.at(-1);
+    this.previousTime = previous?.totalElapsed ?? 0;
+    this.previousCount = previous?.totalMoves ?? 0;
+    this.bestPawnGain = 0;
+    if (this.entries.some(entry => entry.label.includes('Bonde vunnen'))) {
+      const history = game.history({verbose:true});
+      this.bestPawnGain = Math.max(0, history.reduce((gain, move) => gain + (move.captured === 'p' ? move.color === player ? 1 : -1 : 0), 0));
+    }
+  }
 }

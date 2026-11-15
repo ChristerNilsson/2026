@@ -9,8 +9,8 @@ const names = process.argv.slice(2).map(name => name.toUpperCase());
 for (const name of names) if (!catalog.some(entry => entry.name.toUpperCase() === name)) throw new Error(`Unknown problem: ${name}`);
 const directory = new URL('./problem-cache/', import.meta.url);
 await mkdir(directory, { recursive:true });
-for (const entry of catalog.filter(entry => !names.length || names.includes(entry.name.toUpperCase()))) {
-  const path = new URL(cacheFilename(entry.name), directory);
+for (const entry of catalog.filter(entry => !names.length || names.includes(entry.name.toUpperCase())).flatMap(group => group.fens.map((fen, problemIndex) => ({...group, fen, problemIndex})))) {
+  const path = new URL(cacheFilename(entry.name, entry.problemIndex), directory);
   try {
     const source = await readFile(path, 'utf8');
     const existing = parseProblemCache(JSON.parse(source), entry);
