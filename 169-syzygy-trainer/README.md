@@ -159,7 +159,24 @@ ett nytt försök startas. Hint kan användas när det är spelarens tur i en
 pågående uppgift.
 Tryck på Hint igen för att dölja dragförslaget och markeringarna.
 
-**Syzygy ↗** under brädet öppnar `syzygy-tables.info` i en ny flik med
-den ställning som just nu visas. Hela FEN-strängen följer med, inklusive
-sidan vid draget och dragräknarna. Knappen fungerar även efter avslutad
-uppgift och flyttar inte träningspartiet.
+**Visa Syzygy** under brädet öppnar ett separat analysbräde på samma sida;
+**Dölj Syzygy** stänger det. Analysen utgår från den aktuella
+träningsställningen och följer med när träningsställningen ändras.
+Du spelar båda sidor på analysbrädet, via rutorna eller genom att klicka
+på ett drag i tabellen. Det går att ångra, gå framåt, vända brädet och
+spela det rekommenderade draget. **Från träningen** återställer analysen
+till träningsställningen. Analysdragen påverkar inte träningspartiet,
+dess framsteg, dragantal eller resultat. Träningens klocka fortsätter som
+vanligt när analysen är öppen.
+
+Analysen visar både DTZ och DTM i halvdrag. Tecknen räknas konsekvent ur
+vits perspektiv: plus för vit, minus för svart. Tabellen visar värdena
+efter respektive drag med samma perspektiv. DTZ kan vara avrundat (≈),
+och DTM visas som — om tjänsten saknar det. DTZ används aldrig som ett
+påhittat DTM-värde. Rekommendationen följer Syzygys bästa utfall och
+DTZ-ordning, vilket inte alltid innebär kortaste vägen till matt.
+
+Analysvyn hämtar fullständiga tablebase-svar så att även drag som inte
+finns i den kompakta träningscachen kan jämföras. Svaren återanvänds i
+minnet och nya anrop ingår i den vanliga anropsräknaren. Vid nätverksfel
+kan analysen provas igen utan att träningspartiet påverkas.

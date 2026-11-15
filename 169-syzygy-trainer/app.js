@@ -5,12 +5,14 @@ import { parseCatalog, problemLabel } from './catalog.js';
 import { cacheFilename, parseProblemCache, createProblemCache } from './problem-cache.js';
 import { Milestones, isPawnEndgame, formatTime } from './milestones.js';
 import { ContinuationProgress } from './progress.js';
+import { AnalysisBoard } from './analysis.js';
 
 const $ = id => document.getElementById(id);
 let problems = [], index = 0, game, player, selected = null, flipped = false;
 let count = 0, minimum = null, busy = false, ready = false, generation = 0, last = null, controller;
 let hint = null;
 const cache = new Map();
+const fullCache = new Map();
 let promotionGoal = false;
 let captureGoal = false;
 let pawnStages = false, milestones = new Milestones();
@@ -54,8 +56,9 @@ function recordMilestones(category) {
   if (pawnStages) milestones.observe(game, player, category, elapsedTime(), count);
 }
 
-async function probe(fen, signal) {
-  if (cache.has(fen)) return cache.get(fen);
+async function probe(fen, signal, full = false) {
+  if (fullCache.has(fen)) return fullCache.get(fen);
+  if (!full && cache.has(fen)) return cache.get(fen);
   requests++; showRequests();
   const response = await fetch(`https://tablebase.lichess.ovh/standard?fen=${encodeURIComponent(fen)}`, {
     signal: AbortSignal.any([signal, AbortSignal.timeout(15000)])
@@ -64,10 +67,14 @@ async function probe(fen, signal) {
   const data = await response.json();
   if (!Array.isArray(data.moves) || data.category === 'unknown') throw new Error('Positionen saknas i tablebase.');
   cache.set(fen, data);
+  fullCache.set(fen, data);
   return data;
 }
 
+const analysis = new AnalysisBoard({probe:(fen, signal) => probe(fen, signal, true)});
+
 function render() {
+  analysis.updateTraining(game.fen(), flipped);
   renderMilestones();
   const complete = finished();
   $('game-result').hidden = !complete;
@@ -243,9 +250,6 @@ $('harder').addEventListener('click', () => {
   }
 });
 $('flip').addEventListener('click', () => { if (game) { flipped = !flipped; render(); } });
-$('syzygy').addEventListener('click', () => {
-  if (game) window.open(`https://syzygy-tables.info/?fen=${encodeURIComponent(game.fen())}`, '_blank', 'noopener,noreferrer');
-});
 $('show-count').addEventListener('change', () => { if (game) render(); });
 $('hint').addEventListener('click', async () => {
   if (busy || !ready || finished() || game.turn() !== player) return;

@@ -15,11 +15,34 @@
         <div class="board-stage">
           <div id="board" class="board" role="group" aria-label="Klicka på en pjäs och sedan en målruta"></div>
         </div>
-        <div class="board-footer"><span id="position-label">Problem —</span><button id="syzygy" class="text-button" title="Öppna aktuell ställning i Syzygy i en ny flik" disabled>Syzygy ↗</button></div>
+        <div class="board-footer"><span id="position-label">Problem —</span><button id="syzygy" class="text-button" aria-expanded="false" aria-controls="analysis-panel" title="Visa eller dölj Syzygy-analys på sidan" disabled>Visa Syzygy</button></div>
         <div class="difficulty"><button id="easier">Back</button><button id="same">Repeat</button><button id="hint" disabled>Hint</button><button id="harder">Next</button></div>
         <div id="game-result" class="game-result" role="status" aria-live="polite" hidden><strong id="result-title"></strong><p id="result-detail"></p></div>
       </section>
       <aside>
+        <section id="analysis-panel" class="card analysis-panel" aria-label="Syzygy-analys" hidden>
+          <div class="analysis-heading"><h2>Syzygy · Prova själv</h2><button id="analysis-flip" class="text-button">Vänd ↻</button></div>
+          <p id="analysis-turn"></p>
+          <div id="analysis-board" class="board" role="group" aria-label="Analysbräde: du spelar båda sidor"></div>
+          <div class="analysis-controls">
+            <button id="analysis-undo" disabled>Ångra</button><button id="analysis-redo" disabled>Framåt</button>
+            <button id="analysis-reset">Från träningen</button>
+          </div>
+          <p id="analysis-status" role="status" aria-live="polite"></p>
+          <button id="analysis-retry" class="text-button" hidden>Försök igen</button>
+          <div class="analysis-distances"><span>DTZ <strong id="analysis-dtz">—</strong></span><span>DTM <strong id="analysis-dtm">—</strong></span></div>
+          <p id="analysis-recommendation"></p>
+          <button id="analysis-best" class="analysis-best" disabled>Spela rekommenderat drag</button>
+          <details class="analysis-explanation"><summary>Så läser du avstånden</summary>
+            <p>Värdena räknas i halvdrag (ett drag av vit eller svart). Plus betyder vinst för vit, minus vinst för svart, även när svart står vid draget.</p>
+            <p>DTZ: till nästa bondedrag, slag eller matt, med hänsyn till 50-dragsregeln. ≈ betyder att värdet kan vara avrundat. DTM: till matt. — betyder att värdet saknas; DTZ ersätter inte DTM.</p>
+            <p>Tabellen visar ställningen efter varje drag. Rekommendationen säkrar bästa utfall och följer DTZ; den ger inte alltid kortaste matten. Du kan prova alla lagliga drag, för båda sidor.</p>
+          </details>
+          <div class="analysis-table"><table><caption>Jämför drag · avstånd efter draget</caption><thead><tr><th>Drag</th><th>Utfall</th><th>DTZ</th><th>DTM</th></tr></thead><tbody id="analysis-moves"></tbody></table></div>
+          <p id="analysis-history" class="muted"></p>
+          <details class="analysis-explanation"><summary>FEN</summary><code id="analysis-fen"></code></details>
+          <p class="muted">Analysdragen ändrar inte ditt träningsparti. Från träningen återställer analysbrädet.</p>
+        </section>
         <section class="card"><p class="eyebrow">DIN TRÄNING</p><h2>Vägen till matt</h2>
           <label for="problem-set">Välj problem</label><select id="problem-set" disabled><option>Läser problems.json…</option></select>
           <p id="available-problems" class="muted"></p>

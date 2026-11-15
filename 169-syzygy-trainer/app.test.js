@@ -47,16 +47,19 @@ test('all file caches start offline and a mate lights Next without tablebase cal
   // continuation and has no cached reply. It must still be accepted.
   progressProbes.get(progressPositions[1]).moves.push({uci:'b2b3',category:'loss',dtz:-2});
   const progressCache = createProblemCache({name:'PROGRESS', fen:progressSeed}, progressPositions, progressProbes, 9);
-  let networkCalls = 0;
+  let networkCalls = 0, allowAnalysis = false;
   globalThis.document = {getElementById:element, createElement:()=>new Element()};
   globalThis.Option = class extends Element { constructor(text, value) { super(); this.textContent = text; this.value = value; } };
   const storage = new Map();
   globalThis.localStorage = {getItem:key=>storage.get(key) ?? null, setItem:(key,value)=>storage.set(key,value)};
   globalThis.setInterval = callback => { tick = callback; return 0; };
-  const opened = [];
-  globalThis.window = {prompt:()=>'n', open:(...args)=>opened.push(args)};
+  globalThis.window = {prompt:()=>'n'};
   globalThis.fetch = async url => {
-    if (url.startsWith('https:')) { networkCalls++; throw new Error('Offline'); }
+    if (url.startsWith('https:')) {
+      networkCalls++;
+      if (allowAnalysis) return Response.json(progressProbes.get(new URL(url).searchParams.get('fen')));
+      throw new Error('Offline');
+    }
     if (url === './problem-cache/pawnstages.json') return Response.json(stageCache);
     if (url === './problem-cache/progress.json') return Response.json(progressCache);
     if (url === './problems.json') {
@@ -93,11 +96,7 @@ test('all file caches start offline and a mate lights Next without tablebase cal
       assert.match(element('status').textContent, /^Hint:/);
       const stored = JSON.parse(await readFile(new URL(`./problem-cache/${name.toLowerCase()}.json`, import.meta.url)));
       const game = new Chess(stored.positions.at(-1));
-      await element('syzygy').events.click();
-      assert.equal(new URL(opened.at(-1)[0]).searchParams.get('fen'), game.fen());
-      assert.equal(new URL(opened.at(-1)[0]).hostname, 'syzygy-tables.info');
-      assert.equal(opened.at(-1)[1], '_blank');
-      assert.equal(opened.at(-1)[2], 'noopener,noreferrer');
+      assert.equal(element('syzygy').attributes['aria-expanded'], 'false');
       const promotion = isPromotionProblem(stored.seed) || isPawnEndgame(stored.seed);
       const capture = isRookCaptureProblem(stored.seed);
       const mate = game.moves({verbose:true}).find(move=>promotion ? move.promotion === 'n' : capture ? move.captured === 'r' || move.san.endsWith('#') : move.san.endsWith('#'));
@@ -105,8 +104,6 @@ test('all file caches start offline and a mate lights Next without tablebase cal
       await square(mate.from).events.click();
       await square(mate.to).events.click();
       game.move(mate);
-      await element('syzygy').events.click();
-      assert.equal(new URL(opened.at(-1)[0]).searchParams.get('fen'), game.fen());
       assert.equal(element('game-result').hidden, false);
       assert.equal(element('hint').disabled, true);
       assert.equal(element('board').children.some(child=>child.classList.contains('hint-from') || child.classList.contains('hint-to')), false);
@@ -212,5 +209,19 @@ test('all file caches start offline and a mate lights Next without tablebase cal
     assert.equal(element('game-result').hidden, true);
     assert.equal(element('harder').classList.contains('next-ready'), false);
     assert.equal(networkCalls, 0);
+    allowAnalysis = true;
+    const played = element('played').textContent;
+    const history = element('history').textContent;
+    await element('syzygy').events.click();
+    assert.equal(element('analysis-panel').hidden, false);
+    assert.equal(element('syzygy').attributes['aria-expanded'], 'true');
+    assert.equal(networkCalls, 1); // Full analysis is fetched despite compact cached training data.
+    assert.equal(element('played').textContent, played);
+    assert.equal(element('history').textContent, history);
+    await element('syzygy').events.click();
+    assert.equal(element('analysis-panel').hidden, true);
+    await element('syzygy').events.click();
+    assert.equal(networkCalls, 1); // Reopening reuses the full response.
+    await element('syzygy').events.click();
   } finally { Object.assign(globalThis, originals); }
 });
