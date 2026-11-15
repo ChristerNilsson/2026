@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test"
+    "test": "node --test",
+    "cache": "node cache-problems.js"
   },
   "keywords": [],
   "author": "",

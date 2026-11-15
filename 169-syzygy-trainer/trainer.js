@@ -1,5 +1,15 @@
 import { Chess } from './vendor/chess.js';
 
+export function isPromotionProblem(fen) {
+  return fen.split(' ')[0].replace(/[1-8/]/g, '').toLowerCase().split('').sort().join('') === 'kkp';
+}
+
+export function isRookCaptureProblem(fen) {
+  const board = fen.split(' ')[0];
+  const material = board.replace(/[1-8/]/g, '').toLowerCase().split('').sort().join('');
+  return material === 'kkqr' && ((board.includes('Q') && board.includes('r')) || (board.includes('q') && board.includes('R')));
+}
+
 export function parseProblems(data) {
   if (!Array.isArray(data) || !data.length) throw new Error('JSON-filen ska vara en lista med FEN-strängar.');
   return data.map((fen, i) => {
@@ -20,11 +30,11 @@ export function nextIndex(index, difficulty, length) {
 export function mateDistance(fen, data) {
   if (!['win', 'loss'].includes(data.category)) return null;
   if (Number.isInteger(data.dtm)) return { moves: Math.ceil(Math.abs(data.dtm) / 2), source: 'DTM' };
-  // In KQK and KRK, a capture ends the winning material. On a winning
+  // In these pawnless endings, a capture ends the winning material. On a winning
   // line the next zeroing event is therefore mate, so precise DTZ is DTM.
   const material = fen.split(' ')[0].replace(/[1-8/]/g, '').toLowerCase().split('').sort().join('');
-  if (['kkq', 'kkr'].includes(material) && Number.isInteger(data.precise_dtz)) {
-    return { moves: Math.ceil(Math.abs(data.precise_dtz) / 2), source: 'exakt DTZ för KQK/KRK' };
+  if (['kkq', 'kkr', 'bbkk', 'bkkn'].includes(material) && Number.isInteger(data.precise_dtz)) {
+    return { moves: Math.ceil(Math.abs(data.precise_dtz) / 2), source: 'exakt DTZ för KQK/KRK/KBBK/KBNK' };
   }
   return null;
 }

@@ -25,6 +25,14 @@ test('distance uses plies, never mistakes general DTZ for mate', () => {
   assert.equal(mateDistance(problems[0], { category:'win', dtz: 13 }), null);
   assert.equal(mateDistance('8/8/8/8/4k3/8/1P6/K7 w - - 0 1', {category:'win',precise_dtz: 1}), null);
   assert.equal(mateDistance(problems[0], {category:'draw',dtm:0}), null);
+  for (const fen of [
+    '8/4B3/8/8/8/8/4B3/K1k5 b - - 0 1',
+    '8/8/8/6B1/8/8/4k3/1K5N w - - 0 1'
+  ]) {
+    assert.equal(mateDistance(fen, {category:'win', precise_dtz: 13}).moves, 7);
+    assert.equal(mateDistance(fen, {category:'loss', precise_dtz: -14}).moves, 7);
+    assert.equal(mateDistance(fen, {category:'win', dtz: 13}), null);
+  }
 });
 test('computer prolongs mate but takes a draw when available', () => {
   const a = {uci:'e4e5', category:'win', dtm:3};

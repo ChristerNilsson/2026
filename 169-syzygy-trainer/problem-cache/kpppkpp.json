@@ -1,0 +1,1319 @@
+{
+	"version": 1,
+	"name": "KPPPKPP",
+	"seed": "8/8/3k4/5p2/2p2P2/6P1/1P6/K7 w - - 0 1",
+	"goal": "promotion-or-mate",
+	"createdAt": "2026-11-14T18:34:16.001Z",
+	"requests": 100,
+	"positions": [
+		"8/8/3k4/5p2/2p2P2/6P1/1P6/K7 w - - 0 1",
+		"8/8/8/2k2p2/2p2P2/6P1/1P6/1K6 w - - 2 2",
+		"8/8/8/5p2/1kp2P2/6P1/1P6/2K5 w - - 4 3",
+		"8/8/8/1k3p2/2p2P2/6P1/1PK5/8 w - - 6 4",
+		"8/8/2k5/5p2/2p2P2/6P1/1P1K4/8 w - - 8 5",
+		"8/8/8/3k1p2/2p2P2/6P1/1P6/4K3 w - - 10 6",
+		"8/8/8/5p2/2pk1P2/6P1/1P6/5K2 w - - 12 7",
+		"8/8/8/5p2/2p1kP2/6P1/1P3K2/8 w - - 14 8",
+		"8/8/8/5p2/2pk1P2/6P1/1P2K3/8 w - - 16 9",
+		"8/8/8/5p2/2p1kP2/6P1/1P1K4/8 w - - 18 10",
+		"8/8/8/3k1p2/2p2P2/2K3P1/1P6/8 w - - 20 11",
+		"8/8/8/5p2/1Kpk1P2/6P1/1P6/8 w - - 22 12",
+		"8/8/8/1K1k1p2/2p2P2/6P1/1P6/8 w - - 24 13",
+		"8/8/1K1k4/5p2/2p2P2/6P1/1P6/8 w - - 26 14",
+		"8/8/8/K1k2p2/2p2P2/6P1/1P6/8 w - - 28 15",
+		"8/8/8/5p2/K1pk1P2/6P1/1P6/8 w - - 30 16",
+		"8/8/8/3k1p2/1Kp2P2/6P1/1P6/8 w - - 32 17",
+		"8/8/8/1K3p2/2pk1P2/6P1/1P6/8 w - - 34 18",
+		"8/8/2K5/5p2/2p2P2/4k1P1/1P6/8 w - - 36 19",
+		"8/8/8/2K2p2/2p2P2/3k2P1/1P6/8 w - - 38 20",
+		"8/8/8/3K1p2/2p2P2/6P1/1Pk5/8 w - - 40 21",
+		"8/8/8/5p2/2K2P2/6P1/1k6/8 w - - 0 22",
+		"8/8/8/5p2/3K1P2/1k4P1/8/8 w - - 2 23",
+		"8/8/8/4Kp2/2k2P2/6P1/8/8 w - - 4 24",
+		"8/8/8/3k1K2/5P2/6P1/8/8 w - - 1 25",
+		"8/8/5K2/2k5/5P2/6P1/8/8 w - - 3 26",
+		"8/8/4K3/8/2k2P2/6P1/8/8 w - - 5 27",
+		"8/8/3K4/8/5P2/2k3P1/8/8 w - - 7 28",
+		"8/8/8/3K4/5P2/6P1/3k4/8 w - - 9 29",
+		"8/8/8/3K1P2/8/6P1/8/3k4 w - - 1 30",
+		"8/8/5P2/3K4/8/6P1/8/2k5 w - - 1 31",
+		"8/8/5P2/8/3K4/6P1/2k5/8 w - - 3 32",
+		"8/5P2/8/8/3K4/6P1/3k4/8 w - - 1 33"
+	],
+	"probes": {
+		"8/8/3k4/5p2/2p2P2/6P1/1P6/K7 w - - 0 1": {
+			"dtz": 41,
+			"category": "win",
+			"moves": [
+				{ "uci": "a1b1", "dtz": -40, "category": "loss" },
+				{
+					"uci": "g3g4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/3k4/5p2/2p2P2/6P1/1P6/1K6 b - - 1 1": {
+			"dtz": -40,
+			"category": "loss",
+			"moves": [{ "uci": "d6c5", "dtz": 39, "category": "win" }]
+		},
+		"8/8/8/2k2p2/2p2P2/6P1/1P6/1K6 w - - 2 2": {
+			"dtz": 39,
+			"category": "win",
+			"moves": [
+				{ "uci": "b1c1", "dtz": -38, "category": "loss" },
+				{
+					"uci": "b2b3",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "g3g4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "b2b4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/2k2p2/2p2P2/6P1/1P6/2K5 b - - 3 2": {
+			"dtz": -38,
+			"category": "loss",
+			"moves": [{ "uci": "c5b4", "dtz": 37, "category": "win" }]
+		},
+		"8/8/8/5p2/1kp2P2/6P1/1P6/2K5 w - - 4 3": {
+			"dtz": 37,
+			"category": "win",
+			"moves": [
+				{ "uci": "c1c2", "dtz": -36, "category": "loss" },
+				{
+					"uci": "b2b3",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/5p2/1kp2P2/6P1/1PK5/8 b - - 5 3": {
+			"dtz": -36,
+			"category": "loss",
+			"moves": [{ "uci": "b4b5", "dtz": 35, "category": "win" }]
+		},
+		"8/8/8/1k3p2/2p2P2/6P1/1PK5/8 w - - 6 4": {
+			"dtz": 35,
+			"category": "win",
+			"moves": [
+				{ "uci": "c2d2", "dtz": -34, "category": "loss" },
+				{
+					"uci": "b2b4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/1k3p2/2p2P2/6P1/1P1K4/8 b - - 7 4": {
+			"dtz": -34,
+			"category": "loss",
+			"moves": [{ "uci": "b5c6", "dtz": 33, "category": "win" }]
+		},
+		"8/8/2k5/5p2/2p2P2/6P1/1P1K4/8 w - - 8 5": {
+			"dtz": 33,
+			"category": "win",
+			"moves": [
+				{ "uci": "d2e1", "dtz": -32, "category": "loss" },
+				{ "uci": "d2e2", "dtz": -32, "category": "loss" },
+				{ "uci": "d2e3", "dtz": -32, "category": "loss" }
+			]
+		},
+		"8/8/2k5/5p2/2p2P2/6P1/1P6/4K3 b - - 9 5": {
+			"dtz": -32,
+			"category": "loss",
+			"moves": [{ "uci": "c6d5", "dtz": 31, "category": "win" }]
+		},
+		"8/8/8/3k1p2/2p2P2/6P1/1P6/4K3 w - - 10 6": {
+			"dtz": 31,
+			"category": "win",
+			"moves": [
+				{ "uci": "e1f1", "dtz": -30, "category": "loss" },
+				{
+					"uci": "b2b3",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "g3g4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "b2b4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/3k1p2/2p2P2/6P1/1P6/5K2 b - - 11 6": {
+			"dtz": -30,
+			"category": "loss",
+			"moves": [{ "uci": "d5d4", "dtz": 29, "category": "win" }]
+		},
+		"8/8/8/5p2/2pk1P2/6P1/1P6/5K2 w - - 12 7": {
+			"dtz": 29,
+			"category": "win",
+			"moves": [
+				{ "uci": "f1f2", "dtz": -28, "category": "loss" },
+				{
+					"uci": "b2b3",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "g3g4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "b2b4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/5p2/2pk1P2/6P1/1P3K2/8 b - - 13 7": {
+			"dtz": -28,
+			"category": "loss",
+			"moves": [{ "uci": "d4e4", "dtz": 27, "category": "win" }]
+		},
+		"8/8/8/5p2/2p1kP2/6P1/1P3K2/8 w - - 14 8": {
+			"dtz": 27,
+			"category": "win",
+			"moves": [
+				{ "uci": "f2e2", "dtz": -26, "category": "loss" },
+				{ "uci": "f2e1", "dtz": 2, "category": "win" },
+				{ "uci": "f2f1", "dtz": 2, "category": "win" }
+			]
+		},
+		"8/8/8/5p2/2p1kP2/6P1/1P2K3/8 b - - 15 8": {
+			"dtz": -26,
+			"category": "loss",
+			"moves": [{ "uci": "e4d4", "dtz": 25, "category": "win" }]
+		},
+		"8/8/8/5p2/2pk1P2/6P1/1P2K3/8 w - - 16 9": {
+			"dtz": 25,
+			"category": "win",
+			"moves": [
+				{ "uci": "e2d2", "dtz": -24, "category": "loss" },
+				{
+					"uci": "b2b3",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "g3g4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "b2b4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/5p2/2pk1P2/6P1/1P1K4/8 b - - 17 9": {
+			"dtz": -24,
+			"category": "loss",
+			"moves": [
+				{ "uci": "d4e4", "dtz": 23, "category": "win" },
+				{ "uci": "d4c5", "dtz": 23, "category": "win" }
+			]
+		},
+		"8/8/8/5p2/2p1kP2/6P1/1P1K4/8 w - - 18 10": {
+			"dtz": 23,
+			"category": "win",
+			"moves": [
+				{ "uci": "d2c3", "dtz": -22, "category": "loss" },
+				{ "uci": "d2c1", "dtz": 2, "category": "win" },
+				{ "uci": "d2d1", "dtz": 2, "category": "win" },
+				{ "uci": "d2e1", "dtz": 2, "category": "win" }
+			]
+		},
+		"8/8/8/5p2/2p1kP2/2K3P1/1P6/8 b - - 19 10": {
+			"dtz": -22,
+			"category": "loss",
+			"moves": [{ "uci": "e4d5", "dtz": 21, "category": "win" }]
+		},
+		"8/8/8/3k1p2/2p2P2/2K3P1/1P6/8 w - - 20 11": {
+			"dtz": 21,
+			"category": "win",
+			"moves": [
+				{ "uci": "c3b4", "dtz": -20, "category": "loss" },
+				{
+					"uci": "g3g4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/3k1p2/1Kp2P2/6P1/1P6/8 b - - 21 11": {
+			"dtz": -20,
+			"category": "loss",
+			"moves": [{ "uci": "d5d4", "dtz": 19, "category": "win" }]
+		},
+		"8/8/8/5p2/1Kpk1P2/6P1/1P6/8 w - - 22 12": {
+			"dtz": 19,
+			"category": "win",
+			"moves": [
+				{ "uci": "b4b5", "dtz": -18, "category": "loss" },
+				{
+					"uci": "b2b3",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "g3g4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/1K3p2/2pk1P2/6P1/1P6/8 b - - 23 12": {
+			"dtz": -18,
+			"category": "loss",
+			"moves": [{ "uci": "d4d5", "dtz": 17, "category": "win" }]
+		},
+		"8/8/8/1K1k1p2/2p2P2/6P1/1P6/8 w - - 24 13": {
+			"dtz": 17,
+			"category": "win",
+			"moves": [
+				{ "uci": "b5b6", "dtz": -16, "category": "loss" },
+				{
+					"uci": "b2b3",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "g3g4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "b2b4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/1K6/3k1p2/2p2P2/6P1/1P6/8 b - - 25 13": {
+			"dtz": -16,
+			"category": "loss",
+			"moves": [{ "uci": "d5d6", "dtz": 15, "category": "win" }]
+		},
+		"8/8/1K1k4/5p2/2p2P2/6P1/1P6/8 w - - 26 14": {
+			"dtz": 15,
+			"category": "win",
+			"moves": [
+				{ "uci": "b6a5", "dtz": -14, "category": "loss" },
+				{
+					"uci": "b2b3",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "g3g4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "b2b4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/3k4/K4p2/2p2P2/6P1/1P6/8 b - - 27 14": {
+			"dtz": -14,
+			"category": "loss",
+			"moves": [{ "uci": "d6c5", "dtz": 13, "category": "win" }]
+		},
+		"8/8/8/K1k2p2/2p2P2/6P1/1P6/8 w - - 28 15": {
+			"dtz": 13,
+			"category": "win",
+			"moves": [
+				{ "uci": "a5a4", "dtz": -12, "category": "loss" },
+				{
+					"uci": "b2b3",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "g3g4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "b2b4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/2k2p2/K1p2P2/6P1/1P6/8 b - - 29 15": {
+			"dtz": -12,
+			"category": "loss",
+			"moves": [
+				{ "uci": "c5d4", "dtz": 11, "category": "win" },
+				{ "uci": "c5c6", "dtz": 11, "category": "win" },
+				{ "uci": "c5d6", "dtz": 11, "category": "win" }
+			]
+		},
+		"8/8/8/5p2/K1pk1P2/6P1/1P6/8 w - - 30 16": {
+			"dtz": 11,
+			"category": "win",
+			"moves": [
+				{ "uci": "a4b4", "dtz": -10, "category": "loss" },
+				{
+					"uci": "b2b3",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "g3g4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "b2b4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/5p2/1Kpk1P2/6P1/1P6/8 b - - 31 16": {
+			"dtz": -10,
+			"category": "loss",
+			"moves": [{ "uci": "d4d5", "dtz": 9, "category": "win" }]
+		},
+		"8/8/8/3k1p2/1Kp2P2/6P1/1P6/8 w - - 32 17": {
+			"dtz": 9,
+			"category": "win",
+			"moves": [
+				{ "uci": "b4b5", "dtz": -8, "category": "loss" },
+				{
+					"uci": "g3g4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/1K1k1p2/2p2P2/6P1/1P6/8 b - - 33 17": {
+			"dtz": -8,
+			"category": "loss",
+			"moves": [{ "uci": "d5d4", "dtz": 7, "category": "win" }]
+		},
+		"8/8/8/1K3p2/2pk1P2/6P1/1P6/8 w - - 34 18": {
+			"dtz": 7,
+			"category": "win",
+			"moves": [
+				{ "uci": "b5c6", "dtz": -6, "category": "loss" },
+				{
+					"uci": "b2b3",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "g3g4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "b2b4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/2K5/5p2/2pk1P2/6P1/1P6/8 b - - 35 18": {
+			"dtz": -6,
+			"category": "loss",
+			"moves": [
+				{ "uci": "d4e3", "dtz": 5, "category": "win" },
+				{ "uci": "d4e4", "dtz": 5, "category": "win" }
+			]
+		},
+		"8/8/2K5/5p2/2p2P2/4k1P1/1P6/8 w - - 36 19": {
+			"dtz": 5,
+			"category": "win",
+			"moves": [
+				{ "uci": "c6c5", "dtz": -4, "category": "loss" },
+				{ "uci": "c6d5", "dtz": -4, "category": "loss" },
+				{ "uci": "c6b7", "dtz": 2, "category": "win" },
+				{ "uci": "c6c7", "dtz": 2, "category": "win" }
+			]
+		},
+		"8/8/8/2K2p2/2p2P2/4k1P1/1P6/8 b - - 37 19": {
+			"dtz": -4,
+			"category": "loss",
+			"moves": [{ "uci": "e3d3", "dtz": 3, "category": "win" }]
+		},
+		"8/8/8/2K2p2/2p2P2/3k2P1/1P6/8 w - - 38 20": {
+			"dtz": 3,
+			"category": "win",
+			"moves": [
+				{
+					"uci": "c5d5",
+					"dtz": -2,
+					"precise_dtz": -2,
+					"category": "loss"
+				},
+				{
+					"uci": "b2b3",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "g3g4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "b2b4",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/3K1p2/2p2P2/3k2P1/1P6/8 b - - 39 20": {
+			"dtz": -2,
+			"precise_dtz": -2,
+			"category": "loss",
+			"moves": [
+				{
+					"uci": "d3c2",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "d3d2",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "d3e2",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{ "uci": "d3e3", "dtz": 1, "precise_dtz": 1, "category": "win" }
+			]
+		},
+		"8/8/8/3K1p2/2p2P2/6P1/1Pk5/8 w - - 40 21": {
+			"dtz": 1,
+			"precise_dtz": 1,
+			"category": "win",
+			"moves": [
+				{
+					"uci": "d5c4",
+					"zeroing": true,
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -32,
+					"category": "loss"
+				},
+				{ "uci": "d5d4", "dtz": -4, "category": "loss" },
+				{
+					"uci": "d5e5",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "d5c6",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{
+					"uci": "d5d6",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"category": "win"
+				},
+				{ "uci": "d5e6", "dtz": 1, "precise_dtz": 1, "category": "win" }
+			]
+		},
+		"8/8/8/5p2/2K2P2/6P1/1Pk5/8 b - - 0 21": {
+			"dtz": -2,
+			"precise_dtz": -2,
+			"dtm": -32,
+			"category": "loss",
+			"moves": [
+				{
+					"uci": "c2b2",
+					"zeroing": true,
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 31,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/5p2/2K2P2/6P1/1k6/8 w - - 0 22": {
+			"dtz": 1,
+			"precise_dtz": 1,
+			"dtm": 31,
+			"category": "win",
+			"moves": [
+				{
+					"uci": "c4d4",
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -30,
+					"category": "loss"
+				},
+				{
+					"uci": "c4d5",
+					"dtz": -4,
+					"precise_dtz": -4,
+					"dtm": -30,
+					"category": "loss"
+				}
+			]
+		},
+		"8/8/8/5p2/3K1P2/6P1/1k6/8 b - - 1 22": {
+			"dtz": -2,
+			"precise_dtz": -2,
+			"dtm": -30,
+			"category": "loss",
+			"moves": [
+				{
+					"uci": "b2b3",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 29,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/5p2/3K1P2/1k4P1/8/8 w - - 2 23": {
+			"dtz": 1,
+			"precise_dtz": 1,
+			"dtm": 29,
+			"category": "win",
+			"moves": [
+				{
+					"uci": "d4e5",
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -28,
+					"category": "loss"
+				}
+			]
+		},
+		"8/8/8/4Kp2/5P2/1k4P1/8/8 b - - 3 23": {
+			"dtz": -2,
+			"precise_dtz": -2,
+			"dtm": -28,
+			"category": "loss",
+			"moves": [
+				{
+					"uci": "b3c4",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 27,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/4Kp2/2k2P2/6P1/8/8 w - - 4 24": {
+			"dtz": 1,
+			"precise_dtz": 1,
+			"dtm": 27,
+			"category": "win",
+			"moves": [
+				{
+					"uci": "e5f5",
+					"zeroing": true,
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -26,
+					"category": "loss"
+				}
+			]
+		},
+		"8/8/8/5K2/2k2P2/6P1/8/8 b - - 0 24": {
+			"dtz": -2,
+			"precise_dtz": -2,
+			"dtm": -26,
+			"category": "loss",
+			"moves": [
+				{
+					"uci": "c4d5",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 25,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/3k1K2/5P2/6P1/8/8 w - - 1 25": {
+			"dtz": 1,
+			"precise_dtz": 1,
+			"dtm": 25,
+			"category": "win",
+			"moves": [
+				{
+					"uci": "g3g4",
+					"zeroing": true,
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -24,
+					"category": "loss"
+				},
+				{
+					"uci": "f5f6",
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -24,
+					"category": "loss"
+				}
+			]
+		},
+		"8/8/5K2/3k4/5P2/6P1/8/8 b - - 2 25": {
+			"dtz": -2,
+			"precise_dtz": -2,
+			"dtm": -24,
+			"category": "loss",
+			"moves": [
+				{
+					"uci": "d5c4",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 23,
+					"category": "win"
+				},
+				{
+					"uci": "d5d4",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 23,
+					"category": "win"
+				},
+				{
+					"uci": "d5e4",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 23,
+					"category": "win"
+				},
+				{
+					"uci": "d5c5",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 23,
+					"category": "win"
+				},
+				{
+					"uci": "d5c6",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 23,
+					"category": "win"
+				},
+				{
+					"uci": "d5d6",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 23,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/5K2/2k5/5P2/6P1/8/8 w - - 3 26": {
+			"dtz": 1,
+			"precise_dtz": 1,
+			"dtm": 23,
+			"category": "win",
+			"moves": [
+				{
+					"uci": "g3g4",
+					"zeroing": true,
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -22,
+					"category": "loss"
+				},
+				{
+					"uci": "f6e6",
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -22,
+					"category": "loss"
+				},
+				{
+					"uci": "f6e7",
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -22,
+					"category": "loss"
+				}
+			]
+		},
+		"8/8/4K3/2k5/5P2/6P1/8/8 b - - 4 26": {
+			"dtz": -2,
+			"precise_dtz": -2,
+			"dtm": -22,
+			"category": "loss",
+			"moves": [
+				{
+					"uci": "c5c4",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 21,
+					"category": "win"
+				},
+				{
+					"uci": "c5d4",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 21,
+					"category": "win"
+				},
+				{
+					"uci": "c5b5",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 21,
+					"category": "win"
+				},
+				{
+					"uci": "c5b6",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 21,
+					"category": "win"
+				},
+				{
+					"uci": "c5c6",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 21,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/4K3/8/2k2P2/6P1/8/8 w - - 5 27": {
+			"dtz": 1,
+			"precise_dtz": 1,
+			"dtm": 21,
+			"category": "win",
+			"moves": [
+				{
+					"uci": "f4f5",
+					"zeroing": true,
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -20,
+					"category": "loss"
+				},
+				{
+					"uci": "e6d6",
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -20,
+					"category": "loss"
+				}
+			]
+		},
+		"8/8/3K4/8/2k2P2/6P1/8/8 b - - 6 27": {
+			"dtz": -2,
+			"precise_dtz": -2,
+			"dtm": -20,
+			"category": "loss",
+			"moves": [
+				{
+					"uci": "c4b3",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 19,
+					"category": "win"
+				},
+				{
+					"uci": "c4c3",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 19,
+					"category": "win"
+				},
+				{
+					"uci": "c4d3",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 19,
+					"category": "win"
+				},
+				{
+					"uci": "c4b4",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 19,
+					"category": "win"
+				},
+				{
+					"uci": "c4d4",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 19,
+					"category": "win"
+				},
+				{
+					"uci": "c4b5",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 19,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/3K4/8/5P2/2k3P1/8/8 w - - 7 28": {
+			"dtz": 1,
+			"precise_dtz": 1,
+			"dtm": 19,
+			"category": "win",
+			"moves": [
+				{
+					"uci": "f4f5",
+					"zeroing": true,
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -18,
+					"category": "loss"
+				},
+				{
+					"uci": "d6d5",
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -18,
+					"category": "loss"
+				}
+			]
+		},
+		"8/8/8/3K4/5P2/2k3P1/8/8 b - - 8 28": {
+			"dtz": -2,
+			"precise_dtz": -2,
+			"dtm": -18,
+			"category": "loss",
+			"moves": [
+				{
+					"uci": "c3b2",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 17,
+					"category": "win"
+				},
+				{
+					"uci": "c3c2",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 17,
+					"category": "win"
+				},
+				{
+					"uci": "c3d2",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 17,
+					"category": "win"
+				},
+				{
+					"uci": "c3b3",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 17,
+					"category": "win"
+				},
+				{
+					"uci": "c3d3",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 17,
+					"category": "win"
+				},
+				{
+					"uci": "c3b4",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 17,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/3K4/5P2/6P1/3k4/8 w - - 9 29": {
+			"dtz": 1,
+			"precise_dtz": 1,
+			"dtm": 17,
+			"category": "win",
+			"moves": [
+				{
+					"uci": "f4f5",
+					"zeroing": true,
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -16,
+					"category": "loss"
+				}
+			]
+		},
+		"8/8/8/3K1P2/8/6P1/3k4/8 b - - 0 29": {
+			"dtz": -2,
+			"precise_dtz": -2,
+			"dtm": -16,
+			"category": "loss",
+			"moves": [
+				{
+					"uci": "d2c1",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 15,
+					"category": "win"
+				},
+				{
+					"uci": "d2d1",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 15,
+					"category": "win"
+				},
+				{
+					"uci": "d2e1",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 15,
+					"category": "win"
+				},
+				{
+					"uci": "d2c2",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 15,
+					"category": "win"
+				},
+				{
+					"uci": "d2e2",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 15,
+					"category": "win"
+				},
+				{
+					"uci": "d2c3",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 15,
+					"category": "win"
+				},
+				{
+					"uci": "d2d3",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 15,
+					"category": "win"
+				},
+				{
+					"uci": "d2e3",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 15,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/8/3K1P2/8/6P1/8/3k4 w - - 1 30": {
+			"dtz": 1,
+			"precise_dtz": 1,
+			"dtm": 15,
+			"category": "win",
+			"moves": [
+				{
+					"uci": "f5f6",
+					"zeroing": true,
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -14,
+					"category": "loss"
+				}
+			]
+		},
+		"8/8/5P2/3K4/8/6P1/8/3k4 b - - 0 30": {
+			"dtz": -2,
+			"precise_dtz": -2,
+			"dtm": -14,
+			"category": "loss",
+			"moves": [
+				{
+					"uci": "d1c1",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 13,
+					"category": "win"
+				},
+				{
+					"uci": "d1e1",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 13,
+					"category": "win"
+				},
+				{
+					"uci": "d1c2",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 13,
+					"category": "win"
+				},
+				{
+					"uci": "d1d2",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 13,
+					"category": "win"
+				},
+				{
+					"uci": "d1e2",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 13,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/5P2/3K4/8/6P1/8/2k5 w - - 1 31": {
+			"dtz": 1,
+			"precise_dtz": 1,
+			"dtm": 13,
+			"category": "win",
+			"moves": [
+				{
+					"uci": "f6f7",
+					"zeroing": true,
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -12,
+					"category": "loss"
+				},
+				{
+					"uci": "d5c4",
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -12,
+					"category": "loss"
+				},
+				{
+					"uci": "d5d4",
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -12,
+					"category": "loss"
+				}
+			]
+		},
+		"8/8/5P2/8/3K4/6P1/8/2k5 b - - 2 31": {
+			"dtz": -2,
+			"precise_dtz": -2,
+			"dtm": -12,
+			"category": "loss",
+			"moves": [
+				{
+					"uci": "c1b1",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 11,
+					"category": "win"
+				},
+				{
+					"uci": "c1d1",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 11,
+					"category": "win"
+				},
+				{
+					"uci": "c1b2",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 11,
+					"category": "win"
+				},
+				{
+					"uci": "c1c2",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 11,
+					"category": "win"
+				},
+				{
+					"uci": "c1d2",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 11,
+					"category": "win"
+				}
+			]
+		},
+		"8/8/5P2/8/3K4/6P1/2k5/8 w - - 3 32": {
+			"dtz": 1,
+			"precise_dtz": 1,
+			"dtm": 11,
+			"category": "win",
+			"moves": [
+				{
+					"uci": "f6f7",
+					"zeroing": true,
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -10,
+					"category": "loss"
+				}
+			]
+		},
+		"8/5P2/8/8/3K4/6P1/2k5/8 b - - 0 32": {
+			"dtz": -2,
+			"precise_dtz": -2,
+			"dtm": -10,
+			"category": "loss",
+			"moves": [
+				{
+					"uci": "c2c1",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 9,
+					"category": "win"
+				},
+				{
+					"uci": "c2d1",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 9,
+					"category": "win"
+				},
+				{
+					"uci": "c2b2",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 9,
+					"category": "win"
+				},
+				{
+					"uci": "c2d2",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 9,
+					"category": "win"
+				},
+				{
+					"uci": "c2b3",
+					"dtz": 1,
+					"precise_dtz": 1,
+					"dtm": 9,
+					"category": "win"
+				}
+			]
+		},
+		"8/5P2/8/8/3K4/6P1/3k4/8 w - - 1 33": {
+			"dtz": 1,
+			"precise_dtz": 1,
+			"dtm": 9,
+			"category": "win",
+			"moves": [
+				{
+					"uci": "f7f8q",
+					"zeroing": true,
+					"dtz": -2,
+					"precise_dtz": -2,
+					"dtm": -8,
+					"category": "loss"
+				}
+			]
+		}
+	},
+	"sourceCreatedAt": "2026-11-14T17:52:45.708Z"
+}
