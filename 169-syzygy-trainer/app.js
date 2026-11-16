@@ -1,5 +1,5 @@
 import { Chess } from './vendor/chess.js';
-import { parseProblems, nextIndex, mateDistance, defenseMove, isPromotionProblem, isRookCaptureProblem } from './trainer.js';
+import { parseProblems, nextIndex, mateDistance, defenseMove, isPromotionProblem, isRookCaptureProblem, isDrawCategory, holdsDraw, drawClock, drawReason, drawOpponentMove, formatHistory } from './trainer.js';
 import { generateProblems, optimalMoves } from './generator.js';
 import { parseCatalog, problemLabel, chooseProblem } from './catalog.js';
 import { cacheFilename, parseProblemCache, createProblemCache } from './problem-cache.js';
@@ -15,13 +15,14 @@ const cache = new Map();
 const fullCache = new Map();
 let promotionGoal = false;
 let captureGoal = false;
+let drawGoal = false, drawSuccess = false, drawFailed = false;
 let pawnStages = false, milestones = new Milestones();
 let progress = new ContinuationProgress(), knownContinuation = false;
 let progressStorageKey;
 const promoted = () => promotionGoal && last?.promotion && last.color === player;
 const rookCaptured = () => captureGoal && last?.captured === 'r' && last.color === player;
-const finished = () => Boolean(knownContinuation || promoted() || rookCaptured() || game.isGameOver());
-const turnMessage = () => pawnStages ? 'Din tur. Vinn bönder på vägen till promovering eller matt.' : promotionGoal ? 'Din tur. För bonden till promovering.' : captureGoal ? 'Din tur. Slå tornet eller sätt matt.' : 'Din tur. Hitta vägen till matt.';
+const finished = () => Boolean(drawSuccess || drawFailed || knownContinuation || promoted() || rookCaptured() || game.isGameOver());
+const turnMessage = () => drawGoal ? 'Din tur. Hitta ett drag som håller remi.' : pawnStages ? 'Din tur. Vinn bönder på vägen till promovering eller matt.' : promotionGoal ? 'Din tur. För bonden till promovering.' : captureGoal ? 'Din tur. Slå tornet eller sätt matt.' : 'Din tur. Hitta vägen till matt.';
 let requests = 0, savedRequests = null;
 const message = text => { $('status').textContent = text; };
 let startedAt = null, elapsed = 0;
@@ -77,7 +78,7 @@ function render() {
   $('game-result').hidden = !complete;
   $('board').classList.toggle('finished', complete);
   if (complete) {
-    $('result-title').textContent = knownContinuation ? 'Rätt drag – fortsättningen är redan avklarad!' : rookCaptured() ? 'Tornet slaget – problemet är löst!' : promoted() ? 'Promovering – problemet är löst!' : game.isCheckmate() ? (game.turn() !== player ? 'Schack-Matt du vann' : 'Schackmatt – du förlorade') : game.isStalemate() ? 'Remi - Patt' : 'Remi – partiet är slut';
+    $('result-title').textContent = drawFailed ? 'Remin gick förlorad – försök igen' : knownContinuation ? 'Rätt drag – fortsättningen är redan avklarad!' : rookCaptured() ? 'Tornet slaget – problemet är löst!' : promoted() ? 'Promovering – problemet är löst!' : game.isCheckmate() ? (game.turn() !== player ? 'Schack-Matt du vann' : 'Schackmatt – du förlorade') : drawReason(game) ? `Remi - ${drawReason(game)}` : 'Remi – partiet är slut';
     $('result-detail').textContent = `${count} egna drag · Använd tid ${$('elapsed').textContent}. Välj Next för nästa utmaning eller Repeat för att försöka igen.`;
   }
   $('board').replaceChildren();
@@ -109,9 +110,10 @@ function render() {
     button.addEventListener('click', () => play(square));
     $('board').append(button);
   }
-  const solved = knownContinuation || promoted() || rookCaptured() || (game.isCheckmate() && game.turn() !== player);
-  const remaining = problems.length ? knownContinuation ? 0 : (minimum?.moves ?? problems.length - index) - count : '—';
+  const remaining = problems.length ? drawGoal ? drawClock(game.fen()) : knownContinuation ? 0 : (minimum?.moves ?? problems.length - index) - count : '—';
   $('remaining').textContent = $('show-count').checked ? remaining : '••';
+  $('remaining-label').textContent = drawGoal ? 'Mot remi (50 drag)' : 'Drag kvar';
+  $('show-count-label').textContent = drawGoal ? 'Visa 50-dragsräknaren' : 'Visa återstående drag';
   $('position-label').textContent = problems.length ? `Delproblem ${problems.length - index} av ${problems.length}` : 'Skapar delproblem…';
   $('turn').textContent = complete ? 'Problemet är avslutat' : busy ? 'Tablebase analyserar…' : `${game.turn() === 'w' ? 'Vit' : 'Svart'} vid draget${game.isCheck() ? ' · schack' : ''}`;
   $('easier').disabled = !problems.length || index === problems.length - 1;
@@ -125,19 +127,22 @@ function render() {
   $('syzygy-external').href = `https://syzygy-tables.info/?fen=${encodeURIComponent(game.fen())}`;
   $('hint').disabled = busy || !ready || complete || game.turn() !== player;
   $('hint').setAttribute('aria-pressed', String(hint !== null));
-  const history = game.history();
-  $('history').textContent = history.length ? history.map((san, i) => `${i + 1}. ${san}`).join('  ') : 'Dina drag visas här.';
+  const history = game.history({verbose:true});
+  $('history').textContent = history.length ? formatHistory(history) : 'Dina drag visas här.';
 }
 
 function ended() {
   if (!finished()) return false;
-  if (knownContinuation || promoted() || rookCaptured() || (game.isCheckmate() && game.turn() !== player)) {
+  if (drawGoal && !game.isCheckmate() && game.isDraw()) drawSuccess = true;
+  if (drawSuccess || knownContinuation || promoted() || rookCaptured() || (game.isCheckmate() && game.turn() !== player)) {
     progress.remember(game, player);
     progress.complete(problems.length - index);
     try { localStorage.setItem(progressStorageKey, JSON.stringify({positions:problems, levels:[...progress.levels]})); } catch {}
   }
   if (promoted() || (game.isCheckmate() && game.turn() !== player)) recordMilestones('win');
   if (startedAt !== null) { elapsed += performance.now() - startedAt; startedAt = null; updateTime(); }
+  if (drawSuccess) { message(`Remi genom ${drawReason(game)?.toLowerCase() ?? 'avslutat parti'}! Du höll ställningen i ${count} egna drag.`); return true; }
+  if (drawFailed) { message('Draget förlorar remiställningen. Välj Undo eller Repeat för att försöka igen.'); return true; }
   if (knownContinuation) { message('Rätt! Du har redan klarat fortsättningen. Välj Next för nästa delproblem.'); return true; }
   if (promoted()) { message(`Promovering! Problemet är löst på ${count} drag.`); return true; }
   if (rookCaptured()) { message(`Tornet är slaget! Problemet är löst på ${count} drag.`); return true; }
@@ -155,19 +160,24 @@ async function sync(token) {
     const data = await probe(game.fen(), controller.signal);
     if (token !== generation) return;
     if (!game.history().length) {
-      if (data.category !== 'win') throw new Error('Startpositionen måste vara vunnen för sidan vid draget.');
-      minimum = promotionGoal || captureGoal ? null : mateDistance(game.fen(), data);
+      if (drawGoal ? !isDrawCategory(data.category) : data.category !== 'win') throw new Error(drawGoal ? 'Startpositionen måste gå att hålla remi i.' : 'Startpositionen måste vara vunnen för sidan vid draget.');
+      minimum = drawGoal || promotionGoal || captureGoal ? null : mateDistance(game.fen(), data);
       ready = true;
       if (startedAt === null) startedAt = performance.now();
-      $('metric-note').textContent = pawnStages ? 'Bondevinst med bibehållen vinst är ett delmål som bekräftas efter datorns svar. Promovering eller matt löser problemet direkt.' : captureGoal ? 'Målet är att slå tornet eller sätta matt. Då är problemet löst.' : promotionGoal ? 'Målet är att promovera bonden. Då är problemet löst.' : minimum ? `Egna drag från start · ${minimum.source}.` : 'Exakt mattavstånd saknas. DTZ visas inte som mattavstånd.';
+      $('metric-note').textContent = drawGoal ? 'Håll remi till 50 drag per sida utan bondedrag eller slag. Räknaren nollställs vid bondedrag eller slag. En faktisk remi kan avsluta tidigare.' : pawnStages ? 'Bondevinst med bibehållen vinst är ett delmål som bekräftas efter datorns svar. Promovering eller matt löser problemet direkt.' : captureGoal ? 'Målet är att slå tornet eller sätta matt. Då är problemet löst.' : promotionGoal ? 'Målet är att promovera bonden. Då är problemet löst.' : minimum ? `Egna drag från start · ${minimum.source}.` : 'Exakt mattavstånd saknas. DTZ visas inte som mattavstånd.';
+    }
+    if (drawGoal && count > 0) {
+      if (!['win', 'loss', 'draw', 'cursed-win', 'blessed-loss'].includes(data.category)) throw new Error('Remiutfallet är inte säkert känt.');
+      const safe = game.turn() === player ? data.category === 'win' || isDrawCategory(data.category) : holdsDraw(data.category);
+      if (!safe) { drawFailed = true; ended(); return; }
     }
     if (game.turn() !== player) {
-      const uci = defenseMove(data);
+      const uci = drawGoal ? drawOpponentMove(game, data) : defenseMove(data);
       last = game.move({ from: uci.slice(0,2), to: uci.slice(2,4), promotion: uci[4] });
       const category = data.moves.find(move => move.uci === uci)?.category;
       if (!game.isGameOver()) {
         recordMilestones(category);
-        knownContinuation = !$('repeat-continuation').checked && category === 'win' && count > 0 && progress.knows(game.fen());
+        knownContinuation = !drawGoal && !$('repeat-continuation').checked && category === 'win' && count > 0 && progress.knows(game.fen());
       }
       if (!ended()) message(turnMessage());
     } else message(turnMessage());
@@ -194,10 +204,14 @@ async function play(square) {
   }
   const uci = selected + square + (promotion ?? '');
   let correctFirstMove = false;
-  if (!$('repeat-continuation').checked && count === 0 && progress.canSkip(problems.length - index, true)) {
+  if (!drawGoal && !$('repeat-continuation').checked && count === 0 && progress.canSkip(problems.length - index, true)) {
     try { correctFirstMove = optimalMoves(game.fen(), cache.get(game.fen()), true).includes(uci); } catch {}
   }
+  const drawMove = drawGoal ? cache.get(game.fen())?.moves.find(move => move.uci === uci) : null;
   last = game.move({from:selected, to:square, promotion});
+  if (drawMove && ['win', 'loss', 'draw', 'cursed-win', 'blessed-loss'].includes(drawMove.category)) {
+    drawFailed = !holdsDraw(drawMove.category);
+  }
   hint = null;
   if (correctFirstMove && !finished()) knownContinuation = true;
   selected = null; count++; render();
@@ -208,11 +222,12 @@ function start(newIndex) {
   resetTime();
   hint = null;
   knownContinuation = false;
+  drawSuccess = false; drawFailed = false;
   milestones = new Milestones();
   controller?.abort(); controller = new AbortController(); generation++;
   index = newIndex; game = new Chess(problems[index]); player = game.turn();
-  promotionGoal = pawnStages || isPromotionProblem(problems[index]);
-  captureGoal = !pawnStages && isRookCaptureProblem(problems[index]);
+  promotionGoal = !drawGoal && (pawnStages || isPromotionProblem(problems[index]));
+  captureGoal = !drawGoal && !pawnStages && isRookCaptureProblem(problems[index]);
   flipped = player === 'b'; selected = null; last = null; count = 0; minimum = null; ready = false;
   $('problem').value = index;
   $('metric-note').textContent = 'Hämtar mattavstånd…';
@@ -222,7 +237,7 @@ function start(newIndex) {
 function load(data, name, problemIndex = 0) {
   const parsed = parseProblems(data);
   progress = new ContinuationProgress();
-  progressStorageKey = `syzygy-progress:${name}${problemIndex ? `-${problemIndex + 1}` : ''}`;
+  progressStorageKey = `syzygy-progress:${drawGoal ? 'draw:' : ''}${name}${problemIndex ? `-${problemIndex + 1}` : ''}`;
   try {
     const saved = JSON.parse(localStorage.getItem(progressStorageKey));
     if (JSON.stringify(saved?.positions) === JSON.stringify(parsed) && Array.isArray(saved.levels)) {
@@ -232,7 +247,7 @@ function load(data, name, problemIndex = 0) {
   problems = parsed;
   $('problem').replaceChildren(...problems.map((fen, i) => {
     const distance = mateDistance(fen, cache.get(fen) ?? {});
-    return new Option(pawnStages ? `${problems.length - i} drag till promovering eller matt` : isRookCaptureProblem(fen) ? `${problems.length - i} drag till tornslag eller matt` : isPromotionProblem(fen) ? `${problems.length - i} drag till promovering` : `${distance?.moves ?? problems.length - i} drag till matt`, i);
+    return new Option(drawGoal ? 'Håll remi' : pawnStages ? `${problems.length - i} drag till promovering eller matt` : isRookCaptureProblem(fen) ? `${problems.length - i} drag till tornslag eller matt` : isPromotionProblem(fen) ? `${problems.length - i} drag till promovering` : `${distance?.moves ?? problems.length - i} drag till matt`, i);
   }).reverse());
   $('problem').disabled = false;
   start(problems.length - 1);
@@ -253,7 +268,7 @@ $('undo').addEventListener('click', () => {
   controller?.abort(); controller = new AbortController(); generation++;
   do { game.undo(); } while (game.history().length && game.turn() !== player);
   count = Math.max(0, count - 1);
-  knownContinuation = false; hint = null; selected = null;
+  knownContinuation = false; drawSuccess = false; drawFailed = false; hint = null; selected = null;
   last = game.history({verbose:true}).at(-1) ?? null;
   milestones.rewind(game, player, count);
   if (startedAt === null) startedAt = performance.now();
@@ -268,7 +283,7 @@ $('hint').addEventListener('click', async () => {
   try {
     const data = await probe(game.fen(), controller.signal);
     if (token !== generation) return;
-    const uci = data.category === 'win' ? optimalMoves(game.fen(), data, true)[0] : data.moves[0]?.uci;
+    const uci = drawGoal ? data.moves.find(move => holdsDraw(move.category))?.uci : data.category === 'win' ? optimalMoves(game.fen(), data, true)[0] : data.moves[0]?.uci;
     if (!uci) throw new Error('Inget drag hittades.');
     hint = {from:uci.slice(0,2), to:uci.slice(2,4), promotion:uci[4]};
     const preview = new Chess(game.fen()).move(hint);
@@ -297,17 +312,18 @@ async function selectProblemSet(force = false) {
   const group = catalog[Number($('problem-set').value)];
   if (!group) return;
   const entry = chooseProblem(group);
-  const cacheName = cacheFilename(entry.name, entry.problemIndex);
-  const storageKey = `syzygy:${entry.name}${entry.problemIndex ? `-${entry.problemIndex + 1}` : ''}`;
+  const cacheName = cacheFilename(entry.name, entry.problemIndex, entry.goal);
+  const storageKey = `syzygy:${entry.goal === 'draw' ? 'draw:' : ''}${entry.name}${entry.problemIndex ? `-${entry.problemIndex + 1}` : ''}`;
   knownContinuation = false;
   progress = new ContinuationProgress();
-  pawnStages = isPawnEndgame(entry.fen);
+  drawGoal = entry.goal === 'draw'; drawSuccess = false; drawFailed = false;
+  pawnStages = !drawGoal && isPawnEndgame(entry.fen);
   milestones = new Milestones();
   savedRequests = null;
   problems = []; index = 0; ready = false; busy = true;
   game = new Chess(entry.fen); player = game.turn(); flipped = player === 'b';
-  promotionGoal = pawnStages || isPromotionProblem(entry.fen);
-  captureGoal = isRookCaptureProblem(entry.fen);
+  promotionGoal = !drawGoal && (pawnStages || isPromotionProblem(entry.fen));
+  captureGoal = !drawGoal && isRookCaptureProblem(entry.fen);
   count = 0; minimum = null; selected = null; last = null;
   $('problem').replaceChildren(); $('problem').disabled = true;
   $('retry').hidden = true; $('regenerate').disabled = true;
@@ -341,10 +357,11 @@ async function selectProblemSet(force = false) {
       return data;
     };
     const generated = await generateProblems(entry.fen, generationProbe, {
+      goal:entry.goal,
       signal: task.signal,
       onProgress: ({count, remaining}) => {
         if (generationController !== task) return;
-        $('generation-status').textContent = captureGoal ? `${entry.name}: ${count} delproblem skapade · följer varianten till tornslag eller matt…` : promotionGoal ? `${entry.name}: ${count} delproblem skapade · följer varianten till promovering…` : remaining == null ? `${entry.name}: ${count} delproblem skapade · följer DTZ-varianten till matt…` : `${entry.name}: ${count} delproblem skapade · matt i ${remaining} drag återstår…`;
+        $('generation-status').textContent = drawGoal ? 'Förbereder remiträning…' : captureGoal ? `${entry.name}: ${count} delproblem skapade · följer varianten till tornslag eller matt…` : promotionGoal ? `${entry.name}: ${count} delproblem skapade · följer varianten till promovering…` : remaining == null ? `${entry.name}: ${count} delproblem skapade · följer DTZ-varianten till matt…` : `${entry.name}: ${count} delproblem skapade · matt i ${remaining} drag återstår…`;
       }
     });
     if (generationController !== task || task.signal.aborted) return;
@@ -352,7 +369,7 @@ async function selectProblemSet(force = false) {
     try { localStorage.setItem(storageKey, JSON.stringify(createProblemCache(entry, generated, probes, savedRequests))); } catch {}
     load(generated, entry.name, entry.problemIndex);
     const exact = generated.every(fen => mateDistance(fen, cache.get(fen) ?? {}));
-    $('generation-status').textContent = pawnStages ? `${entry.name}: ${generated.length} delproblem klara. Målet är promovering eller matt.` : captureGoal ? `${entry.name}: ${generated.length} delproblem klara. Målet är tornslag eller matt.` : promotionGoal ? `${entry.name}: ${generated.length} delproblem klara. Målet är promovering.` : exact ? `${entry.name}: ${generated.length} delproblem klara, matt i 1–${generated.length} drag.` : `${entry.name}: ${generated.length} delproblem klara. Dragantalet i DTZ-varianten är inte garanterat kortaste vägen till matt.`;
+    $('generation-status').textContent = drawGoal ? '' : pawnStages ? `${entry.name}: ${generated.length} delproblem klara. Målet är promovering eller matt.` : captureGoal ? `${entry.name}: ${generated.length} delproblem klara. Målet är tornslag eller matt.` : promotionGoal ? `${entry.name}: ${generated.length} delproblem klara. Målet är promovering.` : exact ? `${entry.name}: ${generated.length} delproblem klara, matt i 1–${generated.length} drag.` : `${entry.name}: ${generated.length} delproblem klara. Dragantalet i DTZ-varianten är inte garanterat kortaste vägen till matt.`;
   } catch (error) {
     if (generationController !== task || task.signal.aborted) return;
     busy = false;
@@ -374,7 +391,7 @@ try {
   const response = await fetch('./problems.json');
   if (!response.ok) throw new Error(`Kunde inte läsa problems.json (HTTP ${response.status}).`);
   catalog = parseCatalog(await response.json());
-  $('problem-set').replaceChildren(...catalog.map((entry, i) => new Option(problemLabel(entry.name), i)));
+  $('problem-set').replaceChildren(...catalog.map((entry, i) => new Option(`${problemLabel(entry.name)}${entry.goal === 'draw' ? ' · Håll remi' : ''}`, i)));
   $('problem-set').disabled = false;
   await selectProblemSet();
 } catch (error) {

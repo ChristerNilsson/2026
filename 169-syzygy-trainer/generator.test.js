@@ -8,6 +8,14 @@ test('requested KRK seed is a valid winning-side position', () => {
   assert.equal(game.turn(), 'w');
   assert.equal(game.board().flat().filter(Boolean).length, 3);
 });
+
+test('draw training validates a drawable seed without trying to generate mate', async () => {
+  const fen = '8/8/8/8/4pk2/R7/7r/4K3 w - - 0 1';
+  let calls = 0;
+  assert.deepEqual(await generateProblems(fen, async()=>{calls++;return {category:'draw',moves:[]};}, {goal:'draw'}), [new Chess(fen).fen()]);
+  assert.equal(calls, 1);
+  await assert.rejects(generateProblems(fen, async()=>({category:'loss',moves:[]}), {goal:'draw'}));
+});
 test('random selection includes all equally optimal moves but no slower win', () => {
   const moves = [
     {uci:'a1a2',category:'loss',dtm:-4},

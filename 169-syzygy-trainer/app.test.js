@@ -2,8 +2,9 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { Chess } from './vendor/chess.js';
-import { isPromotionProblem, isRookCaptureProblem } from './trainer.js';
-import { createProblemCache } from './problem-cache.js';
+import { isPromotionProblem, isRookCaptureProblem, holdsDraw } from './trainer.js';
+import { createProblemCache, cacheFilename } from './problem-cache.js';
+import { parseCatalog } from './catalog.js';
 import { isPawnEndgame } from './milestones.js';
 
 test('all file caches start offline and a mate lights Next without tablebase calls', async () => {
@@ -56,7 +57,32 @@ test('all file caches start offline and a mate lights Next without tablebase cal
   // continuation and has no cached reply. It must still be accepted.
   progressProbes.get(progressPositions[1]).moves.push({uci:'b2b3',category:'loss',dtz:-2});
   const progressCache = createProblemCache({name:'PROGRESS', fen:progressSeed}, progressPositions, progressProbes, 9);
-  let networkCalls = 0, allowAnalysis = false;
+  const realDrawCache = JSON.parse(await readFile(new URL('./problem-cache/krkrp-draw.json', import.meta.url)));
+  const drawReplies = new Map();
+  const quietReply = game => game.moves({verbose:true}).find(move => move.piece !== 'p' && !move.captured && !move.san.endsWith('#'));
+  const drawResponse = (game, preferred) => ({category:'draw', dtz:0, dtm:null,
+    moves:[preferred, ...game.moves({verbose:true}).filter(move => move.from !== preferred.from || move.to !== preferred.to)].map(move=>({uci:move.from+move.to+(move.promotion ?? ''),category:'draw',dtz:0,dtm:null}))});
+  const realDrawPreview = new Chess(realDrawCache.positions[0]);
+  const safeUci = realDrawCache.probes[realDrawPreview.fen()].moves.find(move=>holdsDraw(move.category)).uci;
+  realDrawPreview.move({from:safeUci.slice(0,2),to:safeUci.slice(2,4)});
+  drawReplies.set(realDrawPreview.fen(), drawResponse(realDrawPreview, quietReply(realDrawPreview)));
+  realDrawPreview.move(quietReply(realDrawPreview));
+  const continuedDrawMove = quietReply(realDrawPreview);
+  drawReplies.set(realDrawPreview.fen(), drawResponse(realDrawPreview, continuedDrawMove));
+  realDrawPreview.move(continuedDrawMove);
+  drawReplies.set(realDrawPreview.fen(), drawResponse(realDrawPreview, quietReply(realDrawPreview)));
+  const fiftySeed = realDrawCache.seed.replace(' 0 1', ' 98 1');
+  const fiftyGame = new Chess(fiftySeed), fiftyProbes = new Map();
+  const fiftyMove = quietReply(fiftyGame);
+  fiftyProbes.set(fiftyGame.fen(), drawResponse(fiftyGame, fiftyMove));
+  fiftyGame.move(fiftyMove);
+  fiftyProbes.set(fiftyGame.fen(), drawResponse(fiftyGame, quietReply(fiftyGame)));
+  const fiftyCache = createProblemCache({name:'FIFTY',fen:fiftySeed,goal:'draw'},[fiftySeed],fiftyProbes,2);
+  const sourceCatalog = JSON.parse(await readFile(new URL('./problems.json', import.meta.url)));
+  const mockCatalog = {winning:{...(sourceCatalog.winning ?? sourceCatalog), PAWNSTAGES:stageSeed, PROGRESS:progressSeed}, drawing:{KRKRP:[realDrawCache.seed],FIFTY:[fiftySeed]}};
+  const catalog = parseCatalog(mockCatalog);
+  const catalogIndex = name => catalog.findIndex(entry => entry.name === name);
+  let networkCalls = 0, drawCalls = 0, allowAnalysis = false;
   globalThis.document = {getElementById:element, createElement:()=>new Element()};
   globalThis.Option = class extends Element { constructor(text, value) { super(); this.textContent = text; this.value = value; } };
   const storage = new Map();
@@ -65,22 +91,26 @@ test('all file caches start offline and a mate lights Next without tablebase cal
   globalThis.window = {prompt:()=>'n'};
   globalThis.fetch = async url => {
     if (url.startsWith('https:')) {
+      const fen = new URL(url).searchParams.get('fen');
+      if (drawReplies.has(fen)) { drawCalls++; return Response.json(drawReplies.get(fen)); }
       networkCalls++;
       if (allowAnalysis) return Response.json(progressProbes.get(new URL(url).searchParams.get('fen')));
       throw new Error('Offline');
     }
     if (url === './problem-cache/pawnstages.json') return Response.json(stageCache);
     if (url === './problem-cache/progress.json') return Response.json(progressCache);
+    if (url === './problem-cache/fifty-draw.json') return Response.json(fiftyCache);
     if (url === './problems.json') {
-      const catalog = JSON.parse(await readFile(new URL(url, import.meta.url)));
-      return Response.json({...catalog, PAWNSTAGES:stageSeed, PROGRESS:progressSeed});
+      return Response.json(mockCatalog);
     }
     return new Response(await readFile(new URL(url, import.meta.url)));
   };
   try {
     await import('./app.js');
-    const catalog = JSON.parse(await readFile(new URL('./problems.json', import.meta.url)));
-    for (const [index, name] of Object.keys(catalog).entries()) {
+    for (const [index, entry] of catalog.entries()) {
+      const name = entry.name;
+      if (entry.goal === 'draw' || ['PAWNSTAGES','PROGRESS'].includes(name)) continue;
+      try { await readFile(new URL('./problem-cache/'+cacheFilename(name), import.meta.url)); } catch(error) { if(error.code === 'ENOENT') continue; throw error; }
       element('problem-set').value = index;
       await element('problem-set').events.change();
       assert.equal(element('generation-status').textContent, '');
@@ -123,7 +153,7 @@ test('all file caches start offline and a mate lights Next without tablebase cal
     }
     // Quiet pawn moves continue the game; promotion ends it before any
     // reply or request for a position containing the new queen.
-    element('problem-set').value = Object.keys(catalog).length;
+    element('problem-set').value = catalogIndex('PAWNSTAGES');
     await element('problem-set').events.change();
     element('problem').value = 0;
     element('problem').events.change({target:{value:'0'}});
@@ -183,7 +213,7 @@ test('all file caches start offline and a mate lights Next without tablebase cal
     assert.equal(element('milestone-list').children.length, 0);
     assert.equal(element('elapsed').textContent, '0:00');
     // Solve one move to promotion, then add one learned move at a time.
-    element('problem-set').value = Object.keys(catalog).length + 1;
+    element('problem-set').value = catalogIndex('PROGRESS');
     await element('problem-set').events.change();
     for (let level = 1; level <= 5; level++) {
       assert.equal(element('game-result').hidden, true);
@@ -205,13 +235,63 @@ test('all file caches start offline and a mate lights Next without tablebase cal
     assert.equal(element('game-result').hidden, true);
     await click('a3'); await click('a4');
     assert.match(element('result-title').textContent, /fortsättningen är redan avklarad/);
-    // Next stays lit on the final solved level and wraps to the first set.
-    assert.match(element('harder').title, /KQK/);
+    // Next stays lit on the final solved level and opens the next goal type.
+    assert.match(element('harder').title, /KRKRP/);
     await element('harder').events.click();
-    assert.equal(Number(element('problem-set').value), 0);
+    assert.equal(Number(element('problem-set').value), catalogIndex('KRKRP'));
     assert.match(element('position-label').textContent, /^Delproblem 1 av/);
     assert.equal(element('game-result').hidden, true);
-    element('problem-set').value = Object.keys(catalog).length + 1;
+    const drawCache = JSON.parse(await readFile(new URL('./problem-cache/krkrp-draw.json', import.meta.url)));
+    const drawFen = drawCache.positions[0];
+    const drawData = drawCache.probes[drawFen];
+    const drawingMove = drawData.moves.find(move => holdsDraw(move.category));
+    const losingMove = drawData.moves.find(move => move.category === 'win');
+    assert.ok(drawingMove && losingMove);
+    assert.equal(element('problem').children[0].textContent, 'Håll remi');
+    await element('hint').events.click();
+    assert.match(element('status').textContent, /^Hint:/);
+    await click(drawingMove.uci.slice(0,2)); await click(drawingMove.uci.slice(2,4));
+    assert.equal(element('game-result').hidden, true);
+    assert.equal(element('hint').disabled, false);
+    assert.equal(element('remaining').textContent, '1 / 50');
+    assert.equal(element('remaining-label').textContent, 'Mot remi (50 drag)');
+    assert.equal(storage.has('syzygy-progress:draw:KRKRP'), false);
+    assert.equal(drawCalls, 1);
+    await click(continuedDrawMove.from); await click(continuedDrawMove.to);
+    assert.equal(element('game-result').hidden, true);
+    assert.equal(element('remaining').textContent, '2 / 50');
+    assert.equal(drawCalls, 2);
+    const successfulRecord = storage.get('syzygy-progress:draw:KRKRP');
+    await element('undo').events.click();
+    assert.equal(element('remaining').textContent, '1 / 50');
+    assert.equal(drawCalls, 3);
+    await element('undo').events.click();
+    assert.equal(element('game-result').hidden, true);
+    assert.equal(new URL(element('syzygy-external').href).searchParams.get('fen'), drawFen);
+    await click(losingMove.uci.slice(0,2)); await click(losingMove.uci.slice(2,4));
+    assert.match(element('result-title').textContent, /Remin gick förlorad/);
+    assert.equal(storage.get('syzygy-progress:draw:KRKRP'), successfulRecord);
+    element('same').events.click(); await Promise.resolve();
+    await click(drawingMove.uci.slice(0,2)); await click(drawingMove.uci.slice(2,4));
+    assert.equal(element('game-result').hidden, true);
+    assert.equal(drawCalls, 3);
+    element('problem-set').value = catalogIndex('FIFTY');
+    await element('problem-set').events.change();
+    assert.equal(element('remaining').textContent, '49 / 50');
+    await click(fiftyMove.from); await click(fiftyMove.to);
+    assert.equal(element('remaining').textContent, '50 / 50');
+    assert.match(element('result-title').textContent, /Remi - 50-dragsregeln/);
+    assert.equal(element('game-result').hidden, false);
+    assert.equal(element('hint').disabled, true);
+    assert.ok(storage.has('syzygy-progress:draw:FIFTY'));
+    assert.equal(element('harder').classList.contains('next-ready'), true);
+    await element('undo').events.click();
+    assert.equal(element('game-result').hidden, true);
+    assert.equal(element('remaining').textContent, '49 / 50');
+    await click(fiftyMove.from); await click(fiftyMove.to);
+    await element('harder').events.click();
+    assert.equal(Number(element('problem-set').value), 0);
+    element('problem-set').value = catalogIndex('PROGRESS');
     // Reloading the same variant restores completed levels.
     await element('problem-set').events.change();
     element('problem').events.change({target:{value:'1'}}); await Promise.resolve();
@@ -270,7 +350,7 @@ test('all file caches start offline and a mate lights Next without tablebase cal
     await element('syzygy').events.click();
     // The regeneration button bypasses stored variants, generates from the
     // seed, saves the result locally and starts with the easiest problem.
-    element('problem-set').value = Object.keys(catalog).length;
+    element('problem-set').value = catalogIndex('PAWNSTAGES');
     await element('problem-set').events.change();
     await element('regenerate').events.click();
     assert.equal(element('regenerate').disabled, false);
@@ -284,7 +364,7 @@ test('all file caches start offline and a mate lights Next without tablebase cal
     // Choosing another seed uses that seed's file and progress, not the
     // first seed's cache under the same problem name.
     Math.random = () => .999;
-    element('problem-set').value = Object.keys(catalog).indexOf('KBBK');
+    element('problem-set').value = catalogIndex('KBBK');
     await element('problem-set').events.change();
     const secondSeed = JSON.parse(await readFile(new URL('./problem-cache/kbbk-2.json', import.meta.url)));
     assert.equal(new URL(element('syzygy-external').href).searchParams.get('fen'), secondSeed.positions.at(-1));

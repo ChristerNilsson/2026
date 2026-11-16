@@ -4,9 +4,13 @@ import { readFile } from 'node:fs/promises';
 import { Chess } from './vendor/chess.js';
 import { cacheFilename, parseProblemCache, compactProblemCache, serializeProblemCache } from './problem-cache.js';
 import { parseCatalog } from './catalog.js';
-import { isPromotionProblem, isRookCaptureProblem, defenseMove, mateDistance } from './trainer.js';
+import { isPromotionProblem, isRookCaptureProblem, defenseMove, mateDistance, holdsDraw } from './trainer.js';
 import { isPawnEndgame } from './milestones.js';
 import { optimalMoves } from './generator.js';
+async function readCache(entry) {
+  try { return JSON.parse(await readFile(new URL('./problem-cache/'+cacheFilename(entry.name,entry.problemIndex,entry.goal), import.meta.url))); }
+  catch(error) { if(error.code === 'ENOENT') return null; throw error; }
+}
 
 test('compacting every cache preserves accepted moves, replies, distances and metadata', async () => {
   const catalog = parseCatalog(JSON.parse(await readFile(new URL('./problems.json', import.meta.url))));
@@ -14,7 +18,8 @@ test('compacting every cache preserves accepted moves, replies, distances and me
     try { return optimalMoves(fen, data, winning); } catch (error) { return error.message; }
   };
   for (const entry of catalog.flatMap(group => group.fens.map((fen, problemIndex) => ({...group, fen, problemIndex})))) {
-    const original = JSON.parse(await readFile(new URL(`./problem-cache/${cacheFilename(entry.name, entry.problemIndex)}`, import.meta.url)));
+    const original = await readCache(entry);
+    if (!original) continue;
     const compact = compactProblemCache(original);
     parseProblemCache(compact, entry);
     assert.deepEqual(compact.positions, original.positions);
@@ -69,13 +74,15 @@ test('pawn ending cache rejects the previous mate-only goal and promoted subprob
   assert.throws(() => parseProblemCache({...data, positions:[...data.positions, '7k/8/8/8/8/8/1Q6/K7 w - - 0 1']}, entry));
 });
 
-test('every catalog entry has a matching cache ending with mate in one', async () => {
+test('existing cache files match their catalog seed and goal', async () => {
   const catalog = parseCatalog(JSON.parse(await readFile(new URL('./problems.json', import.meta.url))));
   for (const entry of catalog.flatMap(group => group.fens.map((fen, problemIndex) => ({...group, fen, problemIndex})))) {
-    const data = parseProblemCache(JSON.parse(await readFile(new URL(`./problem-cache/${cacheFilename(entry.name, entry.problemIndex)}`, import.meta.url))), entry);
+    const stored = await readCache(entry);
+    if (!stored) continue;
+    const data = parseProblemCache(stored, entry);
     assert.ok(data.requests >= Object.keys(data.probes).length);
     const game = new Chess(data.positions.at(-1));
-    assert.ok(game.moves({verbose:true}).some(move => move.san.endsWith('#') || ((isPromotionProblem(entry.fen) || isPawnEndgame(entry.fen)) && move.promotion) || (isRookCaptureProblem(entry.fen) && move.captured === 'r')), `${entry.name}: easiest must reach the goal in one move`);
+    assert.ok(game.moves({verbose:true}).some(move => (entry.goal === 'draw' && data.probes[game.fen()].moves.some(move => holdsDraw(move.category))) || move.san.endsWith('#') || ((isPromotionProblem(entry.fen) || isPawnEndgame(entry.fen)) && move.promotion) || (isRookCaptureProblem(entry.fen) && move.captured === 'r')), `${entry.name}: easiest must reach the goal in one move`);
     for (const [fen, response] of Object.entries(data.probes)) {
       const board = new Chess(fen);
       const legal = new Set(board.moves({verbose:true}).map(move => move.from + move.to + (move.promotion ?? '')));

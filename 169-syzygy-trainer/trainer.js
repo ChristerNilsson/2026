@@ -1,5 +1,45 @@
 import { Chess } from './vendor/chess.js';
 
+export function formatHistory(moves) {
+  return moves.map((move, index) => {
+    const number = move.before.split(' ')[5];
+    return move.color === 'w' ? `${number}. ${move.san}` : index === 0 ? `${number}... ${move.san}` : move.san;
+  }).join(' ');
+}
+
+export const isDrawCategory = category => ['draw', 'cursed-win', 'blessed-loss'].includes(category);
+// Move outcomes are reported from the opponent's perspective.
+export const holdsDraw = category => isDrawCategory(category) || category === 'loss';
+
+export function drawClock(fen) {
+  return `${(Number(fen.split(' ')[4]) / 2).toLocaleString('sv-SE', {maximumFractionDigits:1})} / 50`;
+}
+
+export function drawReason(game) {
+  if (game.isCheckmate()) return null;
+  if (game.isStalemate()) return 'Patt';
+  if (game.isInsufficientMaterial()) return 'Otillräckligt material';
+  if (game.isThreefoldRepetition()) return 'Trefaldig upprepning';
+  if (game.isDrawByFiftyMoves()) return '50-dragsregeln';
+  return null;
+}
+
+export function drawOpponentMove(game, data) {
+  const best = data.moves?.[0];
+  if (!best || !isDrawCategory(data.category)) return defenseMove(data);
+  const history = [game.history({verbose:true})[0]?.before ?? game.fen(), ...game.history({verbose:true}).map(move=>move.after)];
+  const key = fen => fen.split(' ').slice(0,4).join(' ');
+  const visits = new Map();
+  for (const fen of history) visits.set(key(fen), (visits.get(key(fen)) ?? 0) + 1);
+  // Keep the best outcome, but prefer an unfamiliar position over an
+  // immediate repetition when equally safe alternatives exist.
+  return data.moves.filter(move => move.category === best.category).map(move => {
+    const preview = new Chess(game.fen());
+    preview.move({from:move.uci.slice(0,2), to:move.uci.slice(2,4), promotion:move.uci[4]});
+    return {uci:move.uci, visits:visits.get(key(preview.fen())) ?? 0};
+  }).reduce((best, move) => move.visits < best.visits ? move : best).uci;
+}
+
 export function isPromotionProblem(fen) {
   return fen.split(' ')[0].replace(/[1-8/]/g, '').toLowerCase().split('').sort().join('') === 'kkp';
 }

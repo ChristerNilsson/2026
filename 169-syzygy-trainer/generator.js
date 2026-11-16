@@ -1,5 +1,5 @@
 import { Chess } from './vendor/chess.js';
-import { parseProblems, mateDistance, isPromotionProblem, isRookCaptureProblem } from './trainer.js';
+import { parseProblems, mateDistance, isPromotionProblem, isRookCaptureProblem, isDrawCategory } from './trainer.js';
 import { isPawnEndgame } from './milestones.js';
 
 export const KRK_START = '8/8/8/8/8/3k4/2R5/1K6 w - - 0 1';
@@ -36,8 +36,17 @@ export function randomOptimalMove(fen, data, winningTurn, random = Math.random) 
   return moves[Math.floor(random() * moves.length)];
 }
 
-export async function generateProblems(fen, probe, { signal, onProgress = () => {}, random = Math.random } = {}) {
+export async function generateProblems(fen, probe, { signal, onProgress = () => {}, random = Math.random, goal = 'win' } = {}) {
   parseProblems([fen]);
+  if (goal === 'draw') {
+    signal?.throwIfAborted();
+    const current = new Chess(fen).fen();
+    const data = await probe(current, signal);
+    signal?.throwIfAborted();
+    if (!isDrawCategory(data.category)) throw new Error('Startpositionen måste gå att hålla remi i.');
+    onProgress({count:1, remaining:null});
+    return [current];
+  }
   const game = new Chess(fen), positions = [];
   const promotionGoal = isPromotionProblem(fen) || isPawnEndgame(fen);
   const captureGoal = isRookCaptureProblem(fen);

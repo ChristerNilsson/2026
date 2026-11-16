@@ -1,6 +1,36 @@
 # Syzygy Trainer
 
+
 [Try it!](https://christernilsson.github.io/2026/169-syzygy-trainer/index.html)
+
+`problems.json` innehåller problemnamn med listor av FEN-ställningar.
+En slumpmässig ställning väljs inom den valda problemtypen. Filen används
+direkt som vinstträning, utan krav på grupperna `winning` och `drawing`.
+Det grupperade formatet stöds fortfarande, men ingen remiövning visas
+om den inte finns med i filen.
+
+Remiuppgifter märks **Håll remi** och spelas vidare mot datorn. Ett
+korrekt försvarsdrag avslutar inte uppgiften. Målet är en faktisk remi,
+exempelvis enligt 50-dragsregeln, genom upprepning, patt eller
+otillräckligt material. Ett drag som ger motståndaren säker vinst
+avslutar försöket med ett felmeddelande. Hint visar ett remihållande
+drag; Undo och Repeat låter dig försöka igen.
+
+I stället för Drag kvar visas antalet drag utan bondedrag eller slag,
+exempelvis **12 / 50**. Båda sidors drag räknas; ett halvdrag visas som
+0,5. Vid bondedrag eller slag nollställs räknaren. FEN-positionens
+befintliga räknare används och Undo återställer dess tidigare värde.
+Tränaren begär automatiskt remi när 50 drag per sida (100 halvdrag)
+uppnåtts. I tävlingsschack är 50-dragsregeln en regel för remianspråk,
+medan 75 drag ger automatisk remi. Se [FIDE artikel 9.3 och 9.6](https://handbook.fide.com/chapter/E012023).
+Datorn föredrar nya ställningar framför omedelbar upprepning när
+alternativen har samma bästa utfall. Varken tidigare framsteg eller
+inställningen för repetition kan hoppa över remiträningen.
+Ingen konstgjord mattstege genereras för en remiställning. Remicacher
+har egna filer, exempelvis `problem-cache/krkrp-draw.json`, och sparar
+även analyserna för felaktiga drag i startställningen. Fortsatt spel
+hämtar analyser för ställningar som ännu inte finns i minnet.
+Vinst- och remiuppgifter har separata sparade framsteg.
 
 Lokalt träningsprogram i HTML, CSS och JavaScript. Starta med `npm start`
 och öppna **http://localhost:8080**. Node.js 20+ behövs för utvecklingsservern.

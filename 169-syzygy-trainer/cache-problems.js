@@ -10,7 +10,7 @@ for (const name of names) if (!catalog.some(entry => entry.name.toUpperCase() ==
 const directory = new URL('./problem-cache/', import.meta.url);
 await mkdir(directory, { recursive:true });
 for (const entry of catalog.filter(entry => !names.length || names.includes(entry.name.toUpperCase())).flatMap(group => group.fens.map((fen, problemIndex) => ({...group, fen, problemIndex})))) {
-  const path = new URL(cacheFilename(entry.name, entry.problemIndex), directory);
+  const path = new URL(cacheFilename(entry.name, entry.problemIndex, entry.goal), directory);
   try {
     const source = await readFile(path, 'utf8');
     const existing = parseProblemCache(JSON.parse(source), entry);
@@ -44,7 +44,7 @@ for (const entry of catalog.filter(entry => !names.length || names.includes(entr
     }
   };
   console.log(`${entry.name}: generating…`);
-  const positions = await generateProblems(entry.fen, probe);
+  const positions = await generateProblems(entry.fen, probe, {goal:entry.goal});
   await writeFile(path, serializeProblemCache(createProblemCache(entry, positions, probes, requests)));
   console.log(`${entry.name}: saved ${positions.length} problems, ${requests} requests.`);
 }

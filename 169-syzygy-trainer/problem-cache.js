@@ -1,11 +1,12 @@
 import { Chess } from './vendor/chess.js';
-import { parseProblems, isPromotionProblem, isRookCaptureProblem } from './trainer.js';
+import { parseProblems, isPromotionProblem, isRookCaptureProblem, isDrawCategory } from './trainer.js';
 import { isPawnEndgame } from './milestones.js';
 import { optimalMoves } from './generator.js';
 import { mateDistance, defenseMove } from './trainer.js';
 
 function compactProbe(fen, data) {
   const keep = new Set([data.moves[0]?.uci]);
+  if (isDrawCategory(data.category)) for (const move of data.moves) keep.add(move.uci);
   if (data.moves.length) keep.add(defenseMove(data));
   for (const category of ['win', 'loss']) {
     const moves = data.moves.filter(move => move.category === category);
@@ -36,10 +37,10 @@ export function serializeProblemCache(data) {
   return JSON.stringify(compactProblemCache(data)) + '\n';
 }
 
-export function cacheFilename(name, index = 0) {
+export function cacheFilename(name, index = 0, goal = 'win') {
   if (!/^[a-z0-9_-]+$/i.test(name)) throw new Error('Ogiltigt filnamn för problemcache.');
   if (!Number.isInteger(index) || index < 0) throw new Error('Ogiltigt problemindex.');
-  return `${name.toLowerCase()}${index ? `-${index + 1}` : ''}.json`;
+  return `${name.toLowerCase()}${goal === 'draw' ? '-draw' : ''}${index ? `-${index + 1}` : ''}.json`;
 }
 
 export function parseProblemCache(data, entry) {
@@ -47,13 +48,14 @@ export function parseProblemCache(data, entry) {
     throw new Error('Problemcachen matchar inte startpositionen.');
   }
   const positions = parseProblems(data.positions);
-  if (isPawnEndgame(entry.fen) && (data.goal !== 'promotion-or-mate' || positions.some(fen => /[qrbn]/i.test(fen.split(' ')[0])))) {
+  if ((entry.goal === 'draw') !== (data.goal === 'draw')) throw new Error('Problemcachens mål matchar inte problemtypen.');
+  if (entry.goal !== 'draw' && isPawnEndgame(entry.fen) && (data.goal !== 'promotion-or-mate' || positions.some(fen => /[qrbn]/i.test(fen.split(' ')[0])))) {
     throw new Error('Bondeslutspelscachen måste sluta vid promovering eller matt.');
   }
-  if (isPromotionProblem(entry.fen) && (data.goal !== 'promotion' || positions.some(fen => !isPromotionProblem(fen)))) {
+  if (entry.goal !== 'draw' && isPromotionProblem(entry.fen) && (data.goal !== 'promotion' || positions.some(fen => !isPromotionProblem(fen)))) {
     throw new Error('KPK-cachen måste sluta vid promovering.');
   }
-  if (isRookCaptureProblem(entry.fen) && (data.goal !== 'rook-or-mate' || positions.some(fen => !isRookCaptureProblem(fen)))) {
+  if (entry.goal !== 'draw' && isRookCaptureProblem(entry.fen) && (data.goal !== 'rook-or-mate' || positions.some(fen => !isRookCaptureProblem(fen)))) {
     throw new Error('KQKR-cachen måste sluta vid tornslag eller matt.');
   }
   if (!Number.isInteger(data.requests) || data.requests < 0 || !data.probes || typeof data.probes !== 'object') {
@@ -61,17 +63,17 @@ export function parseProblemCache(data, entry) {
   }
   for (const [fen, response] of Object.entries(data.probes)) {
     new Chess(fen);
-    if (!['win', 'loss'].includes(response?.category) || !Array.isArray(response.moves)) {
+    if (!(['win', 'loss'].includes(response?.category) || isDrawCategory(response?.category)) || !Array.isArray(response.moves)) {
       throw new Error('Ogiltigt tablebase-svar i problemcachen.');
     }
   }
   for (const fen of positions) {
-    if (data.probes[fen]?.category !== 'win') throw new Error('Problemcachen saknar analys för ett delproblem.');
+    if (entry.goal === 'draw' ? !isDrawCategory(data.probes[fen]?.category) : data.probes[fen]?.category !== 'win') throw new Error('Problemcachen saknar analys för ett delproblem.');
   }
   return { ...data, positions };
 }
 
 export function createProblemCache(entry, positions, probes, requests) {
-  return parseProblemCache(compactProblemCache({version:1, name:entry.name, seed:entry.fen, goal:isPawnEndgame(entry.fen) ? 'promotion-or-mate' : isPromotionProblem(entry.fen) ? 'promotion' : isRookCaptureProblem(entry.fen) ? 'rook-or-mate' : 'mate',
+  return parseProblemCache(compactProblemCache({version:1, name:entry.name, seed:entry.fen, goal:entry.goal === 'draw' ? 'draw' : isPawnEndgame(entry.fen) ? 'promotion-or-mate' : isPromotionProblem(entry.fen) ? 'promotion' : isRookCaptureProblem(entry.fen) ? 'rook-or-mate' : 'mate',
     createdAt:new Date().toISOString(), requests, positions, probes:Object.fromEntries(probes)}), entry);
 }

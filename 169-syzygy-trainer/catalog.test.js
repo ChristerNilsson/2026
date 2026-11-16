@@ -6,11 +6,20 @@ import { parseCatalog, problemLabel, chooseProblem } from './catalog.js';
 test('user catalog exposes KQK and KRK with the original starting positions', async () => {
   const source = JSON.parse(await readFile(new URL('./problems.json', import.meta.url)));
   const catalog = parseCatalog(source);
-  assert.deepEqual(catalog.map(entry => entry.name), Object.keys(source));
+  const names = source.winning || source.drawing ? [...Object.keys(source.winning ?? {}), ...Object.keys(source.drawing ?? {})] : Object.keys(source);
+  assert.deepEqual(catalog.map(entry => entry.name), names);
+  assert.equal(catalog[0].goal, 'win');
   assert.equal(catalog[1].fen, '8/8/8/8/8/3k4/2R5/1K6 w - - 0 1');
   assert.match(problemLabel(catalog[0].name), /dam/);
   assert.match(problemLabel(catalog[1].name), /torn/);
   assert.equal(problemLabel('Annat'), 'Annat');
+});
+
+test('grouped catalogs preserve goals even when material names overlap', () => {
+  const fen = '8/8/8/8/4k3/8/1Q6/K7 w - - 0 1';
+  const entries = parseCatalog({winning:{Same:[fen]}, drawing:{Same:[fen]}});
+  assert.deepEqual(entries.map(entry=>entry.goal), ['win', 'draw']);
+  for (const value of [{winning:[]}, {drawing:null}, {winning:{}, drawing:{}}, {winning:{}, invalid:{}}]) assert.throws(()=>parseCatalog(value));
 });
 
 test('multiple starting positions are validated and randomly selectable', () => {

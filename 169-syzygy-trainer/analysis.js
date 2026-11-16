@@ -1,4 +1,5 @@
 import { Chess } from './vendor/chess.js';
+import { formatHistory } from './trainer.js';
 
 export function distanceForWhite(value, turn, approximate = false) {
   if (!Number.isInteger(value)) return '—';
@@ -142,7 +143,7 @@ export class AnalysisBoard {
     this.$('analysis-best').disabled = this.loading || !bestMove;
     this.$('analysis-undo').disabled = !this.game.history().length;
     this.$('analysis-redo').disabled = !this.redoMoves.length;
-    this.$('analysis-history').textContent = this.game.history().join('  ') || 'Prova ett drag på brädet eller i tabellen. Du spelar båda sidor.';
+    this.$('analysis-history').textContent = formatHistory(this.game.history({verbose:true})) || 'Prova ett drag på brädet eller i tabellen. Du spelar båda sidor.';
     this.$('analysis-fen').textContent = this.game.fen();
     this.$('analysis-board').replaceChildren();
     const files = this.flipped ? 'hgfedcba' : 'abcdefgh';

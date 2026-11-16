@@ -9,6 +9,7 @@
 <body>
   <header><a href="./" class="brand">◈ SYZYGY<span>SLUTSPELSTRÄNING</span></a><span class="tag">Ett drag närmare matt.</span></header>
   <main>
+
     <div class="workspace">
       <section class="board-panel" aria-label="Schackbräde">
         <div class="board-heading"><span id="turn">Laddar position…</span><button id="flip" class="text-button">Vänd brädet ↻</button></div>
@@ -48,8 +49,8 @@
           <p id="generation-status" role="status" aria-live="polite">Delproblemen skapas automatiskt i webbläsaren.</p>
           <button id="regenerate" class="text-button" disabled>Skapa en ny variant ↻</button>
           <select id="problem" aria-label="Välj delproblem" disabled></select>
-          <div class="stats"><div><span id="remaining">—</span><small>Drag kvar</small></div><div><span id="elapsed">0:00</span><small>Använd tid</small></div></div>
-          <label class="check"><input id="show-count" type="checkbox" checked> Visa återstående drag</label>
+          <div class="stats"><div><span id="remaining">—</span><small id="remaining-label">Drag kvar</small></div><div><span id="elapsed">0:00</span><small>Använd tid</small></div></div>
+          <label class="check"><input id="show-count" type="checkbox" checked> <span id="show-count-label">Visa återstående drag</span></label>
           <label class="check"><input id="repeat-continuation" type="checkbox"> Repetera hela fortsättningen</label>
           <p id="metric-note" class="muted">Antal egna drag från startpositionen.</p>
           <div id="status" role="status" aria-live="polite">Hämtar problem…</div><button id="retry" class="text-button" hidden>Försök ansluta igen ↻</button>
