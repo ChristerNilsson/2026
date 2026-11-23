@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bordsnummer</title>
+  <script src="app.js" defer></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 1rem system-ui, sans-serif; }
+
+    .sheet {
+      display: grid;
+      grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+      width: var(--sheet-width);
+    }
+
+    .tile {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-width: 0;
+      aspect-ratio: 1;
+      padding: min(4mm, var(--tile-padding));
+      font-family: Bahnschrift, "Cascadia Mono", Consolas, monospace;
+      font-weight: 200;
+      font-variant-numeric: tabular-nums;
+      text-align: center;
+      overflow-wrap: anywhere;
+      line-height: 1.1;
+    }
+
+    .tile::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: solid #000;
+      border-width: 0 .25mm .25mm 0;
+      pointer-events: none;
+    }
+
+    .tile.first-column::after { border-left-width: .25mm; }
+    .tile.first-row::after { border-top-width: .25mm; }
+
+    @media screen {
+      body { background: #edf2f5; color: #182a37; }
+      main { max-width: 50rem; margin: auto; padding: 2rem 1rem; }
+      .controls { margin-bottom: 1.5rem; }
+      h1 { margin: 0 0 1rem; }
+      form { display: flex; flex-wrap: wrap; align-items: end; gap: .75rem; }
+      label { display: grid; gap: .35rem; font-weight: 600; }
+      input, button { font: inherit; border-radius: .4rem; padding: .6rem .75rem; }
+      input { width: 11rem; max-width: 100%; border: 1px solid #647887; }
+      input[type="number"] { width: 7rem; }
+      button { border: 1px solid #14534f; background: #14534f; color: white; cursor: pointer; }
+      button:disabled { opacity: .55; cursor: default; }
+      .sheet {
+        width: min(100%, var(--sheet-width));
+        margin: 0 auto 1rem;
+        background: #fff;
+      }
+      .tile {
+        font-size: min(var(--tile-font), var(--preview-font));
+      }
+    }
+
+    @page { size: A4 portrait; margin: 15mm; }
+
+    @media print {
+      .controls { display: none; }
+      .sheet { margin: 0 auto; break-inside: avoid; }
+      .sheet + .sheet { break-before: page; }
+      .tile { height: var(--tile-size); font-size: var(--tile-font); }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="controls">
+      <h1>Bordsnummer</h1>
+      <form id="settings">
+        <label>Gruppnamn
+          <input id="groups" value="A B C D E F" aria-describedby="group-hint" required>
+        </label>
+        <label>Sidlängd (mm)
+          <input id="size" type="number" value="80" min="1" max="180" step="any" required>
+        </label>
+        <label>Antal brickor per grupp
+          <input id="count" type="number" value="6" min="1" max="10000" required>
+        </label>
+        <button id="print" type="submit">Skriv ut</button>
+      </form>
+      <p id="group-hint">Ange gruppnamnen med mellanslag, till exempel A B C D E F. Numreringen börjar på 1 för varje grupp.</p>
+      <p>Välj A4 och 100 % skala vid utskrift. Stäng av sidhuvuden och sidfötter om de visas.</p>
+    </section>
+    <div id="sheets" aria-label="Förhandsvisning"></div>
+  </main>
+</body>
+</html>
