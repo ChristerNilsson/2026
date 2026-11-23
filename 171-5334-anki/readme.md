@@ -1,4 +1,4 @@
-[Try it!](https://github.com/ChristerNilsson/2026)
+[Try it!](https://christernilsson.github.io/2026/171-5334-anki/index.html)
 
 Syftet med denna html+js app är att träna matt i ett eller flera drag.
 Jag har ett antal problem i filen 5334.json
