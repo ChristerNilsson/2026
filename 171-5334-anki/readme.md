@@ -1,4 +1,4 @@
-[Try it!](https://christernilsson.github.io/2026/171-5334-anki/index.html)
+[Try it!](https://christernilsson.github.io/2026/171-5334-anki)
 
 Syftet med denna html+js app är att träna matt i ett eller flera drag.
 Jag har ett antal problem i filen 5334.json
@@ -13,10 +13,10 @@ tider = [10m, 1h, 1d, 1w, 1m, Done]
 
 Misslyckas man, sätts intervall tillbaka till 0 och Tid uppdateras.
 Då får man även chansen att med knappen Hint få se en lösning, ett steg i taget.
-Trycker man på Hint räknas problemet som Misslyckat.
+Trycker man på Hint registreras ett misstag.
 
 Förutom Hint finns även knappen Continue. Denna trycker man på när man vill se nästa problem. 
-Den aktiveras först när problemets status är klar, dvs Lyckat eller Misslyckat.
+Den aktiveras först när problemets status är klar, dvs Korrekt eller Misstag.
 
 De två variablerna A och B sparas på localStorage.
 

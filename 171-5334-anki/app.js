@@ -16,7 +16,7 @@ const names = { k: "kung", q: "dam", r: "torn", b: "löpare", n: "springare", p:
 const ui = Object.fromEntries(
   [
     "counts", "problem", "board", "status", "promotion", "promote-queen", "hint", "continue", "repeat", "auto",
-    "moves", "stockfish-status", "new-selection", "selection-form", "selection-count", "selection-depths",
+    "moves", "lichess-analysis", "stockfish-status", "new-selection", "selection-form", "selection-count", "selection-depths",
     "selection-show-depth", "selection-status", "clear-training"
   ].map(id => [id, document.getElementById(id)])
 );
@@ -64,6 +64,28 @@ function sampleNewProblems(count, available) {
     available.pop();
   }
   return A;
+}
+
+function selectByMateDepth(count, available) {
+  if (count === available.length) return available.map(problem => problem.id);
+
+  const byDepth = new Map();
+  for (const { id, mate_depth } of available) {
+    if (!byDepth.has(mate_depth)) byDepth.set(mate_depth, []);
+    byDepth.get(mate_depth).push(id);
+  }
+  let groups = [...byDepth.values()];
+  for (const ids of groups) ids.sort((a, b) => b - a);
+
+  const selected = [];
+  while (selected.length < count && groups.length) {
+    for (const ids of sampleNewProblems(groups.length, [...groups])) {
+      selected.push(ids.pop());
+      if (selected.length === count) break;
+    }
+    groups = groups.filter(ids => ids.length);
+  }
+  return selected;
 }
 
 function renderCounts() {
@@ -115,9 +137,7 @@ ui["selection-form"].addEventListener("submit", event => {
   const depths = new Set(depthOptions.filter(checkbox => checkbox.checked).map(checkbox => Number(checkbox.value)));
   const assigned = new Set([...lists.A, ...lists.B.map(card => card.Id)]);
   const available = [...problems.values()]
-    .filter(problem => !assigned.has(problem.id) && depths.has(problem.mate_depth))
-    .map(problem => problem.id)
-    .sort((a, b) => a - b);
+    .filter(problem => !assigned.has(problem.id) && depths.has(problem.mate_depth));
   const count = quantity === "all" ? available.length : Number(quantity);
   const status = ui["selection-status"];
   status.hidden = false;
@@ -134,7 +154,7 @@ ui["selection-form"].addEventListener("submit", event => {
     return;
   }
   const showMateDepth = ui["selection-show-depth"].checked;
-  const pending = [...lists.A, ...available.slice(0, count)];
+  const pending = [...lists.A, ...selectByMateDepth(count, available)];
   const A = sampleNewProblems(pending.length, pending);
   if (!save({ ...lists, A, showMateDepth })) {
     status.textContent = "Det nya urvalet kunde inte sparas.";
@@ -185,6 +205,7 @@ function showProblem(card, practice = false) {
   ui.moves.hidden = true;
   ui["stockfish-status"].hidden = true;
   ui.board.hidden = !card;
+  ui["lichess-analysis"].hidden = !card;
   ui.hint.disabled = !card;
   highlightInterval(card?.Intervall);
   updateNavigation();
@@ -201,6 +222,7 @@ function showProblem(card, practice = false) {
   }
 
   const problem = problems.get(card.Id);
+  ui["lichess-analysis"].href = "https://lichess.org/analysis/standard/" + problem.fen.replaceAll(" ", "_");
   const [placement, turn, rights, enPassant] = problem.fen.split(" ");
   const board = {};
   placement.split("/").forEach((rank, row) => {
@@ -356,10 +378,30 @@ function finish(result) {
   updateNavigation();
   ui.hint.disabled = success;
   ui.status.textContent = success
-    ? (current.card.Intervall === 5 ? "Lyckat. Uppgiften är färdigtränad." : "Lyckat.")
-    : "Misslyckat. Du kan använda Ledtråd för att se lösningen steg för steg.";
+    ? (current.card.Intervall === 5 ? "Korrekt. Uppgiften är färdigtränad." : "Korrekt.")
+    : "Misstag. Du kan använda Ledtråd för att se lösningen steg för steg.";
   return true;
 }
+
+function gradeAnalysis(event) {
+  if (!current || current.result === "failure") return;
+  const alreadySolved = current.result === "success";
+  if (!finish("failure")) {
+    event.preventDefault();
+    return;
+  }
+  ui.hint.disabled = alreadySolved || Boolean(current.defense);
+  ui.status.textContent = "Misstag. Ställningen öppnades för analys på Lichess.";
+  selected = null;
+  promotionMove = null;
+  ui.promotion.hidden = true;
+  renderBoard();
+}
+
+ui["lichess-analysis"].addEventListener("click", gradeAnalysis);
+ui["lichess-analysis"].addEventListener("auxclick", event => {
+  if (event.button === 1) gradeAnalysis(event);
+});
 
 async function defenseOptions(attempt) {
   const defenses = [...movesFrom(attempt, otherSide(attempt.turn))];
@@ -410,9 +452,11 @@ async function playReply() {
   if (current !== attempt || !reply) return;
   showMove(reply);
   attempt.remaining--;
-  ui.status.textContent = lists.showMateDepth && attempt.remaining === 1
-    ? "Rätt drag. Motståndaren har svarat. Gör matt."
-    : "Rätt drag. Motståndaren har svarat. Spela vidare.";
+  if (!attempt.result) {
+    ui.status.textContent = lists.showMateDepth && attempt.remaining === 1
+      ? "Rätt drag. Motståndaren har svarat. Gör matt."
+      : "Rätt drag. Motståndaren har svarat. Spela vidare.";
+  }
   renderBoard();
 }
 
@@ -480,7 +524,7 @@ ui.hint.addEventListener("click", async () => {
     showMove(line[0]);
     complete = line.length === 1;
   }
-  ui.status.textContent = complete ? "Misslyckat. Lösningen är visad." : "Misslyckat. Tryck på Ledtråd för nästa drag.";
+  ui.status.textContent = complete ? "Misstag. Lösningen är visad." : "Misstag. Tryck på Ledtråd för nästa drag.";
   ui.hint.disabled = complete;
   renderBoard();
 });

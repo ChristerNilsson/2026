@@ -80,6 +80,8 @@ button { cursor: pointer; }
   color: #eef4f1;
 }
 #continue { background: #c1e6ce; color: #14261e; }
+#lichess-analysis { text-decoration: none; }
+#lichess-analysis:hover { text-decoration: underline; }
 #clear-training { background: #8e302e; border-color: #df9a95; color: #fff5f4; }
 #clear-training:hover { background: #a83a37; }
 button:disabled { opacity: .45; cursor: default; }
