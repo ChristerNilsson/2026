@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schackträning</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="chess.js" defer></script>
+  <script src="stockfish-analysis.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Schackträning</h1>
+      <table class="stats" aria-label="Antal uppgifter per repetitionsintervall">
+        <thead>
+          <tr>
+            <th scope="col" aria-label="Nya uppgifter i lista A">0</th>
+            <th scope="col">10m</th>
+            <th scope="col">1h</th>
+            <th scope="col">1d</th>
+            <th scope="col">1w</th>
+            <th scope="col">1m</th>
+            <th scope="col">klara</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="counts">
+            <td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+          </tr>
+        </tbody>
+      </table>
+      <details id="new-selection" hidden>
+        <summary>Hämta</summary>
+        <form id="selection-form">
+          <label for="selection-count">Antal uppgifter</label>
+          <select id="selection-count">
+            <option>1</option>
+            <option>2</option>
+            <option>5</option>
+            <option selected>10</option>
+            <option>20</option>
+            <option>50</option>
+            <option>100</option>
+            <option value="all">Alla</option>
+          </select>
+          <fieldset>
+            <legend>Mattdjup</legend>
+            <div id="selection-depths"></div>
+          </fieldset>
+          <label class="selection-visibility"><input id="selection-show-depth" type="checkbox" checked> Visa antal drag till matt</label>
+          <div class="actions">
+            <button class="control" type="submit">Lägg till urval</button>
+            <button id="clear-training" class="control" type="button">Tag bort pågående träning</button>
+          </div>
+          <p id="selection-status" role="status" hidden></p>
+        </form>
+      </details>
+    </header>
+    <section aria-labelledby="problem">
+      <h2 id="problem">Läser in uppgifter …</h2>
+      <div id="board" aria-label="Schackbräde" hidden></div>
+      <p id="status" role="status"></p>
+      <form id="promotion" aria-labelledby="promotion-label" hidden>
+        <span id="promotion-label">Förvandla bonden till</span>
+        <button id="promote-queen" type="submit" value="q">Dam</button>
+        <button type="submit" value="r">Torn</button>
+        <button type="submit" value="b">Löpare</button>
+        <button type="submit" value="n">Springare</button>
+      </form>
+      <div class="actions">
+        <button id="hint" disabled>Ledtråd</button>
+        <button id="continue" disabled>Fortsätt</button>
+        <button id="repeat" type="button" disabled>Repetera</button>
+        <label class="auto-option"><input id="auto" type="checkbox" autocomplete="off"> Auto</label>
+      </div>
+      <ol id="moves" aria-label="Spelade drag" hidden></ol>
+      <p id="stockfish-status" role="status" hidden></p>
+    </section>
+    <footer>
+      <small>Pjäser: <a href="https://github.com/lichess-org/lila/tree/master/public/piece/maestro">Maestro</a> av sadsnake1, <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>.</small>
+      <small><a href="https://github.com/nmrugg/stockfish.js/releases/tag/v19.0.1">Stockfish.js 19.0.1 med källkod</a>, <a href="assets/stockfish/COPYING.txt">GPLv3</a>.</small>
+    </footer>
+  </main>
+</body>
+</html>
