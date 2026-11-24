@@ -1,0 +1,64 @@
+﻿<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schack med draganalys</title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+<main>
+  <header><h1>Schack med draganalys</h1></header>
+  <section class="play" aria-label="Parti">
+      <div class="player"><strong id="top-name">Stockfish</strong><output id="top-clock">15:00</output></div>
+      <div id="board" class="board" aria-label="Schackbräde"></div>
+      <div class="player"><strong id="bottom-name">Du</strong><output id="bottom-clock">15:00</output></div>
+    <div class="game-panel">
+      <p id="promotion" class="actions" hidden></p>
+      <section id="review" hidden>
+        <div class="actions">
+          <h2 id="move"></h2>
+          <output id="evaluation" aria-live="polite"></output>
+          <div id="review-buttons" class="actions" hidden>
+            <button id="accept" class="primary" type="button">Ok</button>
+            <button id="undo" type="button">Undo</button>
+          </div>
+        </div>
+        <p id="remaining"></p>
+      </section>
+      <p id="status" role="status">Välj inställningar och starta ett parti.</p>
+      <details id="settings-panel" class="settings-panel" open>
+        <summary>Partiinställningar</summary>
+        <form id="settings">
+          <label class="wide">Startposition (FEN, valfritt)<input name="fen" spellcheck="false" placeholder="Standarduppställning"></label>
+          <div class="fields">
+            <label>Ditt Lichess-Elo<input name="elo" type="number" min="100" max="3500" step="50" value="1800" required></label>
+            <label>Tillåtna ångringar<input name="undos" type="number" min="0" max="999" value="3" required></label>
+            <label>Spela som<select name="color"><option value="w">Vit</option><option value="b">Svart</option></select></label>
+            <label>Betänketid<input name="time" pattern="[0-9]{1,3}\+[0-9]{1,3}" value="15+10" required></label>
+          </div>
+          <fieldset>
+            <legend>Domarens sökgräns</legend>
+            <div class="fields">
+              <label>Begränsa med<select name="limit"><option value="nodes">Noder</option><option value="movetime">Sekunder</option><option value="depth">Sökdjup</option></select></label>
+              <label id="limit-label"><span>Antal noder</span><input name="amount" type="number" min="1" max="10000000" value="1000000" required></label>
+            </div>
+          </fieldset>
+          <button type="submit" class="primary" id="start">Starta parti</button>
+        </form>
+      </details>
+      <section>
+        <h2>PGN och Lichess</h2>
+        <textarea id="pgn" aria-label="Partiets PGN" readonly rows="5"></textarea>
+        <div class="actions">
+          <button id="download" type="button" disabled>Ladda ned PGN</button>
+          <a id="lichess" target="_blank" rel="noopener noreferrer" href="https://lichess.org/analysis" hidden>Analysera på Lichess</a>
+        </div>
+        <p id="lichess-hint" hidden>Klistra in PGN på Lichess för att analysera hela partiet.</p>
+      </section>
+    </div>
+  </section>
+</main>
+</body>
+</html>
