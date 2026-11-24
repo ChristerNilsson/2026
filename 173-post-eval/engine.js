@@ -12,7 +12,7 @@ export class Engine {
     };
   }
 
-  exchange(commands, receive) {
+  exchange(commands, receive, timeout = 90000) {
     return new Promise((resolve, reject) => {
       if (this.failure) return reject(this.failure);
       const finish = (callback, value) => {
@@ -20,9 +20,9 @@ export class Engine {
         this.pending = null;
         callback(value);
       };
-      const timer = setTimeout(() => {
+      const timer = timeout && setTimeout(() => {
         this.close(new Error('Stockfish svarade inte i tid.'));
-      }, 90000);
+      }, timeout);
       this.pending = {
         receive: line => {
           const value = receive(line);
@@ -59,7 +59,7 @@ export class Engine {
         else exact = value;
       }
       if (line.startsWith('bestmove ')) return { move: line.split(/\s+/)[1], score: exact ?? bound };
-    });
+    }, elo === undefined ? 90000 : 0);
   }
 
   close(error = new Error('Motorn stängdes.')) {

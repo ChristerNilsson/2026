@@ -191,8 +191,9 @@ async function turn(playedScore) {
   status('Stockfish tänker …');
   renderClocks();
   try {
-    const searchTime = Math.max(1, Math.min(450, Math.floor(remaining(color))));
-    const reply = await game.engine.search(position(game.chess.history({ verbose: true })), 'movetime ' + searchTime, { elo: game.elo });
+    const clockLimit = 'wtime ' + Math.floor(remaining('w')) + ' btime ' + Math.floor(remaining('b')) +
+      ' winc ' + game.increment + ' binc ' + game.increment;
+    const reply = await game.engine.search(position(game.chess.history({ verbose: true })), clockLimit, { elo: game.elo });
     if (current !== game || game.phase !== 'engine' || checkTimeout()) return;
     game.chess.move({
       from: reply.move.slice(0, 2),

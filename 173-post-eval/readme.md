@@ -1,3 +1,5 @@
+[Try it!](https://christernilsson.github.io/2026/173-post-eval/)
+
 Syfte:
 
 Man ska spela ett parti schack mot stockfish.js. 
@@ -32,7 +34,8 @@ Välj **Ok** eller **Undo**. När Stockfish har dragit fortsätter
 partiet direkt. En ångring förbrukar ett försök och tar bort
 dragets tidsinkrement. Speltiden som redan använts räknas fortfarande.
 
-Ditt Lichess-Elo används som riktvärde för motståndarens spelstyrka. Domaren
+Ditt Lichess-Elo styr motståndarens spelstyrka. Stockfish fördelar sin
+betänketid utifrån partiets klockor och inkrement. Domaren
 jämför bästa draget med det spelade draget från samma position vid vald
 sökgräns. Grönt står för 0–29 CPL, gult för 30–99 CPL och rött för 100 CPL
 eller mer. Vid forcerad matt lämnas CPL-fältet tomt. Stockfish ger upp om
